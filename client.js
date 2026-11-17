@@ -1116,13 +1116,6 @@ window.__ModuleLoader__.load({
                 onClick: () => setSurface(key),
               }, t(`surfaces.${key}`))),
             ),
-            h('input', {
-              className: 'dm-search',
-              value: query,
-              placeholder: t('search'),
-              'aria-label': t('search'),
-              onChange: (event) => setQuery(event.target.value),
-            }),
             h('div', { className: 'dm-seg dm-seg-themed' },
               ...['light', 'dark'].map((key) => h('button', {
                 key,
@@ -1132,6 +1125,13 @@ window.__ModuleLoader__.load({
                 onClick: () => setMode(key),
               }, t(`themes.${key}`))),
             ),
+            h('input', {
+              className: 'dm-search',
+              value: query,
+              placeholder: t('search'),
+              'aria-label': t('search'),
+              onChange: (event) => setQuery(event.target.value),
+            }),
             catalog ? h('span', { className: 'dm-count' }, filtered.length === catalog.count ? String(catalog.count) : `${filtered.length} / ${catalog.count}`) : null,
           ),
           h('div', { className: 'dm-chips' },
@@ -1209,7 +1209,7 @@ window.__ModuleLoader__.load({
 .dm-head-right{display:flex;align-items:center;gap:10px;flex:none;padding-top:6px}
 .dm-count{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .dm-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 12px;border-bottom:1px solid var(--line);margin-top:4px}
-.dm-toolbar .dm-seg-themed{margin-left:auto}
+.dm-toolbar .dm-count{margin-left:auto}
 .dm-seg{display:inline-flex;background:#f0f0f0;border-radius:8px;padding:3px;gap:2px}
 .dm-seg-btn{appearance:none;border:0;background:transparent;font:inherit;font-size:12.5px;color:var(--ink-2);padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap}
 .dm-seg-btn:hover:not(.is-on){color:var(--ink)}
