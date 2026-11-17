@@ -504,148 +504,208 @@ window.__ModuleLoader__.load({
       const body = fam(v.bodyStack || display)
       const mono = fam(v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace')
       const accentInk = v.accentText || (luminance(th.accent) > 0.55 ? '#111111' : '#ffffff')
+      const colors = (style.colors || []).filter((c) => c && c.hex)
+      const type = style.typography || []
+      const radii = style.radius || []
+      const spaces = style.spacing || []
+      const soft = mix(th.accent, th.bg, 0.86)
 
-      /* An editorial deck page: meta rail, oversized wordmark, spec columns,
-         an accent plate, and a technical drawing of the corner system. */
-      const tiny = (label, value) => `
-        <div style="display:flex;align-items:baseline;gap:${US(6)};font-size:${US(9.5)};line-height:1.6">
-          <span style="color:${th.muted};min-width:${US(52)}">${label}</span>
-          <span style="flex:1;border-bottom:1px dotted ${alpha(th.ink, 0.22)};transform:translateY(-${US(2)})"></span>
-          <span style="font-family:${mono};color:${th.ink}">${value}</span>
+      const caps = (text, extra = '') => `
+        <span style="font-size:${US(8.5)};line-height:1.4;letter-spacing:.16em;text-transform:uppercase;color:${th.muted};${extra}">${esc(text)}</span>`
+
+      const wordmark = (size) => `
+        <div style="font-family:${display};font-weight:${v.displayWeight || 600};line-height:.82;
+          letter-spacing:${US((v.displayTracking || 0) * 0.8)};font-size:${US(size)}">${esc(d.brand)}</div>`
+
+      const dotRow = (label, value) => `
+        <div style="display:flex;align-items:baseline;gap:${US(8)};font-size:${US(10.5)};line-height:1.9">
+          <span style="color:${th.ink};white-space:nowrap">${esc(label)}</span>
+          <span style="flex:1;border-bottom:1px solid ${alpha(th.ink, 0.2)};transform:translateY(-${US(3)})"></span>
+          <span style="font-family:${mono};color:${th.muted}">${esc(value)}</span>
         </div>`
 
-      const row = (label, value) => `
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:${US(12)};
-          padding:${US(9)} 0;border-top:1px solid ${alpha(accentInk, 0.22)};font-size:${US(10)};line-height:1.4">
-          <span style="color:${alpha(accentInk, 0.82)};letter-spacing:.02em">${label}</span>
-          <span style="font-family:${mono};color:${accentInk};font-weight:500">${value}</span>
+      const kpi = (value, unit, label, sub) => `
+        <div style="background:${th.ink};color:${th.bg};padding:${US(12)} ${US(14)} ${US(10)};
+          display:flex;flex-direction:column;justify-content:flex-start;gap:${US(6)};min-height:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:${US(8)};letter-spacing:.12em;
+            text-transform:uppercase;color:${alpha(th.bg, 0.62)}">
+            <span>${esc(label)}</span><span style="color:${th.accent}">◇</span>
+          </div>
+          <div style="font-family:${display};font-weight:${v.displayWeight || 600};line-height:1;
+            letter-spacing:${US(-0.5)};margin-top:${US(0)}">
+            <span style="font-size:${US(48)}">${esc(value)}</span><span style="font-size:${US(16)};opacity:.7">${esc(unit)}</span>
+          </div>
+          <div style="margin-top:auto;padding-top:${US(8)};border-top:1px solid ${alpha(th.bg, 0.18)};
+            font-size:${US(8)};line-height:1.4;color:${alpha(th.bg, 0.55)}">${esc(sub)}</div>
         </div>`
 
-      const radiusTokens = (style.radius || []).filter((r) => r && r.value).slice(0, 4)
-      const shapes = radiusTokens.length ? radiusTokens : [
-        { name: 'card', value: v.radiusCard }, { name: 'button', value: v.radiusButton },
-        { name: 'pill', value: v.radiusPill }, { name: 'full', value: 9999 },
+      const pageShell = (index, name, inner, opts = {}) => `
+        <div style="position:relative;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;
+          background:${opts.bg || th.bg};color:${opts.ink || th.ink};font-family:${body};
+          border:1px solid ${alpha(opts.ink || th.ink, 0.14)};border-radius:${US(10)}">
+          ${inner}
+          <div style="position:absolute;left:${US(18)};bottom:${US(10)};right:${US(18)};display:flex;
+            justify-content:space-between;font-size:${US(7.5)};line-height:1.4;font-family:${mono};
+            letter-spacing:.1em;text-transform:uppercase;color:${alpha(opts.ink || th.ink, 0.5)}">
+            <span>${esc(d.brand)} · design system</span>
+            <span>${String(index).padStart(2, '0')} / 05 · ${esc(name)}</span>
+          </div>
+        </div>`
+
+      /* 01 — cover: masthead, small label, oversized wordmark flush to the bottom */
+      const cover = `
+        <div style="position:absolute;inset:0;padding:${US(26)} ${US(30)} ${US(20)};display:flex;flex-direction:column">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="display:flex;align-items:baseline;gap:${US(10)}">
+              <span style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(13)};letter-spacing:${US(-0.3)}">${esc(d.brand)}</span>
+              ${caps('design system 2026')}
+            </div>
+            ${caps(esc(style.category || ''))}
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:baseline;gap:${US(10)};margin-bottom:${US(6)}">
+            <span style="font-size:${US(11)};color:${th.ink}">${esc(d.kicker)} · 设计语言样本</span>
+            <span style="font-size:${US(11)};color:${th.accent};font-family:${mono}">2026</span>
+          </div>
+          ${wordmark(clamp((v.displaySize || 56) * 3.1, 150, 260))}
+        </div>`
+
+      /* 02 — statement + stacked panels (vision / values) */
+      const vision = (d.bullets || []).slice(0, 3)
+      const stLine1 = (d.positioning && d.positioning !== d.tagline) ? d.positioning : ''
+      const statement = `
+        <div style="position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,0.62fr)">
+          <div style="padding:${US(26)} ${US(26)} ${US(26)} ${US(30)};display:flex;flex-direction:column">
+            <div style="display:flex;justify-content:space-between">
+              ${caps(esc(d.brand) + ' — 为什么是这套语言')}
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;max-width:${US(330)}">
+              ${stLine1 ? `<div style="font-family:${display};font-size:${US(30)};line-height:1.18;color:${alpha(th.ink, 0.72)};
+                letter-spacing:${US(-0.4)}">${esc(stLine1)}</div>` : ''}
+              <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(30)};line-height:1.16;
+                margin-top:${US(6)};letter-spacing:${US(-0.4)}">${esc(d.tagline)}</div>
+              <div style="font-size:${US(10)};line-height:1.9;color:${th.muted};max-width:${US(300)};margin-top:${US(18)}">${esc(d.summary || '')}</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:${US(8)};font-family:${mono};color:${alpha(th.ink, 0.45)}">
+              <span>${esc(d.brand)} · design language</span><span>getdesign.md/${esc(style.slug)}</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-rows:1.15fr .9fr .9fr;border-left:1px solid ${alpha(th.ink, 0.12)}">
+            <div style="position:relative;background:linear-gradient(140deg, ${th.accent}, ${mix(th.accent, th.ink, 0.55)})">
+              <div style="position:absolute;left:${US(14)};right:${US(14)};bottom:${US(12)};color:${accentInk};
+                font-size:${US(9)};line-height:1.5;text-transform:uppercase;letter-spacing:.14em">our mission</div>
+              <div style="position:absolute;left:${US(14)};top:${US(12)};color:${alpha(accentInk, 0.8)};
+                font-size:${US(9)};font-family:${mono}">01</div>
+            </div>
+            <div style="background:${th.accent};color:${accentInk};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.8">our vision</div>
+              <div style="font-family:${display};font-size:${US(19)};line-height:1.2;letter-spacing:${US(-0.3)}">${esc(d.tagline)}</div>
+            </div>
+            <div style="background:${th.ink};color:${th.bg};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.65">our values</div>
+              <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(17)};line-height:1.25">
+                ${vision.map((x) => `<div>${esc(x)}</div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>`
+
+      /* 03 — contents: three chapter columns + full-bleed panel */
+      const chapterSource = (style.useCases || [])
+        .concat(style.tagsZh || [], style.styleKeywords || [], (style.typography || []).map((x) => x && x.token))
+      const chapters = [...new Set(chapterSource.filter(Boolean))].slice(0, 12)
+      const chapterCol = (title, items, base) => `
+        <div>
+          <div style="font-family:${display};font-size:${US(13)};margin-bottom:${US(6)}">${esc(title)}</div>
+          ${items.map((item, i) => dotRow(item, String(base + i * 6))).join('')}
+        </div>`
+      const contents = `
+        <div style="position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,0.66fr)">
+          <div style="padding:${US(24)} ${US(34)} ${US(24)} ${US(30)};display:grid;grid-template-columns:1fr 1fr;gap:${US(18)} ${US(34)};align-content:start">
+            ${chapterCol('Our world · 概览', chapters.slice(0, 4), 5)}
+            ${chapterCol('Our structure · 结构', chapters.slice(4, 8), 32)}
+            <div style="grid-column:1 / -1;margin-top:${US(6)}">
+              ${chapterCol('Our impact · 影响', chapters.slice(8, 12), 56)}
+            </div>
+          </div>
+          <div style="position:relative;background:linear-gradient(160deg, ${mix(th.accent, th.ink, 0.2)}, ${mix(th.accent, th.ink, 0.72)})">
+            <div style="position:absolute;left:${US(16)};right:${US(16)};bottom:${US(16)};color:${accentInk};
+              font-size:${US(8.5)};line-height:1.65;opacity:.92">${esc(d.summary || d.tagline)}</div>
+          </div>
+        </div>`
+
+      /* 04 — KPI grid on ink */
+      const kpis = [
+        [String(colors.length), '', 'colors · 色值', 'palette tokens'],
+        [String(type.length), '', 'type · 字号', 'scale steps'],
+        [String(radii.length), '', 'radius · 圆角', 'corner tokens'],
+        [String(spaces.length), '', 'spacing · 间距', 'rhythm steps'],
+        [String(v.radiusCard || 0), 'px', 'card radius', '组件圆角'],
+        [String(v.spaceBase || 8), 'px', 'base unit', '间距基数'],
+        [String(v.displaySize || 56), 'px', 'display size', '展示字号'],
+        [String(v.bodySize || 14), 'px', 'body size', '正文字号'],
       ]
-      const shapeCell = (item, index) => {
-        const raw = String(item.value || '')
-        const px = Number.parseFloat(raw)
-        const isPill = /9{3,}/.test(raw) || !Number.isFinite(px)
-        const radius = isPill ? '9999px' : US(px)
-        const label = isPill ? '9999px' : `${Math.round(px)}px`
-        const size = index % 2 === 0 ? US(86) : US(68)
+      const kpiPage = `
+        <div style="position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,0.64fr) minmax(0,1fr)">
+          <div style="padding:${US(26)} ${US(24)} ${US(26)} ${US(30)};display:flex;flex-direction:column;gap:${US(12)}">
+            <div style="font-family:${display};font-size:${US(24)};line-height:1.15;letter-spacing:${US(-0.4)}">This is ${esc(d.brand)}</div>
+            <div style="font-size:${US(9.5)};line-height:1.85;color:${th.muted}">${esc(d.summary || d.positioning || '')}</div>
+            <div style="margin-top:auto">${dotRow('颜色', `${colors.length} 组`)}${dotRow('字体', String(v.displayFamily || 'sans'))}${dotRow('来源', `getdesign.md/${style.slug}`)}</div>
+          </div>
+          <div style="padding:${US(18)};display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:${US(8)}">
+            ${kpis.map(([value, unit, label, sub]) => kpi(value, unit, label, sub)).join('')}
+          </div>
+        </div>`
+
+      /* 05 — the year in brief: mosaic of blocks */
+      const mosaicCell = (kind, title, text, index) => {
+        if (kind === 'accent') return `
+          <div style="background:${th.accent};color:${accentInk};padding:${US(12)};display:flex;flex-direction:column;justify-content:flex-end;gap:${US(6)}">
+            <div style="font-size:${US(9)};line-height:1.5;opacity:.9">${esc(title)}</div>
+            <div style="font-family:${display};font-size:${US(16)};line-height:1.1">${esc(text)}</div>
+          </div>`
+        if (kind === 'ink') return `
+          <div style="background:${th.ink};color:${th.bg};padding:${US(12)};display:flex;flex-direction:column;justify-content:space-between">
+            <div style="font-size:${US(8.5)};letter-spacing:.12em;text-transform:uppercase;opacity:.6">${esc(title)}</div>
+            <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(30)};line-height:1">
+              ${esc(text)}<span style="font-size:${US(14)};opacity:.7">${'+'}</span></div>
+          </div>`
+        const tint = [0.16, 0.3, 0.46][index % 3]
         return `
-          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:${US(7)}">
-            <div style="width:${size};height:${size};border-radius:${radius};
-              border:1px solid ${index === 0 ? th.accent : alpha(th.ink, 0.26)};
-              background:${index === 0 ? th.accent : alpha(th.accent, 0.07)}"></div>
-            <div style="font-size:${US(8.5)};line-height:1.3;font-family:${mono};color:${th.muted}">
-              ${esc(String(item.name || 'radius'))} · ${label}
+          <div style="position:relative;background:linear-gradient(150deg, ${mix(th.accent, th.bg, tint)}, ${mix(th.accent, th.ink, 0.35)});padding:${US(12)};
+            display:flex;flex-direction:column;justify-content:flex-end">
+            <div style="color:${accentInk};text-shadow:0 1px 2px rgba(0,0,0,.25)">
+              <div style="font-size:${US(9)};line-height:1.45;opacity:.95">${esc(title)}</div>
+              <div style="font-size:${US(8.5)};line-height:1.5;opacity:.72;margin-top:${US(3)}">${esc(text)}</div>
             </div>
           </div>`
       }
-
-      const title = clamp((v.displaySize || 56) * 2.4, 54, 128)
+      const briefItems = [
+        ['image', '色彩系统', `${colors.length} 组 token`, 0],
+        ['image', '排版阶梯', `${type.length} 级字号`, 1],
+        ['accent', 'corner system', `${v.radiusCard || 0}px / ${v.radiusButton || 0}px`],
+        ['image', '间距节奏', `${v.spaceBase || 8}px base`, 2],
+        ['ink', 'spacing', String(spaces.length)],
+        ['image', '组件', '按钮 · 卡片 · 输入', 0],
+      ]
+      const brief = `
+        <div style="position:absolute;inset:0;padding:${US(24)} ${US(30)} ${US(22)};display:flex;flex-direction:column;gap:${US(12)}">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-family:${display};font-size:${US(24)};letter-spacing:${US(-0.4)}">The year in brief</div>
+            ${caps('设计速览')}
+          </div>
+          <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:${US(8)}">
+            ${briefItems.map(([kind, title, text, index]) => mosaicCell(kind, title, text, index)).join('')}
+          </div>
+        </div>`
 
       return `
-        <div style="position:relative;height:100%;background:${th.bg};color:${th.ink};font-family:${body};box-sizing:border-box;overflow:hidden">
-          <div style="position:absolute;inset:${US(16)};border:1px solid ${alpha(th.ink, 0.16)};pointer-events:none"></div>
-          <div style="position:relative;height:100%;box-sizing:border-box;
-            padding:${US(30)} ${US(40)} ${US(24)} ${US(40)};display:flex;flex-direction:column">
-
-            <div style="display:flex;align-items:baseline;justify-content:space-between;
-              font-size:${US(8.5)};line-height:1.4;font-family:${mono};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">
-              <span>${esc(style.category || '')} / deck</span>
-              <span>${esc(d.brand)} · ${esc(t('surfaces.slides'))}</span>
-            </div>
-
-            <div style="flex:1;display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,0.68fr);
-              gap:${US(34)};padding-top:${US(22)};min-height:0">
-
-              <div style="display:flex;flex-direction:column;min-width:0">
-                <div style="display:flex;align-items:center;gap:${US(8)};font-size:${US(9.5)};line-height:1.4;
-                  letter-spacing:.18em;text-transform:uppercase;color:${th.muted}">
-                  <span style="width:${US(18)};height:${US(2)};background:${th.accent};display:inline-block"></span>
-                  ${esc(d.kicker)}
-                </div>
-
-                <div style="font-family:${display};font-weight:${v.displayWeight || 600};
-                  letter-spacing:${US((v.displayTracking || 0) * 0.6)};font-size:${US(title)};line-height:.98;
-                  margin-top:${US(12)};word-break:break-word">${esc(d.brand)}</div>
-
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:${US(4)} ${US(22)};
-                  margin-top:${US(16)};max-width:${US(430)}">
-                  ${tiny('强调色', esc((style.colors && style.colors[0] && style.colors[0].hex) || th.accent))}
-                  ${tiny('间距', `${v.spaceBase || 8}px`)}
-                  ${tiny('展示字体', esc(String(v.displayFamily || 'sans').slice(0, 12)))}
-                  ${tiny('正文字号', `${v.bodySize || 14}px`)}
-                </div>
-
-                <div style="margin-top:${US(22)};max-width:${US(430)}">
-                  <div style="font-size:${US(8.5)};line-height:1.4;letter-spacing:.18em;text-transform:uppercase;
-                    color:${th.muted};margin-bottom:${US(8)}">highlights / 要点</div>
-                  ${(d.bullets || []).slice(0, 3).map((b) => `
-                    <div style="display:flex;gap:${US(8)};font-size:${US(11)};line-height:1.65;color:${th.ink}">
-                      <span style="color:${th.accent}">—</span><span style="min-width:0">${esc(b)}</span>
-                    </div>`).join('')}
-                </div>
-
-                <div style="flex:1;min-height:${US(10)}"></div>
-
-                <div style="background:${th.accent};color:${accentInk};padding:${US(24)} ${US(26)} ${US(18)}">
-                  <div style="font-size:${US(8.5)};line-height:1.4;letter-spacing:.18em;text-transform:uppercase;
-                    color:${alpha(accentInk, 0.7)};margin-bottom:${US(10)}">specification / 规范</div>
-                  <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(30)};
-                    line-height:1.14;letter-spacing:${US((v.displayTracking || 0) * 0.4)}">${esc(d.tagline)}</div>
-                  <div style="margin-top:${US(18)}">
-                    ${row('卡片圆角 / radius', `${v.radiusCard || 0}px`)}
-                    ${row('按钮圆角 / button', /9{3,}/.test(String(v.radiusButton)) ? '9999px' : `${v.radiusButton || 0}px`)}
-                    ${row('间距基数 / space', `${v.spaceBase || 8}px`)}
-                    ${row('展示字体 / display', esc(String(v.displayFamily || 'sans').slice(0, 16)))}
-                  </div>
-                </div>
-              </div>
-
-              <div style="display:flex;flex-direction:column;min-width:0;position:relative">
-                <div style="display:flex;justify-content:space-between;align-items:baseline;
-                  font-size:${US(8.5)};line-height:1.4;font-family:${mono};letter-spacing:.14em;
-                  text-transform:uppercase;color:${th.muted}">
-                  <span>corner system</span><span>fig. 01</span>
-                </div>
-
-                <div style="position:relative;flex:1;min-height:0;border-left:1px solid ${alpha(th.ink, 0.14)};
-                  border-bottom:1px solid ${alpha(th.ink, 0.14)};margin-top:${US(6)}">
-                  <div style="position:relative;padding:${US(20)} ${US(18)};
-                    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:${US(16)} ${US(14)}">
-                    ${shapes.map((item, index) => shapeCell(item, index)).join('')}
-                  </div>
-                  <div style="position:absolute;left:${US(16)};bottom:${US(12)};right:${US(16)};
-                    display:flex;align-items:center;gap:${US(8)};font-size:${US(8)};line-height:1.3;
-                    font-family:${mono};color:${th.muted}">
-                    <span style="flex:1;height:1px;background:${alpha(th.ink, 0.18)}"></span>
-                    <span>radius scale</span>
-                    <span style="flex:1;height:1px;background:${alpha(th.ink, 0.18)}"></span>
-                  </div>
-                </div>
-
-                <div style="margin-top:${US(12)};display:flex;flex-direction:column;gap:${US(4)};
-                  font-size:${US(8.5)};line-height:1.5;font-family:${mono};color:${th.muted}">
-                  <span style="display:flex;justify-content:space-between;border-top:1px solid ${alpha(th.ink, 0.14)};padding-top:${US(5)}">
-                    <span>display</span><span>${esc(String(v.displayFamily || 'sans').slice(0, 16))}</span></span>
-                  <span style="display:flex;justify-content:space-between">
-                    <span>body</span><span>${esc(String(v.bodyFamily || 'sans').slice(0, 12))} / ${v.bodySize || 14}px</span></span>
-                  <span style="display:flex;justify-content:space-between">
-                    <span>tracking</span><span>${Math.round(Number.parseFloat(v.displayTracking) || 0)}px</span></span>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex;justify-content:space-between;align-items:baseline;
-              margin-top:${US(14)};padding-top:${US(8)};border-top:1px solid ${alpha(th.ink, 0.16)};
-              font-size:${US(8.5)};line-height:1.3;font-family:${mono};color:${th.muted}">
-              <span>${esc(d.brandZh || d.brand)} · ${esc(d.kicker)}</span>
-              <span>01 / 08 · getdesign.md/${esc(style.slug)}</span>
-            </div>
-          </div>
+        <div style="display:flex;flex-direction:column;gap:${US(16)}">
+          ${pageShell(1, 'cover', cover)}
+          ${pageShell(2, 'statement', statement)}
+          ${pageShell(3, 'contents', contents)}
+          ${pageShell(4, 'numbers', kpiPage, { bg: th.ink, ink: th.bg })}
+          ${pageShell(5, 'in brief', brief)}
         </div>`
     }
 
@@ -931,7 +991,7 @@ window.__ModuleLoader__.load({
 
         h('div', { className: 'dm-detail-grid', ref: gridRef },
           h('div', { className: 'dm-left' },
-            h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides') },
+            h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides is-deck') },
               h(Art, {
                 style,
                 mode: style.visual.darkFirst ? 'dark' : mode,
@@ -1431,6 +1491,7 @@ window.__ModuleLoader__.load({
 .dm-preview{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
 .dm-preview.is-slides,.dm-preview.is-poster{background:transparent;border:0;box-shadow:none}
 .dm-preview.is-slides .dm-art{aspect-ratio:16/9;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.dm-preview.is-slides.is-deck .dm-art{aspect-ratio:auto;border:0;border-radius:0;overflow:visible;background:transparent}
 .dm-preview.is-poster .dm-art{aspect-ratio:4/5;max-width:440px;margin:0 auto;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05)}
 .dm-preview-cap{font-size:11.5px;color:var(--ink-3);margin-top:10px;display:flex;justify-content:space-between;gap:10px}
 .dm-right{display:flex;flex-direction:column;gap:14px;min-width:0}
