@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 /**
- * Builds the plugin data set from the two local design-md corpora:
- *   - /Users/openclaw/Projects/awesome-design-md-main  (84 DESIGN.md, English)
- *   - /Users/openclaw/Projects/awesome-design-md-cn    (74 Chinese metadata records)
+ * Builds the plugin data set from the upstream design-md corpus:
+ *   - awesome-design-md-main  (84 DESIGN.md, MIT, (c) 2026 VoltAgent)
+ *   - zh-lexicon.json         (self-authored brand names / category labels)
+ *
+ * Chinese copy is generated here from each style's own tokens — no third-party
+ * Chinese text is read or redistributed.
  *
  * Output (inside the plugin package):
  *   data/design/<slug>.md   full DESIGN.md (agent + panel spec viewer)
@@ -16,7 +19,6 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const pkgRoot = path.resolve(here, '..');
 const PROJECTS = path.resolve(pkgRoot, '..');
 const MAIN_ROOT = process.env.DESIGN_MD_MAIN || path.join(PROJECTS, 'awesome-design-md-main', 'design-md');
-const CN_ROOT = process.env.DESIGN_MD_CN || path.join(PROJECTS, 'awesome-design-md-cn');
 const OUT_DATA = path.join(pkgRoot, 'data');
 const OUT_DESIGN = path.join(OUT_DATA, 'design');
 

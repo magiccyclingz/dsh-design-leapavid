@@ -2,7 +2,7 @@
 
 84 套品牌设计语言，在 DSH 左侧栏以「设计风格库」面板浏览；选中任意风格，写下需求，一键把风格 token 送进当前会话，由 DSH 生成网页 / 幻灯片 / 海报。
 
-语料来自 [getdesign.md](https://getdesign.md/) 的开源库（[awesome-design-md](https://github.com/getdesign-md/awesome-design-md) / awesome-design-md-cn），每个风格都是一份可被模型直接执行的 `DESIGN.md`。
+语料来自 [getdesign.md](https://getdesign.md/) 的开源库 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)（MIT），每个风格都是一份可被模型直接执行的 `DESIGN.md`；中文文案由本项目依据各风格的 token 自行生成。
 
 ## 功能
 
@@ -37,7 +37,7 @@ plugin_manager action=set_plugin target=include:dsh-design-md enabled=true
 node build/build-data.mjs      # 产出 data/catalog.json + data/design/<slug>.md + data/brief/<slug>.md
 ```
 
-- 输入：主库 `awesome-design-md-main/design-md/<slug>/DESIGN.md`（84 个）+ 中文元数据 `awesome-design-md-cn/data/designs.json`。两个语料库默认按「与本仓库同级」查找，可用 `DESIGN_MD_MAIN` / `DESIGN_MD_CN` 环境变量指向别处。
+- 输入：上游 `awesome-design-md-main/design-md/<slug>/DESIGN.md`（84 个，MIT）+ 本仓库自建的 `build/zh-lexicon.json`（品牌名与分类标签）。主库默认按「与本仓库同级」查找，可用 `DESIGN_MD_MAIN` 环境变量指向别处；中文描述由 `build/build-data.mjs` 依据 token 生成，不读取任何第三方中文文本。
 - 解析两种语料：带 YAML front matter 的 token 表，以及纯 Markdown 文档（从正文配对 `#hex`、排版表格、`Radius: Npx` 提取）。
 - `buildVisual()` 推导每个风格的视觉参数（accent / canvas / ink / muted / hairline、深色版、字体栈、字号字距、圆角、间距基准），再由 `sanitizeVisual()` 收口：字号 30–112、行高换算为比例、tracking 限幅、次要文字对比 ≥3.1、accent 对底色 ≥2.1、字体栈补通用族回退。
 - `buildBrief()` 生成 ≤2KB 的风格要点（氛围 + 版式 + 形状 + 该做 + 避免），并清洗 Markdown 残渣与重复 hex。
