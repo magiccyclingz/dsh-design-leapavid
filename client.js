@@ -315,6 +315,14 @@ window.__ModuleLoader__.load({
 
     const radiusCss = (u, value) => (/^9{3,}/.test(String(value ?? '')) ? '9999px' : u(Number.parseFloat(value) || 0))
 
+    /** DESIGN.md line-heights arrive either as a ratio (1.2) or as px (96px); normalise to a ratio. */
+    function lhRatio(raw, size) {
+      const n = Number.parseFloat(raw)
+      if (!Number.isFinite(n) || n <= 0) return 1.2
+      const ratio = n > 4 ? n / (size || 16) : n
+      return clamp(ratio, 0.92, 1.9)
+    }
+
     /** Font stacks often carry double quotes; inside an HTML style attribute they must be single quotes. */
     function fam(stack) {
       return String(stack || '').replace(/"/g, "'")
@@ -365,7 +373,7 @@ window.__ModuleLoader__.load({
       const typeRows = types.map((s, i) => {
         const size = Number.parseFloat(s.fontSize) || 16
         const weight = Number.parseInt(s.fontWeight, 10) || 400
-        const lh = Number.parseFloat(s.lineHeight) || 1.2
+        const lh = lhRatio(s.lineHeight, size)
         const ls = Number.parseFloat(s.letterSpacing) || 0
         const scaled = clamp((size / maxStep) * 26, 8, 26)
         const family = s.token && /mono|code|num/i.test(s.token) ? mono : display
@@ -373,7 +381,7 @@ window.__ModuleLoader__.load({
           <div style="display:flex;align-items:center;gap:${U(14)};padding:${U(7)} 0;border-bottom:1px solid ${th.line}">
             <span style="flex:none;width:${U(22)};font-size:${U(11)};line-height:1;font-family:${display};color:${th.muted}">Aa</span>
             <span style="flex:1;min-width:0;font-family:${family};font-weight:${weight};letter-spacing:${U(ls)};font-size:${U(scaled)};line-height:${lh};color:${th.ink};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t('typeSample'))}</span>
-            <span style="flex:none;font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted};text-align:right">${s.token || `step-${i + 1}`}<br>${Math.round(size)}px / ${weight} / ${lh.toFixed(2)}</span>
+            <span style="flex:none;max-width:${U(132)};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted};text-align:right">${s.token || `step-${i + 1}`} · ${Math.round(size)}/${weight}/${lh.toFixed(2)}</span>
           </div>`
       }).join('')
 
@@ -408,10 +416,10 @@ window.__ModuleLoader__.load({
       const spaceRows = spaces.map((s, i) => {
         const value = Number.parseFloat(s.value) || 0
         return `
-          <div style="display:grid;grid-template-columns:${U(52)} 1fr ${U(44)};align-items:center;gap:${U(10)};padding:${U(3)} 0">
-            <span style="font-size:${U(9)};line-height:1.3;font-family:${mono};color:${th.muted}">${esc(s.name || `space-${i}`)}</span>
-            <span style="height:${U(5)};background:${alpha(th.accent, 0.85)};border-radius:2px;width:${barFor(i)}%"></span>
-            <span style="font-size:${U(9)};line-height:1.3;font-family:${mono};color:${th.ink};text-align:right">${Math.round(value)}px</span>
+          <div style="display:grid;grid-template-columns:${U(56)} 1fr ${U(56)};align-items:center;gap:${U(14)};padding:${U(6)} 0">
+            <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(s.name || `space-${i}`)}</span>
+            <span style="height:${U(6)};background:${alpha(th.accent, 0.9)};border-radius:${U(2)};width:${barFor(i)}%"></span>
+            <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.ink};text-align:right">${Math.round(value)}px</span>
           </div>`
       }).join('')
 
@@ -419,15 +427,15 @@ window.__ModuleLoader__.load({
         const value = Number.parseFloat(r.value) || 0
         const radius = value >= 999 ? '9999px' : U(Math.min(value, 40))
         return `
-          <div style="text-align:center">
-            <div style="height:${U(40)};border:1px solid ${th.line};border-radius:${radius};background:${th.surface}"></div>
-            <div style="margin-top:${U(5)};font-size:${U(8.5)};line-height:1.3;font-family:${mono};color:${th.muted}">${esc(r.name || `r-${i + 1}`)} · ${Math.round(value)}px</div>
+          <div style="text-align:center;min-width:0">
+            <div style="height:${U(56)};border:1px solid ${th.line};border-radius:${radius};background:${th.surface}"></div>
+            <div style="margin-top:${U(8)};font-size:${U(9)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(r.name || `r-${i + 1}`)} · ${Math.round(value)}px</div>
           </div>`
       }).join('')
 
       const elevation = [0.06, 0.12, 0.2].map((strength, i) => `
-        <div style="border:1px solid ${th.line};border-radius:${rCard};background:${th.bg};padding:${U(12)};box-shadow:0 ${U(2 + i * 2)} ${U(8 + i * 8)} ${alpha(th.ink, strength)}">
-          <div style="font-size:${U(9)};line-height:1.4;font-family:${mono};color:${th.muted}">elevation ${i + 1}</div>
+        <div style="height:${U(64)};display:flex;align-items:center;justify-content:center;border:1px solid ${th.line};border-radius:${rCard};background:${th.bg};box-shadow:0 ${U(2 + i * 2)} ${U(8 + i * 8)} ${alpha(th.ink, strength)}">
+          <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.muted}">elevation ${i + 1}</span>
         </div>`).join('')
 
       return `
@@ -891,7 +899,7 @@ window.__ModuleLoader__.load({
                 ...types.slice(0, 8).map((s, i) => {
                   const size = Number.parseFloat(s.fontSize) || 16
                   const weight = Number.parseInt(s.fontWeight, 10) || 400
-                  const lh = Number.parseFloat(s.lineHeight) || 1.2
+                  const lh = lhRatio(s.lineHeight, size)
                   const ls = Number.parseFloat(s.letterSpacing) || 0
                   const scaled = clamp((size / typeTop) * 24, 9, 24)
                   return h('div', { key: `${s.token}-${i}`, className: 'dm-type-row' },
