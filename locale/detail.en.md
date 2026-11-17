@@ -1,6 +1,6 @@
 # Design library (dsh-design-md)
 
-Eighty-four brand design languages taken from the open [getdesign.md](https://getdesign.md/) corpus (awesome-design-md / awesome-design-md-cn), rendered as a sidebar panel.
+Eighty-four brand design languages taken from the open awesome-design-md corpus (MIT), rendered as a sidebar panel; the Chinese copy for each style is written in-repo from its tokens.
 
 ## What it does
 
