@@ -2,6 +2,16 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.2.1] - 2026-11-18
+
+### 修复（整体复查）
+
+- `THIRD-PARTY-NOTICES.md` 现在随 npm 包分发（此前只在仓库里，`files` 未包含，会导致 MIT 声明不跟随副本）。
+- 复制提示词时 `navigator.clipboard.writeText()` 在非用户手势环境下会**永久 pending**，按钮静默无响应；改为 1.5s 竞速 + textarea `execCommand` 兜底，失败才算错误。
+- 预览页里的 `Open DESIGN.md` / `Dark Preview` 两个按钮此前是纯装饰，点了没反应；现在分别接到「打开 DESIGN.md 弹窗」与「切换浅色 / 深色」，且按钮文案随主题变化。
+- 中文定位文案去重：9 条 `positioningZh` 曾经字面重复（同类风格命中同一模板），现在每句都带品牌名与自己的圆角 / 间距数值，84 条全部唯一。
+- 文档与实现对齐：README 的「四种预览形态」改为三种 + 内容页浅深切换；`locale/detail.zh.md`、`docs/RELEASE.md` 同步。
+
 ## [1.2.0] - 2026-11-18
 
 ### 变更（许可与文案）

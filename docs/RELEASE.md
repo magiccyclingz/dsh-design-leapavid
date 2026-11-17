@@ -103,7 +103,7 @@ npm publish --access public         # MANUAL
 
 ## 7. 发布后回归（本机，无需凭据）
 
-- 安装后左栏出现「设计风格库」，84 张卡片、搜索与四种预览可用。
+- 安装后左栏出现「设计风格库」，84 张卡片、搜索与三种预览形态（网页 / 幻灯片 / 海报）+ 内容页深浅切换可用。
 - `design_md` 工具：`list` 有结果、`get` 能返回 token 与 brief。
 - `GET /api/design-md/catalog` 返回 `count: 84`；`GET /api/design-md/health` 返回 `ok: true`。
 - 回滚：`npm deprecate dsh-design-md@1.0.0 "broken"`（72h 内可 `unpublish`）；DSH 侧卸载插件即可回到未安装状态。

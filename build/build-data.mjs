@@ -766,10 +766,14 @@ function zhMeta({ slug, displayName, visual, index }) {
     `${canvasTone} + ${accent}单点强调，${fontTone}标题${weightTone}拉出层级，${radiusTone}配合${densityTone}；做${use0}时落地门槛低，也扛得住${use1}。`,
     `一套克制的${category}方案：${canvasTone}、${accent}点缀、${fontTone}${weightTone}标题，${radiusTone}与${densityTone}构成节奏，常用于${use0}。`,
   ];
+  const rc = Number.parseFloat(visual.radiusCard) || 0;
+  const sb = visual.spaceBase || 8;
   const positionings = [
-    `辨识度来自${accent}的使用比例与${fontTone}标题的${weightTone}；其余交给${canvasTone}与${contrastTone}。`,
-    `和同类${category}相比，它更依赖${densityTone}和${radiusTone}，而不是堆装饰；${accent}只出现在要你看的地方。`,
-    `骨架是${contrastTone}加${fontTone}标题，${radiusTone}收口；改动时先守住${accent}的用量。`,
+    `${displayName} 的辨识度来自${accent}的使用比例与${fontTone}标题的${weightTone}；其余交给${canvasTone}与${contrastTone}，卡片圆角 ${rc}px、间距基数 ${sb}px。`,
+    `和同类${category}相比，${displayName} 更依赖${densityTone}和${radiusTone}而不是堆装饰；${accent}只出现在要你看的地方，圆角 ${rc}px。`,
+    `${displayName} 的骨架是${contrastTone}加${fontTone}标题，${radiusTone}（${rc}px）收口，间距以 ${sb}px 为基数；改动时先守住${accent}的用量。`,
+    `${displayName} 不靠插图讲故事：${canvasTone}、${fontTone}${weightTone}标题、${densityTone}，${accent}负责指路；这套尺度落在 ${rc}px 圆角与 ${sb}px 间距上。`,
+    `${displayName} 的克制体现在取舍上——只留一个强调色（${accent}）、一套${fontTone}字阶、一档${radiusTone}；信息靠${contrastTone}与${densityTone}分层。`,
   ];
 
   const tagsZh = [...new Set([

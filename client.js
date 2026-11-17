@@ -467,8 +467,8 @@ window.__ModuleLoader__.load({
             </div>
             <div style="margin:${U(14)} auto 0;max-width:${U(580)};font-size:${U(14)};line-height:1.7;font-family:${body};color:${th.muted};display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden">${esc(style.summaryZh || d.tagline)}</div>
             <div style="margin-top:${U(18)};display:flex;justify-content:center;gap:${U(9)}">
-              <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
-              <span style="border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:500;font-family:${body}">Dark Preview</span>
+              <span data-dm-action="design" style="cursor:pointer;background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
+              <span data-dm-action="theme" style="cursor:pointer;border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:500;font-family:${body}">${mode === 'dark' ? 'Light Preview' : 'Dark Preview'}</span>
             </div>
           </div>
 
@@ -569,12 +569,18 @@ window.__ModuleLoader__.load({
       poster: { build: posterHtml, cls: 'is-poster', base: POSTER_BASE },
     }
 
-    function Art({ style, mode, surface, clip }) {
+    function Art({ style, mode, surface, clip, onAction }) {
       const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
       const html = useMemo(() => spec.build(style, mode), [spec, style, mode])
+      const onClick = (event) => {
+        if (!onAction) return
+        const hit = event.target && event.target.closest ? event.target.closest('[data-dm-action]') : null
+        if (hit) onAction(hit.getAttribute('data-dm-action'))
+      }
       return h('div', {
         className: `dm-art ${spec.cls}${clip ? ' is-clip' : ''}`,
         style: { '--dm-art-bg': themeOf(style, mode).bg },
+        onClick,
         dangerouslySetInnerHTML: { __html: html },
       })
     }
@@ -607,9 +613,18 @@ window.__ModuleLoader__.load({
     }
 
     async function writeClipboard(text) {
+      // Some environments resolve clipboard.writeText only after a real user gesture and
+      // leave the promise pending otherwise — race it so the UI always gets an answer.
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(text)
-        return
+        try {
+          await Promise.race([
+            navigator.clipboard.writeText(text),
+            new Promise((_, reject) => window.setTimeout(() => reject(new Error('clipboard timeout')), 1500)),
+          ])
+          return
+        } catch {
+          /* fall through to the textarea fallback */
+        }
       }
       const area = document.createElement('textarea')
       area.value = text
@@ -807,7 +822,15 @@ window.__ModuleLoader__.load({
         h('div', { className: 'dm-detail-grid', ref: gridRef },
           h('div', { className: 'dm-left' },
             h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides') },
-              h(Art, { style, mode: surface === 'page' ? mode : 'light', surface }),
+              h(Art, {
+                style,
+                mode: surface === 'page' ? mode : 'light',
+                surface,
+                onAction: (action) => {
+                  if (action === 'design') openDesign()
+                  else if (action === 'theme') setMode(mode === 'dark' ? 'light' : 'dark')
+                },
+              }),
             ),
             h('div', { className: 'dm-preview-cap' },
               h('span', null, t('previewNote')),
