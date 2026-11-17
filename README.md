@@ -4,6 +4,16 @@
 
 语料来自 [getdesign.md](https://getdesign.md/) 的开源库 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)（MIT），每个风格都是一份可被模型直接执行的 `DESIGN.md`；中文文案由本项目依据各风格的 token 自行生成。
 
+## 界面
+
+**列表页** —— 84 张卡片按宽度自适应 3–5 列，卡片预览是各风格自己的 token 现场渲染；顶部可切换 网页 / 幻灯片 与 浅色 / 深色，第一颗 chip 是收藏夹。
+
+![列表页](docs/screenshots/list.jpg)
+
+**内容页** —— 左侧是完整参考页（可滚、锚点可跳转），右侧依次是生成表单、适合·避免、设计要点、配色、排版要求、形状与间距、组件样例、导出 token；底部是相近的风格。
+
+![内容页](docs/screenshots/detail.jpg)
+
 ## 功能
 
 | 区域 | 能力 |

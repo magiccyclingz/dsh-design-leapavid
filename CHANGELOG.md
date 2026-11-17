@@ -2,6 +2,12 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.9.1] - 2026-11-18
+
+### 文档
+
+- README 增加「界面」一节，插入列表页与内容页截图（`docs/screenshots/list.jpg`、`detail.jpg`），并补两句说明。截图不进 npm 包（`files` 未包含 `docs/`）。
+
 ## [1.9.0] - 2026-11-18
 
 ### 变更（收口）
