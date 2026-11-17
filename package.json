@@ -1,6 +1,6 @@
 {
   "name": "dsh-design-md",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "type": "module",
   "description": "84 套来自 getdesign.md 的品牌设计语言：在左侧栏浏览网页亮/暗、幻灯片与海报案例，一键把选中的风格连同 token 送进当前会话，由 DSH 生成网页 / 幻灯片 / 海报。",
   "exports": {

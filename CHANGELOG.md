@@ -2,6 +2,12 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.8.2] - 2026-11-18
+
+### 变更
+
+- 预览内其余 `getdesign.md/...` 文案一并去掉：网页预览的 CTA 改为「查看 DESIGN.md」，页脚右侧改为分类名；幻灯片封面右上角与页脚、海报页脚改成「分类 / 品牌」；导出的 `tokens.json` 与 CSS 注释只保留「design tokens」描述。
+
 ## [1.8.1] - 2026-11-18
 
 ### 变更

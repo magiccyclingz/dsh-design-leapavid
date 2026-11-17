@@ -553,7 +553,7 @@ window.__ModuleLoader__.load({
             </div>
             <div style="margin:${U(14)} auto 0;max-width:${U(580)};font-size:${U(14)};line-height:1.7;font-family:${body};color:${th.muted};display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden">${esc(style.summaryZh || d.tagline)}</div>
             <div style="margin-top:${U(18)};display:flex;justify-content:center;gap:${U(9)}">
-              <span data-dm-action="design" style="cursor:pointer;background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
+              <span data-dm-action="design" style="cursor:pointer;background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:600;font-family:${body}">查看 DESIGN.md</span>
               <span data-dm-action="theme" style="cursor:pointer;border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:500;font-family:${body}">${mode === 'dark' ? 'Light Preview' : 'Dark Preview'}</span>
             </div>
           </div>
@@ -569,7 +569,7 @@ window.__ModuleLoader__.load({
 
           <div style="display:flex;justify-content:space-between;border-top:1px solid ${th.line};padding-top:${U(12)};font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted}">
             <span>${esc(d.brand)} · Design tokens from DESIGN.md</span>
-            <span>getdesign.md</span>
+            <span>${esc(style.category || 'design system')}</span>
           </div>
         </div>`
     }
@@ -667,7 +667,7 @@ window.__ModuleLoader__.load({
               <div style="font-size:${US(10)};line-height:1.9;color:${th.muted};max-width:${US(300)};margin-top:${US(18)}">${esc(d.summary || '')}</div>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:${US(8)};font-family:${mono};color:${alpha(th.ink, 0.45)}">
-              <span>${esc(d.brand)} · design language</span><span>getdesign.md/${esc(style.slug)}</span>
+              <span>${esc(d.brand)} · design language</span><span>${esc(style.category || '')}</span>
             </div>
           </div>
           <div style="display:grid;grid-template-rows:1.15fr .9fr .9fr;border-left:1px solid ${alpha(th.ink, 0.12)}">
@@ -730,7 +730,7 @@ window.__ModuleLoader__.load({
           <div style="padding:${US(26)} ${US(24)} ${US(26)} ${US(30)};display:flex;flex-direction:column;gap:${US(12)}">
             <div style="font-family:${display};font-size:${US(24)};line-height:1.15;letter-spacing:${US(-0.4)}">This is ${esc(d.brand)}</div>
             <div style="font-size:${US(9.5)};line-height:1.85;color:${th.muted}">${esc(d.summary || d.positioning || '')}</div>
-            <div style="margin-top:auto">${dotRow('颜色', `${colors.length} 组`)}${dotRow('字体', String(v.displayFamily || 'sans'))}${dotRow('来源', `getdesign.md/${style.slug}`)}</div>
+            <div style="margin-top:auto">${dotRow('颜色', `${colors.length} 组`)}${dotRow('字体', String(v.displayFamily || 'sans'))}${dotRow('分类', String(style.category || '—'))}</div>
           </div>
           <div style="padding:${US(18)};display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:${US(8)}">
             ${kpis.map(([value, unit, label, sub]) => kpi(value, unit, label, sub)).join('')}
@@ -818,7 +818,7 @@ window.__ModuleLoader__.load({
         padding:${UP(14)} ${UP(14)} ${UP(22)};box-sizing:border-box">${inner}
         <div style="display:flex;justify-content:space-between;margin-top:${UP(8)};
           font-size:${UP(5.6)};letter-spacing:.14em;text-transform:uppercase;font-family:${mono};color:${alpha(th.ink, 0.42)}">
-          <span>${String(index).padStart(2, '0')} / 06 · ${esc(name)}</span><span>getdesign.md/${esc(style.slug)}</span>
+          <span>${String(index).padStart(2, '0')} / 06 · ${esc(name)}</span><span>${esc(d.brand)}</span>
         </div></div>`
 
       const head = (label, side = '') => `<div style="display:flex;justify-content:space-between;margin-bottom:${UP(6)}">
@@ -1550,13 +1550,13 @@ window.__ModuleLoader__.load({
 
     function cssExport(style) {
       const lines = tokenPairs(style).map(([key, value]) => `  --dm-${key}: ${value};`)
-      return `/* ${style.displayName} · design tokens (getdesign.md/${style.slug}) */\n:root {\n${lines.join('\n')}\n}`
+      return `/* ${style.displayName} · design tokens */\n:root {\n${lines.join('\n')}\n}`
     }
 
     function jsonExport(style) {
       const v = style.visual
       return JSON.stringify({
-        $description: `${style.displayName} · ${style.nameZh || ''} — getdesign.md/${style.slug}`,
+        $description: `${style.displayName} · ${style.nameZh || ''} — design tokens`,
         color: Object.fromEntries((style.colors || []).filter((c) => c && c.hex).slice(0, 24).map((c) => [c.name, { $type: 'color', $value: c.hex }])),
         font: {
           display: { $type: 'fontFamily', $value: v.displayStack },
