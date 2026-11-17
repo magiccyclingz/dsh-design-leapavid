@@ -1,4 +1,4 @@
-# PlayStation · PlayStation
+# Playstation · PlayStation
 
 PlayStation's marketing system reads like a console launch trailer scrolling past the viewer in chapters. Each section is a full-bleed band — pure black , true white , or PlayStation Blue `#0070d1` — and each chapter owns one editorial moment: hero console photography, a games-coming-soon strip, the PlayStation Plus tier banner, the "30 Years of PlayStation"…
 

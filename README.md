@@ -61,3 +61,15 @@ build/                  数据构建脚本与覆盖表（开发用，不进 npm 
 - 品牌字体（Sohne、Copernicus、SF Pro 等）不随插件分发，预览按 sans/serif/mono 回退到系统字体；风格差异靠字号、字重、字距、层级与密度表达。
 - 预览里的文案是示意内容，用来展示排版气质，不代表真实项目文案。
 - 生成消耗你自己的模型额度；插件本身只读，不写工作区。
+
+## 许可与归属
+
+- 本项目以 MIT 发布，见 [LICENSE](./LICENSE)。
+- `data/design/<slug>.md` 的 84 份 DESIGN.md 原文来自 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)（MIT，© 2026 VoltAgent），版权声明与许可全文见 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)。
+- `data/brief/`、中文文案、预览渲染器与面板 UI 为本项目原创。
+
+## 免责声明
+
+本项目与 Apple、Stripe、Airbnb、BMW、Figma 等被分析的品牌**没有关联、合作或授权关系**，
+品牌名称仅用于指代其公开的设计语言。仓库不含品牌字体、商标图形或官网截图，所有预览均由 token 现场渲染。
+若相关品牌方认为某条描述不妥，可通过 issue 要求下架该条目。

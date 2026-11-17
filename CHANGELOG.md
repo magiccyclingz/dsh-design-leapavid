@@ -2,6 +2,14 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.2.0] - 2026-11-18
+
+### 变更（许可与文案）
+
+- 中文文案改为本项目自建：`summaryZh` / `positioningZh` / `styleKeywords` / `tagsZh` / `useCases` / `bestFor` / `avoidFor` / `aiChecklist` / `recommendedPromptZh` 全部由 `build/build-data.mjs` 依据每个风格的 token（底色、强调色、字体类别、字重、圆角、密度、对比）生成，不再读取第三方中文元数据。
+- 数据构建不再依赖 `awesome-design-md-cn`；输入只剩 VoltAgent 的 MIT 语料 + `build/zh-lexicon.json`（名称与分类标签）+ `build/extra-metadata.json`。
+- 新增 `THIRD-PARTY-NOTICES.md`（VoltAgent MIT 版权声明全文）与 README 的「许可与归属」「免责声明」两节。
+
 ## [1.1.0] - 2026-11-17
 
 ### 变更（面板改版）

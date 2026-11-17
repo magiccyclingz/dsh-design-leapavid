@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-17T13:35:33.355Z",
+  "generatedAt": "2026-11-17T16:34:45.371Z",
   "source": {
     "main": "awesome-design-md-main/design-md",
-    "cn": "awesome-design-md-cn",
+    "license": "MIT © 2026 VoltAgent — see THIRD-PARTY-NOTICES.md",
     "count": 84
   },
   "styles": [
@@ -46,7 +46,7 @@
         "信息密度可以高，但用表面阶梯区分区块",
         "促销卡片保持统一圆角与紧凑间距"
       ],
-      "recommendedPromptZh": "参考 1win / 1win 的视觉语言，设计一个中文 游戏/娱乐平台首页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 1win（1win）的视觉语言做一套中文界面：保留近黑画布、草绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/1win/design-md",
       "designFile": "data/design/1win.md",
@@ -265,42 +265,45 @@
       "nameZh": "爱彼迎",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "温馨、友好、旅行感，柔和圆角与人情味设计",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 红单点强调，无衬线标题重字重拉出层级，近直角配合留白舒展；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖留白舒展和近直角，而不是堆装饰；红只出现在要你看的地方。",
       "descriptionEn": "A warm, generous consumer marketplace anchored on a clean white canvas and Airbnb Rausch (#ff385c), the single brand voltage that carries every primary CTA, search-button orb, and rating dot. Type runs Airbnb Cereal VF at modest weights — display sits at 22–28px in weight 500/600 rather than the heavy 700+ that fintech and enterprise systems use; the brand trusts photography and generous whitespace over typographic muscle. Three product entries (Homes, Experiences, Services) sit in the top nav with hand-illustrated 32-icon glyphs and \"NEW\" badges, signaling a marketplace expansion rather than a feature dump. Pill-shaped search bars (`{rounded.full}`), softly rounded property cards (`{rounded.lg}` ~14px), and 32px button radii read as friendly and human — there is no hard corner anywhere except the body grid.",
       "styleKeywords": [
-        "民宿",
-        "旅行",
-        "温馨",
-        "友好",
-        "旅行感"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "民宿",
-        "旅行"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
-        "品牌官网",
-        "活动专题页",
-        "服务介绍页"
+        "品牌官网首页",
+        "营销落地页",
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
-        "活动专题页",
-        "服务介绍页",
-        "营销落地页"
+        "品牌官网首页",
+        "营销落地页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 爱彼迎 / Airbnb 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 爱彼迎（airbnb）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/airbnb/design-md",
       "designFile": "data/design/airbnb.md",
       "colors": [
@@ -664,41 +667,45 @@
       "nameZh": "Airtable",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "灵活数据库+电子表格，模块化卡片式界面",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "一套克制的开发工具方案：纯白画布、靛蓝点缀、无衬线中字重标题，近直角与高信息密度构成节奏，常用于开发者官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住靛蓝的用量。",
       "descriptionEn": "A sober, editorial workflow-software interface anchored on white canvas and dark-ink type, where brand voltage comes from full-bleed signature cards in coral, dark green, peach, and dark navy that punctuate long-scroll explainer pages. Primary actions use a near-black pill CTA; secondary actions sit in a white outlined button. Type runs Haas Grotesk in modest weights — never bold for its own sake.",
       "styleKeywords": [
-        "数据库",
-        "效率",
-        "灵活数据库",
-        "电子表格",
-        "模块化卡片式界面"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "数据库",
-        "效率"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Airtable / Airtable 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Airtable（airtable）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/airtable/design-md",
       "designFile": "data/design/airtable.md",
       "colors": [
@@ -1075,7 +1082,7 @@
         "标题密集但行距收紧，保持硬新闻语气",
         "突发状态用独立的 live 红，不与品牌橙混用"
       ],
-      "recommendedPromptZh": "参考 半岛电视台 / Al Jazeera 的视觉语言，设计一个中文 新闻资讯站，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 半岛电视台（aljazeera）的视觉语言做一套中文界面：保留纯白画布、橙强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/aljazeera/design-md",
       "designFile": "data/design/aljazeera.md",
@@ -1375,41 +1382,45 @@
       "nameZh": "苹果",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "极致简洁、大量留白、高端科技感",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 湖蓝单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；湖蓝只出现在要你看的地方。",
       "descriptionEn": "A photography-first interface that turns marketing into a museum gallery. Edge-to-edge product tiles alternate light and dark canvases, framed by SF Pro Display headlines with negative letter-spacing and a single Action Blue (#0066cc) interactive color. UI chrome recedes so the product can speak — no decorative gradients, no shadows on chrome, only the one signature drop-shadow under product imagery resting on a surface.",
       "styleKeywords": [
-        "科技",
-        "高端",
-        "极致简洁",
-        "大量留白",
-        "高端科技感"
+        "湖蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "科技",
-        "高端"
+        "纯白画布",
+        "湖蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 苹果 / Apple 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 苹果（apple）的视觉语言做一套中文界面：保留纯白画布、湖蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/apple/design-md",
       "designFile": "data/design/apple.md",
       "colors": [
@@ -1742,43 +1753,45 @@
       "nameZh": "币安",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "加密交易平台。黑黄高对比、交易数据紧迫感、深色金融界面。",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "一套克制的金融科技方案：纯白画布、琥珀黄点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住琥珀黄的用量。",
       "descriptionEn": "A confident financial-platform interface anchored on a deep near-black canvas, where Binance's iconic yellow (#FCD535) carries every primary CTA, brand accent, and value-claim moment. Type runs Binance's custom BinanceNova / BinancePlex stack at modest weights — the system trusts size and yellow voltage over bold weight. Marketing and product surfaces default to the dark theme; transactional surfaces (buy crypto, deposit, exchange) flip to a light theme that shares the same yellow CTAs and gray-blue hairlines. Trading green (up) and red (down) accents thread through both modes for price-direction signals.",
       "styleKeywords": [
-        "Binance Yellow",
-        "黑黄高对比",
-        "交易数据",
-        "深色金融"
+        "琥珀黄强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "金融",
-        "加密",
-        "交易",
-        "深色"
+        "纯白画布",
+        "琥珀黄强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "官网落地页",
-        "交易产品页",
-        "数据控制台"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "交易产品页",
-        "数据控制台",
-        "支付产品页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 币安 / Binance 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 币安（binance）的视觉语言做一套中文界面：保留纯白画布、琥珀黄强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/binance/design-md",
       "designFile": "data/design/binance.md",
       "colors": [
@@ -2104,44 +2117,49 @@
     },
     {
       "slug": "bmw",
-      "displayName": "BMW",
+      "displayName": "Bmw",
       "nameZh": "宝马",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "德系豪华汽车官网，精致光影与深邃质感",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布打底、靛蓝作唯一强调的品牌官网语言：无衬线标题配重字重，近直角，高信息密度。适合品牌官网首页与营销落地页。",
+      "positioningZh": "辨识度来自靛蓝的使用比例与无衬线标题的重字重；其余交给纯白画布与强对比。",
       "descriptionEn": "BMW's corporate site — distinct from BMW M's motorsport-bombastic variant, this is a measured and settled corporate-automotive interface. On a light (cream-tinted white) canvas, BMW corporate blue (#1c69d4) carries every primary CTA; dark navy hero bands frame model photography. BMW Type Next Latin sets the entire hierarchy on two weights — heavy 700 display and Light 300 body. Configuration and reservation flows ride a card-based 4-up grid, where each card holds a model render, a name, and a \"Learn More\" link.",
       "styleKeywords": [
-        "汽车",
-        "豪华",
-        "德系豪华汽车官网",
-        "精致光影与深邃质感"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "汽车",
-        "豪华"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 宝马 / BMW 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 宝马（bmw）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/bmw/design-md",
       "designFile": "data/design/bmw.md",
       "colors": [
@@ -2475,43 +2493,45 @@
       "nameZh": "BMW M",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "BMW 高性能子品牌。赛车运动三色强调、黑底摄影、工程感排版。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "近黑画布 + 草绿单点强调，无衬线标题重字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；草绿只出现在要你看的地方。",
       "descriptionEn": "A motorsport-engineering interface anchored on a near-black canvas with white BMW Type Next Latin display headlines in confident UPPERCASE. The brand carries no decorative voltage — its energy comes from full-bleed automotive photography (cars on tracks, driver-cockpit shots, carbon-fiber detail) and the iconic M tricolor stripe (light blue → dark blue → red) used sparingly as a brand signature on logos, dividers, and motorsport chrome. Type stays light to medium weight to feel European-engineered, never American-bombastic.",
       "styleKeywords": [
-        "M 三色",
-        "黑底摄影",
-        "赛车运动",
-        "工程感"
+        "草绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "汽车",
-        "赛车",
-        "豪华",
-        "性能"
+        "近黑画布",
+        "草绿强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "汽车产品页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "汽车产品页",
-        "企业介绍页"
+        "深色产品界面"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 BMW M / BMW M 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 BMW M（bmw-m）的视觉语言做一套中文界面：保留近黑画布、草绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/bmw-m/design-md",
       "designFile": "data/design/bmw-m.md",
       "colors": [
@@ -2807,43 +2827,45 @@
       "nameZh": "布加迪",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "超豪华跑车品牌。纯黑电影感、克制单色、纪念碑式大标题。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：近黑画布、琥珀黄点缀、无衬线轻字重标题，近直角与高信息密度构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住琥珀黄的用量。",
       "descriptionEn": "An austere luxury-automotive interface that uses near-pure black canvas, white uppercase letterspaced display, and full-bleed automotive photography as the only voltage. The system runs three custom Bugatti typefaces — Bugatti Display, Bugatti Text Regular, and Bugatti Monospace — and combines them at modest weights with wide tracking to feel European-engineered, hyper-minimal, and quietly expensive. There is no accent color, no decorative element, no chrome — only photography, typography, and the brand wordmark.",
       "styleKeywords": [
-        "纯黑画布",
-        "超豪华",
-        "全幅摄影",
-        "纪念碑式标题"
+        "琥珀黄强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "汽车",
-        "豪华",
-        "黑白",
-        "摄影"
+        "近黑画布",
+        "琥珀黄强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "奢侈品产品页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "奢侈品产品页",
-        "企业介绍页"
+        "深色产品界面"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 布加迪 / Bugatti 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 布加迪（bugatti）的视觉语言做一套中文界面：保留近黑画布、琥珀黄强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/bugatti/design-md",
       "designFile": "data/design/bugatti.md",
       "colors": [
@@ -3113,41 +3135,45 @@
       "nameZh": "Cal",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "Calendly风格，简洁预约排期界面",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "纯白画布打底、近黑作唯一强调的效率协作语言：无衬线标题配中字重，近直角，高信息密度。适合产品官网与功能与工作流页。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的中字重；其余交给纯白画布与柔和对比。",
       "descriptionEn": "A clean, calendar-software-first interface anchored on white canvas with black primary CTAs and custom Cal Sans display typography. The system reads as friendly modern SaaS — generous whitespace, soft-rounded cards (~12px), product UI fragments shown directly inside cards, and a dark navy footer that visually closes long-scroll pages. Brand voltage comes from the Cal Sans display headline (a custom geometric face) and from product UI artifacts shown in-card rather than from accent colors.",
       "styleKeywords": [
-        "日历",
-        "预约",
-        "Calendly风格",
-        "简洁预约排期界面"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "日历",
-        "预约"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Cal / Cal 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Cal（cal）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/cal/design-md",
       "designFile": "data/design/cal.md",
       "colors": [
@@ -3476,42 +3502,45 @@
       "nameZh": "Claude",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "Anthropic旗下AI助手，极简白底+优雅紫",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "纯白画布 + 红单点强调，无衬线标题轻字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住模型能力介绍页。",
+      "positioningZh": "和同类AI 产品相比，它更依赖高信息密度和近直角，而不是堆装饰；红只出现在要你看的地方。",
       "descriptionEn": "A warm-canvas editorial interface for Anthropic's Claude product. The system anchors on a tinted cream canvas with serif display headlines, warm coral CTAs, and dark navy product surfaces (code editor mockups, model showcase cards). Brand voltage comes from the cream/coral pairing — deliberately warm and humanist where most AI brands use cool blue + slate. Type voice runs a slab-serif display (\"Copernicus\" / Tiempos Headline) for h1/h2 and a humanist sans for body. The signature Anthropic black-radial-spike mark anchors the wordmark.",
       "styleKeywords": [
-        "AI",
-        "对话",
-        "Anthropic旗下AI助手",
-        "极简白底",
-        "优雅紫"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "对话"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Claude / Claude 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Claude（claude）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/claude/design-md",
       "designFile": "data/design/claude.md",
       "colors": [
@@ -3858,39 +3887,45 @@
       "nameZh": "Clay",
       "category": "精选风格",
       "group": "reference",
-      "summaryZh": "高端B2B销售CRM，精致卡片与渐变",
-      "positioningZh": "适合做通用参考，先看预览再决定是否采纳。",
+      "summaryZh": "一套克制的精选风格方案：纯白画布、近黑点缀、无衬线中字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是柔和对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "A vibrant claymation-meets-data interface for Clay.com (GTM data-orchestration platform). Anchors on white canvas with dark-navy primary CTAs, custom rounded display type, and saturated single-color feature cards — hot pink, deep teal, lavender, peach, ochre — that punctuate long-scroll explainer pages. Brand voltage comes from 3D-rendered claymation illustrations (mountains, characters, mascots) used as full-bleed hero artifacts and the bright multi-color card surfaces showing product UI fragments.",
       "styleKeywords": [
-        "CRM",
-        "销售",
-        "高端B2B销售CRM",
-        "精致卡片与渐变"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "CRM",
-        "销售"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "落地页实验"
       ],
       "bestFor": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "对行业规范要求很强的系统"
+        "复杂企业后台",
+        "多角色权限界面"
       ],
       "aiChecklist": [
-        "先看预览是否接近目标气质",
-        "按中文场景二次调整信息密度",
-        "不要直接全量照搬"
+        "保留一个记忆点即可，不要同时用三种装饰",
+        "排版节奏优先于插画",
+        "配色控制在主色加中性色"
       ],
-      "recommendedPromptZh": "参考 Clay / Clay 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Clay（clay）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/clay/design-md",
       "designFile": "data/design/clay.md",
       "colors": [
@@ -4244,40 +4279,45 @@
       "nameZh": "ClickHouse",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "数据库产品，技术感深色界面",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布打底、橙作唯一强调的开发工具语言：无衬线标题配重字重，近直角，高信息密度。适合开发者官网与文档站。",
+      "positioningZh": "辨识度来自橙的使用比例与无衬线标题的重字重；其余交给纯白画布与强对比。",
       "descriptionEn": "A high-performance database interface anchored on near-pure black canvas with electric yellow as the brand voltage. White typography in confident sans, yellow CTAs, and yellow-text stat numbers carry the brand voice across every page. Code blocks and product UI fragments embed directly in dark cards. The yellow + black pairing (and yellow used scarcely as accent) is the system's signature — brand identity without atmospheric decoration.",
       "styleKeywords": [
-        "数据库",
-        "技术",
-        "数据库产品",
-        "技术感深色界面"
+        "橙强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "数据库",
-        "技术"
+        "纯白画布",
+        "橙强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 ClickHouse / ClickHouse 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 ClickHouse（clickhouse）的视觉语言做一套中文界面：保留纯白画布、橙强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/clickhouse/design-md",
       "designFile": "data/design/clickhouse.md",
       "colors": [
@@ -4603,42 +4643,45 @@
       "nameZh": "Cohere",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI初创公司，现代科技感深蓝+白色",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题轻字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住模型能力介绍页。",
+      "positioningZh": "和同类AI 产品相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "Cohere's 2026 web system is a controlled enterprise AI interface built from stark white editorial space, deep green-black product bands, soft mineral surfaces, rounded media cards, and a distinctive type split between monospaced-feeling display headlines and precise Unica77 UI text.",
       "styleKeywords": [
-        "AI",
-        "技术",
-        "AI初创公司",
-        "现代科技感深蓝",
-        "白色"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "技术"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Cohere / Cohere 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Cohere（cohere）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/cohere/design-md",
       "designFile": "data/design/cohere.md",
       "colors": [
@@ -4959,41 +5002,45 @@
       "nameZh": "Coinbase",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "加密货币交易所，专业金融深色界面",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "一套克制的金融科技方案：纯白画布、靛蓝点缀、无衬线轻字重标题，近直角与留白舒展构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住靛蓝的用量。",
       "descriptionEn": "An institutional-grade crypto exchange whose marketing surfaces read like a quietly-confident financial-services brand. The base canvas is pure white; Coinbase Blue (`#0052ff`) is the single brand voltage, used scarcely on primary CTAs, signature glyphs, and inline accent moments. Type runs Coinbase's licensed CoinbaseDisplay (display) and CoinbaseSans (body) at modest weights — display sits at weight 400 not 700, signaling editorial calm rather than fintech-bombastic. Page rhythm rotates between bright white sections, soft gray elevation bands, and full-bleed dark editorial heroes (`#0a0b0d`) carrying product-ui mockup cards. Iconography is geometric and minimal; depth comes from card-on-card layering, never decorative shadows.",
       "styleKeywords": [
-        "金融",
-        "加密",
-        "加密货币交易所",
-        "专业金融深色界面"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "金融",
-        "加密"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台",
-        "定价页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 Coinbase / Coinbase 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Coinbase（coinbase）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/coinbase/design-md",
       "designFile": "data/design/coinbase.md",
       "colors": [
@@ -5325,41 +5372,45 @@
       "nameZh": "Composio",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "AI Agent工具平台，现代深色UI",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "近黑画布打底、靛蓝作唯一强调的开发工具语言：无衬线标题配中字重，近直角，留白舒展。适合开发者官网与文档站。",
+      "positioningZh": "辨识度来自靛蓝的使用比例与无衬线标题的中字重；其余交给近黑画布与强对比。",
       "descriptionEn": "A developer-tools brand for AI-agent tool integration whose marketing surfaces lean into a dark, technical aesthetic with a single deep-electric-blue voltage (`#0007cd`). The page floor is near-black (`#0f0f0f`); cards float above on subtle gray-tinted surfaces. abcDiatype carries display and body in a single sans family with weights 400-600. The brand's strongest visual signature is a four-pane terminal-style mockup (a 2×2 grid of dark code/output panels) with a central blue spotlight glow — used as the homepage hero anchor.",
       "styleKeywords": [
-        "AI工具",
-        "开发",
-        "AI",
-        "Agent工具平台",
-        "现代深色UI"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "深色底"
       ],
       "tagsZh": [
-        "AI工具",
-        "开发"
+        "近黑画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "深色产品界面"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Composio / Composio 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Composio（composio）的视觉语言做一套中文界面：保留近黑画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/composio/design-md",
       "designFile": "data/design/composio.md",
       "colors": [
@@ -5690,41 +5741,45 @@
       "nameZh": "Cursor",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI代码编辑器官网，深色沉浸式体验",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "浅灰画布 + 橙单点强调，无衬线标题轻字重拉出层级，近直角配合留白舒展；做产品官网时落地门槛低，也扛得住模型能力介绍页。",
+      "positioningZh": "和同类AI 产品相比，它更依赖留白舒展和近直角，而不是堆装饰；橙只出现在要你看的地方。",
       "descriptionEn": "An AI-first code editor whose marketing site reads like a quietly-confident developer-tools brand with a warm-cream editorial canvas (`#f7f7f4`) instead of the typical dark IDE atmosphere. Near-black warm ink (`#26251e`) carries body and display alike — display sits at weight 400 with negative letter-spacing for a magazine feel rather than a bold tech voice. The single brand voltage is **Cursor Orange** (`#f54e00`) reserved for primary CTAs and the wordmark. A signature pastel timeline palette (peach, mint, blue, lavender, gold) marks AI-action stages (Thinking / Reading / Editing / Grepping / Done) — only inside in-product timeline visualizations. Cards use minimal hairlines, no shadows, generous 80px section rhythm. CursorGothic for display/body, JetBrains Mono on every code surface (which is roughly half the page).",
       "styleKeywords": [
-        "AI",
-        "开发",
-        "AI代码编辑器官网",
-        "深色沉浸式体验"
+        "橙强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "开发"
+        "浅灰画布",
+        "橙强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Cursor / Cursor 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Cursor（cursor）的视觉语言做一套中文界面：保留浅灰画布、橙强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/cursor/design-md",
       "designFile": "data/design/cursor.md",
       "colors": [
@@ -6056,47 +6111,49 @@
     },
     {
       "slug": "dell-1996",
-      "displayName": "Dell (1996)",
+      "displayName": "Dell 1996",
       "nameZh": "Dell 1996",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "1996 年 Dell 官网复古目录风。黑色页面框、彩色丝带卡片、粗重标题和手工 GIF 贴纸感。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：纯白画布、红点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住红的用量。",
       "descriptionEn": "An inspired interpretation of Dell.com's 1996 design language — a catalog-era enterprise web design built around a literal black page frame, vivid flat color-block \"ribbon cards\" tinted in sage, salmon, periwinkle, sky, peach and lime, chunky Helvetica-Black display titles, Times Roman body copy, and an entire visual vocabulary of pre-Photoshop hand-cut GIF stickers (NEW! bursts, award seals, beveled product photos).",
       "styleKeywords": [
-        "1996 网页",
-        "黑色框架",
-        "彩色目录卡",
-        "GIF 贴纸"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "复古",
-        "企业",
-        "硬件",
-        "目录页"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "复古活动页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "复古活动页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 Dell 1996 / Dell (1996) 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-07-07",
+      "recommendedPromptZh": "参考 Dell 1996（dell-1996）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/dell-1996/design-md",
       "designFile": "data/design/dell-1996.md",
       "colors": [
@@ -6400,7 +6457,7 @@
         "所有行动统一为一种工程蓝胶囊",
         "用橙色小标签承载等级 / 新品信息"
       ],
-      "recommendedPromptZh": "参考 大疆 / DJI 的视觉语言，设计一个中文 硬件产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 大疆（dji）的视觉语言做一套中文界面：保留纯白画布、湖蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/dji/design-md",
       "designFile": "data/design/dji.md",
@@ -6854,42 +6911,45 @@
       "nameZh": "ElevenLabs",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI语音合成，渐变深色+科技感",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "浅灰画布 + 近黑单点强调，无衬线标题轻字重拉出层级，近直角配合留白舒展；做产品官网时落地门槛低，也扛得住模型能力介绍页。",
+      "positioningZh": "和同类AI 产品相比，它更依赖留白舒展和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "A voice-AI brand whose marketing surfaces read like a quietly editorial print magazine. The base canvas is off-white (`#f5f5f5`) holding warm near-black ink (`#292524`); the brand voltage is photographic, not chromatic — soft pastel atmospheric gradient orbs (mint → peach → lavender → sky) drift through the page as the only \"color\" moments. Display runs Waldenburg Light at weight 300 — the editorial signature. Inter carries body, navigation, captions. CTAs are subtle: a near-black ink pill is the primary, a transparent outline is the secondary. The brand trusts atmospheric photography and modest type weights to do all of the brand work; there is no neon accent, no saturated CTA color, no developer-tools dark canvas.",
       "styleKeywords": [
-        "AI",
-        "音频",
-        "AI语音合成",
-        "渐变深色",
-        "科技感"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "音频"
+        "浅灰画布",
+        "近黑强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 ElevenLabs / ElevenLabs 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 ElevenLabs（elevenlabs）的视觉语言做一套中文界面：保留浅灰画布、近黑强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/elevenlabs/design-md",
       "designFile": "data/design/elevenlabs.md",
       "colors": [
@@ -7229,41 +7289,45 @@
       "nameZh": "Expo",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "React Native开发平台，简洁技术文档风格",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "一套克制的开发工具方案：纯白画布、近黑点缀、无衬线中字重标题，近直角与留白舒展构成节奏，常用于开发者官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "A React Native developer-platform whose marketing site reads like a quietly-confident infrastructure brand. The base canvas is pure white with a soft sky-blue gradient atmospheric wash behind the hero; near-black ink (`#171717`) carries body and display alike. The single brand voltage is **pure black** (`#000000`) for primary CTAs — minimal and editorial-feeling, paired with a small blue text-link accent (`#0d74ce`) reserved for inline body links. Type pairs Inter at modest weights (display 600, body 400) with JetBrains Mono on every code surface. The brand's strongest visual signature is the **device-mockup hero** — a centered MacBook + iPhone composite showing real Expo dev surfaces — over the gradient sky wash.",
       "styleKeywords": [
-        "开发",
-        "移动",
-        "React",
-        "Native开发平台",
-        "简洁技术文档风格"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "开发",
-        "移动"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Expo / Expo 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Expo（expo）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/expo/design-md",
       "designFile": "data/design/expo.md",
       "colors": [
@@ -7613,40 +7677,45 @@
       "nameZh": "法拉利",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "意式超跑品牌官网，黑白编辑感与极少量跃马红强调",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布打底、红作唯一强调的品牌官网语言：无衬线标题配中字重，近直角，留白舒展。适合品牌官网首页与营销落地页。",
+      "positioningZh": "辨识度来自红的使用比例与无衬线标题的中字重；其余交给纯白画布与强对比。",
       "descriptionEn": "A luxury-automotive brand whose marketing surfaces read as cinematic editorial. The base canvas is **near-black** (`#181818`) holding pure white display type; white-canvas bands appear only inside specific editorial contexts (preowned listings, pricing tables). The single brand voltage is **Rosso Corsa** (`#da291c`) — the iconic Ferrari racing red — used scarcely on primary CTAs, the Cavallino mark, and Formula 1 race-position highlights. Type runs **FerrariSans** at modest weights (display 500, body 400) — never bombastic. Spacing follows an explicit 8px token ladder (`xxxs` 4px through `super` 128px); generous editorial pacing throughout. The brand's strongest visual signature is the **full-bleed cinematic hero photograph** that fills the viewport top with car photography, model details, or trackside livery — followed by a tighter editorial body layout below.",
       "styleKeywords": [
-        "汽车",
-        "豪华",
-        "意式超跑品牌官网",
-        "黑白编辑感与极少量跃马红强调"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "汽车",
-        "豪华"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 法拉利 / Ferrari 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-08",
+      "recommendedPromptZh": "参考 法拉利（ferrari）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/ferrari/design-md",
       "designFile": "data/design/ferrari.md",
       "colors": [
@@ -7960,42 +8029,45 @@
       "nameZh": "Figma",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "设计协作工具，标志性的深色+紫灰",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题轻字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住功能与工作流页。",
+      "positioningZh": "和同类效率协作相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "A confident black-and-white editorial frame interrupted by oversized, hand-cut pastel color blocks. The marketing canvas is rigorously monochrome — figmaSans variable type, pure white surfaces, pure black ink, pill-shaped CTAs — while each story section drops the page into a saturated lime, lavender, cream, mint, or pink panel that reads like a sticky note placed on a clean desk. The result is a design system that feels both technical and joyful — a tool for serious work, made by people who like color.",
       "styleKeywords": [
-        "设计",
-        "协作",
-        "设计协作工具",
-        "标志性的深色",
-        "紫灰"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "设计",
-        "协作"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Figma / Figma 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Figma（figma）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/figma/design-md",
       "designFile": "data/design/figma.md",
       "colors": [
@@ -8286,41 +8358,45 @@
       "nameZh": "Framer",
       "category": "内容与建站",
       "group": "reference",
-      "summaryZh": "无代码建站工具，艺术感深色着陆页",
-      "positioningZh": "强调模块化展示和模板感，适合展示产品能力、模板和编辑体验。",
+      "summaryZh": "一套克制的内容与建站方案：近黑画布、湖蓝点缀、无衬线中字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住湖蓝的用量。",
       "descriptionEn": "A confident dark-canvas builder marketing site that treats the page like a working artboard — pure black surfaces, white display type set in GT Walsheim Medium with aggressive negative tracking, and a single confident blue (#0099ff) reserved for hyperlinks and selection states. The page rhythm is broken by oversized vibrant gradient atmosphere panels — magenta, violet, orange spotlights — that act as living showcase tiles, not decoration. Every CTA is a white pill on dark; every card is a translucent or charcoal surface; every section title pulls letter-spacing tight enough to feel like a poster.",
       "styleKeywords": [
-        "建站",
-        "无代码",
-        "无代码建站工具",
-        "艺术感深色着陆页"
+        "湖蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "建站",
-        "无代码"
+        "近黑画布",
+        "湖蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
-        "模板市场",
-        "编辑器界面"
+        "模板与案例市场",
+        "编辑与预览页"
       ],
       "bestFor": [
         "产品官网",
-        "模板市场",
-        "编辑器界面",
-        "建站工具官网"
+        "模板与案例市场",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "金融级数据台",
-        "过于严肃的企业门户"
+        "重资产后台",
+        "强表格化报表页"
       ],
       "aiChecklist": [
-        "让案例和模板展示更直观",
-        "保留适度视觉变化",
-        "避免区块密度过高"
+        "模板卡片的预览比例统一",
+        "首屏给出一键开始，不铺垫长文案",
+        "深浅主题切换时保持同一套层级"
       ],
-      "recommendedPromptZh": "参考 Framer / Framer 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Framer（framer）的视觉语言做一套中文界面：保留近黑画布、湖蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/framer/design-md",
       "designFile": "data/design/framer.md",
       "colors": [
@@ -8615,40 +8691,45 @@
       "nameZh": "HashiCorp",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "DevOps工具厂商，蓝色技术文档风格",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布打底、近黑作唯一强调的开发工具语言：无衬线标题配重字重，近直角，高信息密度。适合开发者官网与文档站。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的重字重；其余交给纯白画布与强对比。",
       "descriptionEn": "An enterprise-infrastructure marketing canvas built around a near-black ground (#000000) and a system of per-product accent colors — Terraform purple, Vault yellow, Consul pink, Waypoint cyan, Vagrant blue — that act as identity tokens rather than decorative palette. Display type is hashicorpSans set in 600/700 with tight 1.17–1.21 line-heights; body type runs the same family at 500 weight with relaxed 1.50–1.71 line-heights. Cards live as charcoal surfaces with 1px translucent gray borders; product showcase cards lift into per-product chromatic gradients. The system reads as confident, technical, and intentionally multi-product — every section quietly signals which HashiCorp tool it represents.",
       "styleKeywords": [
-        "DevOps",
-        "技术",
-        "DevOps工具厂商",
-        "蓝色技术文档风格"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "DevOps",
-        "技术"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 HashiCorp / HashiCorp 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 HashiCorp（hashicorp）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/hashicorp/design-md",
       "designFile": "data/design/hashicorp.md",
       "colors": [
@@ -8983,43 +9064,45 @@
       "nameZh": "HP",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "PC 与打印机品牌。纯白画布、HP 电光蓝 CTA、几何无衬线和蓝色斜角装饰。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 靛蓝单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；靛蓝只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of HP's design language — a white-paper enterprise-consumer system anchored by HP Electric Blue (`#024ad8`) as the lone signal CTA, near-black ink (`#1a1a1a`) for headlines, geometric Forma-DJR sans throughout, and angular blue-chevron decorations that nod to the HP wordmark's slashes. Cards round at 8–16px, photos sit in soft 16px frames, and dark navy slabs anchor the customer-story and \"how can we help\" closing bands.",
       "styleKeywords": [
-        "HP Electric Blue",
-        "纯白画布",
-        "几何无衬线",
-        "蓝色斜角"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "硬件",
-        "企业",
-        "蓝色",
-        "科技"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
-        "产品介绍页",
-        "服务入口页"
+        "品牌官网首页",
+        "营销落地页",
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
-        "产品介绍页",
-        "服务入口页",
-        "营销落地页"
+        "品牌官网首页",
+        "营销落地页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 HP / HP 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-07-07",
+      "recommendedPromptZh": "参考 HP（hp）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/hp/design-md",
       "designFile": "data/design/hp.md",
       "colors": [
@@ -9371,40 +9454,45 @@
       "nameZh": "IBM",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "蓝色巨人企业风格，国际化专业设计",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：纯白画布、靛蓝点缀、无衬线轻字重标题，近直角与高信息密度构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住靛蓝的用量。",
       "descriptionEn": "An enterprise-marketing canvas faithful to Carbon Design System: white surfaces, charcoal type, IBM Blue (#0f62fe) as the single confident accent, and a deliberately flat-square aesthetic where corners stay at 0–4px. Type runs IBM Plex Sans at light weight 300 for display sizes (a brand signature) and 400/600 for body and emphasis. Cards live as thin-bordered tiles with no shadow; sections separate via subtle gray rows. The chrome is square, the typography is light, and the only color in the system is one assertive blue — the result reads as old-world enterprise gravitas reframed for the cloud era.",
       "styleKeywords": [
-        "企业",
-        "科技",
-        "蓝色巨人企业风格",
-        "国际化专业设计"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "企业",
-        "科技"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 IBM / IBM 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 IBM（ibm）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/ibm/design-md",
       "designFile": "data/design/ibm.md",
       "colors": [
@@ -9703,39 +9791,45 @@
       "nameZh": "Intercom",
       "category": "精选风格",
       "group": "reference",
-      "summaryZh": "客户沟通平台，友好绿色品牌色",
-      "positioningZh": "适合做通用参考，先看预览再决定是否采纳。",
+      "summaryZh": "浅灰画布打底、近黑作唯一强调的精选风格语言：无衬线标题配中字重，近直角，高信息密度。适合产品官网与品牌页面。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的中字重；其余交给浅灰画布与强对比。",
       "descriptionEn": "An editorial customer-service marketing canvas built around a soft cream-white ground, charcoal type set in Saans (Intercom's proprietary geometric sans), and a single confident Fin Orange (#ff5600) reserved for the Fin AI brand. Cards live as floating white tiles with thin hairline borders and minimal radii (8–16px). Display headlines run Saans at weight 500 with measured negative tracking. The system reads as a careful, product-led publication: product screenshots dominate, ornament is rare, and the only place chromatic energy enters is the Fin Orange CTA.",
       "styleKeywords": [
-        "客服",
-        "沟通",
-        "客户沟通平台",
-        "友好绿色品牌色"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "客服",
-        "沟通"
+        "浅灰画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "落地页实验"
       ],
       "bestFor": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "对行业规范要求很强的系统"
+        "复杂企业后台",
+        "多角色权限界面"
       ],
       "aiChecklist": [
-        "先看预览是否接近目标气质",
-        "按中文场景二次调整信息密度",
-        "不要直接全量照搬"
+        "保留一个记忆点即可，不要同时用三种装饰",
+        "排版节奏优先于插画",
+        "配色控制在主色加中性色"
       ],
-      "recommendedPromptZh": "参考 Intercom / Intercom 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Intercom（intercom）的视觉语言做一套中文界面：保留浅灰画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/intercom/design-md",
       "designFile": "data/design/intercom.md",
       "colors": [
@@ -10092,7 +10186,7 @@
         "主行动用黑胶囊，强调行动用薄荷胶囊",
         "标题可以用窄体粗字重制造效率感"
       ],
-      "recommendedPromptZh": "参考 Jobright / Jobright 的视觉语言，设计一个中文 求职/招聘平台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 Jobright（jobright）的视觉语言做一套中文界面：保留纯白画布、青绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/jobright/design-md",
       "designFile": "data/design/jobright.md",
@@ -10344,41 +10438,45 @@
       "nameZh": "Kraken",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "加密货币交易所，海怪深色品牌",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "一套克制的金融科技方案：纯白画布、紫罗兰点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住紫罗兰的用量。",
       "descriptionEn": "",
       "styleKeywords": [
-        "加密",
-        "金融",
-        "加密货币交易所",
-        "海怪深色品牌"
+        "紫罗兰强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "加密",
-        "金融"
+        "纯白画布",
+        "紫罗兰强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台",
-        "定价页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 Kraken / Kraken 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Kraken（kraken）的视觉语言做一套中文界面：保留纯白画布、紫罗兰强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/kraken/design-md",
       "designFile": "data/design/kraken.md",
       "colors": [
@@ -10635,40 +10733,45 @@
       "nameZh": "兰博基尼",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "兰博基尼官网，纯黑舞台感与金色强调的极致张力",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "近黑画布打底、琥珀黄作唯一强调的品牌官网语言：无衬线标题配重字重，近直角，高信息密度。适合品牌官网首页与营销落地页。",
+      "positioningZh": "辨识度来自琥珀黄的使用比例与无衬线标题的重字重；其余交给近黑画布与强对比。",
       "descriptionEn": "",
       "styleKeywords": [
-        "汽车",
-        "豪华",
-        "兰博基尼官网",
-        "纯黑舞台感与金色强调的极致张力"
+        "琥珀黄强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "汽车",
-        "豪华"
+        "近黑画布",
+        "琥珀黄强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "深色产品界面"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 兰博基尼 / Lamborghini 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-08",
+      "recommendedPromptZh": "参考 兰博基尼（lamborghini）的视觉语言做一套中文界面：保留近黑画布、琥珀黄强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/lamborghini/design-md",
       "designFile": "data/design/lamborghini.md",
       "colors": [
@@ -11090,41 +11193,45 @@
       "nameZh": "Linear",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "问题追踪神器，深色极简工程美学",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "近黑画布 + 靛蓝单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住功能与工作流页。",
+      "positioningZh": "和同类效率协作相比，它更依赖高信息密度和近直角，而不是堆装饰；靛蓝只出现在要你看的地方。",
       "descriptionEn": "A near-black product-focused marketing canvas built around #010102 (the deepest dark surface of any tool in this collection), light gray text (#f7f8f8), and the signature Linear lavender-blue (#5e6ad2) used as the single chromatic accent. The system reads as software-craft documentation: dense, technical, and quietly luxurious. Display type is set in the Linear custom sans (SF Pro Display fallback) at 500–700 with measured negative tracking. Cards live as charcoal panels (#0f1011) with hairline borders. The accent lavender appears on the brand mark, focus rings, and a few intentional CTAs — never decoratively. Page rhythm leans on product UI screenshots framed in dark panels rather than atmospheric color.",
       "styleKeywords": [
-        "项目管理",
-        "极简",
-        "问题追踪神器",
-        "深色极简工程美学"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "项目管理",
-        "极简"
+        "近黑画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Linear / Linear 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Linear（linear.app）的视觉语言做一套中文界面：保留近黑画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/linear.app/design-md",
       "designFile": "data/design/linear.app.md",
       "colors": [
@@ -11457,41 +11564,45 @@
       "nameZh": "Lovable",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI无代码建站，温暖现代感",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "一套克制的AI 产品方案：浅灰画布、靛蓝点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住靛蓝的用量。",
       "descriptionEn": "",
       "styleKeywords": [
-        "建站",
-        "AI",
-        "AI无代码建站",
-        "温暖现代感"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "建站",
-        "AI"
+        "浅灰画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Lovable / Lovable 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Lovable（lovable）的视觉语言做一套中文界面：保留浅灰画布、靛蓝强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/lovable/design-md",
       "designFile": "data/design/lovable.md",
       "colors": [
@@ -11832,43 +11943,45 @@
       "nameZh": "万事达卡",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "全球支付网络。暖米色画布、胶囊圆角、圆形轨道叙事。",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "浅灰画布打底、红作唯一强调的金融科技语言：无衬线标题配重字重，近直角，高信息密度。适合产品官网与定价与费率页。",
+      "positioningZh": "辨识度来自红的使用比例与无衬线标题的重字重；其余交给浅灰画布与强对比。",
       "descriptionEn": "",
       "styleKeywords": [
-        "暖米色",
-        "胶囊圆角",
-        "圆形轨道",
-        "编辑感"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "金融",
-        "支付",
-        "品牌",
-        "圆角"
+        "浅灰画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "官网落地页",
-        "支付产品页",
-        "品牌页面"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "支付产品页",
-        "品牌页面",
-        "定价页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 万事达卡 / Mastercard 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 万事达卡（mastercard）的视觉语言做一套中文界面：保留浅灰画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/mastercard/design-md",
       "designFile": "data/design/mastercard.md",
       "colors": [
@@ -12295,7 +12408,7 @@
         "深色区用半透明表面，不加描边",
         "字号大但字重轻，靠间距撑气场"
       ],
-      "recommendedPromptZh": "参考 Mercury / Mercury 的视觉语言，设计一个中文 金融产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 Mercury（mercury）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/mercury/design-md",
       "designFile": "data/design/mercury.md",
@@ -12578,43 +12691,45 @@
       "nameZh": "Meta",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "Meta 消费硬件商店。摄影优先、黑白双 CTA、Meta 蓝购买动作。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：纯白画布、湖蓝点缀、无衬线中字重标题，近直角与留白舒展构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住湖蓝的用量。",
       "descriptionEn": "Meta's design system spans hardware commerce (Quest VR, Ray-Ban Meta AI glasses) and brand surfaces with a confident product-merchandising voice. The system pairs a stark white canvas with full-bleed photographic product cards, a confident Optimistic VF wordmark/headline face, dual-CTA hero patterns (black primary + outlined secondary), and a saturated cobalt blue (#0064E0) for in-product purchase actions. Pill-shaped 100px-radius buttons, generous 24-32px card rounding, and tight three-tier text hierarchy carry across homepage, product detail (PDP), buy-now configurator, and accessory subpages.",
       "styleKeywords": [
-        "摄影优先",
-        "Meta Blue",
-        "产品卡片",
-        "双 CTA"
+        "湖蓝强调",
+        "无衬线标题",
+        "近直角",
+        "留白舒展",
+        "浅色底"
       ],
       "tagsZh": [
-        "科技",
-        "消费电子",
-        "摄影",
-        "电商"
+        "纯白画布",
+        "湖蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "留白舒展"
       ],
       "useCases": [
-        "品牌官网",
-        "产品详情页",
-        "电商商品页"
+        "品牌官网首页",
+        "营销落地页",
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
-        "产品详情页",
-        "电商商品页",
-        "营销落地页"
+        "品牌官网首页",
+        "营销落地页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 Meta / Meta 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 Meta（meta）的视觉语言做一套中文界面：保留纯白画布、湖蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/meta/design-md",
       "designFile": "data/design/meta.md",
       "colors": [
@@ -13016,41 +13131,45 @@
       "nameZh": "MiniMax",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI大模型公司，现代科技风格",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "纯白画布打底、近黑作唯一强调的AI 产品语言：无衬线标题配中字重，近直角，高信息密度。适合产品官网与模型能力介绍页。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的中字重；其余交给纯白画布与强对比。",
       "descriptionEn": "MiniMax presents itself as a premium AI infrastructure brand through a striking duality — bold black-pill CTAs and stark white canvas for marketing, paired with vibrant gradient product cards (orange-red, magenta-pink, purple, blue) that turn each model release into a distinctive visual identity. The system uses DM Sans across all surfaces, employs an oversized 80px hero display, anchors major actions in deep near-black pills, and layers content density via a 3-column documentation grid with sidebar nav, prose body, and TOC. Coverage spans the marketing homepage, model showcase pages, developer documentation, and platform pricing surfaces.",
       "styleKeywords": [
-        "AI",
-        "大模型",
-        "AI大模型公司",
-        "现代科技风格"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "大模型"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 MiniMax / MiniMax 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 MiniMax（minimax）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/minimax/design-md",
       "designFile": "data/design/minimax.md",
       "colors": [
@@ -13438,40 +13557,45 @@
       "nameZh": "Mintlify",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "文档站点生成器，简洁现代文档",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做开发者官网时落地门槛低，也扛得住文档站。",
+      "positioningZh": "和同类开发工具相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "Mintlify presents documentation infrastructure with a dual-mode aesthetic — atmospheric sky-gradient marketing heroes (cloud illustration backdrops, soft cream-to-blue washes) paired with dense developer-grade documentation surfaces. The system uses Inter for UI prose, Geist Mono for code, and a signature Mintlify green ({colors.brand-green}) reserved for accent CTAs and active states. Black-pill primary buttons dominate marketing, white-on-dark inversions appear on dark hero bands, and a 3-column documentation layout (sidebar / prose / TOC) anchors the developer experience. Coverage spans homepage, startups program, pricing comparison, and the live tabs documentation page.",
       "styleKeywords": [
-        "文档",
-        "开发",
-        "文档站点生成器",
-        "简洁现代文档"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "文档",
-        "开发"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Mintlify / Mintlify 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Mintlify（mintlify）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/mintlify/design-md",
       "designFile": "data/design/mintlify.md",
       "colors": [
@@ -13901,41 +14025,45 @@
       "nameZh": "Miro",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "在线白板协作，创意工作空间",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "一套克制的效率协作方案：纯白画布、近黑点缀、无衬线中字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "Miro presents itself as the AI-powered visual workspace through a confident, almost playful brand voice — anchored by its signature canary yellow ({colors.brand-yellow}) wordmark over white canvas, broken open by colorful pastel feature tints (rose, teal, coral, orange, mint) that echo the actual sticky-note color palette used on the live whiteboard. Black-pill primary buttons dominate marketing, real Miro-board mockups serve as feature illustrations, and a 4-tier pricing grid leads into a dense comparison table. Roobert PRO carries display headlines; the system supports homepage, pricing, AI Workflows product page, agile vertical, and customer stories surfaces.",
       "styleKeywords": [
-        "协作",
-        "白板",
-        "在线白板协作",
-        "创意工作空间"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "协作",
-        "白板"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Miro / Miro 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Miro（miro）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/miro/design-md",
       "designFile": "data/design/miro.md",
       "colors": [
@@ -14393,45 +14521,49 @@
     },
     {
       "slug": "mistral.ai",
-      "displayName": "Mistral AI",
+      "displayName": "Mistral",
       "nameZh": "Mistral",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "法国AI实验室，极简法式优雅",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "纯白画布打底、红作唯一强调的AI 产品语言：无衬线标题配轻字重，近直角，高信息密度。适合产品官网与模型能力介绍页。",
+      "positioningZh": "辨识度来自红的使用比例与无衬线标题的轻字重；其余交给纯白画布与强对比。",
       "descriptionEn": "Mistral AI brands itself with a singular signature — atmospheric sunset gradients (mustard, orange, deep red) layered over photography of mountains, plus a horizontal \"sunset stripe\" bar that closes every page. The system pairs warm cream-yellow surfaces ({colors.cream}) with a saturated orange primary CTA ({colors.primary}) and uses an elegant near-serif voice for hero displays. Coverage spans homepage (Frontier AI hero), Le Studio product page, Coding solutions, news article surfaces, contact form, and services tier page — all anchored by the signature gradient closing band.",
       "styleKeywords": [
-        "AI",
-        "国际",
-        "法国AI实验室",
-        "极简法式优雅"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "国际"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Mistral / Mistral AI 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Mistral（mistral.ai）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/mistral.ai/design-md",
       "designFile": "data/design/mistral.ai.md",
       "colors": [
@@ -14853,40 +14985,45 @@
       "nameZh": "MongoDB",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "文档数据库，绿色技术品牌",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布 + 草绿单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做开发者官网时落地门槛低，也扛得住文档站。",
+      "positioningZh": "和同类开发工具相比，它更依赖高信息密度和近直角，而不是堆装饰；草绿只出现在要你看的地方。",
       "descriptionEn": "MongoDB carries a strong dual-mode visual identity — dark deep-teal hero bands with bright MongoDB green ({colors.brand-green}) CTAs paired with stark white documentation surfaces. The signature green pill button is unmistakable across product, pricing, learning, and AI use-case surfaces. The system uses Euclid Circular A as its display face, anchors a 3-tier pricing comparison (Free / Flex / Dedicated), and presents extensive course catalogs in card grids with colored category tags. Coverage spans homepage, Atlas product page, Community Edition, MongoDB University, AI use cases, and pricing.",
       "styleKeywords": [
-        "数据库",
-        "NoSQL",
-        "文档数据库",
-        "绿色技术品牌"
+        "草绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "数据库",
-        "NoSQL"
+        "纯白画布",
+        "草绿强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 MongoDB / MongoDB 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 MongoDB（mongodb）的视觉语言做一套中文界面：保留纯白画布、草绿强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/mongodb/design-md",
       "designFile": "data/design/mongodb.md",
       "colors": [
@@ -15334,7 +15471,7 @@
         "用红 / 蓝 / 橙状态色承载评价语义",
         "所有按钮走全圆角胶囊"
       ],
-      "recommendedPromptZh": "参考 mydealz / mydealz 的视觉语言，设计一个中文 社区信息流，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 mydealz（mydealz）的视觉语言做一套中文界面：保留浅灰画布、草绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/mydealz/design-md",
       "designFile": "data/design/mydealz.md",
@@ -15623,7 +15760,7 @@
         "渐变只出现在开场带",
         "主色深绿，浅薄荷只作分区底"
       ],
-      "recommendedPromptZh": "参考 NerdWallet / NerdWallet 的视觉语言，设计一个中文 比价与评测站，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 NerdWallet（nerdwallet）的视觉语言做一套中文界面：保留纯白画布、青绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/nerdwallet/design-md",
       "designFile": "data/design/nerdwallet.md",
@@ -15990,43 +16127,45 @@
       "nameZh": "Nike",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "运动零售品牌。黑白高对比、超大写标题、全幅运动摄影。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "A photography-first commerce system built on extreme typographic contrast — towering uppercase Futura display lockups burned into editorial campaign imagery, sitting above a dense, neutral, near-monochrome retail chrome of pill-shaped black CTAs, gray search and tag pills, and tight 8px-grid product cards. The brand's voice is athletic, kinetic, and absolute: pure black, pure white, a single soft surface gray, and a deliberately small set of semantic accents (sale red, success green, restrained category tints) — every chromatic moment is reserved for editorial photography or pricing signal, never decorative chrome.",
       "styleKeywords": [
-        "黑白高对比",
-        "超大写标题",
-        "运动摄影",
-        "零售卡片"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "运动",
-        "零售",
-        "品牌",
-        "摄影"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "电商商品页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "电商商品页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 Nike / Nike 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 Nike（nike）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/nike/design-md",
       "designFile": "data/design/nike.md",
       "colors": [
@@ -16343,47 +16482,49 @@
     },
     {
       "slug": "nintendo-2001",
-      "displayName": "Nintendo.com (2001)",
+      "displayName": "Nintendo 2001",
       "nameZh": "Nintendo 2001",
       "category": "内容平台",
       "group": "reference",
-      "summaryZh": "Nintendo.com 2001 复古游戏网页。金属斜面面板、琥珀导航、Y2K 主机外壳式界面。",
-      "positioningZh": "强调流动感、内容展示效率和活跃度，适合内容消费和社区产品。",
+      "summaryZh": "一套克制的内容平台方案：浅灰画布、红点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于内容首页。",
+      "positioningZh": "骨架是柔和对比加无衬线标题，近直角收口；改动时先守住红的用量。",
       "descriptionEn": "An analysis of Nintendo.com's 2001 design language — a brushed-periwinkle \"console chrome\" interface where every panel is a beveled metal plate, navigation glows amber over a halftone-dotted carbon bar, and bold outlined display type sits on circuit-board hero fields. A Y2K hardware aesthetic that treats the web page like the faceplate of a game system.",
       "styleKeywords": [
-        "Y2K",
-        "金属斜面",
-        "琥珀导航",
-        "游戏主机界面"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "游戏",
-        "复古",
-        "Y2K",
-        "内容"
+        "浅灰画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "内容社区",
-        "活动专题页",
-        "复古品牌页"
+        "内容首页",
+        "栏目与信息流",
+        "文章详情页"
       ],
       "bestFor": [
-        "内容社区",
-        "活动专题页",
-        "复古品牌页",
-        "推荐流页面"
+        "内容首页",
+        "栏目与信息流",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "表单密集型后台",
-        "高度理性的文档站"
+        "强表单后台",
+        "企业审批界面"
       ],
       "aiChecklist": [
-        "优先突出封面和内容卡片",
-        "降低单屏信息负担",
-        "避免全部模块同质化"
+        "标题层级清晰，正文行宽控制在 68ch 以内",
+        "图片与文字的比例固定，避免每屏一个样",
+        "强调色只用于分类标签与阅读态"
       ],
-      "recommendedPromptZh": "参考 Nintendo 2001 / Nintendo.com (2001) 的视觉语言，设计一个中文 内容社区，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-07-07",
+      "recommendedPromptZh": "参考 Nintendo 2001（nintendo-2001）的视觉语言做一套中文界面：保留浅灰画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/nintendo-2001/design-md",
       "designFile": "data/design/nintendo-2001.md",
       "colors": [
@@ -16640,41 +16781,45 @@
       "nameZh": "Notion",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "笔记与协作工具，温暖纸张质感极简",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "浅灰画布打底、靛蓝作唯一强调的效率协作语言：无衬线标题配中字重，近直角，高信息密度。适合产品官网与功能与工作流页。",
+      "positioningZh": "辨识度来自靛蓝的使用比例与无衬线标题的中字重；其余交给浅灰画布与强对比。",
       "descriptionEn": "Notion presents itself as the all-in-one workspace through a confident, illustration-rich brand voice — anchored by a deep navy hero band ({colors.brand-navy}) decorated with brand-colored sticky-note dots and mesh wire illustrations, a signature purple pill primary CTA ({colors.primary}), and a rich palette of pastel-tinted feature cards that echo the colorful database properties of the live product. The system uses a Notion-Sans (Inter-based) typeface across every UI surface, anchors a 4-tier pricing comparison (Free / Plus / Business / Enterprise), and presents the live workspace UI mockup directly inside the hero band. Coverage spans homepage, Enterprise, Product AI, Product Agents, Startups, and Pricing surfaces.",
       "styleKeywords": [
-        "笔记",
-        "协作",
-        "笔记与协作工具",
-        "温暖纸张质感极简"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "笔记",
-        "协作"
+        "浅灰画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Notion / Notion 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Notion（notion）的视觉语言做一套中文界面：保留浅灰画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/notion/design-md",
       "designFile": "data/design/notion.md",
       "colors": [
@@ -17164,41 +17309,45 @@
       "nameZh": "英伟达",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "GPU芯片巨头，深绿科技黑+光效",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 柠檬黄单点强调，无衬线标题重字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；柠檬黄只出现在要你看的地方。",
       "descriptionEn": "An engineering-grade marketing system organized around two surface modes — a deep black canvas for hero and footer chapters and a flat paper-white canvas for body content — connected by a single, almost violently saturated NVIDIA Green accent that carries every CTA, every active tab, and the small decorative corner squares that mark out cards. The system is unapologetically angular: 2px radius across every surface, tight bold sans-serif typography in NVIDIA's proprietary EMEA cut, and a hairline gray rule that separates dense multi-column technical content. There is no decorative gradient, no atmospheric mesh, no soft drop shadow — just black, white, gray, and green stacked into a structured editorial grid that scales from product cards to massive industry landing pages without bending its rules.",
       "styleKeywords": [
-        "芯片",
-        "科技",
-        "GPU芯片巨头",
-        "深绿科技黑",
-        "光效"
+        "柠檬黄强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "芯片",
-        "科技"
+        "纯白画布",
+        "柠檬黄强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 英伟达 / NVIDIA 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 英伟达（nvidia）的视觉语言做一套中文界面：保留纯白画布、柠檬黄强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/nvidia/design-md",
       "designFile": "data/design/nvidia.md",
       "colors": [
@@ -17565,41 +17714,45 @@
       "nameZh": "Ollama",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "本地AI模型运行，简约开发者工具",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "一套克制的AI 产品方案：纯白画布、近黑点缀、无衬线中字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "An almost defiantly minimal documentation-first system that treats the home page like a Markdown README — paper-white canvas, 36px center-aligned heading, a single black pill CTA, an inline terminal install snippet, and a hand-drawn llama mascot as the only ornamental element. No gradient, no hero photography, no marketing pyrotechnics. The chrome is a tiny utility palette of pure black, pure white, and three neutral grays; every interactive element is fully rounded into a pill (`{rounded.full}`); typography is SF Pro Rounded for headings paired with system sans for body and ui-monospace for code. Pricing tiers, FAQs, and \"your data stays yours\" guarantees all sit on the same flat canvas inside thin-border cards — the system is the documentation, and the documentation is the system.",
       "styleKeywords": [
-        "AI",
-        "本地",
-        "本地AI模型运行",
-        "简约开发者工具"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "本地"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Ollama / Ollama 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Ollama（ollama）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/ollama/design-md",
       "designFile": "data/design/ollama.md",
       "colors": [
@@ -17890,41 +18043,45 @@
       "nameZh": "OpenCode",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI代码平台，现代开发者UI",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "纯白画布打底、近黑作唯一强调的AI 产品语言：无衬线标题配重字重，近直角，高信息密度。适合产品官网与模型能力介绍页。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的重字重；其余交给纯白画布与柔和对比。",
       "descriptionEn": "A terminal-native marketing system rendered entirely in Berkeley Mono — every word on the page, from the hero headline down to the footer fine print, is monospaced. The page itself reads like a manpage or a static-site README: warm cream canvas (`#fdfcfc`), nearly-black ink (`#201d1d`), 4px-radius rectangles for the few interactive elements, and bracketed `[+]`/`[-]` ASCII markers used as bullets. The brand's only \"visual moment\" is a single dark hero card that mocks up the OpenCode TUI itself — black background, monospaced terminal output, ASCII pipe characters, and a wordmark rendered as block-pixel ASCII. Every section sits as a hairline-bordered text block on the cream canvas with no shadows, no gradients, no decorative imagery, and no non-monospaced character anywhere in the system.",
       "styleKeywords": [
-        "AI",
-        "代码",
-        "AI代码平台",
-        "现代开发者UI"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "代码"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 OpenCode / OpenCode 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 OpenCode（opencode.ai）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/opencode.ai/design-md",
       "designFile": "data/design/opencode.ai.md",
       "colors": [
@@ -18231,7 +18388,7 @@
         "行动色统一为炭黑，红仅用于字标",
         "产品页可用 Georgia 衬线标题建立权威感"
       ],
-      "recommendedPromptZh": "参考 甲骨文 / Oracle 的视觉语言，设计一个中文 企业官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 甲骨文（oracle）的视觉语言做一套中文界面：保留纯白画布、中性灰强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/oracle/design-md",
       "designFile": "data/design/oracle.md",
@@ -18627,7 +18784,7 @@
         "标题用衬线制造编辑感，正文保持安静",
         "全站只留一个行动蓝"
       ],
-      "recommendedPromptZh": "参考 Oura / Oura 的视觉语言，设计一个中文 健康/可穿戴品牌，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 Oura（oura）的视觉语言做一套中文界面：保留浅灰画布、靛蓝强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/oura/design-md",
       "designFile": "data/design/oura.md",
@@ -18975,40 +19132,45 @@
       "nameZh": "Pinterest",
       "category": "内容平台",
       "group": "reference",
-      "summaryZh": "图片社交平台，明亮活泼红白",
-      "positioningZh": "强调流动感、内容展示效率和活跃度，适合内容消费和社区产品。",
+      "summaryZh": "纯白画布打底、红作唯一强调的内容平台语言：无衬线标题配中字重，近直角，高信息密度。适合内容首页与栏目与信息流。",
+      "positioningZh": "辨识度来自红的使用比例与无衬线标题的中字重；其余交给纯白画布与强对比。",
       "descriptionEn": "A photography-first discovery system organized around the Pinterest Red CTA, the masonry pin grid, and a soft warm-cream chrome that gets out of the imagery's way. The home page is a content-discovery tool wearing the chrome of a magazine publisher: 70px display headlines, friendly Pin Sans typography, fully-rounded pill buttons (16px) on a cream-tinted neutral palette, and a sticky red \"Sign up\" CTA that anchors every viewport. Pin imagery is the system's load-bearing visual element — square, portrait, and landscape pins tile in a column-based masonry grid where each tile is a fully-rounded 16px-radius card, separated by tight 8px gutters. The chrome is otherwise quiet: warm grays, true whites, and a single saturated red — no decorative gradients, no atmospheric backgrounds, no shadows beyond a soft modal scrim.",
       "styleKeywords": [
-        "社交",
-        "图片",
-        "图片社交平台",
-        "明亮活泼红白"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "社交",
-        "图片"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "内容社区",
-        "推荐流页面",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "文章详情页"
       ],
       "bestFor": [
-        "内容社区",
-        "推荐流页面",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "表单密集型后台",
-        "高度理性的文档站"
+        "强表单后台",
+        "企业审批界面"
       ],
       "aiChecklist": [
-        "优先突出封面和内容卡片",
-        "降低单屏信息负担",
-        "避免全部模块同质化"
+        "标题层级清晰，正文行宽控制在 68ch 以内",
+        "图片与文字的比例固定，避免每屏一个样",
+        "强调色只用于分类标签与阅读态"
       ],
-      "recommendedPromptZh": "参考 Pinterest / Pinterest 的视觉语言，设计一个中文 内容社区，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Pinterest（pinterest）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/pinterest/design-md",
       "designFile": "data/design/pinterest.md",
       "colors": [
@@ -19338,47 +19500,49 @@
     },
     {
       "slug": "playstation",
-      "displayName": "PlayStation",
+      "displayName": "Playstation",
       "nameZh": "PlayStation",
       "category": "内容平台",
       "group": "reference",
-      "summaryZh": "游戏主机零售与内容平台。蓝色 CTA、三段式明暗画布、游戏视觉主导。",
-      "positioningZh": "强调流动感、内容展示效率和活跃度，适合内容消费和社区产品。",
+      "summaryZh": "纯白画布 + 湖蓝单点强调，无衬线标题轻字重拉出层级，近直角配合高信息密度；做内容首页时落地门槛低，也扛得住栏目与信息流。",
+      "positioningZh": "和同类内容平台相比，它更依赖高信息密度和近直角，而不是堆装饰；湖蓝只出现在要你看的地方。",
       "descriptionEn": "A three-surface marketing system organized around alternating black, white, and PlayStation Blue chapters that scroll past the viewer like a console launch trailer. Each section has a single editorial purpose — hero photography, console product render, PS Plus tier callout, news strip — and each owns one of three full-bleed canvas modes. The chrome is unusually quiet for a gaming brand: bright PlayStation Blue (`#0070d1`) carries every primary CTA as a fully-rounded pill, the proprietary SST face renders display copy at a signature weight 300 (light) for an airy, premium feel, and a crisp 8px-radius secondary card system carries product info on either canvas mode. The system never decorates — no gradient backgrounds on chrome, no atmospheric mesh, no drop shadows beyond a faint section-divide. Imagery does all the heavy lifting: console glamour shots, game key art, and PS Plus tier illustrations occupy 60-90% of every section, with copy compressed into a small editorial slot.",
       "styleKeywords": [
-        "PlayStation Blue",
-        "明暗分段",
-        "游戏视觉",
-        "胶囊 CTA"
+        "湖蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "游戏",
-        "消费科技",
-        "内容",
-        "电商"
+        "纯白画布",
+        "湖蓝强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "内容社区",
-        "活动专题页",
-        "产品介绍页"
+        "内容首页",
+        "栏目与信息流",
+        "文章详情页"
       ],
       "bestFor": [
-        "内容社区",
-        "活动专题页",
-        "产品介绍页",
-        "推荐流页面"
+        "内容首页",
+        "栏目与信息流",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "表单密集型后台",
-        "高度理性的文档站"
+        "强表单后台",
+        "企业审批界面"
       ],
       "aiChecklist": [
-        "优先突出封面和内容卡片",
-        "降低单屏信息负担",
-        "避免全部模块同质化"
+        "标题层级清晰，正文行宽控制在 68ch 以内",
+        "图片与文字的比例固定，避免每屏一个样",
+        "强调色只用于分类标签与阅读态"
       ],
-      "recommendedPromptZh": "参考 PlayStation / PlayStation 的视觉语言，设计一个中文 内容社区，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 PlayStation（playstation）的视觉语言做一套中文界面：保留纯白画布、湖蓝强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/playstation/design-md",
       "designFile": "data/design/playstation.md",
       "colors": [
@@ -19737,39 +19901,45 @@
       "nameZh": "PostHog",
       "category": "精选风格",
       "group": "reference",
-      "summaryZh": "产品分析平台，温暖黄色品牌",
-      "positioningZh": "适合做通用参考，先看预览再决定是否采纳。",
+      "summaryZh": "一套克制的精选风格方案：浅灰画布、橙点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是柔和对比加无衬线标题，近直角收口；改动时先守住橙的用量。",
       "descriptionEn": "A playful developer-tools system rendered on a warm cream canvas with hand-drawn hedgehog mascots dotted across every page like marginalia in a sketchbook. The chrome reads like a friendly engineering blog: olive-gray ink (#4d4f46) for body, deep olive-charcoal (#23251d) for headlines, IBM Plex Sans Variable typography in tight 1.43-line-height paragraphs, and a single saturated yellow-orange CTA pill (#f7a501) carrying every primary action. The system actively rejects the genre's typical somber dark-tech aesthetic in favor of a creamy, textbook-illustration sensibility — bordered cards stack on the cream canvas with 4–6px radii, doc sidebars use rounded outline-icon mini-illustrations, and the home page leans on cartoon characters (hedgehogs in lab coats, hedgehogs at terminals, hedgehogs in lounge chairs) as its signature decoration. Code samples and product analytics charts live inside white-on-cream cards with thin olive borders; the contrast between the playful illustration and the data-dense product imagery is the brand's signature voice.",
       "styleKeywords": [
-        "分析",
-        "产品",
-        "产品分析平台",
-        "温暖黄色品牌"
+        "橙强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "分析",
-        "产品"
+        "浅灰画布",
+        "橙强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "落地页实验"
       ],
       "bestFor": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "对行业规范要求很强的系统"
+        "复杂企业后台",
+        "多角色权限界面"
       ],
       "aiChecklist": [
-        "先看预览是否接近目标气质",
-        "按中文场景二次调整信息密度",
-        "不要直接全量照搬"
+        "保留一个记忆点即可，不要同时用三种装饰",
+        "排版节奏优先于插画",
+        "配色控制在主色加中性色"
       ],
-      "recommendedPromptZh": "参考 PostHog / PostHog 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 PostHog（posthog）的视觉语言做一套中文界面：保留浅灰画布、橙强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/posthog/design-md",
       "designFile": "data/design/posthog.md",
       "colors": [
@@ -20175,41 +20345,45 @@
       "nameZh": "Raycast",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "macOS效率工具，简约深色工具感",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "近黑画布打底、红作唯一强调的效率协作语言：无衬线标题配中字重，近直角，高信息密度。适合产品官网与功能与工作流页。",
+      "positioningZh": "辨识度来自红的使用比例与无衬线标题的中字重；其余交给近黑画布与强对比。",
       "descriptionEn": "Raycast's marketing system reads like an extended product screenshot. The chrome IS the in-product chrome at marketing scale: pure-near-black canvas, hairline 1px borders, command-palette-style cards, Inter typography with the ss03 stylistic set enabled site-wide, white CTA pill, and a small set of saturated category accent colors (yellow / red / green / blue) reserved for extension and feature illustrations. Section rhythm is generous (~96px) but the page never breaks tonal continuity — the whole site sits in one continuous dark mode.",
       "styleKeywords": [
-        "效率",
-        "工具",
-        "macOS效率工具",
-        "简约深色工具感"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "效率",
-        "工具"
+        "近黑画布",
+        "红强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Raycast / Raycast 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Raycast（raycast）的视觉语言做一套中文界面：保留近黑画布、红强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/raycast/design-md",
       "designFile": "data/design/raycast.md",
       "colors": [
@@ -20589,40 +20763,45 @@
       "nameZh": "雷诺",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "雷诺官网，极具能量的渐变车展氛围与法式几何秩序",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 琥珀黄单点强调，无衬线标题重字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；琥珀黄只出现在要你看的地方。",
       "descriptionEn": "Renault's web presence pairs the freshly-modernised Renault diamond\n(the 2021 flat-line rhombus mark) with a stark black-and-white canvas, a\nsignature Sunlight Yellow accent, and the proprietary NouvelR display\ntypeface. The system reads as confident, photography-first automotive — large\nhero cars on neutral or atmospheric backdrops, square-edged or barely-rounded\ncontainers, and a small disciplined palette where every coloured element is\nintentional. Tile grids, full-bleed banners, and a recurring \"configurator\"\nsurface (white card, yellow accent dots, neutral product chrome) carry the\nmass-market dealership tone without crossing into luxury.",
       "styleKeywords": [
-        "汽车",
-        "品牌",
-        "雷诺官网",
-        "极具能量的渐变车展氛围与法式几何秩序"
+        "琥珀黄强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "汽车",
-        "品牌"
+        "纯白画布",
+        "琥珀黄强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 雷诺 / Renault 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-08",
+      "recommendedPromptZh": "参考 雷诺（renault）的视觉语言做一套中文界面：保留纯白画布、琥珀黄强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/renault/design-md",
       "designFile": "data/design/renault.md",
       "colors": [
@@ -20958,41 +21137,45 @@
       "nameZh": "Replicate",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI模型云托管，简洁开发者平台",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "一套克制的AI 产品方案：纯白画布、红点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住红的用量。",
       "descriptionEn": "Replicate's marketing surfaces pair the warm-cream developer-tools aesthetic\nof an indie ML playground with a confident hot-orange brand accent and a\nsignature display typeface (rb-freigeist-neue) sized aggressively large at\n72px+. The system reads as \"AI lab notebook crossed with print magazine\":\ncream and bone surfaces, dark ink type, monospace code wells, irregular\nhand-drawn-feeling diagrams, and a rich orange used scarcely on the most\nconsequential CTA. Photography of contributors and example outputs is\nsquare-ish with mid-radius corners; everything else is borderless or hairline.",
       "styleKeywords": [
-        "AI",
-        "云",
-        "AI模型云托管",
-        "简洁开发者平台"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "云"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Replicate / Replicate 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Replicate（replicate）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/replicate/design-md",
       "designFile": "data/design/replicate.md",
       "colors": [
@@ -21359,40 +21542,45 @@
       "nameZh": "Resend",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "邮件API服务，极简开发者邮件工具",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布打底、橙作唯一强调的开发工具语言：无衬线标题配轻字重，近直角，高信息密度。适合开发者官网与文档站。",
+      "positioningZh": "辨识度来自橙的使用比例与无衬线标题的轻字重；其余交给纯白画布与强对比。",
       "descriptionEn": "Resend's marketing surfaces sit on a near-pure black canvas with off-white\ntext and a single signature color — the deep editorial-serif Domaine\nDisplay headline mark — that gives an otherwise utilitarian developer-tool\nbrand its print-magazine confidence. The system pairs Domaine Display\n(oversized 76px–96px serif, ss01/ss04/ss11 features on) with ABC Favorit\nfor body and Inter for UI. Surfaces rely on subtle 6–9% opacity gradient\nglows, hairline 1px borders made from translucent white, and a strict\nrounded-12px container vocabulary. There is no decorative chrome — just\ntype, code, and atmospheric depth.",
       "styleKeywords": [
-        "邮件",
-        "API",
-        "邮件API服务",
-        "极简开发者邮件工具"
+        "橙强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "邮件",
-        "API"
+        "纯白画布",
+        "橙强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Resend / Resend 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Resend（resend）的视觉语言做一套中文界面：保留纯白画布、橙强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/resend/design-md",
       "designFile": "data/design/resend.md",
       "colors": [
@@ -21754,41 +21942,45 @@
       "nameZh": "Revolut",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "数字银行，现代金融科技感",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "纯白画布 + 靛蓝单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住定价与费率页。",
+      "positioningZh": "和同类金融科技相比，它更依赖高信息密度和近直角，而不是堆装饰；靛蓝只出现在要你看的地方。",
       "descriptionEn": "Revolut's marketing surfaces pair a stark black canvas with the brand's\ncobalt-violet (`#494fdf`) and a wide accent palette of deep, fully-saturated\nproduct colours — teal, light-blue, deep pink, light-green, warning orange.\nThe system reads as fintech-meets-product-brochure: oversized 80px–136px\nAeonik Pro display headlines, generous whitespace, photography-led hero\nbands, and full-width product mockups (cards, phones, terminals) shown as\nhero objects inside near-black sections. Most surfaces are either black or\noff-white; pill-shaped buttons and rounded-12/20px content cards carry the\nconsumer-financial-app feel without crossing into playful territory.",
       "styleKeywords": [
-        "金融",
-        "银行",
-        "数字银行",
-        "现代金融科技感"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "金融",
-        "银行"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台",
-        "定价页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 Revolut / Revolut 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Revolut（revolut）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/revolut/design-md",
       "designFile": "data/design/revolut.md",
       "colors": [
@@ -22197,41 +22389,45 @@
       "nameZh": "Runway",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI视频生成，前沿创意技术",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "一套克制的AI 产品方案：近黑画布、中性灰点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住中性灰的用量。",
       "descriptionEn": "",
       "styleKeywords": [
-        "AI",
-        "视频",
-        "AI视频生成",
-        "前沿创意技术"
+        "中性灰强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "AI",
-        "视频"
+        "近黑画布",
+        "中性灰强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Runway / Runway 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Runway（runwayml）的视觉语言做一套中文界面：保留近黑画布、中性灰强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/runwayml/design-md",
       "designFile": "data/design/runwayml.md",
       "colors": [
@@ -22546,41 +22742,45 @@
       "nameZh": "Sanity",
       "category": "内容与建站",
       "group": "reference",
-      "summaryZh": "无头CMS平台，内容优先设计",
-      "positioningZh": "强调模块化展示和模板感，适合展示产品能力、模板和编辑体验。",
+      "summaryZh": "近黑画布打底、红作唯一强调的内容与建站语言：无衬线标题配重字重，近直角，高信息密度。适合产品官网与模板与案例市场。",
+      "positioningZh": "辨识度来自红的使用比例与无衬线标题的重字重；其余交给近黑画布与强对比。",
       "descriptionEn": "",
       "styleKeywords": [
-        "CMS",
-        "内容",
-        "无头CMS平台",
-        "内容优先设计"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "CMS",
-        "内容"
+        "近黑画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
-        "模板市场",
-        "编辑器界面"
+        "模板与案例市场",
+        "编辑与预览页"
       ],
       "bestFor": [
         "产品官网",
-        "模板市场",
-        "编辑器界面",
-        "建站工具官网"
+        "模板与案例市场",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "金融级数据台",
-        "过于严肃的企业门户"
+        "重资产后台",
+        "强表格化报表页"
       ],
       "aiChecklist": [
-        "让案例和模板展示更直观",
-        "保留适度视觉变化",
-        "避免区块密度过高"
+        "模板卡片的预览比例统一",
+        "首屏给出一键开始，不铺垫长文案",
+        "深浅主题切换时保持同一套层级"
       ],
-      "recommendedPromptZh": "参考 Sanity / Sanity 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Sanity（sanity）的视觉语言做一套中文界面：保留近黑画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/sanity/design-md",
       "designFile": "data/design/sanity.md",
       "colors": [
@@ -23176,7 +23376,7 @@
         "用大块纯色带替代阴影表达层次",
         "控件圆角 8px，媒体容器 12px"
       ],
-      "recommendedPromptZh": "参考 SAP / SAP 的视觉语言，设计一个中文 企业软件官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
+      "recommendedPromptZh": "参考 SAP（sap）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
       "updatedAt": "",
       "sourceUrl": "https://getdesign.md/sap/design-md",
       "designFile": "data/design/sap.md",
@@ -23491,40 +23691,45 @@
       "nameZh": "Sentry",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "错误追踪平台，开发者工具深色",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "一套克制的开发工具方案：纯白画布、近黑点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于开发者官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "An inspired interpretation of Sentri's design language — a developer-tools brand built on a deep purple-violet midnight canvas, electric lime accents, and a slightly subversive illustrated personality. The system pairs a custom display sans (chunky, playful, near-condensed) with the open Rubik family for UI copy and Monaco for code, then leans on dark-on-light pricing surfaces, sticker-style mascots, and a single-color CTA hierarchy where black-violet buttons read as the primary action against either polarity.",
       "styleKeywords": [
-        "开发",
-        "监控",
-        "错误追踪平台",
-        "开发者工具深色"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "开发",
-        "监控"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Sentry / Sentry 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Sentry（sentry）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/sentry/design-md",
       "designFile": "data/design/sentry.md",
       "colors": [
@@ -23857,43 +24062,45 @@
       "nameZh": "Shopify",
       "category": "内容与建站",
       "group": "reference",
-      "summaryZh": "电商平台。深色电影感营销与浅色交易界面并行，绿色商业强调。",
-      "positioningZh": "强调模块化展示和模板感，适合展示产品能力、模板和编辑体验。",
+      "summaryZh": "纯白画布打底、近黑作唯一强调的内容与建站语言：无衬线标题配轻字重，近直角，高信息密度。适合产品官网与模板与案例市场。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的轻字重；其余交给纯白画布与强对比。",
       "descriptionEn": "An inspired interpretation of Shopifi's design language — a cinematic commerce platform that runs two parallel design tracks. The marketing-hero and product-narrative pages live on near-black canvases with full-bleed photography of merchants, giant Neue Haas Grotesk display type at thin weights, and a single black-pill CTA stroked in white. The transactional pages (pricing, signup, dashboards) flip to a cream-mint canvas with pastel aloe and pistachio greens, the same pill button vocabulary, and Inter for UI body. The two tracks share typographic DNA but diverge sharply in canvas polarity — and that choice is the brand.",
       "styleKeywords": [
-        "深色电影感",
-        "商业绿色",
-        "电商平台",
-        "浅色交易界面"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "电商",
-        "建站",
-        "商业",
-        "绿色"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
-        "模板市场",
-        "编辑器界面"
+        "模板与案例市场",
+        "编辑与预览页"
       ],
       "bestFor": [
         "产品官网",
-        "模板市场",
-        "编辑器界面",
-        "建站工具官网"
+        "模板与案例市场",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "金融级数据台",
-        "过于严肃的企业门户"
+        "重资产后台",
+        "强表格化报表页"
       ],
       "aiChecklist": [
-        "让案例和模板展示更直观",
-        "保留适度视觉变化",
-        "避免区块密度过高"
+        "模板卡片的预览比例统一",
+        "首屏给出一键开始，不铺垫长文案",
+        "深浅主题切换时保持同一套层级"
       ],
-      "recommendedPromptZh": "参考 Shopify / Shopify 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 Shopify（shopify）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/shopify/design-md",
       "designFile": "data/design/shopify.md",
       "colors": [
@@ -24214,43 +24421,45 @@
       "nameZh": "Slack",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "团队协作消息工具。紫色品牌底、柔和渐变首屏、产品界面组合展示。",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "纯白画布 + 洋红单点强调，无衬线标题重字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住功能与工作流页。",
+      "positioningZh": "和同类效率协作相比，它更依赖高信息密度和近直角，而不是堆装饰；洋红只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of Slacc's design language — a workplace messaging brand built on a deep aubergine primary, with cream-lavender hero gradients, blue inline links, and pill CTAs. The system pairs a proprietary humanist sans for display with a separate utility sans for body, and stages product UI mockups inside soft pastel-mesh hero composites that act as both decoration and feature explanation.",
       "styleKeywords": [
-        "深紫品牌色",
-        "柔和渐变",
-        "产品界面展示",
-        "胶囊 CTA"
+        "洋红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "协作",
-        "消息",
-        "SaaS",
-        "紫色"
+        "纯白画布",
+        "洋红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Slack / Slack 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 Slack（slack）的视觉语言做一套中文界面：保留纯白画布、洋红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/slack/design-md",
       "designFile": "data/design/slack.md",
       "colors": [
@@ -24561,44 +24770,49 @@
     },
     {
       "slug": "spacex",
-      "displayName": "SpaceX",
+      "displayName": "Spacex",
       "nameZh": "SpaceX",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "SpaceX官网，太空探索深色沉浸",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：近黑画布、中性灰点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住中性灰的用量。",
       "descriptionEn": "An inspired interpretation of Spasex's design language — a mission-oriented aerospace brand built on pure black canvas, full-bleed photographic and video heroes of rockets and Mars landscapes, and uppercase D-DIN display type set in tight vertical leading. UI chrome is intentionally minimal a single ghost outlined pill button per band, all-caps eyebrow microtext, and a fixed top nav over photography. The system is unapologetically austere — black, white, and the imagery itself.",
       "styleKeywords": [
-        "航天",
-        "探索",
-        "SpaceX官网",
-        "太空探索深色沉浸"
+        "中性灰强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "航天",
-        "探索"
+        "近黑画布",
+        "中性灰强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "深色产品界面"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 SpaceX / SpaceX 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 SpaceX（spacex）的视觉语言做一套中文界面：保留近黑画布、中性灰强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/spacex/design-md",
       "designFile": "data/design/spacex.md",
       "colors": [
@@ -24814,40 +25028,45 @@
       "nameZh": "Spotify",
       "category": "内容平台",
       "group": "reference",
-      "summaryZh": "音乐流媒体，绿色品牌深色模式",
-      "positioningZh": "强调流动感、内容展示效率和活跃度，适合内容消费和社区产品。",
+      "summaryZh": "近黑画布打底、草绿作唯一强调的内容平台语言：无衬线标题配重字重，近直角，高信息密度。适合内容首页与栏目与信息流。",
+      "positioningZh": "辨识度来自草绿的使用比例与无衬线标题的重字重；其余交给近黑画布与强对比。",
       "descriptionEn": "",
       "styleKeywords": [
-        "音乐",
-        "流媒体",
-        "音乐流媒体",
-        "绿色品牌深色模式"
+        "草绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "音乐",
-        "流媒体"
+        "近黑画布",
+        "草绿强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "内容社区",
-        "推荐流页面",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "文章详情页"
       ],
       "bestFor": [
-        "内容社区",
-        "推荐流页面",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "表单密集型后台",
-        "高度理性的文档站"
+        "强表单后台",
+        "企业审批界面"
       ],
       "aiChecklist": [
-        "优先突出封面和内容卡片",
-        "降低单屏信息负担",
-        "避免全部模块同质化"
+        "标题层级清晰，正文行宽控制在 68ch 以内",
+        "图片与文字的比例固定，避免每屏一个样",
+        "强调色只用于分类标签与阅读态"
       ],
-      "recommendedPromptZh": "参考 Spotify / Spotify 的视觉语言，设计一个中文 内容社区，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Spotify（spotify）的视觉语言做一套中文界面：保留近黑画布、草绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/spotify/design-md",
       "designFile": "data/design/spotify.md",
       "colors": [
@@ -25251,43 +25470,45 @@
       "nameZh": "星巴克",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "咖啡零售品牌。暖奶油底、四层绿色系统、圆润门店标识感。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "浅灰画布 + 青绿单点强调，无衬线标题重字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；青绿只出现在要你看的地方。",
       "descriptionEn": "",
       "styleKeywords": [
-        "暖奶油底",
-        "Starbucks Green",
-        "圆润按钮",
-        "门店标识"
+        "青绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "零售",
-        "咖啡",
-        "品牌",
-        "绿色"
+        "浅灰画布",
+        "青绿强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "服务介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "服务介绍页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 星巴克 / Starbucks 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 星巴克（starbucks）的视觉语言做一套中文界面：保留浅灰画布、青绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/starbucks/design-md",
       "designFile": "data/design/starbucks.md",
       "colors": [
@@ -25759,41 +25980,45 @@
       "nameZh": "Stripe",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "支付API平台，极致精致开发者文档",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "一套克制的金融科技方案：纯白画布、靛蓝点缀、无衬线轻字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住靛蓝的用量。",
       "descriptionEn": "An inspired interpretation of Stripi's design language — a financial-infrastructure brand built on a deep navy ink, an electric indigo primary, and a recurring atmospheric gradient mesh that occupies the upper third of nearly every marketing page. The system pairs the proprietary Sohne family at thin (300) weights with negative letter-spacing for editorial-density display headlines, and uses tabular-figure body type where money and numerics matter. Buttons are tight-radius pills, cards live on near-white surfaces, and the dashboard track flips polarity to a familiar dark-app shell.",
       "styleKeywords": [
-        "支付",
-        "金融",
-        "支付API平台",
-        "极致精致开发者文档"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "支付",
-        "金融"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台",
-        "定价页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 Stripe / Stripe 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Stripe（stripe）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/stripe/design-md",
       "designFile": "data/design/stripe.md",
       "colors": [
@@ -26124,40 +26349,45 @@
       "nameZh": "Supabase",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "开源Firebase替代，渐变深色技术",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布打底、青绿作唯一强调的开发工具语言：无衬线标题配中字重，近直角，高信息密度。适合开发者官网与文档站。",
+      "positioningZh": "辨识度来自青绿的使用比例与无衬线标题的中字重；其余交给纯白画布与强对比。",
       "descriptionEn": "An inspired interpretation of Supabaze's design language — an open-source database platform built on a clean white-and-near-black system with a single signature emerald-green CTA, a custom humanist sans display tier, and dense product UI mockups composited above the hero. The brand reads as quietly technical: minimal chrome, a near-monochrome palette, and the green primary acting as the only chromatic event on the page.",
       "styleKeywords": [
-        "后端",
-        "开源",
-        "开源Firebase替代",
-        "渐变深色技术"
+        "青绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "后端",
-        "开源"
+        "纯白画布",
+        "青绿强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Supabase / Supabase 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Supabase（supabase）的视觉语言做一套中文界面：保留纯白画布、青绿强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/supabase/design-md",
       "designFile": "data/design/supabase.md",
       "colors": [
@@ -26494,39 +26724,45 @@
       "nameZh": "Superhuman",
       "category": "精选风格",
       "group": "reference",
-      "summaryZh": "极速邮件客户端，奢华高端定位",
-      "positioningZh": "适合做通用参考，先看预览再决定是否采纳。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住品牌页面。",
+      "positioningZh": "和同类精选风格相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of Superhumon's design language — a fast-email productivity brand split between an editorial dark hero (deep indigo navy with violet-sky atmospheric backdrop and a portrait subject) and a quiet white content body with off-warm-grey ink. The system uses a single proprietary variable display sans, heavy weight 460–540 with tight tracking, and a deep-teal closing CTA band that breaks the indigo/white rhythm with a warm dark interlude. Buttons are tight rounded rectangles, pricing is sober and dense, and the brand reads more like a high-end newsletter than a SaaS app.",
       "styleKeywords": [
-        "邮件",
-        "高端",
-        "极速邮件客户端",
-        "奢华高端定位"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "邮件",
-        "高端"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "落地页实验"
       ],
       "bestFor": [
         "产品官网",
         "品牌页面",
-        "界面参考"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "对行业规范要求很强的系统"
+        "复杂企业后台",
+        "多角色权限界面"
       ],
       "aiChecklist": [
-        "先看预览是否接近目标气质",
-        "按中文场景二次调整信息密度",
-        "不要直接全量照搬"
+        "保留一个记忆点即可，不要同时用三种装饰",
+        "排版节奏优先于插画",
+        "配色控制在主色加中性色"
       ],
-      "recommendedPromptZh": "参考 Superhuman / Superhuman 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Superhuman（superhuman）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/superhuman/design-md",
       "designFile": "data/design/superhuman.md",
       "colors": [
@@ -26808,40 +27044,45 @@
       "nameZh": "特斯拉",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "特斯拉官网，极简摄影驱动的科技产品展示气质",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：纯白画布、靛蓝点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住靛蓝的用量。",
       "descriptionEn": "",
       "styleKeywords": [
-        "汽车",
-        "科技",
-        "特斯拉官网",
-        "极简摄影驱动的科技产品展示气质"
+        "靛蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "汽车",
-        "科技"
+        "纯白画布",
+        "靛蓝强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 特斯拉 / Tesla 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-08",
+      "recommendedPromptZh": "参考 特斯拉（tesla）的视觉语言做一套中文界面：保留纯白画布、靛蓝强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/tesla/design-md",
       "designFile": "data/design/tesla.md",
       "colors": [
@@ -27124,42 +27365,45 @@
       "nameZh": "The Verge",
       "category": "内容平台",
       "group": "reference",
-      "summaryZh": "科技媒体。近黑编辑画布、酸性薄荷与紫色强调、杂志化高密度信息流。",
-      "positioningZh": "强调流动感、内容展示效率和活跃度，适合内容消费和社区产品。",
+      "summaryZh": "近黑画布打底、湖蓝作唯一强调的内容平台语言：无衬线标题配重字重，近直角，高信息密度。适合内容首页与栏目与信息流。",
+      "positioningZh": "辨识度来自湖蓝的使用比例与无衬线标题的重字重；其余交给近黑画布与强对比。",
       "descriptionEn": "",
       "styleKeywords": [
-        "近黑画布",
-        "酸性薄荷",
-        "紫色强调",
-        "高密度信息流"
+        "湖蓝强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "媒体",
-        "科技",
-        "内容",
-        "杂志"
+        "近黑画布",
+        "湖蓝强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "内容社区",
-        "推荐流页面",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "文章详情页"
       ],
       "bestFor": [
-        "内容社区",
-        "推荐流页面",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "表单密集型后台",
-        "高度理性的文档站"
+        "强表单后台",
+        "企业审批界面"
       ],
       "aiChecklist": [
-        "优先突出封面和内容卡片",
-        "降低单屏信息负担",
-        "避免全部模块同质化"
+        "标题层级清晰，正文行宽控制在 68ch 以内",
+        "图片与文字的比例固定，避免每屏一个样",
+        "强调色只用于分类标签与阅读态"
       ],
-      "recommendedPromptZh": "参考 The Verge / The Verge 的视觉语言，设计一个中文 内容社区，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 The Verge（theverge）的视觉语言做一套中文界面：保留近黑画布、湖蓝强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/theverge/design-md",
       "designFile": "data/design/theverge.md",
       "colors": [
@@ -27641,41 +27885,45 @@
       "nameZh": "Together AI",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI云平台，渐变深色开发者UI",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住模型能力介绍页。",
+      "positioningZh": "和同类AI 产品相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of Together AI's design language — an AI infrastructure platform whose surface alternates between near-black hero bands (with a three-color orange-magenta-periwinkle gradient as the single piece of brand chrome) and bright white research / pricing / docs bands, knit together by a custom display sans and an uppercase mono eyebrow face.",
       "styleKeywords": [
-        "AI",
-        "云",
-        "AI云平台",
-        "渐变深色开发者UI"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "云"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Together AI / Together AI 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Together AI（together.ai）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/together.ai/design-md",
       "designFile": "data/design/together.ai.md",
       "colors": [
@@ -27964,40 +28212,45 @@
       "nameZh": "Uber",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "出行巨头，精致黑白企业风格",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "一套克制的品牌官网方案：纯白画布、近黑点缀、无衬线重字重标题，近直角与高信息密度构成节奏，常用于品牌官网首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "An inspired interpretation of Uber's design language — a transportation-and-delivery super-app brand whose web surface is a black-and-white duet, framed by a custom geometric display sans, accented by a single signature pill shape (radius 999px) on every interactive element, and decorated only by editorial 4:3 illustrations of riders, drivers, and city objects.",
       "styleKeywords": [
-        "出行",
-        "企业",
-        "出行巨头",
-        "精致黑白企业风格"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "出行",
-        "企业"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 Uber / Uber 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Uber（uber）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/uber/design-md",
       "designFile": "data/design/uber.md",
       "colors": [
@@ -28271,40 +28524,45 @@
       "nameZh": "Vercel",
       "category": "开发工具",
       "group": "reference",
-      "summaryZh": "前端部署平台，极简深色开发者美学",
-      "positioningZh": "重视结构清晰、可读性和文档感，适合开发者和 B 端产品。",
+      "summaryZh": "纯白画布打底、近黑作唯一强调的开发工具语言：无衬线标题配中字重，近直角，高信息密度。适合开发者官网与文档站。",
+      "positioningZh": "辨识度来自近黑的使用比例与无衬线标题的中字重；其余交给纯白画布与柔和对比。",
       "descriptionEn": "An inspired interpretation of Vercel's design language — a developer-platform brand whose surface is a stark black-and-ink duet on near-white canvas, broken at hero scale by a multi-color mesh gradient (cyan / blue / magenta / amber) that acts as the entire decorative system, paired with a custom geometric sans for headlines and a monospaced caption face for technical labels.",
       "styleKeywords": [
-        "部署",
-        "前端",
-        "前端部署平台",
-        "极简深色开发者美学"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "部署",
-        "前端"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "代码示例与 API 页"
       ],
       "bestFor": [
         "开发者官网",
         "文档站",
-        "控制台后台"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强娱乐化内容页",
-        "情绪导向的品牌叙事页"
+        "重营销大图页",
+        "儿童化插画风格"
       ],
       "aiChecklist": [
-        "保证标题层级明确",
-        "让按钮和代码区块保持克制",
-        "优先确保信息扫描效率"
+        "代码块用等宽字体并给出真实示例",
+        "导航保留文档层级与搜索入口",
+        "强调色只用于链接、选中态与复制按钮"
       ],
-      "recommendedPromptZh": "参考 Vercel / Vercel 的视觉语言，设计一个中文 开发者官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Vercel（vercel）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/vercel/design-md",
       "designFile": "data/design/vercel.md",
       "colors": [
@@ -28714,42 +28972,45 @@
       "nameZh": "沃达丰",
       "category": "品牌官网",
       "group": "reference",
-      "summaryZh": "全球电信品牌。沃达丰红 CTA、巨大大写标题、影像分段叙事。",
-      "positioningZh": "强调品牌气质、节奏和视觉记忆点，更适合营销和叙事表达。",
+      "summaryZh": "纯白画布 + 红单点强调，无衬线标题重字重拉出层级，近直角配合高信息密度；做品牌官网首页时落地门槛低，也扛得住营销落地页。",
+      "positioningZh": "和同类品牌官网相比，它更依赖高信息密度和近直角，而不是堆装饰；红只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of Vodafone's design language — a telecom super-brand whose web surface alternates between editorial photography hero bands with massive uppercase display headlines and clean white content bands, anchored by the company's signature scarlet red CTA and the proprietary Vodafone display sans set at impossibly heavy 800 weight.",
       "styleKeywords": [
-        "Vodafone Red",
-        "大写标题",
-        "影像分段",
-        "企业品牌"
+        "红强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "电信",
-        "品牌",
-        "红色",
-        "企业"
+        "纯白画布",
+        "红强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "产品详情页"
       ],
       "bestFor": [
-        "品牌官网",
+        "品牌官网首页",
         "营销落地页",
-        "企业介绍页"
+        "浅色内容页"
       ],
       "avoidFor": [
-        "复杂运维后台",
-        "高密度列表管理页"
+        "强表格化后台",
+        "高密度数据看板"
       ],
       "aiChecklist": [
-        "强化首屏和大标题表现",
-        "控制信息数量",
-        "让留白和图片承担更多表达"
+        "首屏只留一个主张与一个主 CTA",
+        "用图片与留白做节奏，不靠彩色分区",
+        "标题字距按品牌负值收紧，正文保持可读"
       ],
-      "recommendedPromptZh": "参考 沃达丰 / Vodafone 的视觉语言，设计一个中文 品牌官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 沃达丰（vodafone）的视觉语言做一套中文界面：保留纯白画布、红强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/vodafone/design-md",
       "designFile": "data/design/vodafone.md",
       "colors": [
@@ -29031,45 +29292,49 @@
     },
     {
       "slug": "voltagent",
-      "displayName": "VoltAgent",
+      "displayName": "Voltagent",
       "nameZh": "VoltAgent",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "VoltAgent自家官网，极简技术感",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "一套克制的AI 产品方案：纯白画布、青绿点缀、无衬线轻字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住青绿的用量。",
       "descriptionEn": "An inspired interpretation of Voltagent's design language — a developer-focused AI agent engineering platform whose surface is an unrelenting near-black canvas broken only by a single electric-green brand accent, code-editor mockups inside the hero, and a precise grid of dark feature cards that read like a documentation site dressed as marketing.",
       "styleKeywords": [
-        "AI",
-        "Agent",
-        "VoltAgent自家官网",
-        "极简技术感"
+        "青绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "AI",
-        "Agent"
+        "纯白画布",
+        "青绿强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 VoltAgent / VoltAgent 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 VoltAgent（voltagent）的视觉语言做一套中文界面：保留纯白画布、青绿强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/voltagent/design-md",
       "designFile": "data/design/voltagent.md",
       "colors": [
@@ -29388,41 +29653,45 @@
       "nameZh": "Warp",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI终端应用，现代终端美学",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "近黑画布打底、琥珀黄作唯一强调的AI 产品语言：无衬线标题配轻字重，近直角，高信息密度。适合产品官网与模型能力介绍页。",
+      "positioningZh": "辨识度来自琥珀黄的使用比例与无衬线标题的轻字重；其余交给近黑画布与强对比。",
       "descriptionEn": "An inspired interpretation of Warp's design language — an agentic terminal-and-development-environment brand whose surface is a warm near-charcoal canvas (a tint warmer than pure black), broken only by clean Inter typography, the occasional Instrument Serif italic moment, and dense terminal-mockup imagery; CTAs are unusually understated, with shape geometry running tighter than most marketing sites.",
       "styleKeywords": [
-        "终端",
-        "AI",
-        "AI终端应用",
-        "现代终端美学"
+        "琥珀黄强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "终端",
-        "AI"
+        "近黑画布",
+        "琥珀黄强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 Warp / Warp 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Warp（warp）的视觉语言做一套中文界面：保留近黑画布、琥珀黄强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/warp/design-md",
       "designFile": "data/design/warp.md",
       "colors": [
@@ -29703,41 +29972,45 @@
       "nameZh": "Webflow",
       "category": "内容与建站",
       "group": "reference",
-      "summaryZh": "无代码建站，清晰蓝色教学风格",
-      "positioningZh": "强调模块化展示和模板感，适合展示产品能力、模板和编辑体验。",
+      "summaryZh": "纯白画布 + 近黑单点强调，无衬线标题中字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住模板与案例市场。",
+      "positioningZh": "和同类内容与建站相比，它更依赖高信息密度和近直角，而不是堆装饰；近黑只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of Webflow's design language — a visual web development platform whose surface contrasts a deep near-black `#080808` primary against a generous white canvas, broken by a five-stop chromatic accent system (purple / pink / blue / orange / green) that maps to the brand's product categories, and anchored by the proprietary WF Visual Sans family used at restrained 500 / 600 weights with negative tracking.",
       "styleKeywords": [
-        "建站",
-        "无代码",
-        "无代码建站",
-        "清晰蓝色教学风格"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "建站",
-        "无代码"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
         "产品官网",
-        "模板市场",
-        "编辑器界面"
+        "模板与案例市场",
+        "编辑与预览页"
       ],
       "bestFor": [
         "产品官网",
-        "模板市场",
-        "编辑器界面",
-        "建站工具官网"
+        "模板与案例市场",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "金融级数据台",
-        "过于严肃的企业门户"
+        "重资产后台",
+        "强表格化报表页"
       ],
       "aiChecklist": [
-        "让案例和模板展示更直观",
-        "保留适度视觉变化",
-        "避免区块密度过高"
+        "模板卡片的预览比例统一",
+        "首屏给出一键开始，不铺垫长文案",
+        "深浅主题切换时保持同一套层级"
       ],
-      "recommendedPromptZh": "参考 Webflow / Webflow 的视觉语言，设计一个中文 产品官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Webflow（webflow）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/webflow/design-md",
       "designFile": "data/design/webflow.md",
       "colors": [
@@ -30062,43 +30335,45 @@
       "nameZh": "WIRED",
       "category": "内容平台",
       "group": "reference",
-      "summaryZh": "科技杂志。纸白编辑版式、黑色字标、窄高衬线标题与高密度文章排版。",
-      "positioningZh": "强调流动感、内容展示效率和活跃度，适合内容消费和社区产品。",
+      "summaryZh": "一套克制的内容平台方案：纯白画布、近黑点缀、无衬线轻字重标题，近直角与高信息密度构成节奏，常用于内容首页。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住近黑的用量。",
       "descriptionEn": "An inspired interpretation of Wired's design language — a flagship technology-magazine brand whose surface is a strict editorial duet of stark black wordmark on white canvas, anchored by a tall narrow custom display serif for hero headlines, a humanist serif body face for long-form reading, and a clean sans face for metadata; layout reads like a printed magazine ported to the web with very little marketing chrome.",
       "styleKeywords": [
-        "纸白画布",
-        "编辑版式",
-        "窄高衬线",
-        "高密度排版"
+        "近黑强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "媒体",
-        "杂志",
-        "科技",
-        "内容"
+        "纯白画布",
+        "近黑强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "内容社区",
-        "推荐流页面",
+        "内容首页",
+        "栏目与信息流",
         "文章详情页"
       ],
       "bestFor": [
-        "内容社区",
-        "推荐流页面",
-        "文章详情页",
-        "活动专题页"
+        "内容首页",
+        "栏目与信息流",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "表单密集型后台",
-        "高度理性的文档站"
+        "强表单后台",
+        "企业审批界面"
       ],
       "aiChecklist": [
-        "优先突出封面和内容卡片",
-        "降低单屏信息负担",
-        "避免全部模块同质化"
+        "标题层级清晰，正文行宽控制在 68ch 以内",
+        "图片与文字的比例固定，避免每屏一个样",
+        "强调色只用于分类标签与阅读态"
       ],
-      "recommendedPromptZh": "参考 WIRED / WIRED 的视觉语言，设计一个中文 内容社区，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-05-20",
+      "recommendedPromptZh": "参考 WIRED（wired）的视觉语言做一套中文界面：保留纯白画布、近黑强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/wired/design-md",
       "designFile": "data/design/wired.md",
       "colors": [
@@ -30350,41 +30625,45 @@
       "nameZh": "Wise",
       "category": "金融科技",
       "group": "reference",
-      "summaryZh": "国际汇款平台，简洁透明金融UI",
-      "positioningZh": "强调专业、可信和精致的信息表达，适合价格、数据和支付流程较多的页面。",
+      "summaryZh": "纯白画布打底、草绿作唯一强调的金融科技语言：无衬线标题配重字重，近直角，高信息密度。适合产品官网与定价与费率页。",
+      "positioningZh": "辨识度来自草绿的使用比例与无衬线标题的重字重；其余交给纯白画布与柔和对比。",
       "descriptionEn": "An inspired interpretation of Wise's design language — a global money-transfer brand whose surface combines an unusually heavy near-black display sans (weight 900 at 64–126 px) with a vivid lime-green brand accent, sage-tinted surface neutrals, and rounded white cards on a pale green-tinted canvas; the whole system reads more like a Scandinavian fintech magazine than a bank.",
       "styleKeywords": [
-        "金融",
-        "汇款",
-        "国际汇款平台",
-        "简洁透明金融UI"
+        "草绿强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "金融",
-        "汇款"
+        "纯白画布",
+        "草绿强调",
+        "无衬线标题",
+        "重字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台"
+        "产品官网",
+        "定价与费率页",
+        "行情与控制台外壳"
       ],
       "bestFor": [
-        "官网落地页",
-        "支付产品页",
-        "数据控制台",
-        "定价页"
+        "产品官网",
+        "定价与费率页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "轻社交内容页",
-        "卡通化活动页"
+        "社交化营销页",
+        "游戏化抽奖页"
       ],
       "aiChecklist": [
-        "强化数据和价格的对齐感",
-        "避免装饰元素影响可信度",
-        "CTA 要明确且节制"
+        "数字使用等宽或表格数字，右对齐",
+        "强调色只给主 CTA 与关键指标",
+        "深色界面下描边与次级文字要重新算对比"
       ],
-      "recommendedPromptZh": "参考 Wise / Wise 的视觉语言，设计一个中文 官网落地页，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Wise（wise）的视觉语言做一套中文界面：保留纯白画布、草绿强调、无衬线重字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/wise/design-md",
       "designFile": "data/design/wise.md",
       "colors": [
@@ -30721,41 +31000,45 @@
       "nameZh": "xAI",
       "category": "AI 产品",
       "group": "reference",
-      "summaryZh": "AI日程助手，简洁任务管理",
-      "positioningZh": "强调前沿感、速度感和产品未来感，适合把能力和差异点讲清楚。",
+      "summaryZh": "近黑画布 + 橙单点强调，无衬线标题轻字重拉出层级，近直角配合高信息密度；做产品官网时落地门槛低，也扛得住模型能力介绍页。",
+      "positioningZh": "和同类AI 产品相比，它更依赖高信息密度和近直角，而不是堆装饰；橙只出现在要你看的地方。",
       "descriptionEn": "An inspired interpretation of xAI's design language — Elon Musk's frontier-AI company whose web surface is a strict near-black canvas broken only by white pill outlines, occasional warm sunset / dusk gradient accents, a custom geometric sans (Universal Sans) for display, and an uppercase tracked monospace caption face; the whole system reads as engineered-cosmic, unmarketed.",
       "styleKeywords": [
-        "AI",
-        "日程",
-        "AI日程助手",
-        "简洁任务管理"
+        "橙强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "深色底"
       ],
       "tagsZh": [
-        "AI",
-        "日程"
+        "近黑画布",
+        "橙强调",
+        "无衬线标题",
+        "轻字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页"
+        "产品官网",
+        "模型能力介绍页",
+        "开发者文档入口"
       ],
       "bestFor": [
-        "AI 工具官网",
-        "模型平台",
-        "功能介绍页",
-        "模型能力介绍"
+        "产品官网",
+        "模型能力介绍页",
+        "深色产品界面"
       ],
       "avoidFor": [
-        "强表格化后台",
-        "政企风审批系统"
+        "重型企业后台",
+        "强表格化审批界面"
       ],
       "aiChecklist": [
-        "突出核心能力和模型价值",
-        "让功能区块清晰分组",
-        "避免页面装饰压过信息层级"
+        "首屏讲清能做什么，而不是罗列参数",
+        "能力区块用同一套卡片节奏，不堆渐变",
+        "交互示例优先于大段说明文字"
       ],
-      "recommendedPromptZh": "参考 xAI / xAI 的视觉语言，设计一个中文 AI 工具官网，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 xAI（x.ai）的视觉语言做一套中文界面：保留近黑画布、橙强调、无衬线轻字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/x.ai/design-md",
       "designFile": "data/design/x.ai.md",
       "colors": [
@@ -31031,41 +31314,45 @@
       "nameZh": "Zapier",
       "category": "效率协作",
       "group": "reference",
-      "summaryZh": "自动化平台，经典蓝白效率工具",
-      "positioningZh": "强调秩序感、工作流和信息组织，适合 SaaS 和工作台场景。",
+      "summaryZh": "一套克制的效率协作方案：纯白画布、橙点缀、无衬线中字重标题，近直角与高信息密度构成节奏，常用于产品官网。",
+      "positioningZh": "骨架是强对比加无衬线标题，近直角收口；改动时先守住橙的用量。",
       "descriptionEn": "An inspired interpretation of Zapier's design language — a workflow-automation platform whose surface combines warm-cream neutrals (`#fffefb` canvas, `#f8f4f0` soft cream) with deep coffee ink (`#201515`) and a single saturated orange CTA accent (`#ff4f00`); typography pairs the proprietary Degular Display family at hero scale with Inter for sub-displays and body, giving the brand a confident-warm rather than cool-tech voice.",
       "styleKeywords": [
-        "自动化",
-        "效率",
-        "自动化平台",
-        "经典蓝白效率工具"
+        "橙强调",
+        "无衬线标题",
+        "近直角",
+        "高信息密度",
+        "浅色底"
       ],
       "tagsZh": [
-        "自动化",
-        "效率"
+        "纯白画布",
+        "橙强调",
+        "无衬线标题",
+        "中字重",
+        "近直角",
+        "高信息密度"
       ],
       "useCases": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页"
+        "产品官网",
+        "功能与工作流页",
+        "控制台外壳"
       ],
       "bestFor": [
-        "SaaS 后台",
-        "工作台",
-        "产品介绍页",
-        "工作台首页"
+        "产品官网",
+        "功能与工作流页",
+        "浅色内容页"
       ],
       "avoidFor": [
-        "纯品牌大片式营销页",
-        "重情绪化视觉实验页面"
+        "强装饰性海报页",
+        "高饱和游戏化界面"
       ],
       "aiChecklist": [
-        "重视内容块编排",
-        "表单和列表要易扫读",
-        "中文标题长度要控制在稳妥范围"
+        "信息密度优先，卡片间距保持稳定节奏",
+        "图标与文字同级，不抢主标",
+        "空状态与加载态一并设计"
       ],
-      "recommendedPromptZh": "参考 Zapier / Zapier 的视觉语言，设计一个中文 SaaS 后台，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。",
-      "updatedAt": "2026-04-07",
+      "recommendedPromptZh": "参考 Zapier（zapier）的视觉语言做一套中文界面：保留纯白画布、橙强调、无衬线中字重标题与近直角；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。",
+      "updatedAt": "",
       "sourceUrl": "https://getdesign.md/zapier/design-md",
       "designFile": "data/design/zapier.md",
       "colors": [

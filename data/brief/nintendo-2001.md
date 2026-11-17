@@ -1,4 +1,4 @@
-# Nintendo.com (2001) · Nintendo 2001
+# Nintendo 2001 · Nintendo 2001
 
 Nintendo.com circa 2001 is the web rendered as console hardware. Where most sites of the era reached for either grunge texture or corporate gradients, this interface builds itself out of brushed-periwinkle metal plates — every region is a discrete beveled panel, edge-lit with a brighter highlight on top and a `#3d4f97` shadow line beneath, as if stamped from the same injection-molded plastic…
 

@@ -656,6 +656,139 @@ function buildBrief(style, markdown) {
   return `${plain.trim()}\n`;
 }
 
+/* ------------------------------------------------------- 中文文案生成（自建） */
+
+const CATS = {
+  '品牌官网': {
+    use: ['品牌官网首页', '营销落地页', '产品详情页'],
+    avoid: ['强表格化后台', '高密度数据看板'],
+    check: ['首屏只留一个主张与一个主 CTA', '用图片与留白做节奏，不靠彩色分区', '标题字距按品牌负值收紧，正文保持可读'],
+  },
+  'AI 产品': {
+    use: ['产品官网', '模型能力介绍页', '开发者文档入口'],
+    avoid: ['重型企业后台', '强表格化审批界面'],
+    check: ['首屏讲清能做什么，而不是罗列参数', '能力区块用同一套卡片节奏，不堆渐变', '交互示例优先于大段说明文字'],
+  },
+  '开发工具': {
+    use: ['开发者官网', '文档站', '代码示例与 API 页'],
+    avoid: ['重营销大图页', '儿童化插画风格'],
+    check: ['代码块用等宽字体并给出真实示例', '导航保留文档层级与搜索入口', '强调色只用于链接、选中态与复制按钮'],
+  },
+  '金融科技': {
+    use: ['产品官网', '定价与费率页', '行情与控制台外壳'],
+    avoid: ['社交化营销页', '游戏化抽奖页'],
+    check: ['数字使用等宽或表格数字，右对齐', '强调色只给主 CTA 与关键指标', '深色界面下描边与次级文字要重新算对比'],
+  },
+  '效率协作': {
+    use: ['产品官网', '功能与工作流页', '控制台外壳'],
+    avoid: ['强装饰性海报页', '高饱和游戏化界面'],
+    check: ['信息密度优先，卡片间距保持稳定节奏', '图标与文字同级，不抢主标', '空状态与加载态一并设计'],
+  },
+  '内容平台': {
+    use: ['内容首页', '栏目与信息流', '文章详情页'],
+    avoid: ['强表单后台', '企业审批界面'],
+    check: ['标题层级清晰，正文行宽控制在 68ch 以内', '图片与文字的比例固定，避免每屏一个样', '强调色只用于分类标签与阅读态'],
+  },
+  '内容与建站': {
+    use: ['产品官网', '模板与案例市场', '编辑与预览页'],
+    avoid: ['重资产后台', '强表格化报表页'],
+    check: ['模板卡片的预览比例统一', '首屏给出一键开始，不铺垫长文案', '深浅主题切换时保持同一套层级'],
+  },
+  '精选风格': {
+    use: ['产品官网', '品牌页面', '落地页实验'],
+    avoid: ['复杂企业后台', '多角色权限界面'],
+    check: ['保留一个记忆点即可，不要同时用三种装饰', '排版节奏优先于插画', '配色控制在主色加中性色'],
+  },
+};
+
+const hueLabel = (hex) => {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || ''));
+  if (!m) return '中性色';
+  const n = parseInt(m[1], 16);
+  const r = ((n >> 16) & 255) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  const d = max - min;
+  const s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+  if (l < 0.16) return '近黑';
+  if (s < 0.14) return '中性灰';
+  let h = 0;
+  if (max === r) h = 60 * (((g - b) / d) % 6);
+  else if (max === g) h = 60 * ((b - r) / d + 2);
+  else h = 60 * ((r - g) / d + 4);
+  if (h < 0) h += 360;
+  if (h < 18 || h >= 345) return '红';
+  if (h < 42) return '橙';
+  if (h < 62) return '琥珀黄';
+  if (h < 88) return '柠檬黄';
+  if (h < 148) return '草绿';
+  if (h < 188) return '青绿';
+  if (h < 214) return '湖蓝';
+  if (h < 248) return '靛蓝';
+  if (h < 284) return '紫罗兰';
+  if (h < 318) return '洋红';
+  return '玫红';
+};
+
+const DISPLAY_EX = {
+  'x.ai': 'xAI', 'opencode.ai': 'OpenCode', 'together.ai': 'Together AI', 'mistral.ai': 'Mistral',
+  'linear.app': 'Linear', 'bmw-m': 'BMW M', 'dell-1996': 'Dell 1996', 'nintendo-2001': 'Nintendo 2001',
+  'theverge': 'The Verge', 'wired': 'WIRED', 'mongodb': 'MongoDB', 'nerdwallet': 'NerdWallet',
+  'aljazeera': 'Al Jazeera', 'elevenlabs': 'ElevenLabs', 'minimax': 'MiniMax', 'hashicorp': 'HashiCorp',
+  'posthog': 'PostHog', 'clickhouse': 'ClickHouse', 'ibm': 'IBM', 'hp': 'HP', 'sap': 'SAP', 'dji': 'DJI',
+  'nvidia': 'NVIDIA', 'runwayml': 'Runway', '1win': '1win',
+};
+
+const displayOf = (slug) => DISPLAY_EX[slug] ||
+  slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+let LEX = { names: {}, categories: {} };
+
+function zhMeta({ slug, displayName, visual, index }) {
+  const category = LEX.categories[slug] || '精选风格';
+  const nameZh = LEX.names[slug] || displayName;
+  const preset = CATS[category] || CATS['精选风格'];
+
+  const dark = Boolean(visual.darkFirst);
+  const canvasTone = dark ? '近黑画布' : relLum(visual.canvas) > 0.93 ? '纯白画布' : '浅灰画布';
+  const accent = hueLabel(visual.accent);
+  const fontTone = visual.fontClass === 'serif' ? '衬线' : visual.fontClass === 'mono' ? '等宽' : '无衬线';
+  const weightTone = visual.displayWeight >= 700 ? '重字重' : visual.displayWeight <= 400 ? '轻字重' : '中字重';
+  const radiusTone = visual.radiusCard >= 20 ? '大圆角' : visual.radiusCard >= 8 ? '中等圆角' : '近直角';
+  const densityTone = visual.spaceBase <= 8 ? '高信息密度' : '留白舒展';
+  const contrastTone = contrastRatio(visual.ink, visual.canvas) >= 12 ? '强对比' : '柔和对比';
+
+  const [use0, use1] = preset.use;
+  const summaries = [
+    `${canvasTone}打底、${accent}作唯一强调的${category}语言：${fontTone}标题配${weightTone}，${radiusTone}，${densityTone}。适合${use0}与${use1}。`,
+    `${canvasTone} + ${accent}单点强调，${fontTone}标题${weightTone}拉出层级，${radiusTone}配合${densityTone}；做${use0}时落地门槛低，也扛得住${use1}。`,
+    `一套克制的${category}方案：${canvasTone}、${accent}点缀、${fontTone}${weightTone}标题，${radiusTone}与${densityTone}构成节奏，常用于${use0}。`,
+  ];
+  const positionings = [
+    `辨识度来自${accent}的使用比例与${fontTone}标题的${weightTone}；其余交给${canvasTone}与${contrastTone}。`,
+    `和同类${category}相比，它更依赖${densityTone}和${radiusTone}，而不是堆装饰；${accent}只出现在要你看的地方。`,
+    `骨架是${contrastTone}加${fontTone}标题，${radiusTone}收口；改动时先守住${accent}的用量。`,
+  ];
+
+  const tagsZh = [...new Set([
+    canvasTone, `${accent}强调`, `${fontTone}标题`, weightTone, radiusTone, densityTone,
+  ])].slice(0, 6);
+
+  return {
+    nameZh,
+    category,
+    summaryZh: summaries[index % summaries.length],
+    positioningZh: positionings[index % positionings.length],
+    styleKeywords: [`${accent}强调`, `${fontTone}标题`, radiusTone, densityTone, dark ? '深色底' : '浅色底'].slice(0, 5),
+    tagsZh,
+    useCases: preset.use,
+    bestFor: [use0, use1, dark ? '深色产品界面' : '浅色内容页'],
+    avoidFor: preset.avoid,
+    aiChecklist: preset.check,
+    recommendedPromptZh: `参考 ${nameZh}（${slug}）的视觉语言做一套中文界面：保留${canvasTone}、${accent}强调、${fontTone}${weightTone}标题与${radiusTone}；把标题长度、正文行高和信息密度调整到适合中文阅读，不要引入未列出的颜色。`,
+  };
+}
+
 /* ------------------------------------------------------------------- main */
 
 const readJson = async (file) => JSON.parse(await fs.readFile(file, 'utf8'));
@@ -664,8 +797,7 @@ const exists = async (file) => fs.access(file).then(() => true, () => false);
 async function main() {
   const extra = await readJson(path.join(here, 'extra-metadata.json'));
   const overrides = await readJson(path.join(here, 'overrides.json'));
-  const cnRecords = await readJson(path.join(CN_ROOT, 'data/designs.json'));
-  const cnBySlug = new Map(cnRecords.map((r) => [r.slug, r]));
+  LEX = await readJson(path.join(here, 'zh-lexicon.json'));
 
   const slugs = (await fs.readdir(MAIN_ROOT, { withFileTypes: true }))
     .filter((d) => d.isDirectory() && !d.name.startsWith('.'))
@@ -676,6 +808,7 @@ async function main() {
   await fs.mkdir(path.join(OUT_DATA, 'brief'), { recursive: true });
 
   const styles = [];
+  const zhStyles = styles;
   const missing = [];
 
   for (const slug of slugs) {
@@ -696,36 +829,29 @@ async function main() {
       : Object.entries(mdTokens.spacing).map(([name, value]) => ({ name, value }));
     const visual = buildVisual({ colors, typography, radius, spacing, hints: overrides[slug] || {} });
 
-    const cn = cnBySlug.get(slug);
-    const local = extra[slug];
-    const meta = cn || local;
-    if (!meta) { missing.push(`${slug} (no metadata)`); continue; }
-
-    const displayName = meta.displayName || slug;
-    const nameZh = meta.nameZh || displayName;
-    const useCases = meta.useCases?.length ? meta.useCases : ['产品官网', '品牌页面', '界面参考'];
-    const recommended = meta.recommendedPromptZh ||
-      `参考 ${nameZh} / ${displayName} 的视觉语言，设计一个中文 ${useCases[0]}，保留其配色、字重层级、卡片样式和留白节奏，同时把标题长度、正文排版和信息密度调整为适合中文阅读的形式。`;
+    const local = extra[slug] || null;
+    const displayName = local?.displayName || displayOf(slug);
+    const zh = zhMeta({ slug, displayName, visual, index: zhStyles.length });
 
     await fs.writeFile(path.join(OUT_DESIGN, `${slug}.md`), markdown, 'utf8');
 
     const style = {
       slug,
       displayName,
-      nameZh,
-      category: meta.category || '精选风格',
-      group: meta.group || 'reference',
-      summaryZh: meta.summaryZh || '',
-      positioningZh: meta.positioningZh || meta.summaryZh || '',
+      nameZh: local?.nameZh || zh.nameZh,
+      category: local?.category || zh.category,
+      group: 'reference',
+      summaryZh: local?.summaryZh || zh.summaryZh,
+      positioningZh: local?.positioningZh || zh.positioningZh,
       descriptionEn: String(data.description || '').trim(),
-      styleKeywords: meta.styleKeywords || [],
-      tagsZh: meta.tagsZh || [],
-      useCases,
-      bestFor: meta.bestFor || useCases,
-      avoidFor: meta.avoidFor || [],
-      aiChecklist: meta.aiChecklist || [],
-      recommendedPromptZh: recommended,
-      updatedAt: meta.updatedAt || '',
+      styleKeywords: local?.styleKeywords || zh.styleKeywords,
+      tagsZh: local?.tagsZh || zh.tagsZh,
+      useCases: local?.useCases || zh.useCases,
+      bestFor: local?.bestFor || zh.bestFor,
+      avoidFor: local?.avoidFor || zh.avoidFor,
+      aiChecklist: local?.aiChecklist || zh.aiChecklist,
+      recommendedPromptZh: local?.recommendedPromptZh || zh.recommendedPromptZh,
+      updatedAt: '',
       sourceUrl: `https://getdesign.md/${slug}/design-md`,
       designFile: `data/design/${slug}.md`,
       colors,
@@ -747,7 +873,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     source: {
       main: 'awesome-design-md-main/design-md',
-      cn: 'awesome-design-md-cn',
+      license: 'MIT © 2026 VoltAgent — see THIRD-PARTY-NOTICES.md',
       count: styles.length,
     },
     styles,
@@ -755,10 +881,9 @@ async function main() {
 
   await fs.writeFile(path.join(OUT_DATA, 'catalog.json'), `${JSON.stringify(catalog, null, 2)}\n`, 'utf8');
 
-  const cnOnly = cnRecords.filter((r) => r.group === 'custom').map((r) => r.slug);
   console.log(`styles: ${styles.length}`);
   console.log(`skipped: ${missing.length ? missing.join(', ') : 'none'}`);
-  console.log(`cn custom (not part of the 84): ${cnOnly.join(', ') || 'none'}`);
+  console.log('zh copy: generated from tokens (no third-party Chinese text)');
   console.log(`color tokens: ${styles.reduce((n, s) => n + s.colors.length, 0)}, type steps: ${styles.reduce((n, s) => n + s.typography.length, 0)}`);
   const noAccent = styles.filter((s) => s.visual.accent === '#3b5bdb').map((s) => s.slug);
   console.log(`fallback accent: ${noAccent.length ? noAccent.join(', ') : 'none'}`);
