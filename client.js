@@ -351,7 +351,7 @@ window.__ModuleLoader__.load({
 
       const sectionHead = (index, en, zh) => `
         <div style="display:flex;align-items:baseline;gap:${U(10)};margin-bottom:${U(22)}">
-          <span style="font-size:${U(10)};line-height:${1};font-family:${mono};letter-spacing:.18em;text-transform:uppercase;color:${th.muted}">${String(index).padStart(2, '0')} / ${en}</span>
+          <span style="font-size:${U(13)};line-height:${1};font-family:${mono};letter-spacing:.16em;text-transform:uppercase;color:${th.muted}">${String(index).padStart(2, '0')} / ${en}</span>
         </div>
         <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${U(22)};line-height:1.25;letter-spacing:${U(-0.4)};color:${th.ink};margin-bottom:${U(26)}">${zh}</div>`
 
@@ -365,8 +365,8 @@ window.__ModuleLoader__.load({
         <div style="border:1px solid ${th.line};border-radius:${U(16)};overflow:hidden;background:${th.bg}">
           <div style="height:${U(54)};background:${c.hex}"></div>
           <div style="padding:${U(10)} ${U(12)}">
-            <div style="font-size:${U(9.5)};line-height:${1.3};font-family:${mono};color:${th.ink}">${esc(c.name || 'token')}</div>
-            <div style="font-size:${U(8.5)};line-height:${1.3};font-family:${mono};color:${th.muted}">${esc(c.hex)}</div>
+            <div style="font-size:${U(13)};line-height:${1.35};font-family:${mono};color:${th.ink}">${esc(c.name || 'token')}</div>
+            <div style="font-size:${U(11.5)};line-height:${1.35};font-family:${mono};color:${th.muted}">${esc(c.hex)}</div>
           </div>
         </div>`).join('')
 
@@ -379,35 +379,35 @@ window.__ModuleLoader__.load({
         const family = s.token && /mono|code|num/i.test(s.token) ? mono : display
         return `
           <div style="display:flex;align-items:center;gap:${U(16)};padding:${U(11)} 0;border-bottom:1px solid ${th.line}">
-            <span style="flex:none;width:${U(22)};font-size:${U(11)};line-height:1;font-family:${display};color:${th.muted}">Aa</span>
+            <span style="flex:none;width:${U(26)};font-size:${U(13.5)};line-height:1;font-family:${display};color:${th.muted}">Aa</span>
             <span style="flex:1;min-width:0;font-family:${family};font-weight:${weight};letter-spacing:${U(ls)};font-size:${U(scaled)};line-height:${lh};color:${th.ink};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t('typeSample'))}</span>
-            <span style="flex:none;max-width:${U(132)};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted};text-align:right">${s.token || `step-${i + 1}`} · ${Math.round(size)}/${weight}/${lh.toFixed(2)}</span>
+            <span style="flex:none;max-width:${U(176)};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:${U(11.5)};line-height:1.45;font-family:${mono};color:${th.muted};text-align:right">${s.token || `step-${i + 1}`} · ${Math.round(size)}/${weight}/${lh.toFixed(2)}</span>
           </div>`
       }).join('')
 
       const buttons = `
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:${U(10)}">
-          <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(9)} ${U(16)};font-size:${U(11)};line-height:1.2;font-weight:600;font-family:${body}">${esc(t('demoBtn'))}</span>
-          <span style="background:${th.ink};color:${th.bg};border-radius:${rBtn};padding:${U(9)} ${U(16)};font-size:${U(11)};line-height:1.2;font-weight:600;font-family:${body}">${esc(t('demoBtn2'))}</span>
-          <span style="border:1px solid ${th.ink};color:${th.ink};border-radius:${rBtn};padding:${U(9)} ${U(16)};font-size:${U(11)};line-height:1.2;font-weight:500;font-family:${body}">${esc(t('demoBtn3'))}</span>
-          <span style="border:1px solid ${th.line};color:${th.muted};border-radius:${rPill};padding:${U(7)} ${U(12)};font-size:${U(10)};line-height:1.2;font-weight:500;font-family:${body}">pill</span>
+          <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(11)} ${U(20)};font-size:${U(13)};line-height:1.2;font-weight:600;font-family:${body}">${esc(t('demoBtn'))}</span>
+          <span style="background:${th.ink};color:${th.bg};border-radius:${rBtn};padding:${U(11)} ${U(20)};font-size:${U(13)};line-height:1.2;font-weight:600;font-family:${body}">${esc(t('demoBtn2'))}</span>
+          <span style="border:1px solid ${th.ink};color:${th.ink};border-radius:${rBtn};padding:${U(11)} ${U(20)};font-size:${U(13)};line-height:1.2;font-weight:500;font-family:${body}">${esc(t('demoBtn3'))}</span>
+          <span style="border:1px solid ${th.line};color:${th.muted};border-radius:${rPill};padding:${U(9)} ${U(16)};font-size:${U(12)};line-height:1.2;font-weight:500;font-family:${body}">pill</span>
         </div>`
 
       const cards = d.cards.map((label, i) => `
         <div style="border:1px solid ${th.line};border-radius:${rCard};overflow:hidden;background:${th.bg}">
           <div style="height:${U(70)};background:linear-gradient(135deg, ${th.accent}, ${th.surface})"></div>
           <div style="padding:${U(14)} ${U(16)} ${U(18)}">
-            <div style="font-size:${U(11)};line-height:1.3;font-weight:600;font-family:${body};color:${th.ink}">${esc(label)}</div>
-            <div style="margin-top:${U(4)};font-size:${U(9)};line-height:1.5;font-family:${body};color:${th.muted}">${esc(t('cardBody'))}</div>
+            <div style="font-size:${U(14)};line-height:1.35;font-weight:600;font-family:${body};color:${th.ink}">${esc(label)}</div>
+            <div style="margin-top:${U(6)};font-size:${U(12.5)};line-height:1.55;font-family:${body};color:${th.muted}">${esc(t('cardBody'))}</div>
           </div>
         </div>`).join('')
 
       const forms = `
         <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:${U(10)}">
-          <div style="border:1px solid ${th.line};border-radius:${rBtn};padding:${U(9)} ${U(11)};font-size:${U(10)};line-height:1.3;font-family:${body};color:${th.muted}">name@example.com</div>
-          <div style="border:1px solid ${th.line};border-radius:${rBtn};padding:${U(9)} ${U(11)};font-size:${U(10)};line-height:1.3;font-family:${body};color:${th.muted};display:flex;justify-content:space-between">Select an option <span>▾</span></div>
-          <div style="grid-column:1/-1;border:1px solid ${th.line};border-radius:${rBtn};padding:${U(10)} ${U(11)};font-size:${U(10)};line-height:1.5;font-family:${body};color:${th.muted};min-height:${U(46)}">Multi-line message…</div>
-          <label style="grid-column:1/-1;display:flex;align-items:center;gap:${U(7)};font-size:${U(9.5)};line-height:1.3;font-family:${body};color:${th.muted}">
+          <div style="border:1px solid ${th.line};border-radius:${rBtn};padding:${U(12)} ${U(14)};font-size:${U(13)};line-height:1.35;font-family:${body};color:${th.muted}">name@example.com</div>
+          <div style="border:1px solid ${th.line};border-radius:${rBtn};padding:${U(12)} ${U(14)};font-size:${U(13)};line-height:1.35;font-family:${body};color:${th.muted};display:flex;justify-content:space-between">Select an option <span>▾</span></div>
+          <div style="grid-column:1/-1;border:1px solid ${th.line};border-radius:${rBtn};padding:${U(13)} ${U(14)};font-size:${U(13)};line-height:1.55;font-family:${body};color:${th.muted};min-height:${U(62)}">Multi-line message…</div>
+          <label style="grid-column:1/-1;display:flex;align-items:center;gap:${U(9)};font-size:${U(12.5)};line-height:1.35;font-family:${body};color:${th.muted}">
             <span style="width:${U(11)};height:${U(11)};border:1px solid ${th.line};border-radius:${U(3)};display:inline-block"></span>${esc(t('demoCheck'))}
           </label>
         </div>`
@@ -417,9 +417,9 @@ window.__ModuleLoader__.load({
         const value = Number.parseFloat(s.value) || 0
         return `
           <div style="display:grid;grid-template-columns:${U(56)} 1fr ${U(56)};align-items:center;gap:${U(16)};padding:${U(8)} 0">
-            <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(s.name || `space-${i}`)}</span>
+            <span style="font-size:${U(13)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(s.name || `space-${i}`)}</span>
             <span style="height:${U(6)};background:${alpha(th.accent, 0.9)};border-radius:${U(2)};width:${barFor(i)}%"></span>
-            <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.ink};text-align:right">${Math.round(value)}px</span>
+            <span style="font-size:${U(13)};line-height:1.4;font-family:${mono};color:${th.ink};text-align:right">${Math.round(value)}px</span>
           </div>`
       }).join('')
 
@@ -429,13 +429,13 @@ window.__ModuleLoader__.load({
         return `
           <div style="text-align:center;min-width:0">
             <div style="height:${U(64)};border:1px solid ${th.line};border-radius:${radius};background:${th.surface}"></div>
-            <div style="margin-top:${U(8)};font-size:${U(9)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(r.name || `r-${i + 1}`)} · ${Math.round(value)}px</div>
+            <div style="margin-top:${U(8)};font-size:${U(12.5)};line-height:1.45;font-family:${mono};color:${th.muted}">${esc(r.name || `r-${i + 1}`)} · ${Math.round(value)}px</div>
           </div>`
       }).join('')
 
       const elevation = [0.06, 0.12, 0.2].map((strength, i) => `
         <div style="height:${U(64)};display:flex;align-items:center;justify-content:center;border:1px solid ${th.line};border-radius:${rCard};background:${th.bg};box-shadow:0 ${U(2 + i * 2)} ${U(8 + i * 8)} ${alpha(th.ink, strength)}">
-          <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.muted}">elevation ${i + 1}</span>
+          <span style="font-size:${U(13)};line-height:1.4;font-family:${mono};color:${th.muted}">elevation ${i + 1}</span>
         </div>`).join('')
 
       return `
@@ -443,12 +443,12 @@ window.__ModuleLoader__.load({
           <div style="display:flex;align-items:center;justify-content:space-between;gap:${U(16)};padding:${U(16)} 0;border-bottom:1px solid ${th.line}">
             <div style="display:flex;align-items:center;gap:${U(9)}">
               <span style="width:${U(16)};height:${U(16)};border-radius:${U(4)};background:${th.accent}"></span>
-              <span style="font-size:${U(11.5)};line-height:1;font-weight:600;font-family:${body};color:${th.ink}">${esc(d.brand)}</span>
+              <span style="font-size:${U(14)};line-height:1;font-weight:600;font-family:${body};color:${th.ink}">${esc(d.brand)}</span>
             </div>
-            <div style="display:flex;gap:${U(16)};font-size:${U(9.5)};line-height:1;font-family:${body};color:${th.muted}">
+            <div style="display:flex;gap:${U(20)};font-size:${U(12.5)};line-height:1;font-family:${body};color:${th.muted}">
               ${navLinks.map((l) => `<span>${l}</span>`).join('')}
             </div>
-            <span style="background:${th.accent};color:${th.accentInk};border-radius:${rPill};padding:${U(7)} ${U(13)};font-size:${U(9.5)};line-height:1;font-weight:600;font-family:${body}">Design System</span>
+            <span style="background:${th.accent};color:${th.accentInk};border-radius:${rPill};padding:${U(9)} ${U(17)};font-size:${U(12)};line-height:1;font-weight:600;font-family:${body}">Design System</span>
           </div>
 
           <div style="text-align:center;padding:${U(88)} 0 ${U(72)}">
@@ -456,10 +456,10 @@ window.__ModuleLoader__.load({
               font-size:min(${U(clamp((v.displaySize || 56) * 1.15, 34, 88))}, ${U(96)});line-height:1.05;color:${th.ink}">
               Design System<br>Inspired by <span style="color:${th.accent}">${esc(d.brand)}</span>
             </div>
-            <div style="margin:${U(14)} auto 0;max-width:${U(540)};font-size:${U(10.5)};line-height:1.7;font-family:${body};color:${th.muted};display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden">${esc(style.summaryZh || d.tagline)}</div>
+            <div style="margin:${U(14)} auto 0;max-width:${U(580)};font-size:${U(14)};line-height:1.7;font-family:${body};color:${th.muted};display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden">${esc(style.summaryZh || d.tagline)}</div>
             <div style="margin-top:${U(18)};display:flex;justify-content:center;gap:${U(9)}">
-              <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(8)} ${U(14)};font-size:${U(9.5)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
-              <span style="border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(8)} ${U(14)};font-size:${U(9.5)};line-height:1.1;font-weight:500;font-family:${body}">Dark Preview</span>
+              <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
+              <span style="border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(11)} ${U(18)};font-size:${U(13)};line-height:1.1;font-weight:500;font-family:${body}">Dark Preview</span>
             </div>
           </div>
 
@@ -892,7 +892,7 @@ window.__ModuleLoader__.load({
                 ...(v.bodyFamily ? [specRow(t('fontBody'), `${v.bodyFamily} · ${v.bodySize || 16}px`)] : []),
                 ...(v.monoFamily ? [specRow(t('fontMono'), v.monoFamily)] : []),
                 specRow('Display', `${v.displaySize || '—'}px / ${v.displayWeight || 400}`),
-                specRow('Tracking', `${v.displayTracking || 0}px`),
+                specRow('Tracking', `${Math.round(Number.parseFloat(v.displayTracking) || 0)}px`),
                 specRow('Leading', `${v.displayLineHeight || 1.2}`),
               ),
               h('div', { className: 'dm-types' },
