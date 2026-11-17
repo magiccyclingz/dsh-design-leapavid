@@ -1,0 +1,14 @@
+{
+  "id": "dsh-design-md",
+  "name": "设计风格库 (Design MD)",
+  "description": "左侧栏 84 套品牌设计语言库：每种风格用自身 DESIGN.md token 现场渲染网页亮/暗、幻灯片与海报预览；挑一套、写需求，即把带完整 token 与交付规范的提示词送进当前会话生成产物。",
+  "category": "self-dev",
+  "alsoCategories": ["claude-picks"],
+  "tags": ["设计", "设计系统", "品牌", "提示词", "幻灯片", "海报"],
+  "verified": ["0.2.2-rc.3"],
+  "source": "npm",
+  "npm": "dsh-design-md",
+  "github": "<owner>/dsh-design-md",
+  "icon": "https://cdn.jsdelivr.net/npm/dsh-design-md@1/icon.svg",
+  "homepage": "https://github.com/<owner>/dsh-design-md"
+}

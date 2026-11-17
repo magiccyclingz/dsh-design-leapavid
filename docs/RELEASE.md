@@ -2,7 +2,7 @@
 
 面向首次发布 `1.0.0`（2026-11-17）。标 **MANUAL** 的步骤需要维护者账号、凭据或在 GUI 里手工操作；本文件不记录、也不要求写入任何密钥或 Token。
 
-仓库：`/Users/openclaw/Projects/dsh-design-md`（当前**不是** git 仓库，需先 `git init`）。
+仓库：`/Users/openclaw/Projects/dsh-design-md`（2026-11-17 已 `git init` 并提交 `b834fa0`、打标 `v1.0.0`，尚未配置远程）。
 本机基线：Node `v24.16.0`、npm `12.0.1`、DSH 桌面版 `0.2.2-rc.3`；包声明 `type: module`，Node 要求 ≥ 22.19.0。
 
 ## 1. 本地校验（无需凭据）
@@ -43,26 +43,30 @@ console.log('bad', f.filter(x=>/^(build\/|node_modules\/)|\.DS_Store$|\.tgz$|sho
 
 预期与判据：
 
-- 文件数 **179**（10 个根文件 + 169 个 `data/` 文件）；tarball **797,606 B ≈ 779 KB**；解包 **3.43 MB**。新增 `LICENSE` 后文件数为 **180**（npm 自动收录 LICENSE），`CHANGELOG.md` 与 `docs/` 不在 `files` 白名单内、默认**不**打包。
+- 文件数 **181**（12 个根文件 + 169 个 `data/` 文件）；tarball **797,942 B ≈ 780 KB**；解包 **3.58 MB**（2026-11-17 实测）。`CHANGELOG.md` 在 `files` 白名单内，`docs/` 不在、默认不打包。
 - 必须包含：`index.js`、`client.js`、`package.json`、`cordis.patch.yml`、`icon.svg`、`README.md`、`locale/*.json`、`locale/*.md`、`data/catalog.json`、`data/design/×84`、`data/brief/×84`。
 - 必须不包含：`build/`（含 `shots/`、`demo/`、`report.txt`）、`node_modules`、`.DS_Store`、`*.tgz`。npm 默认忽略 `.DS_Store`，实测 tarball 内无该项。
-- 内容提示：`data/catalog.json` 含构建机绝对路径（86 处 `/Users/openclaw/...`，字段 `designPath` 与 `source`）。运行时不暴露（`index.js` 的 `projectStyle()` 已剔除），但原始 JSON 会随包分发；介意的话在发布前重建/裁剪该字段（会改动现有文件，由 lead 决定）。
+- 内容提示：`data/catalog.json` 已**不含**构建机绝对路径（`grep -c '/Users/' data/catalog.json` = 0）；`designPath` 不再写盘，`source.main/cn` 改为相对标识，`sourceUrl` 为 `https://getdesign.md/<slug>/design-md`。
 
-## 3. `package.json` 定稿（MANUAL：由 lead 编辑，不代改）
+## 3. `package.json` 定稿（已完成）
 
-- 删除 `"private": true`（否则 `npm publish` 直接拒绝）。
-- 补 `license` / `repository` / `homepage` / `keywords` / `author` / `engines`（建议值见交付回复）。
-- 想随包分发变更日志，就把 `"CHANGELOG.md"` 加进 `files`。
+- `private` 已删除；已补 `license: MIT` / `author: LeapAvid` / `keywords`（含 `dsh-plugin`）/ `engines.node >= 22.19.0`；`CHANGELOG.md` 已在 `files` 内。
+- 尚未补 `repository` / `homepage`：等远程仓库地址确定后补两行即可。
 - 凭据只走 `npm login` 或环境变量 `NPM_TOKEN`，不要写进仓库任何文件。
 
 ## 4. Git 提交与打标（MANUAL：需要远程仓库与推送凭据）
 
+已完成（本地）：
+
 ```bash
 git init
-git add -A
-git commit -m "release: dsh-design-md 1.0.0"
+git add -A && git commit -m "feat: dsh-design-md 1.0.0 — 84 套品牌设计语言的侧栏风格库"
 git tag -a v1.0.0 -m "dsh-design-md 1.0.0"
-# MANUAL：添加远程并推送（需要仓库写权限）
+```
+
+待办（MANUAL，需要仓库写权限）：
+
+```bash
 git remote add origin <仓库地址>
 git push -u origin main --tags
 ```
@@ -109,3 +113,17 @@ npm publish --access public         # MANUAL
 - 已知：打包内容、体积、校验命令、市场插件与本机目录地址、精选清单的提交目标。
 - 需要账号或凭据（MANUAL）：npm 发布、git 推送与 tag、精选清单 PR、任何 Token/2FA。
 - 未知：社区目录的抓取频率与收录延迟、精选审核时限；这些只能由维护者账号在发布后观察。
+
+## 8. 上架条目（草稿已备好）
+
+`docs/market-entry.json` 是按 dsh-m `registry.json` 条目结构写的上架草稿，字段与现有 36 条精选一致（`id` / `name` / `description` / `category` / `alsoCategories` / `tags` / `verified` / `source` / `npm` / `github` / `icon` / `homepage`）。提交前需要替换两处：
+
+- `github` 与 `homepage` 里的 `<owner>` → 实际 GitHub 账号；
+- `verified` 只在用对应 DSH 版本实测过之后追加（当前仅记录本机基线 `0.2.2-rc.3`）。
+
+合法的 `category` 取值（取自现存清单）：`essentials` / `cui-picks` / `baoyu` / `guizang` / `self-dev` / `tencent-lighthouse` / `watchlist`。
+
+两个去向：
+
+1. **精选区** `iasiv5/dsh-m` 的 `registry.json`（PR，MANUAL）——把 `docs/market-entry.json` 的内容追加进 `plugins` 数组即可。
+2. **社区目录**（自动抓取 npm，无需 PR）——先完成第 5 步 `npm publish`，剩下的等上游抓取；抓取频率未知，无法在本地验证。
