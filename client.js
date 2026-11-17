@@ -350,20 +350,20 @@ window.__ModuleLoader__.load({
       const rPill = radiusCss(U, v.radiusPill)
 
       const sectionHead = (index, en, zh) => `
-        <div style="display:flex;align-items:baseline;gap:${U(10)};margin-bottom:${U(18)}">
+        <div style="display:flex;align-items:baseline;gap:${U(10)};margin-bottom:${U(22)}">
           <span style="font-size:${U(10)};line-height:${1};font-family:${mono};letter-spacing:.18em;text-transform:uppercase;color:${th.muted}">${String(index).padStart(2, '0')} / ${en}</span>
         </div>
-        <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${U(19)};line-height:1.25;color:${th.ink};margin-bottom:${U(16)}">${zh}</div>`
+        <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${U(22)};line-height:1.25;letter-spacing:${U(-0.4)};color:${th.ink};margin-bottom:${U(26)}">${zh}</div>`
 
       const section = (index, en, zh, inner) => `
-        <section style="border-top:1px solid ${th.line};padding:${U(30)} 0">
+        <section style="border-top:1px solid ${th.line};padding:${U(56)} 0 ${U(60)}">
           ${sectionHead(index, en, zh)}
           ${inner}
         </section>`
 
       const colorCells = colors.map((c) => `
         <div style="border:1px solid ${th.line};border-radius:${U(16)};overflow:hidden;background:${th.bg}">
-          <div style="height:${U(46)};background:${c.hex}"></div>
+          <div style="height:${U(54)};background:${c.hex}"></div>
           <div style="padding:${U(10)} ${U(12)}">
             <div style="font-size:${U(9.5)};line-height:${1.3};font-family:${mono};color:${th.ink}">${esc(c.name || 'token')}</div>
             <div style="font-size:${U(8.5)};line-height:${1.3};font-family:${mono};color:${th.muted}">${esc(c.hex)}</div>
@@ -378,7 +378,7 @@ window.__ModuleLoader__.load({
         const scaled = clamp((size / maxStep) * 26, 8, 26)
         const family = s.token && /mono|code|num/i.test(s.token) ? mono : display
         return `
-          <div style="display:flex;align-items:center;gap:${U(14)};padding:${U(7)} 0;border-bottom:1px solid ${th.line}">
+          <div style="display:flex;align-items:center;gap:${U(16)};padding:${U(11)} 0;border-bottom:1px solid ${th.line}">
             <span style="flex:none;width:${U(22)};font-size:${U(11)};line-height:1;font-family:${display};color:${th.muted}">Aa</span>
             <span style="flex:1;min-width:0;font-family:${family};font-weight:${weight};letter-spacing:${U(ls)};font-size:${U(scaled)};line-height:${lh};color:${th.ink};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t('typeSample'))}</span>
             <span style="flex:none;max-width:${U(132)};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted};text-align:right">${s.token || `step-${i + 1}`} · ${Math.round(size)}/${weight}/${lh.toFixed(2)}</span>
@@ -396,7 +396,7 @@ window.__ModuleLoader__.load({
       const cards = d.cards.map((label, i) => `
         <div style="border:1px solid ${th.line};border-radius:${rCard};overflow:hidden;background:${th.bg}">
           <div style="height:${U(70)};background:linear-gradient(135deg, ${th.accent}, ${th.surface})"></div>
-          <div style="padding:${U(10)} ${U(12)} ${U(13)}">
+          <div style="padding:${U(14)} ${U(16)} ${U(18)}">
             <div style="font-size:${U(11)};line-height:1.3;font-weight:600;font-family:${body};color:${th.ink}">${esc(label)}</div>
             <div style="margin-top:${U(4)};font-size:${U(9)};line-height:1.5;font-family:${body};color:${th.muted}">${esc(t('cardBody'))}</div>
           </div>
@@ -416,7 +416,7 @@ window.__ModuleLoader__.load({
       const spaceRows = spaces.map((s, i) => {
         const value = Number.parseFloat(s.value) || 0
         return `
-          <div style="display:grid;grid-template-columns:${U(56)} 1fr ${U(56)};align-items:center;gap:${U(14)};padding:${U(6)} 0">
+          <div style="display:grid;grid-template-columns:${U(56)} 1fr ${U(56)};align-items:center;gap:${U(16)};padding:${U(8)} 0">
             <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(s.name || `space-${i}`)}</span>
             <span style="height:${U(6)};background:${alpha(th.accent, 0.9)};border-radius:${U(2)};width:${barFor(i)}%"></span>
             <span style="font-size:${U(9.5)};line-height:1.4;font-family:${mono};color:${th.ink};text-align:right">${Math.round(value)}px</span>
@@ -428,7 +428,7 @@ window.__ModuleLoader__.load({
         const radius = value >= 999 ? '9999px' : U(Math.min(value, 40))
         return `
           <div style="text-align:center;min-width:0">
-            <div style="height:${U(56)};border:1px solid ${th.line};border-radius:${radius};background:${th.surface}"></div>
+            <div style="height:${U(64)};border:1px solid ${th.line};border-radius:${radius};background:${th.surface}"></div>
             <div style="margin-top:${U(8)};font-size:${U(9)};line-height:1.4;font-family:${mono};color:${th.muted}">${esc(r.name || `r-${i + 1}`)} · ${Math.round(value)}px</div>
           </div>`
       }).join('')
@@ -439,7 +439,7 @@ window.__ModuleLoader__.load({
         </div>`).join('')
 
       return `
-        <div style="background:${th.bg};color:${th.ink};font-family:${body};padding:0 ${U(56)} ${U(32)}">
+        <div style="background:${th.bg};color:${th.ink};font-family:${body};padding:0 ${U(56)} ${U(72)}">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:${U(16)};padding:${U(16)} 0;border-bottom:1px solid ${th.line}">
             <div style="display:flex;align-items:center;gap:${U(9)}">
               <span style="width:${U(16)};height:${U(16)};border-radius:${U(4)};background:${th.accent}"></span>
@@ -451,7 +451,7 @@ window.__ModuleLoader__.load({
             <span style="background:${th.accent};color:${th.accentInk};border-radius:${rPill};padding:${U(7)} ${U(13)};font-size:${U(9.5)};line-height:1;font-weight:600;font-family:${body}">Design System</span>
           </div>
 
-          <div style="text-align:center;padding:${U(52)} 0 ${U(40)}">
+          <div style="text-align:center;padding:${U(88)} 0 ${U(72)}">
             <div style="font-family:${display};font-weight:${v.displayWeight || 600};letter-spacing:${U(v.displayTracking || 0)};
               font-size:min(${U(clamp((v.displaySize || 56) * 1.15, 34, 88))}, ${U(96)});line-height:1.05;color:${th.ink}">
               Design System<br>Inspired by <span style="color:${th.accent}">${esc(d.brand)}</span>
@@ -466,11 +466,11 @@ window.__ModuleLoader__.load({
           ${section(1, 'COLORS', 'Color Palette', `<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:${U(10)}">${colorCells}</div>`)}
           ${section(2, 'TYPOGRAPHY', 'Type Scale', typeRows)}
           ${section(3, 'BUTTONS', 'Buttons', buttons)}
-          ${section(4, 'CARDS', 'Cards', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${cards}</div>`)}
+          ${section(4, 'CARDS', 'Cards', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(20)}">${cards}</div>`)}
           ${section(5, 'FORMS', 'Forms', forms)}
           ${section(6, 'SPACING', 'Spacing Scale', spaceRows)}
           ${section(7, 'RADIUS', 'Radius Scale', `<div style="display:grid;grid-template-columns:repeat(${Math.max(radii.length, 1)},minmax(0,1fr));gap:${U(10)}">${radiusCells}</div>`)}
-          ${section(8, 'ELEVATION', 'Elevation', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${elevation}</div>`)}
+          ${section(8, 'ELEVATION', 'Elevation', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(20)}">${elevation}</div>`)}
 
           <div style="display:flex;justify-content:space-between;border-top:1px solid ${th.line};padding-top:${U(12)};font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted}">
             <span>${esc(d.brand)} · Design tokens from DESIGN.md</span>
