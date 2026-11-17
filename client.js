@@ -1278,7 +1278,8 @@ window.__ModuleLoader__.load({
       runtime.ctx = ctx
       try {
         setLocale(ctx.locale?.getLocale?.())
-        ctx.locale?.subscribe?.((next) => setLocale(next))
+        // The locale service notifies without arguments; re-read the snapshot instead.
+        ctx.locale?.subscribe?.(() => setLocale(ctx.locale?.getLocale?.()))
       } catch {
         /* locale service is optional */
       }
