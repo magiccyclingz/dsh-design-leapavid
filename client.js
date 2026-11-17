@@ -34,7 +34,7 @@ window.__ModuleLoader__.load({
     const STRINGS = {
       zh: {
         title: '设计风格库',
-        subtitle: '每一套都由该品牌 DESIGN.md 的 token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页、幻灯片、海报三种载体上的真实投影。挑一套，写清楚你要做什么。',
+        subtitle: '每一套都由该品牌 DESIGN.md 的 token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页与幻灯片两种载体上的真实投影。挑一套，写清楚你要做什么。',
         search: '搜索品牌、风格关键词、适用场景…',
         all: '全部',
         empty: '没有匹配的风格',
@@ -86,7 +86,7 @@ window.__ModuleLoader__.load({
         heroLede: '该预览由 DESIGN.md 的 token 实时渲染，用来对照版式、配色与字号层级。',
         pageEyebrow: 'DESIGN LIBRARY',
         pageTitle: '84 套品牌设计语言',
-        pageLede: '每一套都由该品牌的 DESIGN.md token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页、幻灯片、海报三种载体上的真实投影。挑一套，写清楚你要做什么。',
+        pageLede: '每一套都由该品牌的 DESIGN.md token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页与幻灯片两种载体上的真实投影。挑一套，写清楚你要做什么。',
         fontMono: '等宽字体',
         fontDisplay: '展示字体',
         fontBody: '正文字体',
@@ -107,7 +107,7 @@ window.__ModuleLoader__.load({
       },
       en: {
         title: 'Design library',
-        subtitle: 'Every preset is rendered live from that brand’s DESIGN.md tokens — not a screenshot: the same palette, type and rhythm projected onto a web page, a slide and a poster. Pick one, then describe what you want built.',
+        subtitle: 'Every preset is rendered live from that brand’s DESIGN.md tokens — not a screenshot: the same palette, type and rhythm projected onto a web page and a slide. Pick one, then describe what you want built.',
         search: 'Search brands, keywords, use cases…',
         all: 'All',
         empty: 'No style matches',
@@ -159,7 +159,7 @@ window.__ModuleLoader__.load({
         heroLede: 'This preview renders the DESIGN.md tokens live so you can compare layout, palette and type scale.',
         pageEyebrow: 'DESIGN LIBRARY',
         pageTitle: '84 brand design languages',
-        pageLede: 'Each one is rendered live from its DESIGN.md tokens — not a screenshot. The same colors, type and spacing projected onto a web page, a slide deck and a poster.',
+        pageLede: 'Each one is rendered live from its DESIGN.md tokens — not a screenshot. The same colors, type and spacing projected onto a web page and a slide deck.',
         fontMono: 'Mono',
         fontDisplay: 'Display',
         fontBody: 'Body',
@@ -1281,7 +1281,8 @@ window.__ModuleLoader__.load({
       h('span', { className: 'dm-spec-value' }, String(value)),
     )
 
-    const STRING_SURFACES = { page: true, slides: true, poster: true }
+    /* Poster templates are kept in code but not exposed in this release. */
+    const STRING_SURFACES = { page: true, slides: true }
     const HOST_SURFACE = { page: 'web', slides: 'slides', poster: 'poster' }
     /** page + dark theme maps to the host's dedicated dark-page deliverable. */
     const hostKey = (chosen, mode) => (chosen === 'page' ? (mode === 'dark' ? 'webDark' : 'web') : HOST_SURFACE[chosen] || 'web')
@@ -1294,7 +1295,7 @@ window.__ModuleLoader__.load({
       const [error, setError] = useState('')
       const [query, setQuery] = useState(memory.query)
       const [category, setCategory] = useState(memory.category)
-      const [surface, setSurface] = useState(memory.surface)
+      const [surface, setSurface] = useState(STRING_SURFACES[memory.surface] ? memory.surface : 'page')
       const [mode, setMode] = useState(memory.theme)
       const [slug, setSlug] = useState(memory.slug)
       const [toast, setToast] = useState(null)
