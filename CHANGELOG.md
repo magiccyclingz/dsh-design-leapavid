@@ -2,6 +2,12 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.8.1] - 2026-11-18
+
+### 变更
+
+- 内容页标题区去掉「来源 getdesign.md/<slug>」外链，只保留分类（如「品牌官网」），避免把用户带离面板。
+
 ## [1.8.0] - 2026-11-18
 
 ### 新增

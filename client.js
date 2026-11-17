@@ -1172,15 +1172,7 @@ window.__ModuleLoader__.load({
                 onToast({ kind: 'ok', text: on ? t('favAdd') : t('favRemove') })
               },
             }, fav ? '★' : '☆'),
-            h('p', { className: 'dm-detail-cat' },
-              `${style.category || ''} · ${t('source')} `,
-              h('a', {
-                className: 'dm-source',
-                href: style.sourceUrl || '#',
-                target: '_blank',
-                rel: 'noreferrer',
-              }, `getdesign.md/${style.slug}`),
-            ),
+            h('p', { className: 'dm-detail-cat' }, style.category || ''),
             last ? h('span', { className: 'dm-last-badge' }, t('lastDelivered', { when: whenText(last.at) })) : null,
           ),
           h('div', { className: 'dm-detail-head-r' },
