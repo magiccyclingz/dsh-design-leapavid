@@ -1,0 +1,10 @@
+# 依赖与打包产物
+node_modules/
+*.tgz
+
+# macOS 元数据
+.DS_Store
+
+# 构建期截图与演示产物（仅本机开发用，不随包分发）
+build/shots
+build/demo

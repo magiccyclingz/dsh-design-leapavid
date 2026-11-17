@@ -1,0 +1,85 @@
+slug               mode  canvas      ink         accent      display-font      C   T
+1win               DARK  #141415·D    #f0f2f5·L    #00b24b·D    Inter              10   6
+airbnb                   #ffffff·L    #222222·D    #ff385c·D    Airbnb Cereal VF   19  18
+airtable                 #ffffff·L    #181d26·D    #2d7ff9·D    Haas Groot Disp    23  14
+aljazeera                #ffffff·L    #000000·D    #fa9000      Roboto             19  11
+apple                    #ffffff·L    #1d1d1f·D    #0066cc·D    SF Pro Display     17  16
+binance                  #ffffff·L    #181a20·D    #b1972e·D    BinanceNova        18  15
+bmw                      #ffffff·L    #262626·D    #1c69d4·D    BMW Type Next La   22  13
+bmw-m              DARK  #000000·D    #ffffff·L    #0fa336·D    BMWTypeNextLatin   16  13
+bugatti            DARK  #000000·D    #ffffff·L    #d4a017      Bugatti Display    14  12
+cal                      #ffffff·L    #374151·D    #111111·D    Cal Sans           21  13
+claude                   #faf9f5·L    #141413·D    #cc785c·D    Copernicus         23  14
+clay                     #fffaf0·L    #3a3a3a·D    #0a0a0a·D    Plain Black        26  13
+clickhouse               #ffffff·L    #0a0a0a·D    #f59e0b      Inter              18  15
+cohere                   #ffffff·L    #212121·D    #17171c·D    CohereText         21  12
+coinbase                 #ffffff·L    #0a0b0d·D    #0052ff·D    Coinbase Display   15  16
+composio           DARK  #0f0f0f·D    #f5f5f5·L    #2c32d4·D    abcDiatype         18  14
+cursor                   #f7f7f4·L    #26251e·D    #f54e00·D    CursorGothic       19  14
+dell-1996                #ffffff·L    #000000·D    #e91d2a·D    Arial Black        14  10
+dji                      #ffffff·L    #262626·D    #0070d5·D    Open Sans          31  21
+elevenlabs               #f5f5f5·L    #0a0a0a·D    #292524·D    Waldenburg         19  14
+expo                     #ffffff·L    #171717·D    #000000·D    Inter              21  14
+ferrari                  #ffffff·L    #181818·D    #da291c·D    FerrariSans        17  13
+figma                    #ffffff·L    #000000·D    #000000·D    figmaSans          14  12
+framer             DARK  #090909·D    #ffffff·L    #0099ff·D    GT Walsheim Fram   14  12
+hashicorp                #ffffff·L    #000000·D    #000000·D    hashicorpSans      22  12
+hp                       #ffffff·L    #1a1a1a·D    #024ad8·D    Forma DJR Micro    20  16
+ibm                      #ffffff·L    #161616·D    #0f62fe·D    IBM Plex Sans      15  13
+intercom                 #f5f1ec·L    #000000·D    #111111·D    Saans              19  13
+jobright                 #ffffff·L    #000000·D    #00c583      Titillium Web       7  11
+kraken                   #ffffff·L    #101114·D    #7132f5·D    Kraken-Brand       11  10
+lamborghini        DARK  #000000·D    #ffffff·L    #917300·D    LamboType          20  25
+linear.app         DARK  #010102·D    #f7f8f8·L    #5e6ad2·D    Linear Display     21  13
+lovable                  #f7f4ed·L    #1c1c1c·D    #3b82f6·D    Camera Plain Var    7  23
+mastercard               #f3f0ee·L    #141413·D    #eb001b·D    MarkForMC          19  21
+mercury                  #fbfcfd·L    #28253b·D    #5266eb·D    arcadiaDisplay     13  11
+meta                     #ffffff·L    #1c1e21·D    #0064e0·D    Optimistic VF      25  15
+minimax                  #f7f8fa·L    #000000·D    #0a0a0a·D    DM Sans            24  15
+mintlify                 #f7f7f7·L    #0a0a0a·D    #0a0a0a·D    Inter              26  20
+miro                     #f7f8fa·L    #050038·D    #1c1c1e·D    Roobert PRO        34  18
+mistral.ai               #fafafa·L    #1f1f1f·D    #fa520f·D    PP Editorial Old   26  19
+mongodb                  #ffffff·L    #001e2b·D    #00c85a      Euclid Circular    26  18
+mydealz                  #f3f5f7·L    #000000·D    #30a83c·D    Averta CY          15   9
+nerdwallet               #ffffff·L    #000000·D    #008254·D    Gotham             22  15
+nike                     #ffffff·L    #111111·D    #111111·D    Nike Futura ND     21  13
+nintendo-2001            #7a8aba·D    #1b1033·D    #a3051d·D    Arial Black        17   7
+notion                   #f6f5f4·L    #1a1a1a·D    #5645d4·D    Notion Sans        42  17
+nvidia                   #ffffff·L    #000000·D    #76b900      NVIDIA-EMEA        23  18
+ollama                   #ffffff·L    #000000·D    #000000·D    SF Pro Rounded     15  13
+opencode.ai              #fdfcfc·L    #424245·D    #201d1d·D    Berkeley Mono      21   8
+oracle                   #ffffff·L    #161513·D    #312d2a·D    Georgia            20  17
+oura                     #f7f1e8·L    #1c1b1a·D    #2a72de·D    Editorial New      25  14
+pinterest                #ffffff·L    #000000·D    #e60023·D    Pin Sans           22  14
+playstation              #ffffff·L    #000000·D    #0070d1·D    PlayStation SST    27  14
+posthog                  #eeefe9·L    #4d4f46·D    #d8960d      IBM Plex Sans Va   26  20
+raycast            DARK  #07080a·D    #ffffff·L    #a1131a·D    Inter              28  15
+renault                  #ffffff·L    #222222·D    #b6aa0b      NouvelR            19  15
+replicate                #f9f7f3·L    #202020·D    #ea2804·D    rb-freigeist-neu   21  17
+resend                   #fcfdff·L    #000000·D    #ff801f      Domaine Display    24  14
+revolut                  #ffffff·L    #191c1f·D    #494fdf·D    Aeonik Pro         30  16
+runwayml           DARK  #000000·D    #ffffff·L    #ffffff·L    abcNormal          17  15
+sanity             DARK  #0b0b0b·D    #ffffff·L    #dd0000·D    waldenburgNormal   16  44
+sap                      #ffffff·L    #000000·D    #0057d2·D    72 Brand Variabl   15  12
+sentry                   #ffffff·L    #150f23·D    #150f23·D    Sentri Display     17  16
+shopify                  #ffffff·L    #000000·D    #000000·D    NeueHaasGrotesk    17  15
+slack                    #ffffff·L    #1d1d1d·D    #4a154b·D    Salesforce-Avant   16  15
+spacex             DARK  #000000·D    #ffffff·L    #ffffff·L    D-DIN-Bold          8   8
+spotify            DARK  #121212·D    #ffffff·L    #1db954      SpotifyMixUITitl   18  24
+starbucks                #f2f0eb·L    #1e1e1e·D    #00754a·D    Inter              18  32
+stripe                   #ffffff·L    #0d253d·D    #533afd·D    sohne-var          19  15
+supabase                 #ffffff·L    #171717·D    #37ae79·D    Circular           25  12
+superhuman               #ffffff·L    #292827·D    #1b1938·D    Super Sans VF      14  12
+tesla                    #ffffff·L    #171a20·D    #3e6ae1·D    Universal Sans D    9  15
+theverge           DARK  #131313·D    #ffffff·L    #1eaedb      Inter              16  34
+together.ai              #ffffff·L    #0d0d0d·D    #000000·D    The Future          9  14
+uber                     #ffffff·L    #000000·D    #000000·D    UberMove           10  13
+vercel                   #ffffff·L    #4d4d4d·D    #171717·D    Geist              30  14
+vodafone                 #ffffff·L    #25282b·D    #e60000·D    Vodafone            6  17
+voltagent                #ffffff·L    #101010·D    #03b57b·D    Inter              12  16
+warp               DARK  #2b2622·D    #f7f5f0·L    #f7f5f0·L    Inter               7  14
+webflow                  #ffffff·L    #363636·D    #080808·D    WF Visual Sans V   17  16
+wired                    #ffffff·L    #000000·D    #000000·D    WiredDisplay        7  14
+wise                     #ffffff·L    #454745·D    #82b362      Wise Sans          21  14
+x.ai               DARK  #0a0a0a·D    #ffffff·L    #ff7a17      universalSans      15  11
+zapier                   #fffefb·L    #201515·D    #ff4f00·D    Degular Display     9  16

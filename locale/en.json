@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Design library",
+    "description": "84 brand design languages from getdesign.md: browse light/dark pages, slide decks and posters in the sidebar, then send the chosen style's tokens to the current conversation so DSH can build a page, deck or poster with it.",
+    "detail": "locale/detail.en.md"
+  }
+}

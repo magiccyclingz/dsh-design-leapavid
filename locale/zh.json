@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "设计风格库",
+    "description": "84 套来自 getdesign.md 的品牌设计语言：在左侧栏浏览网页亮/暗、幻灯片与海报案例，选中后一键把风格 token 送进当前会话，由 DSH 生成网页、幻灯片或海报。",
+    "detail": "locale/detail.zh.md"
+  }
+}
