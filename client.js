@@ -20,6 +20,48 @@ window.__ModuleLoader__.load({
     /** Survives panel unmount (switching back to the conversation). */
     const memory = { query: '', category: null, surface: 'page', theme: 'light', slug: null }
 
+    /* -------------------------------------------------- local persistence */
+
+    const STORE_KEY = 'dsh-design-md:v1'
+    function readStore() {
+      try {
+        const raw = typeof localStorage !== 'undefined' && localStorage.getItem(STORE_KEY)
+        const parsed = raw ? JSON.parse(raw) : null
+        return parsed && typeof parsed === 'object' ? parsed : {}
+      } catch {
+        return {}
+      }
+    }
+    const storeCache = readStore()
+    memory.fav = Array.isArray(storeCache.fav) ? storeCache.fav.filter((x) => typeof x === 'string') : []
+    memory.recent = Array.isArray(storeCache.recent) ? storeCache.recent.filter((x) => typeof x === 'string') : []
+    memory.last = storeCache.last && typeof storeCache.last === 'object' ? storeCache.last : {}
+
+    function writeStore() {
+      try {
+        if (typeof localStorage === 'undefined') return
+        localStorage.setItem(STORE_KEY, JSON.stringify({ fav: memory.fav, recent: memory.recent, last: memory.last }))
+      } catch {
+        /* private mode / quota — the panel still works without persistence */
+      }
+    }
+    function toggleFav(slug) {
+      memory.fav = memory.fav.includes(slug) ? memory.fav.filter((x) => x !== slug) : [slug, ...memory.fav]
+      writeStore()
+      return memory.fav.includes(slug)
+    }
+    function markRecent(slug) {
+      memory.recent = [slug, ...memory.recent.filter((x) => x !== slug)].slice(0, 12)
+      writeStore()
+    }
+    function lastKey(slug, surface) {
+      return `${slug}:${surface}`
+    }
+    function markDelivered(slug, surface, payload) {
+      memory.last = { ...memory.last, [lastKey(slug, surface)]: { at: Date.now(), ...payload } }
+      writeStore()
+    }
+
     /** Re-clicking the sidebar entry must take the panel back to the grid, even when it is already selected. */
     const viewBus = { listeners: new Set() }
     function requestListView() {
@@ -75,6 +117,25 @@ window.__ModuleLoader__.load({
         copyPrompt: '复制提示词',
         viewDesign: '查看 DESIGN.md',
         backToChat: '切回对话 →',
+        favAdd: '收藏',
+        favRemove: '取消收藏',
+        favOnly: '收藏',
+        recentHint: '最近使用',
+        exportTitle: '导出 token',
+        exportCss: '复制 CSS 变量',
+        exportJson: '下载 tokens.json',
+        exportTailwind: '复制 Tailwind 配置',
+        exported: '已复制 {label}',
+        structure: '页面结构',
+        structureAuto: '不限',
+        structureLanding: '落地页',
+        structurePricing: '定价页',
+        structureDashboard: '控制台',
+        structureBlog: '博客',
+        similar: '相近的风格',
+        lastDelivered: '上次生成过 · {when}',
+        iterateAgain: '再改一版',
+        restartStyle: '换风格重做',
         chars: '提示词约 {n} 字',
         noSession: '没有找到当前会话：请先在左侧打开一个对话再发送。',
         designFailed: '读取 DESIGN.md 失败',
@@ -148,6 +209,25 @@ window.__ModuleLoader__.load({
         copyPrompt: 'Copy prompt',
         viewDesign: 'View DESIGN.md',
         backToChat: 'Back to chat →',
+        favAdd: 'Save',
+        favRemove: 'Unsave',
+        favOnly: 'Saved',
+        recentHint: 'Recent',
+        exportTitle: 'Export tokens',
+        exportCss: 'Copy CSS variables',
+        exportJson: 'Download tokens.json',
+        exportTailwind: 'Copy Tailwind config',
+        exported: 'Copied {label}',
+        structure: 'Layout',
+        structureAuto: 'Any',
+        structureLanding: 'Landing',
+        structurePricing: 'Pricing',
+        structureDashboard: 'Dashboard',
+        structureBlog: 'Blog',
+        similar: 'Similar styles',
+        lastDelivered: 'Generated before · {when}',
+        iterateAgain: 'Refine this',
+        restartStyle: 'Different style',
         chars: 'about {n} characters',
         noSession: 'No active chat found — open a conversation first.',
         designFailed: 'Could not load DESIGN.md',
@@ -901,7 +981,35 @@ window.__ModuleLoader__.load({
 
     /* ----------------------------------------------------------- list card */
 
-    function StyleCard({ style, surface, mode, onOpen }) {
+    /** Only styles near the viewport pay the cost of rendering a full page. */
+    function LazyArt({ style, mode, surface }) {
+      const holder = useRef(null)
+      const [visible, setVisible] = useState(false)
+      useEffect(() => {
+        if (visible) return undefined
+        const el = holder.current
+        if (!el || typeof IntersectionObserver === 'undefined') {
+          setVisible(true)
+          return undefined
+        }
+        const io = new IntersectionObserver((entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            setVisible(true)
+            io.disconnect()
+          }
+        }, { rootMargin: '700px 0px' })
+        io.observe(el)
+        return () => io.disconnect()
+      }, [visible])
+      return h('div', { className: `dm-card-art is-${surface}`, ref: holder },
+        visible
+          ? h(Art, { style, mode, surface, clip: true })
+          : h('div', { className: 'dm-card-ph', 'aria-hidden': true },
+            h('span', { style: { background: style.visual.canvas } }),
+            h('span', { style: { background: style.visual.accent } })))
+    }
+
+    function StyleCard({ style, surface, mode, onOpen, fav, onToggleFav }) {
       const v = style.visual
       const dots = [v.canvas, v.accent, v.surface, v.darkCanvas].filter(Boolean)
       const meta = style.nameZh === style.displayName ? style.category : `${style.displayName} · ${style.category}`
@@ -919,7 +1027,19 @@ window.__ModuleLoader__.load({
           }
         },
       },
-      h('div', { className: `dm-card-art is-${surface}` }, h(Art, { style, mode: mode || baseMode(style), surface, clip: true })),
+      h('div', { className: 'dm-card-visual' },
+        h(LazyArt, { style, mode: mode || baseMode(style), surface }),
+        h('button', {
+          type: 'button',
+          className: `dm-star${fav ? ' is-on' : ''}`,
+          'aria-pressed': Boolean(fav),
+          'aria-label': fav ? t('favRemove') : t('favAdd'),
+          onClick: (event) => {
+            event.stopPropagation()
+            onToggleFav(style.slug)
+          },
+        }, fav ? '★' : '☆'),
+      ),
       h('div', { className: 'dm-card-body' },
         h('div', { className: 'dm-card-head' },
           h('div', { className: 'dm-card-title' }, style.nameZh || style.displayName),
@@ -936,14 +1056,15 @@ window.__ModuleLoader__.load({
 
     /* -------------------------------------------------------------- detail */
 
-    function Detail({ style, surface, setSurface, mode, setMode, onBack, onToast }) {
+    function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false })
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto' })
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
       const [chars, setChars] = useState(0)
+      const [fav, setFav] = useState(memory.fav.includes(style.slug))
       const gridRef = useRef(null)
 
       /* A new surface starts at the top of the preview. */
@@ -954,6 +1075,13 @@ window.__ModuleLoader__.load({
       const colors = (style.colors || []).filter((c) => c && c.hex)
       const types = (style.typography || []).filter((s) => Number.parseFloat(s.fontSize) > 0)
       const typeTop = types.reduce((max, s) => Math.max(max, Number.parseFloat(s.fontSize) || 0), 16)
+      const last = memory.last[lastKey(style.slug, surface)]
+      const whenText = (at) => {
+        const mins = Math.max(1, Math.round((Date.now() - Number(at || 0)) / 60000))
+        if (mins < 60) return `${mins} 分钟前`
+        const hours = Math.round(mins / 60)
+        return hours < 24 ? `${hours} 小时前` : `${Math.round(hours / 24)} 天前`
+      }
       const bestFor = [...new Set([...(style.bestFor || []), ...(style.useCases || []).slice(0, 3)].filter(Boolean))]
       const avoidFor = [...new Set((style.avoidFor || []).filter(Boolean))]
 
@@ -964,13 +1092,14 @@ window.__ModuleLoader__.load({
           body: JSON.stringify({
             slug: style.slug,
             surface: hostKey(form.output || surface, mode),
+            structure: form.structure,
             requirement: form.requirement,
             includeDesign: form.includeDesign,
           }),
         })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
-      }, [style.slug, surface, form.requirement, form.includeDesign])
+      }, [style.slug, surface, form.requirement, form.includeDesign, form.structure])
 
       const send = async () => {
         setBusy(true)
@@ -978,6 +1107,8 @@ window.__ModuleLoader__.load({
           const data = await promptFor()
           setChars(data.chars || 0)
           await deliverToCurrentSession(data.prompt)
+          markRecent(style.slug)
+          markDelivered(style.slug, surface, { chars: data.chars || 0, structure: form.structure, requirement: form.requirement.slice(0, 200) })
           setSent(true)
           onToast({ kind: 'ok', text: `${t('sendOk')} ${t('chars', { n: data.chars })}` })
         } catch (err) {
@@ -1031,6 +1162,16 @@ window.__ModuleLoader__.load({
         h('div', { className: 'dm-detail-head' },
           h('div', { className: 'dm-detail-head-l' },
             h('h2', { className: 'dm-detail-title' }, style.nameZh || style.displayName),
+            h('button', {
+              type: 'button',
+              className: `dm-star dm-star-inline${fav ? ' is-on' : ''}`,
+              'aria-pressed': fav,
+              onClick: () => {
+                const on = toggleFav(style.slug)
+                setFav(on)
+                onToast({ kind: 'ok', text: on ? t('favAdd') : t('favRemove') })
+              },
+            }, fav ? '★' : '☆'),
             h('p', { className: 'dm-detail-cat' },
               `${style.category || ''} · ${t('source')} `,
               h('a', {
@@ -1040,6 +1181,7 @@ window.__ModuleLoader__.load({
                 rel: 'noreferrer',
               }, `getdesign.md/${style.slug}`),
             ),
+            last ? h('span', { className: 'dm-last-badge' }, t('lastDelivered', { when: whenText(last.at) })) : null,
           ),
           h('div', { className: 'dm-detail-head-r' },
             h('div', { className: 'dm-seg' },
@@ -1098,6 +1240,16 @@ window.__ModuleLoader__.load({
                   onClick: () => setForm((prev) => ({ ...prev, output: key })),
                 }, t(`surfaces.${key}`))),
               ),
+              h('div', { className: 'dm-label' }, t('structure')),
+              h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
+                ...STRUCTURE_UI.map((key) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-seg-btn${form.structure === key ? ' is-on' : ''}`,
+                  'aria-pressed': form.structure === key,
+                  onClick: () => setForm((prev) => ({ ...prev, structure: key })),
+                }, t(`structure${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+              ),
               h('div', { className: 'dm-label' }, t('requirement')),
               h('textarea', {
                 className: 'dm-textarea',
@@ -1120,6 +1272,18 @@ window.__ModuleLoader__.load({
                 h('button', { type: 'button', className: 'dm-ghost', onClick: openDesign }, t('viewDesign')),
               ),
               chars ? h('div', { className: 'dm-chars' }, t('chars', { n: chars })) : null,
+              sent ? h('div', { className: 'dm-iterate' },
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: () => {
+                    const prev = form.requirement.trim()
+                    setForm((p2) => ({ ...p2, requirement: prev ? `${prev}\n（在上面这一版的基础上调整，其余保持不变）` : '在上一版基础上调整：' }))
+                    setSent(false)
+                  },
+                }, t('iterateAgain')),
+                h('button', { type: 'button', className: 'dm-ghost', onClick: onBack }, t('restartStyle')),
+              ) : null,
               sent ? h('button', { type: 'button', className: 'dm-ghost dm-back-chat', onClick: backToChat }, t('backToChat')) : null,
             ),
 
@@ -1132,6 +1296,46 @@ window.__ModuleLoader__.load({
               h('div', { className: 'dm-kv-cap' }, t('avoidFor')),
               h('div', { className: 'dm-kv' },
                 ...avoidFor.map((item) => h('span', { key: `a-${item}`, className: 'dm-tag' }, item)),
+              ),
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('exportTitle')),
+              h('div', { className: 'dm-export' },
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: async () => {
+                    await writeClipboard(cssExport(style))
+                    onToast({ kind: 'ok', text: t('exported', { label: t('exportCss') }) })
+                  },
+                }, t('exportCss')),
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: () => {
+                    try {
+                      const blob = new Blob([jsonExport(style)], { type: 'application/json' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = `${style.slug}-tokens.json`
+                      a.click()
+                      URL.revokeObjectURL(url)
+                      onToast({ kind: 'ok', text: t('exported', { label: t('exportJson') }) })
+                    } catch (err) {
+                      onToast({ kind: 'err', text: String(err.message || err) })
+                    }
+                  },
+                }, t('exportJson')),
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: async () => {
+                    await writeClipboard(tailwindExport(style))
+                    onToast({ kind: 'ok', text: t('exported', { label: t('exportTailwind') }) })
+                  },
+                }, t('exportTailwind')),
               ),
             ),
 
@@ -1273,6 +1477,23 @@ window.__ModuleLoader__.load({
           ),
           h('pre', { className: 'dm-modal-body', tabIndex: 0 }, design.busy ? t('loading') : design.text),
         )) : null,
+
+        h('section', { className: 'dm-similar' },
+          h('h3', null, t('similar')),
+          h('div', { className: 'dm-similar-row' },
+            ...similarStyles(style, all || [], 4).map((other) => h('button', {
+              key: other.slug,
+              type: 'button',
+              className: 'dm-similar-card',
+              onClick: () => onOpen(other.slug),
+            },
+            h('span', { className: 'dm-similar-bar', style: { background: `linear-gradient(135deg, ${other.visual.canvas} 0 55%, ${other.visual.accent} 55% 100%)` } }),
+            h('span', { className: 'dm-similar-name' }, other.nameZh || other.displayName),
+            h('span', { className: 'dm-similar-meta' }, `${other.displayName} · ${other.category}`),
+            )),
+          ),
+        ),
+
       )
     }
 
@@ -1287,6 +1508,105 @@ window.__ModuleLoader__.load({
     /** page + dark theme maps to the host's dedicated dark-page deliverable. */
     const hostKey = (chosen, mode) => (chosen === 'page' ? (mode === 'dark' ? 'webDark' : 'web') : HOST_SURFACE[chosen] || 'web')
 
+    /* ------------------------------------------------------- token exports */
+
+    const hexToHue = (hex) => {
+      const rgb = hexToRgb(hex)
+      if (!rgb) return 0
+      const r = rgb.r / 255; const g = rgb.g / 255; const b = rgb.b / 255
+      const max = Math.max(r, g, b); const min = Math.min(r, g, b)
+      const d = max - min
+      if (!d) return 0
+      let hue = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4
+      hue *= 60
+      return hue < 0 ? hue + 360 : hue
+    }
+
+    function similarStyles(style, all, count) {
+      const me = style.visual
+      const lum = (hex) => luminance(hex)
+      const score = (other) => {
+        const v = other.visual
+        let d = Math.abs(lum(me.canvas) - lum(v.canvas)) * 2.2
+        d += Math.abs(lum(me.ink) - lum(v.ink)) * 1.4
+        const dh = Math.abs(hexToHue(me.accent) - hexToHue(v.accent))
+        d += Math.min(dh, 360 - dh) / 90
+        d += Math.abs((Number.parseFloat(me.radiusCard) || 0) - (Number.parseFloat(v.radiusCard) || 0)) / 26
+        d += Math.abs((Number.parseFloat(me.spaceBase) || 8) - (Number.parseFloat(v.spaceBase) || 8)) / 9
+        d += me.fontClass === v.fontClass ? 0 : 1.1
+        d += me.darkFirst === v.darkFirst ? 0 : 0.8
+        return d
+      }
+      return all
+        .filter((other) => other.slug !== style.slug)
+        .map((other) => ({ other, d: score(other) }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, count)
+        .map((x) => x.other)
+    }
+
+    function tokenPairs(style) {
+      const v = style.visual
+      return [
+        ['canvas', v.canvas], ['surface', v.surface], ['ink', v.ink], ['muted', v.muted],
+        ['hairline', v.hairline], ['accent', v.accent], ['onAccent', v.accentInk],
+        ['radiusCard', v.radiusCard], ['radiusButton', v.radiusButton], ['radiusPill', v.radiusPill],
+        ['spaceBase', v.spaceBase], ['display', v.displayFamily], ['body', v.bodyFamily], ['mono', v.monoFamily],
+        ['displaySize', v.displaySize], ['displayWeight', v.displayWeight], ['displayTracking', v.displayTracking],
+      ].filter(([, value]) => value !== undefined && value !== null && value !== '')
+    }
+
+    function cssExport(style) {
+      const lines = tokenPairs(style).map(([key, value]) => `  --dm-${key}: ${value};`)
+      return `/* ${style.displayName} · design tokens (getdesign.md/${style.slug}) */\n:root {\n${lines.join('\n')}\n}`
+    }
+
+    function jsonExport(style) {
+      const v = style.visual
+      return JSON.stringify({
+        $description: `${style.displayName} · ${style.nameZh || ''} — getdesign.md/${style.slug}`,
+        color: Object.fromEntries((style.colors || []).filter((c) => c && c.hex).slice(0, 24).map((c) => [c.name, { $type: 'color', $value: c.hex }])),
+        font: {
+          display: { $type: 'fontFamily', $value: v.displayStack },
+          body: { $type: 'fontFamily', $value: v.bodyStack },
+        },
+        size: Object.fromEntries((style.typography || []).slice(0, 12).map((s) => [s.token, { $type: 'dimension', $value: s.fontSize }])),
+        radius: Object.fromEntries((style.radius || []).map((r) => [r.name, { $type: 'dimension', $value: r.value }])),
+        spacing: Object.fromEntries((style.spacing || []).map((x) => [x.name, { $type: 'dimension', $value: x.value }])),
+      }, null, 2)
+    }
+
+    function tailwindExport(style) {
+      const v = style.visual
+      const colors = (style.colors || []).filter((c) => c && c.hex).slice(0, 16)
+        .map((c) => `        ${JSON.stringify(c.name)}: ${JSON.stringify(c.hex)},`)
+      return [
+        `/* ${style.displayName} — tailwind theme extend */`,
+        'module.exports = {',
+        '  theme: {',
+        '    extend: {',
+        '      colors: {',
+        ...colors,
+        '      },',
+        '      fontFamily: {',
+        `        display: ${JSON.stringify((v.displayStack || '').split(',').map((x) => x.trim()))},`,
+        `        body: ${JSON.stringify((v.bodyStack || '').split(',').map((x) => x.trim()))},`,
+        '      },',
+        '      borderRadius: {',
+        `        card: ${JSON.stringify(v.radiusCard)},`,
+        `        button: ${JSON.stringify(v.radiusButton)},`,
+        '      },',
+        '      spacing: {',
+        `        base: ${JSON.stringify(v.spaceBase)},`,
+        '      },',
+        '    },',
+        '  },',
+        '}',
+      ].join('\n')
+    }
+
+    const STRUCTURE_UI = ['auto', 'landing', 'pricing', 'dashboard', 'blog']
+
     /* ------------------------------------------------------------ panel UI */
 
     function Panel() {
@@ -1299,6 +1619,7 @@ window.__ModuleLoader__.load({
       const [mode, setMode] = useState(memory.theme)
       const [slug, setSlug] = useState(memory.slug)
       const [toast, setToast] = useState(null)
+      const [, setFavTick] = useState(0)
       const toastTimer = useRef(0)
       const alive = useRef(true)
 
@@ -1345,6 +1666,8 @@ window.__ModuleLoader__.load({
       const filtered = useMemo(() => {
         const q = query.trim().toLowerCase()
         return styles.filter((style) => {
+          if (category === '__fav__') return memory.fav.includes(style.slug)
+          if (category === '__recent__') return memory.recent.includes(style.slug)
           if (category && style.category !== category) return false
           if (!q) return true
           const haystack = [
@@ -1367,6 +1690,8 @@ window.__ModuleLoader__.load({
           h('style', null, CSS),
           h(Detail, {
             style: current,
+            all: styles,
+            onOpen: (slug) => setSlug(slug),
             surface,
             setSurface,
             mode: current.visual.darkFirst ? 'dark' : mode,
@@ -1420,6 +1745,18 @@ window.__ModuleLoader__.load({
             catalog ? h('span', { className: 'dm-count' }, filtered.length === catalog.count ? String(catalog.count) : `${filtered.length} / ${catalog.count}`) : null,
           ),
           h('div', { className: 'dm-chips' },
+            memory.fav.length ? h('button', {
+              type: 'button',
+              className: `dm-chip${category === '__fav__' ? ' is-on' : ''}`,
+              'aria-pressed': category === '__fav__',
+              onClick: () => setCategory(category === '__fav__' ? null : '__fav__'),
+            }, `★ ${t('favOnly')} ${memory.fav.length}`) : null,
+            memory.recent.length ? h('button', {
+              type: 'button',
+              className: `dm-chip${category === '__recent__' ? ' is-on' : ''}`,
+              'aria-pressed': category === '__recent__',
+              onClick: () => setCategory(category === '__recent__' ? null : '__recent__'),
+            }, `${t('recentHint')} ${memory.recent.length}`) : null,
             ...categories.map((name) => h('button', {
               key: name || '__all__',
               type: 'button',
@@ -1450,6 +1787,12 @@ window.__ModuleLoader__.load({
                 : h('div', { className: 'dm-grid' },
                   ...filtered.map((style) => h(StyleCard, {
                     key: style.slug,
+                    fav: memory.fav.includes(style.slug),
+                    onToggleFav: (slug) => {
+                      const on = toggleFav(slug)
+                      setFavTick((n) => n + 1)
+                      notify(on ? t('favAdd') : t('favRemove'))
+                    },
                     style,
                     surface,
                     mode: style.visual.darkFirst ? 'dark' : mode,
@@ -1631,6 +1974,30 @@ window.__ModuleLoader__.load({
 .dm-modal-actions{display:flex;gap:8px}
 .dm-modal-body{flex:1;min-height:0;overflow:auto;margin:0;padding:16px 18px 22px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.7;color:var(--ink);white-space:pre-wrap;word-break:break-word;overscroll-behavior:contain}
 @media (max-width:1080px){.dm-detail-grid{grid-template-columns:minmax(0,1fr)}.dm-form{order:-1}}
+.dm-card-visual{position:relative}
+.dm-star{position:absolute;top:8px;right:8px;z-index:2;width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.12);
+  background:rgba(255,255,255,.86);color:#8c8c8c;font-size:13px;line-height:1;cursor:pointer;backdrop-filter:blur(4px)}
+.dm-star:hover{color:#1e1e1e}
+.dm-star.is-on{color:#f5b21a;border-color:rgba(245,178,26,.5);background:rgba(255,252,240,.94)}
+.dm-star-inline{position:static;width:24px;height:24px;font-size:12px;background:#f7f7f8;border-color:#e6e6e6;flex:none}
+.dm-card-ph{display:flex;height:100%;width:100%}
+.dm-card-ph span{flex:1}
+.dm-last-badge{font-size:11.5px;color:#8a8a8a;border:1px solid #ececec;background:#fafafa;border-radius:999px;padding:3px 9px}
+.dm-seg-structure{grid-template-columns:repeat(5,minmax(0,1fr))}
+.dm-seg-structure .dm-seg-btn{font-size:11.5px;padding:7px 2px}
+.dm-iterate{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.dm-export{display:grid;gap:8px;margin-top:6px}
+.dm-similar{flex:none;padding:10px clamp(20px,3.2vw,64px) 14px;border-top:1px solid #efeff1;background:#fcfcfd}
+.dm-similar h3{margin:0 0 8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#8c8c8c;font-weight:600}
+.dm-similar-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dm-similar-card{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:10px;text-align:left;padding:7px 10px;
+  border:1px solid #ececec;border-radius:10px;background:#fff;cursor:pointer;font:inherit;min-width:0}
+.dm-similar-card:hover{border-color:#d8d8dc;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.dm-similar-bar{display:block;height:22px;border-radius:6px}
+.dm-similar-name{font-size:12.5px;font-weight:600;color:#1e1e1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dm-similar-meta{font-size:10.5px;color:#8c8c8c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+@media (max-width:1080px){.dm-similar-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 @media (max-width:720px){.dm-seg-form{grid-template-columns:1fr 1fr}}
 `
 

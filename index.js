@@ -162,8 +162,29 @@ function tokenBlock(style) {
   return lines.join('\n')
 }
 
+const STRUCTURES = {
+  auto: { label: '不限', outline: [] },
+  landing: {
+    label: '落地页',
+    outline: ['首屏：标题 + 一句副标题 + 主次两个 CTA + 一张主视觉', '三条产品价值（图标/编号 + 标题 + 两句说明）', '一段能建立信任的内容（客户 logo 墙、数据、或引用）', '一个收尾 CTA 区块 + 页脚'],
+  },
+  pricing: {
+    label: '定价页',
+    outline: ['首屏：一句定位 + 计费周期切换（月付/年付）', '三档价格卡（中档为推荐，强调色描边或实底）', '功能对比表或清单', 'FAQ 折叠列表（4–6 条）', '底部 CTA + 页脚'],
+  },
+  dashboard: {
+    label: '控制台',
+    outline: ['左侧固定导航 + 顶部工具栏（搜索、通知、账户）', '4 个关键指标卡（数字 + 环比）', '一张主图表（折线或柱状）+ 一张分布图', '一张数据表格（斑马纹、状态标签、行操作）'],
+  },
+  blog: {
+    label: '博客',
+    outline: ['文章列表：封面 + 标题 + 摘要 + 日期/作者', '置顶或精选一文', '标签筛选行', '分页或「加载更多」'],
+  },
+}
+
 function buildPrompt(style, brief, options) {
   const surface = SURFACES[options.surface] || SURFACES.web
+  const structure = STRUCTURES[options.structure] || STRUCTURES.auto
   const requirement = String(options.requirement || '').trim()
   const parts = [
     `请用「${style.nameZh} · ${style.displayName}」这套设计语言，完成下面这件设计工作。`,
@@ -179,6 +200,10 @@ function buildPrompt(style, brief, options) {
     '## 本单需求',
     requirement || '（用户未填写额外需求：请按该风格最擅长的场景，生成一版完整、可直接打开的作品）',
     '',
+    structure.outline.length
+      ? ['## 页面结构（按此顺序排布）', ...structure.outline.map((line, i) => `${i + 1}. ${line}`)].join('\n')
+      : '',
+    structure.outline.length ? '' : null,
     `## 交付要求（${surface.label}）`,
     surface.deliverable,
     '',
@@ -192,6 +217,12 @@ function buildPrompt(style, brief, options) {
     '',
     '完成后请给出产物文件路径，并说明如何在浏览器里打开。',
   ]
+  if (options.previous) {
+    parts.push('', '## 上一次的产物', `文件：${options.previous}`, '请在这个文件的基础上修改，保留其余部分不要重写。')
+  }
+  const cleaned = parts.filter((x) => typeof x === 'string' && x.length > 0)
+  parts.length = 0
+  parts.push(...cleaned)
   if (options.includeDesign && options.designText) {
     parts.push('', '---', '', `# 附录：${style.displayName} 完整 DESIGN.md`, '', options.designText)
   }
@@ -430,12 +461,16 @@ export function apply(ctx) {
           const style = catalog.styles.find((s) => s.slug === slug)
           if (!style) return sendJson(res, 404, { error: 'unknown style' })
           const surfaceKey = typeof body.surface === 'string' && Object.hasOwn(SURFACES, body.surface) ? body.surface : 'web'
+          const structureKey = typeof body.structure === 'string' && Object.hasOwn(STRUCTURES, body.structure) ? body.structure : 'auto'
+          const previous = typeof body.previous === 'string' ? body.previous.slice(0, 400) : ''
           const withDesign = body.includeDesign === true
           const brief = await loadStyle(style.slug, 'brief')
           const designText = withDesign ? await loadStyle(style.slug, 'design') : undefined
           const requirement = typeof body.requirement === 'string' ? body.requirement : ''
           const prompt = buildPrompt(style, brief, {
             surface: surfaceKey,
+            structure: structureKey,
+            previous,
             requirement,
             includeDesign: withDesign,
             designText,
@@ -443,6 +478,7 @@ export function apply(ctx) {
           return sendJson(res, 200, {
             prompt,
             chars: [...prompt].length,
+            structure: structureKey,
             style: { slug: style.slug, displayName: style.displayName, nameZh: style.nameZh },
           })
         }
