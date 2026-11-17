@@ -349,9 +349,9 @@ window.__ModuleLoader__.load({
         </section>`
 
       const colorCells = colors.map((c) => `
-        <div style="border:1px solid ${th.line};border-radius:${U(6)};overflow:hidden;background:${th.bg}">
+        <div style="border:1px solid ${th.line};border-radius:${U(12)};overflow:hidden;background:${th.bg}">
           <div style="height:${U(46)};background:${c.hex}"></div>
-          <div style="padding:${U(7)} ${U(8)}">
+          <div style="padding:${U(9)} ${U(11)}">
             <div style="font-size:${U(9.5)};line-height:${1.3};font-family:${mono};color:${th.ink}">${esc(c.name || 'token')}</div>
             <div style="font-size:${U(8.5)};line-height:${1.3};font-family:${mono};color:${th.muted}">${esc(c.hex)}</div>
           </div>
@@ -443,20 +443,20 @@ window.__ModuleLoader__.load({
               font-size:min(${U(clamp((v.displaySize || 56) * 1.15, 34, 88))}, ${U(96)});line-height:1.05;color:${th.ink}">
               Design System<br>Inspired by <span style="color:${th.accent}">${esc(d.brand)}</span>
             </div>
-            <div style="margin:${U(14)} auto 0;max-width:${U(420)};font-size:${U(10.5)};line-height:1.7;font-family:${body};color:${th.muted}">${esc(d.tagline)}</div>
+            <div style="margin:${U(14)} auto 0;max-width:${U(540)};font-size:${U(10.5)};line-height:1.7;font-family:${body};color:${th.muted};display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden">${esc(style.summaryZh || d.tagline)}</div>
             <div style="margin-top:${U(18)};display:flex;justify-content:center;gap:${U(9)}">
               <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(8)} ${U(14)};font-size:${U(9.5)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
               <span style="border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(8)} ${U(14)};font-size:${U(9.5)};line-height:1.1;font-weight:500;font-family:${body}">Dark Preview</span>
             </div>
           </div>
 
-          ${section(1, 'COLORS', t('palette'), `<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:${U(10)}">${colorCells}</div>`)}
-          ${section(2, 'TYPOGRAPHY', t('typography'), typeRows)}
-          ${section(3, 'BUTTONS', t('demoBtn'), buttons)}
-          ${section(4, 'CARDS', t('components'), `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${cards}</div>`)}
-          ${section(5, 'FORMS', t('requirement'), forms)}
-          ${section(6, 'SPACING', t('spaceBase'), spaceRows)}
-          ${section(7, 'RADIUS', t('radiusCard'), `<div style="display:grid;grid-template-columns:repeat(${Math.max(radii.length, 1)},minmax(0,1fr));gap:${U(10)}">${radiusCells}</div>`)}
+          ${section(1, 'COLORS', 'Color Palette', `<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:${U(10)}">${colorCells}</div>`)}
+          ${section(2, 'TYPOGRAPHY', 'Type Scale', typeRows)}
+          ${section(3, 'BUTTONS', 'Buttons', buttons)}
+          ${section(4, 'CARDS', 'Cards', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${cards}</div>`)}
+          ${section(5, 'FORMS', 'Forms', forms)}
+          ${section(6, 'SPACING', 'Spacing Scale', spaceRows)}
+          ${section(7, 'RADIUS', 'Radius Scale', `<div style="display:grid;grid-template-columns:repeat(${Math.max(radii.length, 1)},minmax(0,1fr));gap:${U(10)}">${radiusCells}</div>`)}
           ${section(8, 'ELEVATION', 'Elevation', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${elevation}</div>`)}
 
           <div style="display:flex;justify-content:space-between;border-top:1px solid ${th.line};padding-top:${U(12)};font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted}">
@@ -1194,7 +1194,7 @@ window.__ModuleLoader__.load({
 .dm-search{flex:1;min-width:220px;box-sizing:border-box;background:var(--bg-2);border-radius:8px;padding:10px 14px;border:1px solid transparent;font:inherit;font-size:13px;color:var(--ink);outline:none}
 .dm-search::placeholder{color:var(--ink-3)}
 .dm-search:focus{border-color:#000;background:#fff;box-shadow:0 0 0 3px rgba(0,0,0,.10)}
-.dm-chips{display:flex;gap:8px;overflow-x:auto;padding:14px clamp(20px,3.2vw,64px) 4px;scrollbar-width:none}
+.dm-chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none}
 .dm-chips::-webkit-scrollbar{display:none}
 .dm-chip{white-space:nowrap;font:inherit;font-size:12.5px;padding:6px 12px;border-radius:7px;border:1px solid var(--line);color:var(--ink-2);background:#fff;cursor:pointer}
 .dm-chip:hover{color:var(--ink)}
