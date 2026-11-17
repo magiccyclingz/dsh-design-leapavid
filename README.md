@@ -14,6 +14,14 @@
 
 ![内容页](docs/screenshots/detail.jpg)
 
+**幻灯片** —— 16:9，5 页一套（封面 / 主张 / 目录 / 数字 / 速览），版式沿用编辑部 deck 的语汇：细边框、等宽小字元信息、超大品牌字、强调色实底板块、圆角工程图。下面是其中三页（Stripe 这套）：
+
+![幻灯片 · 封面](docs/screenshots/deck-1.jpg)
+
+![幻灯片 · 目录](docs/screenshots/deck-2.jpg)
+
+![幻灯片 · 数字](docs/screenshots/deck-3.jpg)
+
 ## 功能
 
 | 区域 | 能力 |

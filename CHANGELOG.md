@@ -2,6 +2,13 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.9.2] - 2026-11-18
+
+### 文档
+
+- README「界面」一节补幻灯片预览：封面 / 目录 / 数字三页（`docs/screenshots/deck-{1,2,3}.jpg`），并说明 5 页一套的结构。
+- 顺手修了幻灯片里的两处渲染问题：第 2 页与数字页的说明文案取错字段（`summary` → `lede`，之前是空白）；圆角 / 间距 / 字号卡片的值重复带单位（`14pxpx`）。
+
 ## [1.9.1] - 2026-11-18
 
 ### 文档

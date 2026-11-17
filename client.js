@@ -594,7 +594,7 @@ window.__ModuleLoader__.load({
         <span style="font-size:${US(8.5)};line-height:1.4;letter-spacing:.16em;text-transform:uppercase;color:${th.muted};${extra}">${esc(text)}</span>`
 
       const wordmark = (size) => `
-        <div style="font-family:${display};font-weight:${v.displayWeight || 600};line-height:.82;
+        <div style="font-family:${display};font-weight:${v.displayWeight || 600};line-height:.9;
           letter-spacing:${US((v.displayTracking || 0) * 0.8)};font-size:${US(size)}">${esc(d.brand)}</div>`
 
       const dotRow = (label, value) => `
@@ -604,6 +604,7 @@ window.__ModuleLoader__.load({
           <span style="font-family:${mono};color:${th.muted}">${esc(value)}</span>
         </div>`
 
+      const num = (value, fallback) => String(Math.round(Number.parseFloat(value) || fallback))
       const kpi = (value, unit, label, sub) => `
         <div style="background:${th.ink};color:${th.bg};padding:${US(12)} ${US(14)} ${US(10)};
           display:flex;flex-direction:column;justify-content:flex-start;gap:${US(6)};min-height:0">
@@ -634,7 +635,7 @@ window.__ModuleLoader__.load({
 
       /* 01 — cover: masthead, small label, oversized wordmark flush to the bottom */
       const cover = `
-        <div style="position:absolute;inset:0;padding:${US(26)} ${US(30)} ${US(20)};display:flex;flex-direction:column">
+        <div style="position:absolute;inset:0;padding:${US(26)} ${US(30)} ${US(32)};display:flex;flex-direction:column">
           <div style="display:flex;align-items:baseline;justify-content:space-between">
             <div style="display:flex;align-items:baseline;gap:${US(10)}">
               <span style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(13)};letter-spacing:${US(-0.3)}">${esc(d.brand)}</span>
@@ -647,7 +648,7 @@ window.__ModuleLoader__.load({
             <span style="font-size:${US(11)};color:${th.ink}">${esc(d.kicker)} · 设计语言样本</span>
             <span style="font-size:${US(11)};color:${th.accent};font-family:${mono}">2026</span>
           </div>
-          ${wordmark(clamp((v.displaySize || 56) * 3.1, 150, 260))}
+          ${wordmark(clamp((v.displaySize || 56) * 2.05, 110, 186))}
         </div>`
 
       /* 02 — statement + stacked panels (vision / values) */
@@ -664,7 +665,7 @@ window.__ModuleLoader__.load({
                 letter-spacing:${US(-0.4)}">${esc(stLine1)}</div>` : ''}
               <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(30)};line-height:1.16;
                 margin-top:${US(6)};letter-spacing:${US(-0.4)}">${esc(d.tagline)}</div>
-              <div style="font-size:${US(10)};line-height:1.9;color:${th.muted};max-width:${US(300)};margin-top:${US(18)}">${esc(d.summary || '')}</div>
+              <div style="font-size:${US(10)};line-height:1.9;color:${th.muted};max-width:${US(300)};margin-top:${US(18)}">${esc(d.lede || '')}</div>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:${US(8)};font-family:${mono};color:${alpha(th.ink, 0.45)}">
               <span>${esc(d.brand)} · design language</span><span>${esc(style.category || '')}</span>
@@ -679,7 +680,7 @@ window.__ModuleLoader__.load({
             </div>
             <div style="background:${th.accent};color:${accentInk};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
               <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.8">our vision</div>
-              <div style="font-family:${display};font-size:${US(19)};line-height:1.2;letter-spacing:${US(-0.3)}">${esc(d.tagline)}</div>
+              <div style="font-family:${display};font-size:${US(15)};line-height:1.45;letter-spacing:${US(-0.2)}">${esc(d.lede || d.tagline)}</div>
             </div>
             <div style="background:${th.ink};color:${th.bg};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
               <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.65">our values</div>
@@ -710,7 +711,7 @@ window.__ModuleLoader__.load({
           </div>
           <div style="position:relative;background:linear-gradient(160deg, ${mix(th.accent, th.ink, 0.2)}, ${mix(th.accent, th.ink, 0.72)})">
             <div style="position:absolute;left:${US(16)};right:${US(16)};bottom:${US(16)};color:${accentInk};
-              font-size:${US(8.5)};line-height:1.65;opacity:.92">${esc(d.summary || d.tagline)}</div>
+              font-size:${US(8.5)};line-height:1.65;opacity:.92">${esc(d.lede || d.tagline)}</div>
           </div>
         </div>`
 
@@ -720,16 +721,16 @@ window.__ModuleLoader__.load({
         [String(type.length), '', 'type · 字号', 'scale steps'],
         [String(radii.length), '', 'radius · 圆角', 'corner tokens'],
         [String(spaces.length), '', 'spacing · 间距', 'rhythm steps'],
-        [String(v.radiusCard || 0), 'px', 'card radius', '组件圆角'],
-        [String(v.spaceBase || 8), 'px', 'base unit', '间距基数'],
-        [String(v.displaySize || 56), 'px', 'display size', '展示字号'],
-        [String(v.bodySize || 14), 'px', 'body size', '正文字号'],
+        [num(v.radiusCard, 0), 'px', 'card radius', '组件圆角'],
+        [num(v.spaceBase, 8), 'px', 'base unit', '间距基数'],
+        [num(v.displaySize, 56), 'px', 'display size', '展示字号'],
+        [num(v.bodySize, 14), 'px', 'body size', '正文字号'],
       ]
       const kpiPage = `
         <div style="position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,0.64fr) minmax(0,1fr)">
           <div style="padding:${US(26)} ${US(24)} ${US(26)} ${US(30)};display:flex;flex-direction:column;gap:${US(12)}">
             <div style="font-family:${display};font-size:${US(24)};line-height:1.15;letter-spacing:${US(-0.4)}">This is ${esc(d.brand)}</div>
-            <div style="font-size:${US(9.5)};line-height:1.85;color:${th.muted}">${esc(d.summary || d.positioning || '')}</div>
+            <div style="font-size:${US(9.5)};line-height:1.85;color:${th.muted}">${esc(d.lede || d.positioning || '')}</div>
             <div style="margin-top:auto">${dotRow('颜色', `${colors.length} 组`)}${dotRow('字体', String(v.displayFamily || 'sans'))}${dotRow('分类', String(style.category || '—'))}</div>
           </div>
           <div style="padding:${US(18)};display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:${US(8)}">
@@ -763,8 +764,8 @@ window.__ModuleLoader__.load({
       const briefItems = [
         ['image', '色彩系统', `${colors.length} 组 token`, 0],
         ['image', '排版阶梯', `${type.length} 级字号`, 1],
-        ['accent', 'corner system', `${v.radiusCard || 0}px / ${v.radiusButton || 0}px`],
-        ['image', '间距节奏', `${v.spaceBase || 8}px base`, 2],
+        ['accent', 'corner system', `${num(v.radiusCard, 0)}px / ${num(v.radiusButton, 0)}px`],
+        ['image', '间距节奏', `${num(v.spaceBase, 8)}px base`, 2],
         ['ink', 'spacing', String(spaces.length)],
         ['image', '组件', '按钮 · 卡片 · 输入', 0],
       ]
