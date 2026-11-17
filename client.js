@@ -20,6 +20,15 @@ window.__ModuleLoader__.load({
     /** Survives panel unmount (switching back to the conversation). */
     const memory = { query: '', category: null, surface: 'page', theme: 'light', slug: null }
 
+    /** Re-clicking the sidebar entry must take the panel back to the grid, even when it is already selected. */
+    const viewBus = { listeners: new Set() }
+    function requestListView() {
+      memory.slug = null
+      for (const fn of viewBus.listeners) {
+        try { fn() } catch { /* listeners must not break the click */ }
+      }
+    }
+
     /* ------------------------------------------------------------ strings */
 
     const STRINGS = {
@@ -1044,6 +1053,12 @@ window.__ModuleLoader__.load({
         return () => { alive.current = false }
       }, [])
 
+      useEffect(() => {
+        const handler = () => setSlug(null)
+        viewBus.listeners.add(handler)
+        return () => { viewBus.listeners.delete(handler) }
+      }, [])
+
       useEffect(() => { memory.query = query }, [query])
       useEffect(() => { memory.category = category }, [category])
       useEffect(() => { memory.surface = surface }, [surface])
@@ -1184,6 +1199,9 @@ window.__ModuleLoader__.load({
         viewBox: '0 0 24 24',
         fill: 'none',
         'aria-hidden': 'true',
+        onClick: () => requestListView(),
+        'data-dm-entry': 'design-md',
+        style: { cursor: 'pointer' },
       },
       h('rect', { x: 3.2, y: 3.2, width: 17.6, height: 17.6, rx: 5.2, stroke: 'currentColor', strokeWidth: 1.5 }),
       h('path', { d: 'M7.6 15.4 10.9 8l3.3 7.4', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round' }),
@@ -1344,6 +1362,15 @@ window.__ModuleLoader__.load({
     function apply(ctx) {
       runtime.ctx = ctx
       try {
+        // Clicking the sidebar row while the panel already shows a style must return to the grid;
+        // the host only re-selects the panel and no state change reaches us, so catch the click here.
+        const onEntryClick = (event) => {
+          const row = event.target && event.target.closest ? event.target.closest('button') : null
+          if (row && row.querySelector('[data-dm-entry="design-md"]')) requestListView()
+        }
+        document.addEventListener('click', onEntryClick, true)
+        ctx.effect(() => () => document.removeEventListener('click', onEntryClick, true), 'design-md entry click')
+
         setLocale(ctx.locale?.getLocale?.())
         // The locale service notifies without arguments; re-read the snapshot instead.
         ctx.locale?.subscribe?.(() => setLocale(ctx.locale?.getLocale?.()))
