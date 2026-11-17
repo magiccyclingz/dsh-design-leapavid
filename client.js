@@ -315,6 +315,11 @@ window.__ModuleLoader__.load({
 
     const radiusCss = (u, value) => (/^9{3,}/.test(String(value ?? '')) ? '9999px' : u(Number.parseFloat(value) || 0))
 
+    /** Font stacks often carry double quotes; inside an HTML style attribute they must be single quotes. */
+    function fam(stack) {
+      return String(stack || '').replace(/"/g, "'")
+    }
+
     /** The reference "design system" page: nav + hero + 8 sections + footer. */
     function webHtml(style, mode) {
       const v = style.visual
@@ -328,9 +333,9 @@ window.__ModuleLoader__.load({
       const radii = (style.radius || []).filter((r) => r && r.value).slice(0, 5)
       const spaces = (style.spacing || []).filter((s) => s && s.value).slice(0, 8)
       const navLinks = ['Colors', 'Typography', 'Buttons', 'Cards', 'Forms', 'Spacing', 'Radius', 'Elevation']
-      const display = v.displayStack || 'system-ui, sans-serif'
-      const body = v.bodyStack || display
-      const mono = v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace'
+      const display = fam(v.displayStack || 'system-ui, sans-serif')
+      const body = fam(v.bodyStack || display)
+      const mono = fam(v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace')
       const maxStep = Math.max(...types.map((s) => Number.parseFloat(s.fontSize) || 16), 16)
       const rCard = radiusCss(U, v.radiusCard)
       const rBtn = radiusCss(U, v.radiusButton)
@@ -472,8 +477,8 @@ window.__ModuleLoader__.load({
       const th = themeOf(style, mode)
       const v = style.visual
       const d = deckOf(style)
-      const display = v.displayStack || 'system-ui, sans-serif'
-      const body = v.bodyStack || display
+      const display = fam(v.displayStack || 'system-ui, sans-serif')
+      const body = fam(v.bodyStack || display)
       const title = clamp((v.displaySize || 56) * 1.55, 30, 68)
       return `
         <div style="position:relative;height:100%;background:${th.bg};color:${th.ink};font-family:${body};overflow:hidden">
@@ -521,8 +526,8 @@ window.__ModuleLoader__.load({
         dark: luminance(base.ink) < 0.5,
       }
       const d = deckOf(style)
-      const display = v.displayStack || 'system-ui, sans-serif'
-      const body = v.bodyStack || display
+      const display = fam(v.displayStack || 'system-ui, sans-serif')
+      const body = fam(v.bodyStack || display)
       const title = clamp((v.displaySize || 56) * 2.4, 28, 84)
       return `
         <div style="height:100%;background:${th.bg};color:${th.ink};font-family:${body};box-sizing:border-box;
