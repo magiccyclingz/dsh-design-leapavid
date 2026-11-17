@@ -502,35 +502,148 @@ window.__ModuleLoader__.load({
       const d = deckOf(style)
       const display = fam(v.displayStack || 'system-ui, sans-serif')
       const body = fam(v.bodyStack || display)
-      const title = clamp((v.displaySize || 56) * 1.55, 30, 68)
-      return `
-        <div style="position:relative;height:100%;background:${th.bg};color:${th.ink};font-family:${body};overflow:hidden">
-          <div style="position:absolute;left:0;top:0;bottom:0;width:${US(5)};background:${th.accent}"></div>
-          <div style="position:absolute;right:${US(-14)};top:${US(-30)};font-family:${display};font-weight:${v.displayWeight || 600};
-            font-size:${US(260)};line-height:1;color:${alpha(th.ink, 0.07)}">01</div>
-          <div style="position:relative;height:100%;box-sizing:border-box;padding:${US(30)} ${US(48)} ${US(26)} ${US(56)};display:flex;flex-direction:column">
-            <div style="display:flex;justify-content:space-between;font-size:${US(9.5)};line-height:1.3;font-family:${body};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">
-              <span>${esc(d.kicker)} / ${esc(t('previewSketch'))}</span>
+      const mono = fam(v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace')
+      const accentInk = v.accentText || (luminance(th.accent) > 0.55 ? '#111111' : '#ffffff')
+
+      /* An editorial deck page: meta rail, oversized wordmark, spec columns,
+         an accent plate, and a technical drawing of the corner system. */
+      const tiny = (label, value) => `
+        <div style="display:flex;align-items:baseline;gap:${US(6)};font-size:${US(9.5)};line-height:1.6">
+          <span style="color:${th.muted};min-width:${US(52)}">${label}</span>
+          <span style="flex:1;border-bottom:1px dotted ${alpha(th.ink, 0.22)};transform:translateY(-${US(2)})"></span>
+          <span style="font-family:${mono};color:${th.ink}">${value}</span>
+        </div>`
+
+      const row = (label, value) => `
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:${US(12)};
+          padding:${US(9)} 0;border-top:1px solid ${alpha(accentInk, 0.22)};font-size:${US(10)};line-height:1.4">
+          <span style="color:${alpha(accentInk, 0.82)};letter-spacing:.02em">${label}</span>
+          <span style="font-family:${mono};color:${accentInk};font-weight:500">${value}</span>
+        </div>`
+
+      const radiusTokens = (style.radius || []).filter((r) => r && r.value).slice(0, 4)
+      const shapes = radiusTokens.length ? radiusTokens : [
+        { name: 'card', value: v.radiusCard }, { name: 'button', value: v.radiusButton },
+        { name: 'pill', value: v.radiusPill }, { name: 'full', value: 9999 },
+      ]
+      const shapeCell = (item, index) => {
+        const raw = String(item.value || '')
+        const px = Number.parseFloat(raw)
+        const isPill = /9{3,}/.test(raw) || !Number.isFinite(px)
+        const radius = isPill ? '9999px' : US(px)
+        const label = isPill ? '9999px' : `${Math.round(px)}px`
+        const size = index % 2 === 0 ? US(86) : US(68)
+        return `
+          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:${US(7)}">
+            <div style="width:${size};height:${size};border-radius:${radius};
+              border:1px solid ${index === 0 ? th.accent : alpha(th.ink, 0.26)};
+              background:${index === 0 ? th.accent : alpha(th.accent, 0.07)}"></div>
+            <div style="font-size:${US(8.5)};line-height:1.3;font-family:${mono};color:${th.muted}">
+              ${esc(String(item.name || 'radius'))} · ${label}
             </div>
-            <div style="flex:1;display:grid;grid-template-columns:1.15fr .85fr;gap:${US(36)};align-items:center">
-              <div style="display:flex;flex-direction:column;justify-content:center;min-width:0">
-                <div style="font-family:${display};font-weight:${v.displayWeight || 600};letter-spacing:${US(v.displayTracking || 0)};
-                  font-size:${US(title)};line-height:1.02">${esc(d.brand)}</div>
-                <div style="width:${US(64)};height:${US(3)};background:${th.accent};margin:${US(20)} 0 ${US(12)}"></div>
-                <div style="font-size:${US(11)};line-height:1.6;font-family:${body};color:${th.muted};max-width:${US(430)}">${esc(d.tagline)}</div>
-                <div style="margin-top:${US(18)};display:flex;flex-direction:column;gap:${US(9)}">
-                  ${d.bullets.map((b) => `<div style="display:flex;align-items:center;gap:${US(9)};font-size:${US(12.5)};line-height:1.4;font-family:${body};color:${th.ink}">
-                    <span style="width:${US(5)};height:${US(5)};border-radius:9999px;background:${th.accent};flex:none"></span>${esc(b)}</div>`).join('')}
+          </div>`
+      }
+
+      const title = clamp((v.displaySize || 56) * 2.4, 54, 128)
+
+      return `
+        <div style="position:relative;height:100%;background:${th.bg};color:${th.ink};font-family:${body};box-sizing:border-box;overflow:hidden">
+          <div style="position:absolute;inset:${US(16)};border:1px solid ${alpha(th.ink, 0.16)};pointer-events:none"></div>
+          <div style="position:relative;height:100%;box-sizing:border-box;
+            padding:${US(30)} ${US(40)} ${US(24)} ${US(40)};display:flex;flex-direction:column">
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;
+              font-size:${US(8.5)};line-height:1.4;font-family:${mono};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">
+              <span>${esc(style.category || '')} / deck</span>
+              <span>${esc(d.brand)} · ${esc(t('surfaces.slides'))}</span>
+            </div>
+
+            <div style="flex:1;display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,0.68fr);
+              gap:${US(34)};padding-top:${US(22)};min-height:0">
+
+              <div style="display:flex;flex-direction:column;min-width:0">
+                <div style="display:flex;align-items:center;gap:${US(8)};font-size:${US(9.5)};line-height:1.4;
+                  letter-spacing:.18em;text-transform:uppercase;color:${th.muted}">
+                  <span style="width:${US(18)};height:${US(2)};background:${th.accent};display:inline-block"></span>
+                  ${esc(d.kicker)}
+                </div>
+
+                <div style="font-family:${display};font-weight:${v.displayWeight || 600};
+                  letter-spacing:${US((v.displayTracking || 0) * 0.6)};font-size:${US(title)};line-height:.98;
+                  margin-top:${US(12)};word-break:break-word">${esc(d.brand)}</div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:${US(4)} ${US(22)};
+                  margin-top:${US(16)};max-width:${US(430)}">
+                  ${tiny('强调色', esc((style.colors && style.colors[0] && style.colors[0].hex) || th.accent))}
+                  ${tiny('间距', `${v.spaceBase || 8}px`)}
+                  ${tiny('展示字体', esc(String(v.displayFamily || 'sans').slice(0, 12)))}
+                  ${tiny('正文字号', `${v.bodySize || 14}px`)}
+                </div>
+
+                <div style="margin-top:${US(22)};max-width:${US(430)}">
+                  <div style="font-size:${US(8.5)};line-height:1.4;letter-spacing:.18em;text-transform:uppercase;
+                    color:${th.muted};margin-bottom:${US(8)}">highlights / 要点</div>
+                  ${(d.bullets || []).slice(0, 3).map((b) => `
+                    <div style="display:flex;gap:${US(8)};font-size:${US(11)};line-height:1.65;color:${th.ink}">
+                      <span style="color:${th.accent}">—</span><span style="min-width:0">${esc(b)}</span>
+                    </div>`).join('')}
+                </div>
+
+                <div style="flex:1;min-height:${US(10)}"></div>
+
+                <div style="background:${th.accent};color:${accentInk};padding:${US(24)} ${US(26)} ${US(18)}">
+                  <div style="font-size:${US(8.5)};line-height:1.4;letter-spacing:.18em;text-transform:uppercase;
+                    color:${alpha(accentInk, 0.7)};margin-bottom:${US(10)}">specification / 规范</div>
+                  <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(30)};
+                    line-height:1.14;letter-spacing:${US((v.displayTracking || 0) * 0.4)}">${esc(d.tagline)}</div>
+                  <div style="margin-top:${US(18)}">
+                    ${row('卡片圆角 / radius', `${v.radiusCard || 0}px`)}
+                    ${row('按钮圆角 / button', /9{3,}/.test(String(v.radiusButton)) ? '9999px' : `${v.radiusButton || 0}px`)}
+                    ${row('间距基数 / space', `${v.spaceBase || 8}px`)}
+                    ${row('展示字体 / display', esc(String(v.displayFamily || 'sans').slice(0, 16)))}
+                  </div>
                 </div>
               </div>
-              <div style="position:relative;aspect-ratio:4/3;border-radius:${US(6)};overflow:hidden;border:1px solid ${alpha(th.ink, 0.12)};
-                background:linear-gradient(135deg, ${th.accent}, ${mix(th.accent, th.ink, 0.62)})">
-                <div style="position:absolute;inset:0;background:linear-gradient(180deg, transparent 45%, ${alpha(th.ink, 0.22)})"></div>
-                <div style="position:absolute;left:${US(16)};bottom:${US(14)};font-size:${US(9)};letter-spacing:.16em;text-transform:uppercase;font-family:${body};color:${alpha(th.ink, 0.72)}">visual</div>
+
+              <div style="display:flex;flex-direction:column;min-width:0;position:relative">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;
+                  font-size:${US(8.5)};line-height:1.4;font-family:${mono};letter-spacing:.14em;
+                  text-transform:uppercase;color:${th.muted}">
+                  <span>corner system</span><span>fig. 01</span>
+                </div>
+
+                <div style="position:relative;flex:1;min-height:0;border-left:1px solid ${alpha(th.ink, 0.14)};
+                  border-bottom:1px solid ${alpha(th.ink, 0.14)};margin-top:${US(6)}">
+                  <div style="position:relative;padding:${US(20)} ${US(18)};
+                    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:${US(16)} ${US(14)}">
+                    ${shapes.map((item, index) => shapeCell(item, index)).join('')}
+                  </div>
+                  <div style="position:absolute;left:${US(16)};bottom:${US(12)};right:${US(16)};
+                    display:flex;align-items:center;gap:${US(8)};font-size:${US(8)};line-height:1.3;
+                    font-family:${mono};color:${th.muted}">
+                    <span style="flex:1;height:1px;background:${alpha(th.ink, 0.18)}"></span>
+                    <span>radius scale</span>
+                    <span style="flex:1;height:1px;background:${alpha(th.ink, 0.18)}"></span>
+                  </div>
+                </div>
+
+                <div style="margin-top:${US(12)};display:flex;flex-direction:column;gap:${US(4)};
+                  font-size:${US(8.5)};line-height:1.5;font-family:${mono};color:${th.muted}">
+                  <span style="display:flex;justify-content:space-between;border-top:1px solid ${alpha(th.ink, 0.14)};padding-top:${US(5)}">
+                    <span>display</span><span>${esc(String(v.displayFamily || 'sans').slice(0, 16))}</span></span>
+                  <span style="display:flex;justify-content:space-between">
+                    <span>body</span><span>${esc(String(v.bodyFamily || 'sans').slice(0, 12))} / ${v.bodySize || 14}px</span></span>
+                  <span style="display:flex;justify-content:space-between">
+                    <span>tracking</span><span>${Math.round(Number.parseFloat(v.displayTracking) || 0)}px</span></span>
+                </div>
               </div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:${US(8.5)};line-height:1.3;font-family:${v.monoFamily || body};color:${th.muted}">
-              <span>${esc(d.brand)} · Design System</span><span>01 / 08 · getdesign.md</span>
+
+            <div style="display:flex;justify-content:space-between;align-items:baseline;
+              margin-top:${US(14)};padding-top:${US(8)};border-top:1px solid ${alpha(th.ink, 0.16)};
+              font-size:${US(8.5)};line-height:1.3;font-family:${mono};color:${th.muted}">
+              <span>${esc(d.brandZh || d.brand)} · ${esc(d.kicker)}</span>
+              <span>01 / 08 · getdesign.md/${esc(style.slug)}</span>
             </div>
           </div>
         </div>`

@@ -2,6 +2,18 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.5.0] - 2026-11-18
+
+### 变更（幻灯片重做）
+
+- 按编辑部 / 投资人 deck 的排版语言重写 16:9 幻灯片预览，替换原来的「左侧大标题 + 右侧色块」版式：
+  - 画布内收 16px 细框，顶部一行等宽小字元信息（左「分类 / deck」，右「品牌 · 幻灯片」）；
+  - 左栏：强调色短横 + 眉标 → 超大品牌字（随各风格 `displaySize` 缩放，最大 128）→ 两列点线规格（强调色 / 间距 / 展示字体 / 正文字号）→「highlights / 要点」三条；
+  - 左栏底部一整块强调色实底「specification / 规范」：大标语 + 四行规格表（卡片圆角、按钮圆角、间距基数、展示字体），行间细线；
+  - 右栏：`corner system` 工程图——2×2「圆角系统」示意块（数值取自该风格的 radius token，pill 显示 9999px，首个方块用强调色实底），下方 `radius scale` 标注线与 display / body / tracking 注脚；
+  - 页脚：品牌中文名 · 眉标 ｜ `01 / 08 · getdesign.md/<slug>`。
+- 幻灯片仍跟随浅色 / 深色开关，深色下自动使用 `darkCanvas / darkInk` 一组 token。
+
 ## [1.4.0] - 2026-11-18
 
 ### 新增
