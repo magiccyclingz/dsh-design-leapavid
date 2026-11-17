@@ -709,29 +709,105 @@ window.__ModuleLoader__.load({
         </div>`
     }
 
-    function posterHtml(style, mode) {
+    function posterHtml(style, mode, clip) {
       const v = style.visual
-      // The poster follows the chosen tone: light = paper, dark = ink.
       const th = themeOf(style, mode)
       const d = deckOf(style)
       const display = fam(v.displayStack || 'system-ui, sans-serif')
       const body = fam(v.bodyStack || display)
-      const title = clamp((v.displaySize || 56) * 2.4, 28, 84)
-      return `
-        <div style="height:100%;background:${th.bg};color:${th.ink};font-family:${body};box-sizing:border-box;
-          padding:${UP(34)} ${UP(34)} ${UP(26)};display:flex;flex-direction:column">
-          <div style="display:flex;justify-content:space-between;font-size:${UP(9)};line-height:1.3;font-family:${body};letter-spacing:.16em;text-transform:uppercase;color:${th.muted}">
-            <span>${esc(d.kicker)}</span><span>2026</span>
-          </div>
-          <div style="flex:1"></div>
-          <div style="font-family:${display};font-weight:${v.displayWeight || 600};text-transform:uppercase;letter-spacing:${UP(v.displayTracking || 0)};
-            font-size:${UP(title)};line-height:.96">${esc(d.brand)}</div>
-          <div style="height:${UP(2)};background:${th.accent};margin:${UP(14)} 0 ${UP(12)}"></div>
-          <div style="font-size:${UP(11)};line-height:1.6;font-family:${body};color:${th.muted};max-width:${UP(300)}">${esc(d.tagline)}</div>
-          <div style="display:flex;justify-content:space-between;margin-top:${UP(18)};font-size:${UP(8.5)};line-height:1.3;font-family:${body};color:${th.muted}">
-            <span>${esc(d.brandZh)} · ${esc(d.kicker)}</span><span>getdesign.md</span>
+      const mono = fam(v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace')
+      const tint = mix(th.accent, th.bg, 0.88)
+      const stroke = alpha(th.ink, 0.3)
+
+      /* Placeholder plate with the diagonal cross used by the layout studies. */
+      const plate = (extra = '') => `<div style="position:relative;background:${tint};${extra}">
+        <div style="position:absolute;inset:0;background-image:
+          linear-gradient(to top right, transparent calc(50% - 0.5px), ${stroke} 50%, transparent calc(50% + 0.5px)),
+          linear-gradient(to bottom right, transparent calc(50% - 0.5px), ${stroke} 50%, transparent calc(50% + 0.5px))"></div>
+      </div>`
+
+      const word = (size) => `<div style="font-family:${display};font-weight:${v.displayWeight || 600};line-height:.86;
+        letter-spacing:${UP((v.displayTracking || 0) * 0.9)};font-size:${UP(size)}">${esc(d.brand)}</div>`
+
+      const caps = (text, extra = '') => `<div style="font-size:${UP(6.5)};line-height:1.5;letter-spacing:.16em;
+        text-transform:uppercase;font-family:${mono};color:${alpha(th.ink, 0.58)};${extra}">${esc(text)}</div>`
+
+      const shell = (index, name, inner) => `<div style="position:relative;aspect-ratio:3/4;container-type:inline-size;
+        overflow:hidden;background:${th.bg};color:${th.ink};font-family:${body};
+        border:1px solid ${alpha(th.ink, 0.14)};border-radius:${UP(8)};display:flex;flex-direction:column;
+        padding:${UP(14)} ${UP(14)} ${UP(22)};box-sizing:border-box">${inner}
+        <div style="display:flex;justify-content:space-between;margin-top:${UP(8)};
+          font-size:${UP(5.6)};letter-spacing:.14em;text-transform:uppercase;font-family:${mono};color:${alpha(th.ink, 0.42)}">
+          <span>${String(index).padStart(2, '0')} / 06 · ${esc(name)}</span><span>getdesign.md/${esc(style.slug)}</span>
+        </div></div>`
+
+      const head = (label, side = '') => `<div style="display:flex;justify-content:space-between;margin-bottom:${UP(6)}">
+        ${caps(label)}${caps(side)}</div>`
+
+      /* 01 top-bottom */
+      const topBottom = `${head(d.kicker, 'top-bottom')}
+        ${plate(`flex:1 1 0;min-height:0;border-radius:${UP(2)}`)}
+        <div style="display:flex;flex-direction:column;justify-content:flex-end;flex:1;padding-top:${UP(8)}">
+          ${caps(esc(d.brandZh || d.brand) + ' · composition study')}
+          <div style="margin-top:${UP(2)}">${word(118)}</div>
+        </div>`
+
+      /* 02 left-right */
+      const leftRight = `<div style="display:grid;grid-template-columns:1.1fr .9fr;gap:${UP(10)};flex:1">
+          ${plate(`border-radius:${UP(2)}`)}
+          <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right">
+            ${caps('left-right')}
+            <div>${word(78)}</div>
+            ${caps(esc((d.bullets || [])[0] || d.tagline))}
           </div>
         </div>`
+
+      /* 03 symmetrical */
+      const symmetrical = `${head('symmetrical', '2026')}
+        ${plate(`flex:1 1 0;min-height:0;border-radius:${UP(2)}`)}
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:${UP(8)};padding:${UP(8)} 0">
+          ${word(66)}${caps(esc(d.tagline), `max-width:${UP(96)};text-align:right`)}
+        </div>
+        ${plate(`flex:1 1 0;min-height:0;border-radius:${UP(2)}`)}`
+
+      /* 04 diagonal */
+      const diagonal = `<div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;gap:${UP(8)};flex:1">
+          <div>${caps('diagonal')}</div>
+          <div style="text-align:right">${caps('2026 sep')}</div>
+          <div></div>
+          ${plate(`border-radius:${UP(2)};min-height:${UP(120)}`)}
+          ${plate(`border-radius:${UP(2)};min-height:${UP(96)}`)}
+          <div style="display:flex;align-items:flex-end;justify-content:flex-end">${word(86)}</div>
+        </div>`
+
+      /* 05 four corners */
+      const fourCorners = `<div style="display:grid;grid-template-rows:auto 1fr auto;flex:1;gap:${UP(8)}">
+          <div style="display:flex;justify-content:space-between">${caps('shake up')}${caps(esc(style.category || ''))}</div>
+          <div style="display:flex;align-items:center;justify-content:center">
+            <div style="width:76%">
+              ${plate(`aspect-ratio:1/1;border-radius:${UP(2)};display:flex;align-items:center;justify-content:center`)}
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between">${caps(esc(d.brandZh || d.brand))}${word(54)}</div>
+        </div>`
+
+      /* 06 negative space */
+      const negative = `${head('negative space', '2026')}
+        <div style="flex:1"></div>
+        <div style="width:58%">${plate(`aspect-ratio:4/3;border-radius:${UP(2)}`)}</div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-top:${UP(8)}">
+          ${word(88)}${caps(esc(d.tagline), `max-width:${UP(80)};text-align:right`)}
+        </div>`
+
+      const cols = clip ? '1fr' : `repeat(auto-fit,minmax(${UP(250)},1fr))`
+      return `<div style="display:grid;grid-template-columns:${cols};gap:${UP(14)}">
+        ${shell(1, 'top-bottom', topBottom)}
+        ${shell(2, 'left-right', leftRight)}
+        ${shell(3, 'symmetrical', symmetrical)}
+        ${shell(4, 'diagonal', diagonal)}
+        ${shell(5, 'four corners', fourCorners)}
+        ${shell(6, 'negative space', negative)}
+      </div>`
     }
 
     const ART_BUILDERS = {
@@ -742,7 +818,7 @@ window.__ModuleLoader__.load({
 
     function Art({ style, mode, surface, clip, onAction }) {
       const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
-      const html = useMemo(() => spec.build(style, mode), [spec, style, mode])
+      const html = useMemo(() => spec.build(style, mode, clip), [spec, style, mode, clip])
       const onClick = (event) => {
         if (!onAction) return
         const hit = event.target && event.target.closest ? event.target.closest('[data-dm-action]') : null
@@ -843,7 +919,7 @@ window.__ModuleLoader__.load({
           }
         },
       },
-      h('div', { className: 'dm-card-art' }, h(Art, { style, mode: mode || baseMode(style), surface, clip: true })),
+      h('div', { className: `dm-card-art is-${surface}` }, h(Art, { style, mode: mode || baseMode(style), surface, clip: true })),
       h('div', { className: 'dm-card-body' },
         h('div', { className: 'dm-card-head' },
           h('div', { className: 'dm-card-title' }, style.nameZh || style.displayName),
@@ -991,7 +1067,7 @@ window.__ModuleLoader__.load({
 
         h('div', { className: 'dm-detail-grid', ref: gridRef },
           h('div', { className: 'dm-left' },
-            h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides is-deck') },
+            h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster is-deck' : ' is-slides is-deck') },
               h(Art, {
                 style,
                 mode: style.visual.darkFirst ? 'dark' : mode,
@@ -1445,6 +1521,9 @@ window.__ModuleLoader__.load({
 .dm-card:hover .dm-card-art{box-shadow:var(--shadow);transform:translateY(-2px);border-color:#dcdcdf}
 .dm-card:focus-visible{outline:2px solid #000;outline-offset:3px}
 .dm-card-art{position:relative;aspect-ratio:16/10}
+.dm-card-art.is-poster{aspect-ratio:4/5}
+.dm-card-art.is-poster .dm-art{aspect-ratio:auto;height:100%}
+.dm-card-art.is-slides .dm-art{aspect-ratio:16/9;height:100%}
 .dm-card-body{padding:15px 2px 0}
 .dm-card-title{font-size:16.5px;font-weight:600;letter-spacing:-.01em;margin:0}
 .dm-card-meta{font-size:12px;color:var(--ink-3);margin-left:8px;font-weight:400}
@@ -1493,6 +1572,7 @@ window.__ModuleLoader__.load({
 .dm-preview.is-slides .dm-art{aspect-ratio:16/9;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
 .dm-preview.is-slides.is-deck .dm-art{aspect-ratio:auto;border:0;border-radius:0;overflow:visible;background:transparent}
 .dm-preview.is-poster .dm-art{aspect-ratio:4/5;max-width:440px;margin:0 auto;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.dm-preview.is-poster.is-deck .dm-art{aspect-ratio:auto;max-width:none;border:0;border-radius:0;overflow:visible;box-shadow:none;background:transparent}
 .dm-preview-cap{font-size:11.5px;color:var(--ink-3);margin-top:10px;display:flex;justify-content:space-between;gap:10px}
 .dm-right{display:flex;flex-direction:column;gap:14px;min-width:0}
 .dm-card2{border:1px solid var(--line);border-radius:10px;padding:20px 22px;background:#fff}
