@@ -2,6 +2,17 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.3.0] - 2026-11-18
+
+### 新增
+
+- 网页预览顶部的 8 个导航项（Colors / Typography / Buttons / Cards / Forms / Spacing / Radius / Elevation）变成**真锚点**：点击平滑滚动到内容页里对应区块；列表卡片里的缩略预览禁用跳转，避免误触。
+- 20 个头部风格（Apple、Stripe、Airbnb、Linear、Vercel、Figma、Claude、xAI、Notion、Nike、BMW、BMW M、Binance、Coinbase、Cursor、Framer、Supabase、ElevenLabs、Ferrari、Spotify）换成**人工撰写**的中文摘要与定位语，句子按各自 `DESIGN.md` 的实际特征写（画布明暗、强调色、字体、圆角、节奏），不再是模板句式。
+
+### 变更
+
+- 浅色 / 深色切换的作用范围收敛到**网页形态**：切到幻灯片或海报时工具栏自动隐藏该开关，两种载体固定使用品牌原生极性（深色品牌恒深、浅色品牌的纸张海报做反相）。此前三处共用同一开关，导致海报也会被强制反转。
+
 ## [1.2.1] - 2026-11-18
 
 ### 修复（整体复查）

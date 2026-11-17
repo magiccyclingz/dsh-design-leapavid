@@ -803,6 +803,7 @@ const exists = async (file) => fs.access(file).then(() => true, () => false);
 async function main() {
   const extra = await readJson(path.join(here, 'extra-metadata.json'));
   const overrides = await readJson(path.join(here, 'overrides.json'));
+  const copy = await readJson(path.join(here, 'copy-overrides.json'));
   LEX = await readJson(path.join(here, 'zh-lexicon.json'));
 
   const slugs = (await fs.readdir(MAIN_ROOT, { withFileTypes: true }))
@@ -836,6 +837,7 @@ async function main() {
     const visual = buildVisual({ colors, typography, radius, spacing, hints: overrides[slug] || {} });
 
     const local = extra[slug] || null;
+    const hand = copy[slug] || null;
     const displayName = local?.displayName || displayOf(slug);
     const zh = zhMeta({ slug, displayName, visual, index: zhStyles.length });
 
@@ -847,8 +849,8 @@ async function main() {
       nameZh: local?.nameZh || zh.nameZh,
       category: local?.category || zh.category,
       group: 'reference',
-      summaryZh: local?.summaryZh || zh.summaryZh,
-      positioningZh: local?.positioningZh || zh.positioningZh,
+      summaryZh: hand?.summaryZh || local?.summaryZh || zh.summaryZh,
+      positioningZh: hand?.positioningZh || local?.positioningZh || zh.positioningZh,
       descriptionEn: String(data.description || '').trim(),
       styleKeywords: local?.styleKeywords || zh.styleKeywords,
       tagsZh: local?.tagsZh || zh.tagsZh,

@@ -261,6 +261,11 @@ window.__ModuleLoader__.load({
       .replace(/"/g, '&quot;')
 
     /** Resolves a style's palette for one theme. */
+    /** Slides / posters keep the brand's native polarity; only the web page follows the toggle. */
+    function baseMode(style) {
+      return style && style.visual && style.visual.darkFirst ? 'dark' : 'light'
+    }
+
     function themeOf(style, mode) {
       const v = style.visual
       const dark = mode === 'dark' || (!mode && v.darkFirst)
@@ -364,8 +369,9 @@ window.__ModuleLoader__.load({
         </div>
         <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${U(22)};line-height:1.25;letter-spacing:${U(-0.4)};color:${th.ink};margin-bottom:${U(26)}">${zh}</div>`
 
+      const sectionId = (en) => `dm-${style.slug}-${en.toLowerCase()}`
       const section = (index, en, zh, inner) => `
-        <section style="border-top:1px solid ${th.line};padding:${U(56)} 0 ${U(60)}">
+        <section id="${sectionId(en)}" style="border-top:1px solid ${th.line};padding:${U(56)} 0 ${U(60)};scroll-margin-top:${U(12)}">
           ${sectionHead(index, en, zh)}
           ${inner}
         </section>`
@@ -455,7 +461,7 @@ window.__ModuleLoader__.load({
               <span style="font-size:${U(14)};line-height:1;font-weight:600;font-family:${body};color:${th.ink}">${esc(d.brand)}</span>
             </div>
             <div style="display:flex;gap:${U(20)};font-size:${U(12.5)};line-height:1;font-family:${body};color:${th.muted}">
-              ${navLinks.map((l) => `<span>${l}</span>`).join('')}
+              ${navLinks.map((l) => `<a href="#dm-${style.slug}-${l.toLowerCase()}" style="color:inherit;text-decoration:none;cursor:pointer">${l}</a>`).join('')}
             </div>
             <span style="background:${th.accent};color:${th.accentInk};border-radius:${rPill};padding:${U(9)} ${U(17)};font-size:${U(12)};line-height:1;font-weight:600;font-family:${body}">Design System</span>
           </div>
@@ -672,7 +678,7 @@ window.__ModuleLoader__.load({
           }
         },
       },
-      h('div', { className: 'dm-card-art' }, h(Art, { style, mode, surface, clip: true })),
+      h('div', { className: 'dm-card-art' }, h(Art, { style, mode: mode || baseMode(style), surface, clip: true })),
       h('div', { className: 'dm-card-body' },
         h('div', { className: 'dm-card-head' },
           h('div', { className: 'dm-card-title' }, style.nameZh || style.displayName),
@@ -804,18 +810,19 @@ window.__ModuleLoader__.load({
                 onClick: () => setSurface(key),
               }, t(`surfaces.${key}`))),
             ),
-            style.darkFirst && surface === 'page'
-              ? h('span', { className: 'dm-note-inline' }, t('brandDark'))
-              : h('div', { className: 'dm-seg dm-seg-themed' },
-                ...['light', 'dark'].map((key) => h('button', {
-                  key,
-                  type: 'button',
-                  className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
-                  'aria-pressed': mode === key,
-                  disabled: surface !== 'page',
-                  onClick: () => setMode(key),
-                }, t(`themes.${key}`))),
-              ),
+            surface !== 'page'
+              ? null
+              : style.darkFirst
+                ? h('span', { className: 'dm-note-inline' }, t('brandDark'))
+                : h('div', { className: 'dm-seg dm-seg-themed' },
+                  ...['light', 'dark'].map((key) => h('button', {
+                    key,
+                    type: 'button',
+                    className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
+                    'aria-pressed': mode === key,
+                    onClick: () => setMode(key),
+                  }, t(`themes.${key}`))),
+                ),
           ),
         ),
 
@@ -824,7 +831,7 @@ window.__ModuleLoader__.load({
             h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides') },
               h(Art, {
                 style,
-                mode: surface === 'page' ? mode : 'light',
+                mode: surface === 'page' ? mode : baseMode(style),
                 surface,
                 onAction: (action) => {
                   if (action === 'design') openDesign()
@@ -1154,15 +1161,17 @@ window.__ModuleLoader__.load({
                 onClick: () => setSurface(key),
               }, t(`surfaces.${key}`))),
             ),
-            h('div', { className: 'dm-seg dm-seg-themed' },
-              ...['light', 'dark'].map((key) => h('button', {
-                key,
-                type: 'button',
-                className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
-                'aria-pressed': mode === key,
-                onClick: () => setMode(key),
-              }, t(`themes.${key}`))),
-            ),
+            surface === 'page'
+              ? h('div', { className: 'dm-seg dm-seg-themed' },
+                ...['light', 'dark'].map((key) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
+                  'aria-pressed': mode === key,
+                  onClick: () => setMode(key),
+                }, t(`themes.${key}`))),
+              )
+              : null,
             h('input', {
               className: 'dm-search',
               value: query,
@@ -1205,7 +1214,7 @@ window.__ModuleLoader__.load({
                     key: style.slug,
                     style,
                     surface,
-                    mode: style.visual.darkFirst ? 'dark' : mode,
+                    mode: surface === 'page' ? (style.visual.darkFirst ? 'dark' : mode) : baseMode(style),
                     onOpen: setSlug,
                   })),
                 ),
@@ -1290,6 +1299,8 @@ window.__ModuleLoader__.load({
 .dm-card:hover .dm-card-go,.dm-card:focus-visible .dm-card-go{opacity:1;color:var(--ink)}
 .dm-art{container-type:inline-size;width:100%;height:100%}
 .dm-art.is-clip{position:absolute;inset:0}
+.dm-art.is-clip a{pointer-events:none}
+.dm-detail-grid{scroll-behavior:smooth}
 .dm-ghost{font:inherit;font-size:12.5px;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-2);cursor:pointer}
 .dm-ghost:hover{color:var(--ink);border-color:#d4d4d6}
 .dm-primary{width:100%;margin-top:12px;padding:10px 0;border:0;border-radius:8px;background:var(--accent);color:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
