@@ -2,6 +2,13 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.9.0] - 2026-11-18
+
+### 变更（收口）
+
+- 内容页标题区去掉「来源 getdesign.md/<slug>」外链，只保留分类；预览内其余 `getdesign.md` 文案一并清掉（网页预览按钮改「查看 DESIGN.md」，页脚、幻灯片封面与页脚、海报页脚改用分类名 / 品牌名，导出文件里的注释只留「design tokens」）。
+- 文档与实现对齐：`README.md` 功能表按当前能力重写（两种载体、星标收藏与「最近」、懒渲染、页面结构预设、再改一版、导出 token、相近的风格）；`locale/detail.zh.md` 与 `locale/detail.en.md` 去掉第三方中文元数据来源与海报相关表述，补「页面结构与迭代」「收藏与最近」「导出 token」；`locale/{zh,en}.json` 的 `meta.description` 重写；`docs/RELEASE.md` 自检清单与 `docs/market-entry.json` 的市场条目同步为两形态。
+
 ## [1.8.2] - 2026-11-18
 
 ### 变更
