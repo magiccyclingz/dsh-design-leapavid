@@ -538,16 +538,8 @@ window.__ModuleLoader__.load({
 
     function posterHtml(style, mode) {
       const v = style.visual
-      const base = themeOf(style, mode)
-      // Posters invert a light brand (paper poster) and keep a dark brand dark.
-      const th = v.darkFirst ? base : {
-        bg: base.ink,
-        ink: base.bg,
-        muted: mix(base.bg, base.ink, 0.42),
-        line: alpha(base.bg, 0.22),
-        accent: base.accent,
-        dark: luminance(base.ink) < 0.5,
-      }
+      // The poster follows the chosen tone: light = paper, dark = ink.
+      const th = themeOf(style, mode)
       const d = deckOf(style)
       const display = fam(v.displayStack || 'system-ui, sans-serif')
       const body = fam(v.bodyStack || display)
@@ -810,19 +802,17 @@ window.__ModuleLoader__.load({
                 onClick: () => setSurface(key),
               }, t(`surfaces.${key}`))),
             ),
-            surface !== 'page'
-              ? null
-              : style.darkFirst
-                ? h('span', { className: 'dm-note-inline' }, t('brandDark'))
-                : h('div', { className: 'dm-seg dm-seg-themed' },
-                  ...['light', 'dark'].map((key) => h('button', {
-                    key,
-                    type: 'button',
-                    className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
-                    'aria-pressed': mode === key,
-                    onClick: () => setMode(key),
-                  }, t(`themes.${key}`))),
-                ),
+            style.darkFirst
+              ? h('span', { className: 'dm-note-inline' }, t('brandDark'))
+              : h('div', { className: 'dm-seg dm-seg-themed' },
+                ...['light', 'dark'].map((key) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
+                  'aria-pressed': mode === key,
+                  onClick: () => setMode(key),
+                }, t(`themes.${key}`))),
+              ),
           ),
         ),
 
@@ -831,7 +821,7 @@ window.__ModuleLoader__.load({
             h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides') },
               h(Art, {
                 style,
-                mode: surface === 'page' ? mode : baseMode(style),
+                mode: style.visual.darkFirst ? 'dark' : mode,
                 surface,
                 onAction: (action) => {
                   if (action === 'design') openDesign()
@@ -1161,17 +1151,15 @@ window.__ModuleLoader__.load({
                 onClick: () => setSurface(key),
               }, t(`surfaces.${key}`))),
             ),
-            surface === 'page'
-              ? h('div', { className: 'dm-seg dm-seg-themed' },
-                ...['light', 'dark'].map((key) => h('button', {
-                  key,
-                  type: 'button',
-                  className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
-                  'aria-pressed': mode === key,
-                  onClick: () => setMode(key),
-                }, t(`themes.${key}`))),
-              )
-              : null,
+            h('div', { className: 'dm-seg dm-seg-themed' },
+              ...['light', 'dark'].map((key) => h('button', {
+                key,
+                type: 'button',
+                className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
+                'aria-pressed': mode === key,
+                onClick: () => setMode(key),
+              }, t(`themes.${key}`))),
+            ),
             h('input', {
               className: 'dm-search',
               value: query,
@@ -1214,7 +1202,7 @@ window.__ModuleLoader__.load({
                     key: style.slug,
                     style,
                     surface,
-                    mode: surface === 'page' ? (style.visual.darkFirst ? 'dark' : mode) : baseMode(style),
+                    mode: style.visual.darkFirst ? 'dark' : mode,
                     onOpen: setSlug,
                   })),
                 ),

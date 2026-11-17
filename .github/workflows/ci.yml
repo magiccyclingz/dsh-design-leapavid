@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Unit tests (data, host routes, client contracts)
+        run: node --test
+
+      - name: Catalog is reproducible from the vendored DESIGN.md corpus
+        run: |
+          cp data/catalog.json /tmp/catalog.before.json
+          node build/build-data.mjs
+          node build/check-drift.mjs /tmp/catalog.before.json data/catalog.json
+
+      - name: Package builds and ships the expected files
+        run: |
+          npm pack --dry-run 2>&1 | tee pack.log
+          grep -q "THIRD-PARTY-NOTICES.md" pack.log
+          grep -q "total files" pack.log

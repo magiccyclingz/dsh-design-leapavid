@@ -2,6 +2,18 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.4.0] - 2026-11-18
+
+### 新增
+
+- **自动化测试**（`node --test`，22 个用例）：数据契约（84 条、字段齐全、token 范围、无绝对路径、中文文案唯一、design/brief 文件存在、20 条人工文案已生效）、Host 路由（health / catalog / style / 404 / 穿越 / 4 种 surface 的 prompt / 坏 JSON / 原型链 surface / 未知路由 / `design_md` 工具）、Client 契约（模块加载器格式、slot 注册、无外链资源、字体简写的两个历史坑有回归守卫、容器查询与主题开关覆盖）。
+- **GitHub Actions CI**：跑测试 → 重跑 `build-data.mjs` 并用 `check-drift.mjs` 校验 catalog 与语料一致（`generatedAt` 不参与比较）→ `npm pack --dry-run` 校验打包内容。
+
+### 变更
+
+- 84 条中文摘要与定位语**全部改为人工撰写**（此前 20 条），逐条对照各风格 `DESIGN.md` 的画布明暗、强调色作用、字体族、圆角与节奏；`summaryZh` / `positioningZh` 均 84 条唯一。
+- 幻灯片与海报重新支持浅色 / 深色切换（三种载体共用同一开关）；海报不再强制反相，改为直接跟随所选色调。
+
 ## [1.3.0] - 2026-11-18
 
 ### 新增
