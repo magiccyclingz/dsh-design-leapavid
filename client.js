@@ -1,17 +1,16 @@
 /**
  * dsh-design-md — Client half.
  *
- * Registers one sidebar row (the panel icon) and one main panel: the style
- * library. Every card is a live React rendering of that style's own DESIGN.md
- * tokens — no iframes, no screenshots — so 84 styles can be compared at any
- * panel width.
+ * One sidebar row (the panel icon) + one main panel: the style library.
+ * Every preview is rendered live from that style's own DESIGN.md tokens —
+ * no iframes, no screenshots — so all 84 styles stay comparable at any width.
  */
 window.__ModuleLoader__.load({
   id: 'dsh-design-md',
   factory: (require) => {
     const React = require('react')
     const h = React.createElement
-    const { useState, useEffect, useMemo, useRef } = React
+    const { useState, useEffect, useMemo, useRef, useCallback } = React
 
     const API = '/api/design-md'
     const PANEL_ID = 'design-md'
@@ -19,126 +18,156 @@ window.__ModuleLoader__.load({
     /** ctx is captured at apply() time; slot components cannot receive it. */
     const runtime = { ctx: null }
     /** Survives panel unmount (switching back to the conversation). */
-    const memory = { query: '', category: null, surface: 'page', slug: null }
+    const memory = { query: '', category: null, surface: 'page', theme: 'light', slug: null }
 
     /* ------------------------------------------------------------ strings */
 
     const STRINGS = {
       zh: {
         title: '设计风格库',
-        subtitle: '84 套品牌设计语言 · 点开看网页亮/暗、幻灯片、海报',
+        subtitle: '84 套品牌设计语言 · 网页 / 幻灯片 / 海报实时渲染',
         search: '搜索品牌、风格关键词、适用场景…',
         all: '全部',
         empty: '没有匹配的风格',
         emptyHint: '换个关键词，或点「全部」看完整 84 套。',
+        clearFilters: '清除筛选',
         retry: '重试',
         loading: '正在读取设计库…',
-        useThis: '用这套风格',
-        surfaces: { page: '网页', dark: '深色', slides: '幻灯片', poster: '海报' },
-        back: '返回列表',
+        errorCatalog: '设计库读取失败',
         backChat: '回到对话',
+        back: '返回列表',
         close: '关闭',
-        shapeCard: '卡片圆角',
-        shapeButton: '按钮圆角',
-        shapePill: '胶囊圆角',
-        shapeBase: '间距基数',
-        shapeDisplay: '展示字体',
-        shapeBody: '正文字体',
-        clearFilters: '清除筛选',
-        copyFailed: '复制失败，请手动选择文本',
-        designFailed: '读取 DESIGN.md 失败',
-        cardBody: '按这套版式排布的模块说明与要点。',
-        learnMore: '了解更多 →',
-        source: '来源 getdesign.md',
-        brief: '设计要点',
-        palette: '配色',
-        typeScale: '字体层级',
-        shape: '圆角与间距',
-        keywords: '关键词',
-        bestFor: '适合',
-        avoidFor: '避免',
-        checklist: 'AI 生成检查项',
-        recipe: '推荐提示词',
         copy: '复制',
         copied: '已复制',
-        expand: '展开全文',
-        collapse: '收起',
+        copyFailed: '复制失败，请手动选择文本',
+        useThis: '用这套风格 →',
+        surfaces: { page: '网页', slides: '幻灯片', poster: '海报' },
+        themes: { light: '浅色', dark: '深色' },
+        brandDark: '该品牌本身为深色，无浅色版本',
+        source: '来源',
+        tokensCount: '{c} 个色值 · {t} 级字号',
+        notes: '设计要点',
+        palette: '配色',
+        typography: '排版要求',
+        shapes: '形状与间距',
+        components: '组件样例',
+        fitAvoid: '适合 · 避免',
+        bestFor: '适合',
+        avoidFor: '避免',
         formTitle: '用这套风格生成',
-        formHint: '选好产出形态、写下需求，发送到当前会话即可开始生成。',
+        formHint: '提示词会带上完整 token 与交付规范。',
         output: '产出形态',
-        outputs: { web: '网页', webDark: '深色网页', slides: '幻灯片', poster: '海报' },
         requirement: '需求描述',
         requirementPlaceholder: '例如：做一个 AI 笔记产品的官网首页，首屏突出卖点，带三栏功能区和定价表。',
         includeDesign: '连同完整 DESIGN.md 一起发送（更还原，提示词更长）',
         send: '发送到当前会话',
         sending: '正在发送…',
         sendOk: '已发送到当前会话，DSH 会按这套风格开始生成。',
-        backToChat: '切回对话',
         copyPrompt: '复制提示词',
         viewDesign: '查看 DESIGN.md',
+        backToChat: '切回对话 →',
         chars: '提示词约 {n} 字',
         noSession: '没有找到当前会话：请先在左侧打开一个对话再发送。',
-        detailNote: '预览是该风格 token 的实时渲染，文案为示意内容。',
-        allCategories: '全部',
-        errorCatalog: '设计库读取失败',
+        designFailed: '读取 DESIGN.md 失败',
+        previewNote: '由 DESIGN.md 的 token 现场渲染，不是截图。',
+        previewFull: '完整页面 · 8 个区块',
+        previewSketch: '示意排版',
+        cardBody: '按这套版式排布的模块说明与要点。',
+        cardLearn: '了解更多 →',
+        heroLede: '该预览由 DESIGN.md 的 token 实时渲染，用来对照版式、配色与字号层级。',
+        pageEyebrow: 'DESIGN LIBRARY',
+        pageTitle: '84 套品牌设计语言',
+        pageLede: '每一套都由该品牌的 DESIGN.md token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页、幻灯片、海报三种载体上的真实投影。挑一套，写清楚你要做什么。',
+        fontMono: '等宽字体',
+        fontDisplay: '展示字体',
+        fontBody: '正文字体',
+        typeSample: '设计系统 Design System',
+        radiusCard: '卡片圆角',
+        radiusButton: '按钮圆角',
+        radiusPill: '胶囊圆角',
+        spaceBase: '间距基数',
+        fullyRounded: '全圆角',
+        size: '{n} 个色值 · {m} 级字号',
+        demoBtn: '主要按钮',
+        demoBtn2: '次要按钮',
+        demoBtn3: '标签胶囊',
+        demoCard: '卡片标题',
+        demoCardBody: '卡片说明文字，随品牌字号与行高。',
+        demoInput: '输入框占位文本',
+        demoCheck: '记住我',
       },
       en: {
         title: 'Design library',
-        subtitle: '84 brand design languages — light/dark pages, slides, posters',
+        subtitle: '84 brand design languages · web, slides and posters, rendered live',
         search: 'Search brands, keywords, use cases…',
         all: 'All',
         empty: 'No style matches',
         emptyHint: 'Try another keyword, or switch back to All.',
+        clearFilters: 'Clear filters',
         retry: 'Retry',
         loading: 'Loading design library…',
-        useThis: 'Use this style',
-        surfaces: { page: 'Web', dark: 'Dark', slides: 'Slides', poster: 'Poster' },
-        back: 'Back',
+        errorCatalog: 'Could not load the library',
         backChat: 'Back to chat',
+        back: 'Back',
         close: 'Close',
-        shapeCard: 'Card radius',
-        shapeButton: 'Button radius',
-        shapePill: 'Pill radius',
-        shapeBase: 'Spacing base',
-        shapeDisplay: 'Display font',
-        shapeBody: 'Body font',
-        clearFilters: 'Clear filters',
-        copyFailed: 'Copy failed — select the text manually',
-        designFailed: 'Could not load DESIGN.md',
-        cardBody: 'Module copy set in this layout rhythm.',
-        learnMore: 'Learn more →',
-        source: 'Source: getdesign.md',
-        brief: 'Design notes',
-        palette: 'Palette',
-        typeScale: 'Type scale',
-        shape: 'Radii & spacing',
-        keywords: 'Keywords',
-        bestFor: 'Best for',
-        avoidFor: 'Avoid for',
-        checklist: 'AI checklist',
-        recipe: 'Prompt recipe',
         copy: 'Copy',
         copied: 'Copied',
-        expand: 'Show all',
-        collapse: 'Collapse',
-        formTitle: 'Generate with this style',
-        formHint: 'Pick an output, describe the work, send it to this conversation.',
+        copyFailed: 'Copy failed — select the text manually',
+        useThis: 'Use this style →',
+        surfaces: { page: 'Web', slides: 'Slides', poster: 'Poster' },
+        themes: { light: 'Light', dark: 'Dark' },
+        brandDark: 'This brand is dark by nature — no light variant',
+        source: 'Source',
+        tokensCount: '{c} colors · {t} type steps',
+        notes: 'Design notes',
+        palette: 'Palette',
+        typography: 'Typography',
+        shapes: 'Shape & spacing',
+        components: 'Components',
+        fitAvoid: 'Best for · Avoid',
+        bestFor: 'Best for',
+        avoidFor: 'Avoid',
+        formTitle: 'Generate in this style',
+        formHint: 'The prompt carries the full token set and the delivery rules.',
         output: 'Output',
-        outputs: { web: 'Web page', webDark: 'Dark page', slides: 'Slide deck', poster: 'Poster' },
         requirement: 'What to build',
-        requirementPlaceholder: 'e.g. a landing page for an AI notes app — hero, three-column features, pricing table.',
-        includeDesign: 'Attach the full DESIGN.md (closer match, longer prompt)',
-        send: 'Send to this conversation',
+        requirementPlaceholder: 'e.g. a landing page for an AI note-taking app: hero with the key promise, three feature columns and a pricing table.',
+        includeDesign: 'Also send the full DESIGN.md (closer match, longer prompt)',
+        send: 'Send to current chat',
         sending: 'Sending…',
-        sendOk: 'Sent. DSH is starting on it with this style.',
-        backToChat: 'Back to chat',
+        sendOk: 'Sent to the current chat — the agent will build it in this style.',
         copyPrompt: 'Copy prompt',
         viewDesign: 'View DESIGN.md',
-        chars: '~{n} characters',
-        noSession: 'No active conversation — open one on the left first.',
-        detailNote: 'Live rendering of this style\u2019s tokens; copy is placeholder.',
-        allCategories: 'All',
-        errorCatalog: 'Could not load the library',
+        backToChat: 'Back to chat →',
+        chars: 'about {n} characters',
+        noSession: 'No active chat found — open a conversation first.',
+        designFailed: 'Could not load DESIGN.md',
+        previewNote: 'Rendered live from the DESIGN.md tokens — not a screenshot.',
+        previewFull: 'Full page · 8 sections',
+        previewSketch: 'Layout sketch',
+        cardBody: 'Module copy set in this layout rhythm.',
+        cardLearn: 'Learn more →',
+        heroLede: 'This preview renders the DESIGN.md tokens live so you can compare layout, palette and type scale.',
+        pageEyebrow: 'DESIGN LIBRARY',
+        pageTitle: '84 brand design languages',
+        pageLede: 'Each one is rendered live from its DESIGN.md tokens — not a screenshot. The same colors, type and spacing projected onto a web page, a slide deck and a poster.',
+        fontMono: 'Mono',
+        fontDisplay: 'Display',
+        fontBody: 'Body',
+        typeSample: 'Design System',
+        radiusCard: 'Card radius',
+        radiusButton: 'Button radius',
+        radiusPill: 'Pill radius',
+        spaceBase: 'Spacing base',
+        fullyRounded: 'fully rounded',
+        size: '{n} colors · {m} type steps',
+        demoBtn: 'Primary',
+        demoBtn2: 'Secondary',
+        demoBtn3: 'Tag',
+        demoCard: 'Card title',
+        demoCardBody: 'Card copy set in the brand type and leading.',
+        demoInput: 'Placeholder text',
+        demoCheck: 'Remember me',
       },
     }
 
@@ -165,10 +194,12 @@ window.__ModuleLoader__.load({
       return value
     }
 
-    const t = (key) => {
+    const t = (key, vars) => {
       const dict = STRINGS[locale] || STRINGS.zh
       const value = key.split('.').reduce((acc, part) => (acc && acc[part] !== undefined ? acc[part] : undefined), dict)
-      return value !== undefined ? value : key
+      if (value === undefined) return key
+      if (typeof value !== 'string' || !vars) return value
+      return value.replace(/\{(\w+)\}/g, (all, name) => (vars[name] !== undefined ? String(vars[name]) : all))
     }
 
     /* -------------------------------------------------------------- utils */
@@ -209,34 +240,21 @@ window.__ModuleLoader__.load({
       return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
     }
 
-    const prettyRadius = (value) => {
-      const text = String(value ?? '')
-      const num = Number.parseFloat(text)
-      if (!Number.isFinite(num)) return text || '—'
-      return num >= 999 ? (locale === 'en' ? 'fully rounded' : '全圆角') : `${Math.round(num)}px`
-    }
-
     const shorten = (text, max) => {
       const value = String(text || '').replace(/\s+/g, ' ').trim()
       return value.length > max ? `${value.slice(0, max - 1)}…` : value
     }
 
-    function themeOf(style, kind) {
+    const esc = (value) => String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+
+    /** Resolves a style's palette for one theme. */
+    function themeOf(style, mode) {
       const v = style.visual
-      if (kind === 'poster') {
-        const bg = luminance(v.ink) > 0.5 ? v.ink : mix(v.ink, '#000000', 0)
-        return {
-          bg,
-          surface: mix(bg, v.canvas, 0.1),
-          ink: v.canvas,
-          muted: mix(v.canvas, bg, 0.42),
-          line: mix(v.canvas, bg, 0.7),
-          accent: v.accent,
-          accentInk: v.accentText,
-          dark: luminance(bg) < 0.5,
-        }
-      }
-      const dark = kind === 'dark' || v.darkFirst
+      const dark = mode === 'dark' || (!mode && v.darkFirst)
       if (dark) {
         return {
           bg: v.darkCanvas,
@@ -261,643 +279,288 @@ window.__ModuleLoader__.load({
       }
     }
 
-    const BASE_WIDTH = { page: 1400, dark: 1400, slides: 1280, poster: 900 }
-    const ASPECT = { page: '4 / 3', dark: '4 / 3', slides: '16 / 9', poster: '3 / 4' }
+    const prettyRadius = (value) => {
+      const text = String(value ?? '')
+      const num = Number.parseFloat(text)
+      if (!Number.isFinite(num)) return text || '—'
+      return num >= 999 ? t('fullyRounded') : `${Math.round(num)}px`
+    }
 
-    /* ---------------------------------------------------------- copy deck */
-
-    function copyDeck(style) {
-      const v = style.visual
-      const brand = shorten(style.displayName || style.nameZh, 20)
-      const keywords = (style.styleKeywords || []).filter((k) => k && k.length <= 10)
-      const cards = (style.useCases && style.useCases.length ? style.useCases : style.tagsZh || []).slice(0, 3)
-      const bullets = [...keywords, ...(style.tagsZh || [])].filter(Boolean).slice(0, 3)
-      const eyebrow = style.category || (keywords[0] ?? 'Design system')
-      const lede = shorten(style.summaryZh || style.descriptionEn || style.positioningZh || '', 46)
+    /** Display copy reused by every surface of one style. */
+    function deckOf(style) {
+      const keywords = (style.styleKeywords || []).filter((k) => k && k.length <= 12).slice(0, 5)
+      const useCases = (style.useCases || []).filter(Boolean).slice(0, 3)
       return {
-        brand,
-        eyebrow,
-        lede,
-        cards: cards.length ? cards : ['产品首页', '定价页', '控制台'],
-        bullets: bullets.length ? bullets : ['Typography', 'Color', 'Spacing'],
-        meta: `${v.radiusCard} r · ${v.spaceBase || 8}px`,
-        navLinks: ['产品', '方案', '定价'],
-        cta: '开始使用',
-        ctaAlt: '了解更多',
+        brand: shorten(style.displayName || style.nameZh || style.slug, 22),
+        brandZh: shorten(style.nameZh || style.displayName || style.slug, 16),
+        kicker: style.category || t('pageEyebrow'),
+        tagline: shorten(style.positioningZh || style.summaryZh || style.descriptionEn || '', 42),
+        lede: shorten(style.summaryZh || style.descriptionEn || '', 72),
+        keywords: keywords.length ? keywords : ['Typography', 'Color', 'Spacing'],
+        cards: useCases.length ? useCases : ['产品首页', '定价页', '控制台'],
+        bullets: (keywords.length ? keywords : ['Color', 'Type', 'Grid']).slice(0, 3),
       }
     }
 
-    /* ------------------------------------------------------------ surface */
+    /* ------------------------------------------------------- art: web page */
 
-    function Surface({ style, kind }) {
-      const base = BASE_WIDTH[kind] || 1400
-      const u = (px) => `${((px / base) * 100).toFixed(3)}cqw`
-      // Radii must scale with the artboard too, or a 24px card corner becomes a pill at thumbnail size.
-      const r = (value) => {
-        const text = String(value ?? '')
-        return /^9{3,}/.test(text) ? '9999px' : u(Number.parseFloat(text) || 0)
-      }
+    const PAGE_BASE = 1180
+    const SLIDE_BASE = 1280
+    const POSTER_BASE = 900
+
+    const unit = (base) => (px) => `${((Number(px) || 0) / base * 100).toFixed(3)}cqw`
+    const U = unit(PAGE_BASE)
+    const US = unit(SLIDE_BASE)
+    const UP = unit(POSTER_BASE)
+
+    const radiusCss = (u, value) => (/^9{3,}/.test(String(value ?? '')) ? '9999px' : u(Number.parseFloat(value) || 0))
+
+    /** The reference "design system" page: nav + hero + 8 sections + footer. */
+    function webHtml(style, mode) {
       const v = style.visual
-      const th = themeOf(style, kind)
-      const deck = copyDeck(style)
-      const displayFont = v.displayStack
-      const bodyFont = v.bodyStack
+      const th = themeOf(style, mode)
+      const d = deckOf(style)
+      const colors = (style.colors || []).filter((c) => c && c.hex).slice(0, 14)
+      const types = (style.typography || [])
+        .filter((s) => s && Number.parseFloat(s.fontSize) > 0)
+        .sort((a, b) => Number.parseFloat(b.fontSize) - Number.parseFloat(a.fontSize))
+        .slice(0, 10)
+      const radii = (style.radius || []).filter((r) => r && r.value).slice(0, 5)
+      const spaces = (style.spacing || []).filter((s) => s && s.value).slice(0, 8)
+      const navLinks = ['Colors', 'Typography', 'Buttons', 'Cards', 'Forms', 'Spacing', 'Radius', 'Elevation']
+      const display = v.displayStack || 'system-ui, sans-serif'
+      const body = v.bodyStack || display
+      const mono = v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace'
+      const maxStep = Math.max(...types.map((s) => Number.parseFloat(s.fontSize) || 16), 16)
+      const rCard = radiusCss(U, v.radiusCard)
+      const rBtn = radiusCss(U, v.radiusButton)
+      const rPill = radiusCss(U, v.radiusPill)
 
-      const rootStyle = {
-        '--dm-bg': th.bg,
-        '--dm-surface': th.surface,
-        '--dm-ink': th.ink,
-        '--dm-muted': th.muted,
-        '--dm-line': th.line,
-        '--dm-accent': th.accent,
-        '--dm-accent-ink': th.accentInk,
-        '--dm-display': displayFont,
-        '--dm-body': bodyFont,
-        '--dm-rcard': r(v.radiusCard),
-        '--dm-rbtn': r(v.radiusButton),
-        '--dm-rpill': r(v.radiusPill),
-        background: th.bg,
-        color: th.ink,
-        fontFamily: bodyFont,
-      }
+      const sectionHead = (index, en, zh) => `
+        <div style="display:flex;align-items:baseline;gap:${U(10)};margin-bottom:${U(18)}">
+          <span style="font-size:${U(10)};line-height:${1};font-family:${mono};letter-spacing:.18em;text-transform:uppercase;color:${th.muted}">${String(index).padStart(2, '0')} / ${en}</span>
+        </div>
+        <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${U(19)};line-height:1.25;color:${th.ink};margin-bottom:${U(16)}">${zh}</div>`
 
-      if (kind === 'slides') {
-        return h('div', { className: 'dm-art', 'data-kind': kind, style: { ...rootStyle, aspectRatio: ASPECT[kind] } },
-          h('div', { className: 'dm-art-inner dm-slide' },
-            h('div', { className: 'dm-slide-head' },
-              h('span', { className: 'dm-kicker', style: { color: th.muted, fontSize: u(15), letterSpacing: u(2) } }, deck.eyebrow),
-              h('span', { className: 'dm-slide-no', style: { color: th.accent, fontSize: u(15), fontFamily: v.monoFamily || bodyFont } }, '01 / 08'),
-            ),
-            h('div', { className: 'dm-slide-body' },
-              h('h3', {
-                className: 'dm-slide-title',
-                style: {
-                  fontFamily: displayFont,
-                  fontWeight: v.displayWeight,
-                  fontSize: u(v.displaySize * 0.78),
-                  letterSpacing: u(Number.parseFloat(v.displayTracking) || 0),
-                  lineHeight: v.displayLineHeight,
-                  color: th.ink,
-                  margin: 0,
-                },
-              }, deck.brand),
-              h('p', {
-                style: { fontSize: u(19), lineHeight: 1.6, color: th.muted, margin: 0, maxWidth: '78%' },
-              }, deck.lede),
-              h('div', { className: 'dm-slide-bar', style: { background: th.accent } }),
-              h('ul', { className: 'dm-slide-list' },
-                ...deck.bullets.map((item, index) => h('li', { key: index },
-                  h('span', { className: 'dm-bullet', style: { background: th.accent } }),
-                  h('span', { style: { fontSize: u(16), color: th.ink } }, item),
-                )),
-              ),
-            ),
-            h('div', { className: 'dm-slide-foot', style: { borderColor: th.line } },
-              h('span', { style: { fontSize: u(13), color: th.muted }, }, `${style.displayName} · Design System`),
-              h('span', { style: { fontSize: u(13), color: th.muted, fontFamily: v.monoFamily || bodyFont } }, 'getdesign.md'),
-            ),
-          ),
-        )
-      }
+      const section = (index, en, zh, inner) => `
+        <section style="border-top:1px solid ${th.line};padding:${U(30)} 0">
+          ${sectionHead(index, en, zh)}
+          ${inner}
+        </section>`
 
-      if (kind === 'poster') {
-        const words = String(deck.brand).split(/\s+/)
-        const lines = words.length > 1 ? [words[0], words.slice(1).join(' ')] : [deck.brand]
-        return h('div', { className: 'dm-art', 'data-kind': kind, style: { ...rootStyle, aspectRatio: ASPECT[kind] } },
-          h('div', { className: 'dm-art-inner dm-poster' },
-            h('div', { className: 'dm-poster-top' },
-              h('span', { style: { fontSize: u(15), letterSpacing: u(3), color: th.muted, textTransform: 'uppercase' } }, deck.eyebrow),
-              h('span', { className: 'dm-poster-dot', style: { background: th.accent } }),
-            ),
-            h('div', { className: 'dm-poster-mid' },
-              h('h3', {
-                style: {
-                  fontFamily: displayFont,
-                  fontWeight: v.displayWeight,
-                  fontSize: u(v.displaySize * 1.5),
-                  lineHeight: clamp(Number.parseFloat(v.displayLineHeight) || 1.1, 0.9, 1.1),
-                  letterSpacing: u((Number.parseFloat(v.displayTracking) || 0) * 1.5),
-                  color: th.ink,
-                  margin: 0,
-                  textTransform: 'uppercase',
-                  whiteSpace: 'pre-line',
-                },
-              }, lines.join('\n')),
-              h('p', { style: { fontSize: u(20), lineHeight: 1.65, color: th.muted, margin: 0, maxWidth: '82%' } }, deck.lede),
-            ),
-            h('div', { className: 'dm-poster-foot' },
-              h('div', { style: { height: u(3), background: th.accent, width: u(120) } }),
-              h('div', { className: 'dm-poster-meta', style: { color: th.muted, fontSize: u(14), fontFamily: v.monoFamily || bodyFont } },
-                h('span', null, style.slug),
-                h('span', null, `${v.radiusCard} · ${v.fontClass}`),
-              ),
-            ),
-          ),
-        )
-      }
+      const colorCells = colors.map((c) => `
+        <div style="border:1px solid ${th.line};border-radius:${U(6)};overflow:hidden;background:${th.bg}">
+          <div style="height:${U(46)};background:${c.hex}"></div>
+          <div style="padding:${U(7)} ${U(8)}">
+            <div style="font-size:${U(9.5)};line-height:${1.3};font-family:${mono};color:${th.ink}">${esc(c.name || 'token')}</div>
+            <div style="font-size:${U(8.5)};line-height:${1.3};font-family:${mono};color:${th.muted}">${esc(c.hex)}</div>
+          </div>
+        </div>`).join('')
 
-      /* page + dark page */
-      return h('div', { className: 'dm-art', 'data-kind': 'page', style: { ...rootStyle, aspectRatio: ASPECT.page } },
-        h('div', { className: 'dm-art-inner dm-page' },
-          h('nav', { className: 'dm-nav', style: { borderColor: th.line } },
-            h('div', { className: 'dm-nav-brand' },
-              h('span', {
-                className: 'dm-logo',
-                style: { background: th.accent, color: th.accentInk, borderRadius: r(v.radiusCard), fontSize: u(15), fontFamily: displayFont, fontWeight: 700 },
-              }, (deck.brand[0] || 'A').toUpperCase()),
-              h('span', { style: { fontSize: u(17), fontWeight: 600, letterSpacing: '-0.01em' } }, deck.brand),
-            ),
-            h('div', { className: 'dm-nav-links' },
-              ...deck.navLinks.map((link, index) => h('span', { key: index, style: { fontSize: u(14.5), color: th.muted } }, link)),
-            ),
-            h('span', {
-              className: 'dm-nav-cta',
-              style: { fontSize: u(14), background: th.accent, color: th.accentInk, borderRadius: r(v.radiusButton), padding: `${u(9)} ${u(20)}` },
-            }, deck.cta),
-          ),
-          h('div', { className: 'dm-hero' },
-            h('span', { className: 'dm-eyebrow', style: { color: th.accent, fontSize: u(13), letterSpacing: u(1.6) } }, deck.eyebrow),
-            h('h3', {
-              style: {
-                fontFamily: displayFont,
-                fontWeight: v.displayWeight,
-                fontSize: u(v.displaySize),
-                lineHeight: v.displayLineHeight,
-                letterSpacing: u(Number.parseFloat(v.displayTracking) || 0),
-                margin: 0,
-                color: th.ink,
-              },
-            }, deck.brand),
-            h('p', { style: { fontSize: u(19), lineHeight: 1.7, color: th.muted, margin: 0, maxWidth: '66%' } }, deck.lede),
-            h('div', { className: 'dm-ctas' },
-              h('span', {
-                style: { background: th.accent, color: th.accentInk, borderRadius: r(v.radiusButton), fontSize: u(14.5), padding: `${u(11)} ${u(24)}` },
-              }, deck.cta),
-              h('span', {
-                style: { border: `${u(1)} solid ${th.line}`, color: th.ink, borderRadius: r(v.radiusButton), fontSize: u(14.5), padding: `${u(11)} ${u(24)}` },
-              }, deck.ctaAlt),
-            ),
-          ),
-          h('div', { className: 'dm-cards' },
-            ...deck.cards.map((title, index) => {
-              const second = style.colors.find((c) => c.hex)?.hex || th.accent
-              return h('div', {
-                key: index,
-                className: 'dm-mini-card',
-                style: { background: th.surface, border: `${u(1)} solid ${th.line}`, borderRadius: r(v.radiusCard), padding: u(24) },
-              },
-              h('span', {
-                className: 'dm-mini-media',
-                style: {
-                  background: `linear-gradient(${[135, 112, 158][index % 3]}deg, ${alpha(th.accent, [0.32, 0.22, 0.14][index % 3])}, ${alpha(second, 0.12)} 62%, transparent 100%)`,
-                  border: `${u(1)} solid ${alpha(th.accent, 0.22)}`,
-                  borderRadius: r(v.radiusCard),
-                },
-              }),
-              h('span', {
-                className: 'dm-mini-icon',
-                style: { background: mix(th.accent, th.bg, index === 0 ? 0.12 : index === 1 ? 0.78 : 0.9), borderRadius: u(10) },
-              }),
-              h('span', { style: { fontSize: u(18), fontWeight: 600, color: th.ink, marginTop: u(14) } }, title),
-              h('span', { style: { fontSize: u(14), lineHeight: 1.6, color: th.muted } }, t('cardBody')),
-              h('span', { style: { fontSize: u(14), fontWeight: 600, color: th.accent, marginTop: u(10) } }, t('learnMore')),
-              )
-            }),
-          ),
-          h('footer', { className: 'dm-foot', style: { borderTop: `${u(1)} solid ${th.line}` } },
-            h('span', { style: { fontSize: u(13), color: th.muted } }, `${deck.brand} · © 2026`),
-            h('span', { className: 'dm-foot-links' },
-              ...deck.navLinks.map((link, index) => h('span', { key: index, style: { fontSize: u(13), color: th.muted } }, link)),
-            ),
-          ),
-        ),
-      )
+      const typeRows = types.map((s, i) => {
+        const size = Number.parseFloat(s.fontSize) || 16
+        const weight = Number.parseInt(s.fontWeight, 10) || 400
+        const lh = Number.parseFloat(s.lineHeight) || 1.2
+        const ls = Number.parseFloat(s.letterSpacing) || 0
+        const scaled = clamp((size / maxStep) * 26, 8, 26)
+        const family = s.token && /mono|code|num/i.test(s.token) ? mono : display
+        return `
+          <div style="display:flex;align-items:center;gap:${U(14)};padding:${U(7)} 0;border-bottom:1px solid ${th.line}">
+            <span style="flex:none;width:${U(22)};font-size:${U(11)};line-height:1;font-family:${display};color:${th.muted}">Aa</span>
+            <span style="flex:1;min-width:0;font-family:${family};font-weight:${weight};letter-spacing:${U(ls)};font-size:${U(scaled)};line-height:${lh};color:${th.ink};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(t('typeSample'))}</span>
+            <span style="flex:none;font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted};text-align:right">${s.token || `step-${i + 1}`}<br>${Math.round(size)}px / ${weight} / ${lh.toFixed(2)}</span>
+          </div>`
+      }).join('')
+
+      const buttons = `
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:${U(10)}">
+          <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(9)} ${U(16)};font-size:${U(11)};line-height:1.2;font-weight:600;font-family:${body}">${esc(t('demoBtn'))}</span>
+          <span style="background:${th.ink};color:${th.bg};border-radius:${rBtn};padding:${U(9)} ${U(16)};font-size:${U(11)};line-height:1.2;font-weight:600;font-family:${body}">${esc(t('demoBtn2'))}</span>
+          <span style="border:1px solid ${th.ink};color:${th.ink};border-radius:${rBtn};padding:${U(9)} ${U(16)};font-size:${U(11)};line-height:1.2;font-weight:500;font-family:${body}">${esc(t('demoBtn3'))}</span>
+          <span style="border:1px solid ${th.line};color:${th.muted};border-radius:${rPill};padding:${U(7)} ${U(12)};font-size:${U(10)};line-height:1.2;font-weight:500;font-family:${body}">pill</span>
+        </div>`
+
+      const cards = d.cards.map((label, i) => `
+        <div style="border:1px solid ${th.line};border-radius:${rCard};overflow:hidden;background:${th.bg}">
+          <div style="height:${U(70)};background:linear-gradient(135deg, ${th.accent}, ${th.surface})"></div>
+          <div style="padding:${U(10)} ${U(12)} ${U(13)}">
+            <div style="font-size:${U(11)};line-height:1.3;font-weight:600;font-family:${body};color:${th.ink}">${esc(label)}</div>
+            <div style="margin-top:${U(4)};font-size:${U(9)};line-height:1.5;font-family:${body};color:${th.muted}">${esc(t('cardBody'))}</div>
+          </div>
+        </div>`).join('')
+
+      const forms = `
+        <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:${U(10)}">
+          <div style="border:1px solid ${th.line};border-radius:${rBtn};padding:${U(9)} ${U(11)};font-size:${U(10)};line-height:1.3;font-family:${body};color:${th.muted}">name@example.com</div>
+          <div style="border:1px solid ${th.line};border-radius:${rBtn};padding:${U(9)} ${U(11)};font-size:${U(10)};line-height:1.3;font-family:${body};color:${th.muted};display:flex;justify-content:space-between">Select an option <span>▾</span></div>
+          <div style="grid-column:1/-1;border:1px solid ${th.line};border-radius:${rBtn};padding:${U(10)} ${U(11)};font-size:${U(10)};line-height:1.5;font-family:${body};color:${th.muted};min-height:${U(46)}">Multi-line message…</div>
+          <label style="grid-column:1/-1;display:flex;align-items:center;gap:${U(7)};font-size:${U(9.5)};line-height:1.3;font-family:${body};color:${th.muted}">
+            <span style="width:${U(11)};height:${U(11)};border:1px solid ${th.line};border-radius:${U(3)};display:inline-block"></span>${esc(t('demoCheck'))}
+          </label>
+        </div>`
+
+      const barFor = (index) => clamp(8 + index * 9, 8, 82)
+      const spaceRows = spaces.map((s, i) => {
+        const value = Number.parseFloat(s.value) || 0
+        return `
+          <div style="display:grid;grid-template-columns:${U(52)} 1fr ${U(44)};align-items:center;gap:${U(10)};padding:${U(3)} 0">
+            <span style="font-size:${U(9)};line-height:1.3;font-family:${mono};color:${th.muted}">${esc(s.name || `space-${i}`)}</span>
+            <span style="height:${U(5)};background:${alpha(th.accent, 0.85)};border-radius:2px;width:${barFor(i)}%"></span>
+            <span style="font-size:${U(9)};line-height:1.3;font-family:${mono};color:${th.ink};text-align:right">${Math.round(value)}px</span>
+          </div>`
+      }).join('')
+
+      const radiusCells = radii.map((r, i) => {
+        const value = Number.parseFloat(r.value) || 0
+        const radius = value >= 999 ? '9999px' : U(Math.min(value, 40))
+        return `
+          <div style="text-align:center">
+            <div style="height:${U(40)};border:1px solid ${th.line};border-radius:${radius};background:${th.surface}"></div>
+            <div style="margin-top:${U(5)};font-size:${U(8.5)};line-height:1.3;font-family:${mono};color:${th.muted}">${esc(r.name || `r-${i + 1}`)} · ${Math.round(value)}px</div>
+          </div>`
+      }).join('')
+
+      const elevation = [0.06, 0.12, 0.2].map((strength, i) => `
+        <div style="border:1px solid ${th.line};border-radius:${rCard};background:${th.bg};padding:${U(12)};box-shadow:0 ${U(2 + i * 2)} ${U(8 + i * 8)} ${alpha(th.ink, strength)}">
+          <div style="font-size:${U(9)};line-height:1.4;font-family:${mono};color:${th.muted}">elevation ${i + 1}</div>
+        </div>`).join('')
+
+      return `
+        <div style="background:${th.bg};color:${th.ink};font-family:${body};padding:0 ${U(40)} ${U(28)}">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:${U(16)};padding:${U(16)} 0;border-bottom:1px solid ${th.line}">
+            <div style="display:flex;align-items:center;gap:${U(9)}">
+              <span style="width:${U(16)};height:${U(16)};border-radius:${U(4)};background:${th.accent}"></span>
+              <span style="font-size:${U(11.5)};line-height:1;font-weight:600;font-family:${body};color:${th.ink}">${esc(d.brand)}</span>
+            </div>
+            <div style="display:flex;gap:${U(16)};font-size:${U(9.5)};line-height:1;font-family:${body};color:${th.muted}">
+              ${navLinks.map((l) => `<span>${l}</span>`).join('')}
+            </div>
+            <span style="background:${th.accent};color:${th.accentInk};border-radius:${rPill};padding:${U(7)} ${U(13)};font-size:${U(9.5)};line-height:1;font-weight:600;font-family:${body}">Design System</span>
+          </div>
+
+          <div style="text-align:center;padding:${U(52)} 0 ${U(40)}">
+            <div style="font-family:${display};font-weight:${v.displayWeight || 600};letter-spacing:${U(v.displayTracking || 0)};
+              font-size:min(${U(clamp((v.displaySize || 56) * 1.15, 34, 88))}, ${U(96)});line-height:1.05;color:${th.ink}">
+              Design System<br>Inspired by <span style="color:${th.accent}">${esc(d.brand)}</span>
+            </div>
+            <div style="margin:${U(14)} auto 0;max-width:${U(420)};font-size:${U(10.5)};line-height:1.7;font-family:${body};color:${th.muted}">${esc(d.tagline)}</div>
+            <div style="margin-top:${U(18)};display:flex;justify-content:center;gap:${U(9)}">
+              <span style="background:${th.accent};color:${th.accentInk};border-radius:${rBtn};padding:${U(8)} ${U(14)};font-size:${U(9.5)};line-height:1.1;font-weight:600;font-family:${body}">Open DESIGN.md</span>
+              <span style="border:1px solid ${th.line};color:${th.ink};border-radius:${rBtn};padding:${U(8)} ${U(14)};font-size:${U(9.5)};line-height:1.1;font-weight:500;font-family:${body}">Dark Preview</span>
+            </div>
+          </div>
+
+          ${section(1, 'COLORS', t('palette'), `<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:${U(10)}">${colorCells}</div>`)}
+          ${section(2, 'TYPOGRAPHY', t('typography'), typeRows)}
+          ${section(3, 'BUTTONS', t('demoBtn'), buttons)}
+          ${section(4, 'CARDS', t('components'), `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${cards}</div>`)}
+          ${section(5, 'FORMS', t('requirement'), forms)}
+          ${section(6, 'SPACING', t('spaceBase'), spaceRows)}
+          ${section(7, 'RADIUS', t('radiusCard'), `<div style="display:grid;grid-template-columns:repeat(${Math.max(radii.length, 1)},minmax(0,1fr));gap:${U(10)}">${radiusCells}</div>`)}
+          ${section(8, 'ELEVATION', 'Elevation', `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(12)}">${elevation}</div>`)}
+
+          <div style="display:flex;justify-content:space-between;border-top:1px solid ${th.line};padding-top:${U(12)};font-size:${U(8.5)};line-height:1.4;font-family:${mono};color:${th.muted}">
+            <span>${esc(d.brand)} · Design tokens from DESIGN.md</span>
+            <span>getdesign.md</span>
+          </div>
+        </div>`
     }
 
-    /* --------------------------------------------------------------- card */
+    /* -------------------------------------------------- art: slide + poster */
 
-    function StyleCard({ style, kind, onOpen }) {
-      const swatches = useMemo(() => {
-        const picks = [style.visual.canvas, style.visual.accent, style.visual.surface]
-        const extra = style.colors.filter((c) => c.hex && !picks.includes(c.hex)).slice(0, 1).map((c) => c.hex)
-        return [...picks, ...extra].slice(0, 4)
-      }, [style])
-      return h('button', {
-        type: 'button',
-        className: 'dm-card',
-        onClick: () => onOpen(style.slug),
-        title: `${style.nameZh} · ${style.displayName}`,
-        'aria-label': `${style.nameZh} · ${style.displayName}（${style.category}）`,
-      },
-      h('span', { className: 'dm-card-art' }, h(Surface, { style, kind })),
-      h('span', { className: 'dm-card-hover' }, `${t('useThis')} →`),
-      h('span', { className: 'dm-card-meta' },
-        h('span', { className: 'dm-card-names' },
-          h('span', { className: 'dm-card-zh' }, style.nameZh),
-          h('span', { className: 'dm-card-en' },
-            style.nameZh === style.displayName ? style.category : `${style.displayName} · ${style.category}`,
-          ),
-        ),
-        h('span', { className: 'dm-dots' },
-          ...swatches.map((hex, index) => h('i', { key: index, style: { background: hex } })),
-        ),
-      ),
-      )
+    function slidesHtml(style, mode) {
+      const th = themeOf(style, mode)
+      const v = style.visual
+      const d = deckOf(style)
+      const display = v.displayStack || 'system-ui, sans-serif'
+      const body = v.bodyStack || display
+      const title = clamp((v.displaySize || 56) * 1.55, 30, 68)
+      return `
+        <div style="position:relative;height:100%;background:${th.bg};color:${th.ink};font-family:${body};overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:${US(5)};background:${th.accent}"></div>
+          <div style="position:absolute;right:${US(-14)};top:${US(-30)};font-family:${display};font-weight:${v.displayWeight || 600};
+            font-size:${US(260)};line-height:1;color:${alpha(th.ink, 0.07)}">01</div>
+          <div style="position:relative;height:100%;box-sizing:border-box;padding:${US(30)} ${US(48)} ${US(26)} ${US(56)};display:flex;flex-direction:column">
+            <div style="display:flex;justify-content:space-between;font-size:${US(9.5)};line-height:1.3;font-family:${body};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">
+              <span>${esc(d.kicker)} / ${esc(t('previewSketch'))}</span>
+            </div>
+            <div style="flex:1;display:grid;grid-template-columns:1.15fr .85fr;gap:${US(36)};align-items:center">
+              <div style="display:flex;flex-direction:column;justify-content:center;min-width:0">
+                <div style="font-family:${display};font-weight:${v.displayWeight || 600};letter-spacing:${US(v.displayTracking || 0)};
+                  font-size:${US(title)};line-height:1.02">${esc(d.brand)}</div>
+                <div style="width:${US(64)};height:${US(3)};background:${th.accent};margin:${US(20)} 0 ${US(12)}"></div>
+                <div style="font-size:${US(11)};line-height:1.6;font-family:${body};color:${th.muted};max-width:${US(430)}">${esc(d.tagline)}</div>
+                <div style="margin-top:${US(18)};display:flex;flex-direction:column;gap:${US(9)}">
+                  ${d.bullets.map((b) => `<div style="display:flex;align-items:center;gap:${US(9)};font-size:${US(12.5)};line-height:1.4;font-family:${body};color:${th.ink}">
+                    <span style="width:${US(5)};height:${US(5)};border-radius:9999px;background:${th.accent};flex:none"></span>${esc(b)}</div>`).join('')}
+                </div>
+              </div>
+              <div style="position:relative;aspect-ratio:4/3;border-radius:${US(6)};overflow:hidden;border:1px solid ${alpha(th.ink, 0.12)};
+                background:linear-gradient(135deg, ${th.accent}, ${mix(th.accent, th.ink, 0.62)})">
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg, transparent 45%, ${alpha(th.ink, 0.22)})"></div>
+                <div style="position:absolute;left:${US(16)};bottom:${US(14)};font-size:${US(9)};letter-spacing:.16em;text-transform:uppercase;font-family:${body};color:${alpha(th.ink, 0.72)}">visual</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:${US(8.5)};line-height:1.3;font-family:${v.monoFamily || body};color:${th.muted}">
+              <span>${esc(d.brand)} · Design System</span><span>01 / 08 · getdesign.md</span>
+            </div>
+          </div>
+        </div>`
     }
 
-    const StyleCardM = React.memo(StyleCard)
+    function posterHtml(style, mode) {
+      const v = style.visual
+      const base = themeOf(style, mode)
+      // Posters invert a light brand (paper poster) and keep a dark brand dark.
+      const th = v.darkFirst ? base : {
+        bg: base.ink,
+        ink: base.bg,
+        muted: mix(base.bg, base.ink, 0.42),
+        line: alpha(base.bg, 0.22),
+        accent: base.accent,
+        dark: luminance(base.ink) < 0.5,
+      }
+      const d = deckOf(style)
+      const display = v.displayStack || 'system-ui, sans-serif'
+      const body = v.bodyStack || display
+      const title = clamp((v.displaySize || 56) * 2.4, 28, 84)
+      return `
+        <div style="height:100%;background:${th.bg};color:${th.ink};font-family:${body};box-sizing:border-box;
+          padding:${UP(34)} ${UP(34)} ${UP(26)};display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;font-size:${UP(9)};line-height:1.3;font-family:${body};letter-spacing:.16em;text-transform:uppercase;color:${th.muted}">
+            <span>${esc(d.kicker)}</span><span>2026</span>
+          </div>
+          <div style="flex:1"></div>
+          <div style="font-family:${display};font-weight:${v.displayWeight || 600};text-transform:uppercase;letter-spacing:${UP(v.displayTracking || 0)};
+            font-size:${UP(title)};line-height:.96">${esc(d.brand)}</div>
+          <div style="height:${UP(2)};background:${th.accent};margin:${UP(14)} 0 ${UP(12)}"></div>
+          <div style="font-size:${UP(11)};line-height:1.6;font-family:${body};color:${th.muted};max-width:${UP(300)}">${esc(d.tagline)}</div>
+          <div style="display:flex;justify-content:space-between;margin-top:${UP(18)};font-size:${UP(8.5)};line-height:1.3;font-family:${body};color:${th.muted}">
+            <span>${esc(d.brandZh)} · ${esc(d.kicker)}</span><span>getdesign.md</span>
+          </div>
+        </div>`
+    }
 
-    /* ------------------------------------------------------- brief render */
+    const ART_BUILDERS = {
+      page: { build: webHtml, cls: 'is-page', base: PAGE_BASE },
+      slides: { build: slidesHtml, cls: 'is-slides', base: SLIDE_BASE },
+      poster: { build: posterHtml, cls: 'is-poster', base: POSTER_BASE },
+    }
 
-    function BriefText({ text }) {
-      const [open, setOpen] = useState(false)
-      const lines = useMemo(() => {
-        const kept = []
-        for (const raw of String(text || '').split('\n')) {
-          const line = raw.trimEnd()
-          if (!line) continue
-          if (/^#\s/.test(line)) continue
-          if (/^[-*]\s*(画布|文字|字体|圆角|canvas|ink|type|radius)/i.test(line)) continue
-          kept.push(line)
-        }
-        return kept
-      }, [text])
-      const limit = 12
-      const shown = open ? lines : lines.slice(0, limit)
-      const blocks = shown.map((line, index) => {
-        if (/^##\s/.test(line)) return h('h4', { key: index, className: 'dm-brief-h' }, line.replace(/^##\s*/, ''))
-        if (/^[-*]\s/.test(line)) {
-          return h('div', { key: index, className: 'dm-brief-li' },
-            h('span', { className: 'dm-brief-dot' }),
-            h('span', null, line.replace(/^[-*]\s*/, '').replace(/`/g, '')),
-          )
-        }
-        return h('p', { key: index, className: 'dm-brief-p' }, line.replace(/`/g, ''))
+    function Art({ style, mode, surface, clip }) {
+      const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
+      const html = useMemo(() => spec.build(style, mode), [spec, style, mode])
+      return h('div', {
+        className: `dm-art ${spec.cls}${clip ? ' is-clip' : ''}`,
+        style: { '--dm-art-bg': themeOf(style, mode).bg },
+        dangerouslySetInnerHTML: { __html: html },
       })
-      return h('div', { className: 'dm-brief' },
-        ...blocks,
-        lines.length > limit
-          ? h('button', { type: 'button', className: 'dm-link dm-brief-more', onClick: () => setOpen((v) => !v) }, open ? t('collapse') : t('expand'))
-          : null,
-      )
     }
 
-    /* ------------------------------------------------------------- detail */
+    /* --------------------------------------------------------------- panel */
 
-    function Detail({ style, kind, setKind, onBack, onToast }) {
-      useLocale()
-      const [brief, setBrief] = useState('')
-      const [briefError, setBriefError] = useState('')
-      const [form, setForm] = useState({ surface: kind === 'dark' ? 'webDark' : kind === 'slides' ? 'slides' : kind === 'poster' ? 'poster' : 'web', requirement: '', includeDesign: false })
-      const [sending, setSending] = useState(false)
-      const [promptInfo, setPromptInfo] = useState(null)
-      const [done, setDone] = useState(false)
-      const [designText, setDesignText] = useState('')
-      const [designError, setDesignError] = useState('')
-      const [designOpen, setDesignOpen] = useState(false)
-      const [designBusy, setDesignBusy] = useState(false)
-      const modalRef = useRef(null)
-      const closeRef = useRef(null)
-      const openRef = useRef(null)
-
-      useEffect(() => {
-        let alive = true
-        setBrief('')
-        setBriefError('')
-        fetch(`${API}/style/${encodeURIComponent(style.slug)}`)
-          .then((res) => (res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`))))
-          .then((data) => { if (alive) setBrief(data.brief || '') })
-          .catch((error) => { if (alive) setBriefError(String(error.message || error)) })
-        return () => { alive = false }
-      }, [style.slug])
-
-      const v = style.visual
-      const typeTop = Math.max(16, ...style.typography.map((step) => Number.parseFloat(step.fontSize) || 0))
-
-      const buildPrompt = async () => {
-        const res = await fetch(`${API}/prompt`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            slug: style.slug,
-            surface: form.surface,
-            requirement: form.requirement,
-            includeDesign: form.includeDesign,
-          }),
-        })
-        const data = await res.json().catch(() => ({}))
-        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
-        return data
-      }
-
-      const send = async () => {
-        setSending(true)
-        setDone(false)
-        try {
-          const data = await buildPrompt()
-          setPromptInfo({ chars: data.chars })
-          await deliverToCurrentSession(data.prompt)
-          setDone(true)
-          onToast({ kind: 'ok', text: t('sendOk') })
-        } catch (error) {
-          onToast({ kind: 'error', text: String(error.message || error) })
-        } finally {
-          setSending(false)
-        }
-      }
-
-      const copyPrompt = async () => {
-        try {
-          const data = await buildPrompt()
-          await writeClipboard(data.prompt)
-          setPromptInfo({ chars: data.chars })
-          onToast({ kind: 'ok', text: t('copied') })
-        } catch (error) {
-          onToast({ kind: 'error', text: String(error.message || error) })
-        }
-      }
-
-      const loadDesign = async () => {
-        setDesignBusy(true)
-        setDesignError('')
-        try {
-          const res = await fetch(`${API}/design/${encodeURIComponent(style.slug)}`)
-          if (!res.ok) throw new Error(`HTTP ${res.status}`)
-          setDesignText(await res.text())
-        } catch (error) {
-          setDesignText('')
-          setDesignError(`${t('designFailed')}：${String(error.message || error)}`)
-        } finally {
-          setDesignBusy(false)
-        }
-      }
-
-      const openDesign = async () => {
-        if (designOpen) { setDesignOpen(false); return }
-        if (openRef.current === null) openRef.current = document.activeElement
-        setDesignOpen(true)
-        if (!designText && !designBusy) loadDesign()
-      }
-
-      // Modal: Escape closes, background scroll is locked, focus moves in and back out.
-      useEffect(() => {
-        if (!designOpen) return undefined
-        const onKey = (event) => {
-          if (event.key === 'Escape') {
-            event.stopPropagation()
-            setDesignOpen(false)
-            return
-          }
-          if (event.key !== 'Tab' || !modalRef.current) return
-          const nodes = [...modalRef.current.querySelectorAll('button:not([disabled]), pre[tabindex="0"]')]
-          if (!nodes.length) return
-          const first = nodes[0]
-          const last = nodes[nodes.length - 1]
-          if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault()
-            first.focus()
-          } else if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault()
-            last.focus()
-          }
-        }
-        document.addEventListener('keydown', onKey, true)
-        const previous = document.body.style.overflow
-        document.body.style.overflow = 'hidden'
-        const scroller = document.querySelector('.dm-detail')
-        if (scroller) scroller.classList.add('is-locked')
-        const focusTimer = window.setTimeout(() => closeRef.current && closeRef.current.focus(), 0)
-        return () => {
-          document.removeEventListener('keydown', onKey, true)
-          document.body.style.overflow = previous
-          if (scroller) scroller.classList.remove('is-locked')
-          window.clearTimeout(focusTimer)
-          if (openRef.current && openRef.current.focus) openRef.current.focus()
-          openRef.current = null
-        }
-      }, [designOpen])
-
-      const copyValue = async (value) => {
-        try {
-          await writeClipboard(String(value || ''))
-          onToast({ kind: 'ok', text: t('copied') })
-        } catch {
-          onToast({ kind: 'error', text: t('copyFailed') })
-        }
-      }
-
-      return h('div', { className: 'dm-detail' },
-        h('div', { className: 'dm-detail-head' },
-          h('button', { type: 'button', className: 'dm-back', onClick: onBack }, '← ' + t('back')),
-          h('div', { className: 'dm-detail-title' },
-            h('h2', null, style.nameZh === style.displayName ? style.displayName : style.nameZh),
-            h('span', null, style.nameZh === style.displayName ? style.category : `${style.displayName} · ${style.category}`),
-          ),
-          h('a', { className: 'dm-source', href: style.sourceUrl, target: '_blank', rel: 'noreferrer' }, t('source') + ' ↗'),
-        ),
-        h('div', { className: 'dm-detail-grid' },
-          h('div', { className: 'dm-detail-main' },
-            h('div', { className: 'dm-seg dm-seg-preview' },
-              ...Object.keys(STRINGS.zh.surfaces).map((key) => h('button', {
-                key,
-                type: 'button',
-                className: `dm-seg-btn${kind === key ? ' is-on' : ''}`,
-                onClick: () => setKind(key),
-              }, t(`surfaces.${key}`))),
-            ),
-            h('div', { className: 'dm-preview-wrap' },
-              h('div', { className: 'dm-preview', style: { maxWidth: kind === 'poster' ? 400 : 720 } }, h(Surface, { style, kind })),
-            ),
-            h('p', { className: 'dm-note' }, t('detailNote')),
-
-            h('section', { className: 'dm-block' },
-              h('h3', null, t('brief')),
-              style.summaryZh ? h('p', { className: 'dm-brief-lead' }, style.summaryZh) : null,
-              style.positioningZh ? h('p', { className: 'dm-brief-lead is-dim' }, style.positioningZh) : null,
-              briefError
-                ? h('p', { className: 'dm-note' }, briefError)
-                : brief ? h(BriefText, { text: brief }) : h('p', { className: 'dm-note' }, t('loading')),
-            ),
-
-            h('section', { className: 'dm-block' },
-              h('h3', null, t('palette')),
-              h('div', { className: 'dm-swatches' },
-                ...style.colors.filter((c) => c.hex).slice(0, 18).map((color, index) => h('button', {
-                  key: `${color.name}-${index}`,
-                  type: 'button',
-                  className: 'dm-swatch',
-                  onClick: () => copyValue(color.hex),
-                  title: `${color.name} ${color.hex}`,
-                },
-                h('span', { className: 'dm-swatch-chip', style: { background: color.hex } }),
-                h('span', { className: 'dm-swatch-name' }, color.name),
-                h('span', { className: 'dm-swatch-hex' }, color.hex),
-                )),
-              ),
-            ),
-
-            h('section', { className: 'dm-block' },
-              h('h3', null, t('typeScale')),
-              h('div', { className: 'dm-type' },
-                ...style.typography.slice(0, 8).map((step) => h('div', { key: step.token, className: 'dm-type-row' },
-                  h('span', {
-                    className: 'dm-type-sample',
-                    style: {
-                      fontFamily: step.fontFamily ? /serif|mono/i.test(step.fontFamily) ? step.fontFamily : `${step.fontFamily}, ${v.displayStack}` : v.displayStack,
-                      fontSize: `${clamp(((Number.parseFloat(step.fontSize) || 16) / typeTop) * 26, 9, 26)}px`,
-                      fontWeight: step.fontWeight || 400,
-                    },
-                  }, 'Aa'),
-                  h('span', { className: 'dm-type-name' }, step.token),
-                  h('span', { className: 'dm-type-meta' },
-                    [step.fontSize, step.fontWeight, step.lineHeight, step.letterSpacing].filter(Boolean).join(' / ') || '—',
-                  ),
-                )),
-              ),
-            ),
-
-            h('section', { className: 'dm-block' },
-              h('h3', null, t('shape')),
-              h('div', { className: 'dm-tags' },
-                ...[
-                  [t('shapeCard'), v.radiusCard],
-                  [t('shapeButton'), v.radiusButton],
-                  [t('shapePill'), v.radiusPill],
-                  [t('shapeBase'), `${v.spaceBase || 8}px`],
-                ].map(([label, value]) => h('span', { key: label, className: 'dm-tag' },
-                  h('span', { className: 'dm-tag-label' }, label),
-                  h('span', { className: 'dm-tag-value' }, prettyRadius(value)),
-                )),
-                h('span', { className: 'dm-tag' },
-                  h('span', { className: 'dm-tag-label' }, t('shapeDisplay')),
-                  h('span', { className: 'dm-tag-value' }, v.displayFamily),
-                ),
-                h('span', { className: 'dm-tag' },
-                  h('span', { className: 'dm-tag-label' }, t('shapeBody')),
-                  h('span', { className: 'dm-tag-value' }, v.bodyFamily),
-                ),
-              ),
-            ),
-
-            style.recommendedPromptZh
-              ? h('section', { className: 'dm-block' },
-                h('div', { className: 'dm-block-head' },
-                  h('h3', null, t('recipe')),
-                  h('button', { type: 'button', className: 'dm-link', onClick: () => copyValue(style.recommendedPromptZh) }, t('copy')),
-                ),
-                h('p', { className: 'dm-recipe' }, style.recommendedPromptZh),
-              )
-              : null,
-
-            h('section', { className: 'dm-block dm-block-split' },
-              h('div', null,
-                h('h3', null, t('bestFor')),
-                h('div', { className: 'dm-chips' },
-                  ...(() => {
-                    const seen = []
-                    for (const item of [...(style.bestFor || []), ...(style.useCases || []).slice(0, 2)]) {
-                      if (item && !seen.includes(item)) seen.push(item)
-                    }
-                    return seen.map((item) => h('span', { key: item, className: 'dm-tag dm-tag-ok' }, item))
-                  })(),
-                ),
-                h('h3', { style: { marginTop: '18px' } }, t('avoidFor')),
-                h('div', { className: 'dm-chips' },
-                  ...(style.avoidFor || []).map((item) => h('span', { key: item, className: 'dm-tag dm-tag-no' }, item)),
-                ),
-              ),
-              h('div', null,
-                h('h3', null, t('checklist')),
-                h('ul', { className: 'dm-checklist' },
-                  ...(style.aiChecklist || []).map((item) => h('li', { key: item }, item)),
-                ),
-              ),
-            ),
-          ),
-
-          h('aside', { className: 'dm-form' },
-            h('h3', null, t('formTitle')),
-            h('p', { className: 'dm-form-hint' }, t('formHint')),
-
-            h('label', { className: 'dm-field-label' }, t('output')),
-            h('div', { className: 'dm-seg dm-seg-form' },
-              ...Object.keys(STRINGS.zh.outputs).map((key) => h('button', {
-                key,
-                type: 'button',
-                className: `dm-seg-btn${form.surface === key ? ' is-on' : ''}`,
-                onClick: () => setForm((prev) => ({ ...prev, surface: key })),
-              }, t(`outputs.${key}`))),
-            ),
-
-            h('label', { className: 'dm-field-label' }, t('requirement')),
-            h('textarea', {
-              className: 'dm-textarea',
-              rows: 6,
-              value: form.requirement,
-              placeholder: t('requirementPlaceholder'),
-              onChange: (event) => setForm((prev) => ({ ...prev, requirement: event.target.value })),
-            }),
-
-            h('label', { className: 'dm-check' },
-              h('input', {
-                type: 'checkbox',
-                checked: form.includeDesign,
-                onChange: (event) => setForm((prev) => ({ ...prev, includeDesign: event.target.checked })),
-              }),
-              h('span', null, t('includeDesign')),
-            ),
-
-            h('button', {
-              type: 'button',
-              className: 'dm-primary',
-              disabled: sending,
-              onClick: send,
-            }, sending ? t('sending') : t('send')),
-
-            h('div', { className: 'dm-form-row' },
-              h('button', { type: 'button', className: 'dm-ghost', onClick: copyPrompt }, t('copyPrompt')),
-              h('button', { type: 'button', className: 'dm-ghost', onClick: openDesign }, t('viewDesign')),
-            ),
-
-            promptInfo ? h('p', { className: 'dm-note' }, t('chars').replace('{n}', String(promptInfo.chars))) : null,
-            done ? h('button', {
-              type: 'button',
-              className: 'dm-ghost dm-back-chat',
-              onClick: backToChat,
-            }, `${t('backToChat')} →`) : null,
-          ),
-        ),
-        designOpen ? h('div', {
-          className: 'dm-modal',
-          role: 'dialog',
-          'aria-modal': 'true',
-          'aria-labelledby': 'dm-modal-title',
-          onClick: () => setDesignOpen(false),
-        },
-          h('div', { className: 'dm-modal-card', ref: modalRef, onClick: (event) => event.stopPropagation() },
-            h('div', { className: 'dm-modal-head' },
-              h('span', { id: 'dm-modal-title' }, `DESIGN.md · ${style.displayName}`),
-              h('div', { className: 'dm-modal-actions' },
-                h('button', { type: 'button', className: 'dm-ghost', disabled: designBusy || !designText, onClick: () => copyValue(designText) }, t('copy')),
-                h('button', { type: 'button', className: 'dm-ghost', ref: closeRef, onClick: () => setDesignOpen(false) }, t('close')),
-              ),
-            ),
-            designError
-              ? h('div', { className: 'dm-modal-body' },
-                h('p', { className: 'dm-note' }, designError),
-                h('button', { type: 'button', className: 'dm-ghost', onClick: loadDesign }, t('retry')),
-              )
-              : h('pre', { className: 'dm-modal-body', tabIndex: 0 }, designBusy ? t('loading') : designText),
-          ),
-        ) : null,
-      )
-    }
-
-    /* -------------------------------------------------------------- panel */
-
-    /** Module-level catalog cache: the panel mounts/unmounts on every tab switch. */
-    const catalogCache = { data: null, at: 0, promise: null }
     const CATALOG_TTL = 5 * 60 * 1000
+    const catalogCache = { data: null, at: 0, promise: null }
 
     function fetchCatalog(force = false) {
       const fresh = catalogCache.data && Date.now() - catalogCache.at < CATALOG_TTL
@@ -916,155 +579,10 @@ window.__ModuleLoader__.load({
     }
 
     function backToChat() {
-      const layout = runtime.ctx && (runtime.ctx.get ? runtime.ctx.get('layout') : runtime.ctx.layout);
-      if (layout && typeof layout.selectPanel === 'function') layout.selectPanel(null);
+      const ctx = runtime.ctx
+      const layout = ctx && (typeof ctx.get === 'function' ? ctx.get('layout') : ctx.layout)
+      if (layout && typeof layout.selectPanel === 'function') layout.selectPanel(null)
     }
-
-  function Panel() {
-      const loc = useLocale()
-      const [catalog, setCatalog] = useState(null)
-      const [error, setError] = useState('')
-      const [query, setQuery] = useState(memory.query)
-      const [category, setCategory] = useState(memory.category)
-      const [kind, setKind] = useState(memory.surface)
-      const [slug, setSlug] = useState(memory.slug)
-      const [toast, setToast] = useState(null)
-      const toastTimer = useRef(0)
-
-      const notify = (next) => {
-        setToast(next)
-        window.clearTimeout(toastTimer.current)
-        toastTimer.current = window.setTimeout(() => setToast(null), 4200)
-      }
-
-      useEffect(() => () => window.clearTimeout(toastTimer.current), [])
-
-      const loadCatalog = (force) => {
-        setError('')
-        fetchCatalog(force)
-          .then((data) => { if (!unmounted.current) setCatalog(data) })
-          .catch((err) => { if (!unmounted.current) setError(String(err.message || err)) })
-      }
-      const unmounted = useRef(false)
-
-      useEffect(() => {
-        unmounted.current = false
-        loadCatalog(false)
-        return () => { unmounted.current = true }
-      }, [])
-
-      useEffect(() => { memory.query = query }, [query])
-      useEffect(() => { memory.category = category }, [category])
-      useEffect(() => { memory.surface = kind }, [kind])
-      useEffect(() => { memory.slug = slug }, [slug])
-
-      const styles = catalog ? catalog.styles : []
-      const categories = useMemo(() => {
-        const seen = []
-        for (const style of styles) if (style.category && !seen.includes(style.category)) seen.push(style.category)
-        return [null, ...seen]
-      }, [styles, loc])
-
-      const filtered = useMemo(() => {
-        const q = query.trim().toLowerCase()
-        return styles.filter((style) => {
-          if (category && style.category !== category) return false
-          if (!q) return true
-          const haystack = [
-            style.slug, style.displayName, style.nameZh, style.category,
-            ...(style.tagsZh || []), ...(style.styleKeywords || []), ...(style.useCases || []),
-            ...(style.bestFor || []),
-          ].join(' ').toLowerCase()
-          return haystack.includes(q)
-        })
-      }, [styles, query, category])
-
-      const current = slug ? styles.find((style) => style.slug === slug) : null
-
-      if (current) {
-        return h('div', { className: 'dm-panel' },
-          h('style', null, CSS),
-          h(Detail, {
-            style: current,
-            kind,
-            setKind,
-            onBack: () => setSlug(null),
-            onToast: notify,
-          }),
-          toast ? h('div', { className: `dm-toast is-${toast.kind}` }, toast.text) : null,
-        )
-      }
-
-      return h('div', { className: 'dm-panel' },
-        h('style', null, CSS),
-        h('header', { className: 'dm-head' },
-          h('div', { className: 'dm-head-top' },
-            h('div', null,
-              h('h1', { className: 'dm-h1' }, t('title')),
-              h('p', { className: 'dm-sub' }, catalog ? t('subtitle') : t('loading')),
-            ),
-            h('div', { className: 'dm-head-right' },
-              catalog ? h('span', { className: 'dm-count' }, filtered.length === catalog.count ? String(catalog.count) : `${filtered.length}/${catalog.count}`) : null,
-              h('button', { type: 'button', className: 'dm-ghost dm-head-back', onClick: backToChat }, t('backChat')),
-            ),
-          ),
-          h('div', { className: 'dm-search-row' },
-            h('input', {
-              className: 'dm-search',
-              value: query,
-              placeholder: t('search'),
-              'aria-label': t('search'),
-              onChange: (event) => setQuery(event.target.value),
-            }),
-          ),
-          h('div', { className: 'dm-seg' },
-            ...Object.keys(STRINGS.zh.surfaces).map((key) => h('button', {
-              key,
-              type: 'button',
-              className: `dm-seg-btn${kind === key ? ' is-on' : ''}`,
-              'aria-pressed': kind === key,
-              onClick: () => setKind(key),
-            }, t(`surfaces.${key}`))),
-          ),
-          h('div', { className: 'dm-chips dm-chips-scroll' },
-            ...categories.map((name) => h('button', {
-              key: name || '__all__',
-              type: 'button',
-              className: `dm-chip${category === name ? ' is-on' : ''}`,
-              'aria-pressed': category === name,
-              onClick: () => setCategory(name),
-            }, name || t('all'))),
-          ),
-        ),
-        h('div', { className: 'dm-body' },
-          error
-            ? h('div', { className: 'dm-empty' },
-              h('p', null, `${t('errorCatalog')}：${error}`),
-              h('button', { type: 'button', className: 'dm-ghost', onClick: () => loadCatalog(true) }, t('retry')),
-            )
-            : !catalog
-              ? h('div', { className: 'dm-empty' }, h('p', null, t('loading')))
-              : filtered.length === 0
-                ? h('div', { className: 'dm-empty' },
-                  h('p', null, t('empty')),
-                  h('p', { className: 'dm-note' }, t('emptyHint')),
-                  (query || category)
-                    ? h('button', {
-                      type: 'button',
-                      className: 'dm-ghost',
-                      onClick: () => { setQuery(''); setCategory(null) },
-                    }, t('clearFilters'))
-                    : null,
-                )
-                : h('div', { className: 'dm-grid' },
-                  ...filtered.map((style) => h(StyleCardM, { key: style.slug, style, kind, onOpen: setSlug })),
-                ),
-        ),
-        toast ? h('div', { className: `dm-toast is-${toast.kind}`, role: 'status', 'aria-live': 'polite' }, toast.text) : null,
-      )
-    }
-
-    /* --------------------------------------------------------------- misc */
 
     async function writeClipboard(text) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1092,13 +610,544 @@ window.__ModuleLoader__.load({
       const row = Object.values(snapshot.byId || {}).find((candidate) => (candidate.retainedBy?.mainView ?? 0) > 0)
       if (!row) throw new Error(t('noSession'))
       const binding = sessions.binding(row.id)
-      if (!binding || !binding.session || typeof binding.session.prompt !== 'function') {
-        throw new Error(t('noSession'))
-      }
+      if (!binding || !binding.session || typeof binding.session.prompt !== 'function') throw new Error(t('noSession'))
       const result = await binding.session.prompt([{ type: 'text', text }], 'queue')
-      if (result && result.ok === false) {
-        throw new Error(result.error?.message || 'prompt rejected')
+      if (result && result.ok === false) throw new Error(result.error?.message || 'prompt rejected')
+    }
+
+    /* ----------------------------------------------------------- list card */
+
+    function StyleCard({ style, surface, mode, onOpen }) {
+      const v = style.visual
+      const dots = [v.canvas, v.accent, v.surface, v.darkCanvas].filter(Boolean)
+      const meta = style.nameZh === style.displayName ? style.category : `${style.displayName} · ${style.category}`
+      const keywords = (style.styleKeywords || []).slice(0, 3).join(' / ')
+      return h('article', {
+        className: 'dm-card',
+        tabIndex: 0,
+        role: 'button',
+        'aria-label': `${style.displayName} ${style.nameZh || ''}`.trim(),
+        onClick: () => onOpen(style.slug),
+        onKeyDown: (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            onOpen(style.slug)
+          }
+        },
+      },
+      h('div', { className: 'dm-card-art' }, h(Art, { style, mode, surface, clip: true })),
+      h('div', { className: 'dm-card-body' },
+        h('div', { className: 'dm-card-title' }, style.nameZh || style.displayName),
+        h('div', { className: 'dm-card-meta' }, meta),
+        keywords ? h('div', { className: 'dm-card-kw' }, keywords) : null,
+        h('p', { className: 'dm-card-desc' }, style.summaryZh || style.positioningZh || style.descriptionEn || ''),
+        h('div', { className: 'dm-card-foot' },
+          h('div', { className: 'dm-dots' }, ...dots.map((hex, i) => h('span', { key: i, className: 'dm-dot', style: { background: hex } }))),
+          h('span', { className: 'dm-card-go' }, t('useThis')),
+        ),
+      ))
+    }
+
+    /* -------------------------------------------------------------- detail */
+
+    function Detail({ style, surface, setSurface, mode, setMode, onBack, onToast }) {
+      const loc = useLocale()
+      const v = style.visual
+      const [form, setForm] = useState({ requirement: '', includeDesign: false })
+      const [busy, setBusy] = useState(false)
+      const [sent, setSent] = useState(false)
+      const [design, setDesign] = useState({ open: false, text: '', busy: false })
+      const [chars, setChars] = useState(0)
+      const gridRef = useRef(null)
+
+      /* A new surface starts at the top of the preview. */
+      useEffect(() => {
+        if (gridRef.current) gridRef.current.scrollTop = 0
+      }, [surface, style.slug])
+
+      const colors = (style.colors || []).filter((c) => c && c.hex)
+      const types = (style.typography || []).filter((s) => Number.parseFloat(s.fontSize) > 0)
+      const typeTop = types.reduce((max, s) => Math.max(max, Number.parseFloat(s.fontSize) || 0), 16)
+      const bestFor = [...new Set([...(style.bestFor || []), ...(style.useCases || []).slice(0, 3)].filter(Boolean))]
+      const avoidFor = [...new Set((style.avoidFor || []).filter(Boolean))]
+
+      const promptFor = useCallback(async () => {
+        const res = await fetch(`${API}/prompt`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            slug: style.slug,
+            surface: hostKey(form.output || surface, mode),
+            requirement: form.requirement,
+            includeDesign: form.includeDesign,
+          }),
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      }, [style.slug, surface, form.requirement, form.includeDesign])
+
+      const send = async () => {
+        setBusy(true)
+        try {
+          const data = await promptFor()
+          setChars(data.chars || 0)
+          await deliverToCurrentSession(data.prompt)
+          setSent(true)
+          onToast({ kind: 'ok', text: `${t('sendOk')} ${t('chars', { n: data.chars })}` })
+        } catch (err) {
+          onToast({ kind: 'err', text: String(err.message || err) })
+        } finally {
+          setBusy(false)
+        }
       }
+
+      const copy = async () => {
+        try {
+          const data = await promptFor()
+          setChars(data.chars || 0)
+          await writeClipboard(data.prompt)
+          onToast({ kind: 'ok', text: `${t('copied')} · ${t('chars', { n: data.chars })}` })
+        } catch (err) {
+          onToast({ kind: 'err', text: err && err.message === 'copy was rejected' ? t('copyFailed') : String(err.message || err) })
+        }
+      }
+
+      const openDesign = async () => {
+        setDesign({ open: true, text: '', busy: true })
+        try {
+          const res = await fetch(`${API}/design/${style.slug}`)
+          if (!res.ok) throw new Error(t('designFailed'))
+          const text = await res.text()
+          setDesign({ open: true, text, busy: false })
+        } catch (err) {
+          setDesign({ open: true, text: String(err.message || err), busy: false })
+        }
+      }
+
+      useEffect(() => {
+        if (!design.open) return undefined
+        const onKey = (event) => { if (event.key === 'Escape') setDesign({ open: false, text: '', busy: false }) }
+        document.addEventListener('keydown', onKey)
+        const prev = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
+        return () => {
+          document.removeEventListener('keydown', onKey)
+          document.body.style.overflow = prev
+        }
+      }, [design.open])
+
+      const rValue = (value) => /^9{3,}/.test(String(value ?? '')) ? 9999 : Number.parseFloat(value) || 0
+
+      return h('div', { className: 'dm-detail' },
+        h('div', { className: 'dm-detail-head' },
+          h('div', { className: 'dm-detail-head-l' },
+            h('button', { type: 'button', className: 'dm-ghost dm-back', onClick: onBack }, `← ${t('back')}`),
+            h('div', { className: 'dm-detail-title-wrap' },
+              h('h2', { className: 'dm-detail-title' }, style.nameZh || style.displayName),
+              style.nameZh && style.nameZh !== style.displayName ? h('span', { className: 'dm-detail-name' }, style.displayName) : null,
+              h('span', { className: 'dm-detail-cat' }, style.category),
+            ),
+          ),
+          h('div', { className: 'dm-detail-head-r' },
+            h('div', { className: 'dm-seg' },
+              ...Object.keys(STRING_SURFACES).map((key) => h('button', {
+                key,
+                type: 'button',
+                className: `dm-seg-btn${surface === key ? ' is-on' : ''}`,
+                'aria-pressed': surface === key,
+                onClick: () => setSurface(key),
+              }, t(`surfaces.${key}`))),
+            ),
+            style.darkFirst && surface === 'page'
+              ? h('span', { className: 'dm-note-inline' }, t('brandDark'))
+              : h('div', { className: 'dm-seg dm-seg-themed' },
+                ...['light', 'dark'].map((key) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-seg-btn${mode === key ? ' is-on' : ''}`,
+                  'aria-pressed': mode === key,
+                  disabled: surface !== 'page',
+                  onClick: () => setMode(key),
+                }, t(`themes.${key}`))),
+              ),
+            h('a', {
+              className: 'dm-source',
+              href: style.sourceUrl || '#',
+              target: '_blank',
+              rel: 'noreferrer',
+            }, `${t('source')} getdesign.md`),
+          ),
+        ),
+
+        h('div', { className: 'dm-detail-grid', ref: gridRef },
+          h('div', { className: 'dm-left' },
+            h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster' : ' is-slides') },
+              h(Art, { style, mode: surface === 'page' ? mode : 'light', surface }),
+            ),
+            h('div', { className: 'dm-preview-cap' },
+              h('span', null, t('previewNote')),
+              h('span', null, surface === 'page' ? t('previewFull') : t('previewSketch')),
+            ),
+          ),
+
+          h('div', { className: 'dm-right' },
+            h('section', { className: 'dm-card2 dm-form' },
+              h('h3', null, t('formTitle')),
+              h('p', { className: 'dm-form-hint' }, t('formHint')),
+              h('div', { className: 'dm-label' }, t('output')),
+              h('div', { className: 'dm-seg dm-seg-form' },
+                ...Object.keys(STRING_SURFACES).map((key) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-seg-btn${(form.output || surface) === key ? ' is-on' : ''}`,
+                  'aria-pressed': (form.output || surface) === key,
+                  onClick: () => setForm((prev) => ({ ...prev, output: key })),
+                }, t(`surfaces.${key}`))),
+              ),
+              h('div', { className: 'dm-label' }, t('requirement')),
+              h('textarea', {
+                className: 'dm-textarea',
+                rows: 4,
+                value: form.requirement,
+                placeholder: t('requirementPlaceholder'),
+                onChange: (event) => setForm((prev) => ({ ...prev, requirement: event.target.value })),
+              }),
+              h('label', { className: 'dm-check' },
+                h('input', {
+                  type: 'checkbox',
+                  checked: form.includeDesign,
+                  onChange: (event) => setForm((prev) => ({ ...prev, includeDesign: event.target.checked })),
+                }),
+                h('span', null, t('includeDesign')),
+              ),
+              h('button', { type: 'button', className: 'dm-primary', disabled: busy, onClick: send }, busy ? t('sending') : t('send')),
+              h('div', { className: 'dm-form-row' },
+                h('button', { type: 'button', className: 'dm-ghost', onClick: copy }, t('copyPrompt')),
+                h('button', { type: 'button', className: 'dm-ghost', onClick: openDesign }, t('viewDesign')),
+              ),
+              chars ? h('div', { className: 'dm-chars' }, t('chars', { n: chars })) : null,
+              sent ? h('button', { type: 'button', className: 'dm-ghost dm-back-chat', onClick: backToChat }, t('backToChat')) : null,
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('fitAvoid')),
+              h('div', { className: 'dm-kv-cap' }, t('bestFor')),
+              h('div', { className: 'dm-kv' },
+                ...bestFor.map((item) => h('span', { key: `b-${item}`, className: 'dm-tag dm-tag-ok' }, item)),
+              ),
+              h('div', { className: 'dm-kv-cap' }, t('avoidFor')),
+              h('div', { className: 'dm-kv' },
+                ...avoidFor.map((item) => h('span', { key: `a-${item}`, className: 'dm-tag' }, item)),
+              ),
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('notes')),
+              style.summaryZh ? h('p', { className: 'dm-lead' }, style.summaryZh) : null,
+              style.positioningZh ? h('p', { className: 'dm-lead is-dim' }, style.positioningZh) : null,
+              h('div', { className: 'dm-kv' },
+                ...(style.styleKeywords || []).slice(0, 6).map((k) => h('span', { key: k, className: 'dm-tag dm-tag-flat' }, k)),
+              ),
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, `${t('palette')} · ${colors.length}`),
+              h('div', { className: 'dm-swatches' },
+                ...colors.slice(0, 18).map((c, i) => h('button', {
+                  key: `${c.name}-${i}`,
+                  type: 'button',
+                  className: 'dm-swatch',
+                  onClick: async () => {
+                    await writeClipboard(c.hex)
+                    onToast({ kind: 'ok', text: `${c.hex} ${t('copied')}` })
+                  },
+                },
+                h('span', { className: 'dm-swatch-chip', style: { background: c.hex } }),
+                h('span', { className: 'dm-swatch-name' }, c.name || 'token'),
+                h('span', { className: 'dm-swatch-hex' }, c.hex),
+                )),
+              ),
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('typography')),
+              h('div', { className: 'dm-spec' },
+                ...(v.displayFamily ? [specRow(t('fontDisplay'), `${v.displayFamily} · ${v.fontClass || 'sans'}`)] : []),
+                ...(v.bodyFamily ? [specRow(t('fontBody'), `${v.bodyFamily} · ${v.bodySize || 16}px`)] : []),
+                ...(v.monoFamily ? [specRow(t('fontMono'), v.monoFamily)] : []),
+                specRow('Display', `${v.displaySize || '—'}px / ${v.displayWeight || 400}`),
+                specRow('Tracking', `${v.displayTracking || 0}px`),
+                specRow('Leading', `${v.displayLineHeight || 1.2}`),
+              ),
+              h('div', { className: 'dm-types' },
+                ...types.slice(0, 8).map((s, i) => {
+                  const size = Number.parseFloat(s.fontSize) || 16
+                  const weight = Number.parseInt(s.fontWeight, 10) || 400
+                  const lh = Number.parseFloat(s.lineHeight) || 1.2
+                  const ls = Number.parseFloat(s.letterSpacing) || 0
+                  const scaled = clamp((size / typeTop) * 24, 9, 24)
+                  return h('div', { key: `${s.token}-${i}`, className: 'dm-type-row' },
+                    h('span', {
+                      className: 'dm-type-sample',
+                      style: {
+                        fontSize: `${scaled.toFixed(1)}px`,
+                        fontWeight: weight,
+                        lineHeight: lh,
+                        letterSpacing: `${ls}px`,
+                        fontFamily: s.fontFamily || v.displayStack,
+                      },
+                    }, 'Aa'),
+                    h('span', { className: 'dm-type-token' }, s.token || `step-${i + 1}`),
+                    h('span', { className: 'dm-type-spec' }, `${Math.round(size)} / ${weight} / ${lh.toFixed(2)}`),
+                  )
+                }),
+              ),
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('shapes')),
+              h('div', { className: 'dm-spec' },
+                specRow(t('radiusCard'), prettyRadius(v.radiusCard)),
+                specRow(t('radiusButton'), prettyRadius(v.radiusButton)),
+                specRow(t('radiusPill'), prettyRadius(v.radiusPill)),
+                specRow(t('spaceBase'), `${v.spaceBase || 8}px`),
+              ),
+              h('div', { className: 'dm-scale' },
+                ...(style.spacing || []).slice(0, 8).map((s, i) => {
+                  const value = Number.parseFloat(s.value) || 0
+                  return h('div', { key: `${s.name}-${i}`, className: 'dm-scale-row' },
+                    h('span', { className: 'dm-scale-name' }, s.name || `s-${i}`),
+                    h('span', { className: 'dm-scale-bar', style: { width: `${clamp(6 + i * 9, 6, 84)}%`, background: v.accent } }),
+                    h('span', { className: 'dm-scale-val' }, `${Math.round(value)}px`),
+                  )
+                }),
+              ),
+              h('div', { className: 'dm-shapes' },
+                ...[
+                  [t('radiusCard'), v.radiusCard],
+                  [t('radiusButton'), v.radiusButton],
+                  [t('radiusPill'), v.radiusPill],
+                ].map(([label, value], i) => h('div', { key: `r-${i}`, className: 'dm-shape' },
+                  h('span', {
+                    className: 'dm-shape-box',
+                    style: {
+                      background: v.surface,
+                      border: `1px solid ${v.hairline}`,
+                      borderRadius: rValue(value) >= 999 ? '9999px' : `${Math.min(rValue(value), 28)}px`,
+                    },
+                  }),
+                  h('span', { className: 'dm-shape-label' }, label),
+                )),
+              ),
+            ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('components')),
+              h('div', { className: 'dm-demo', style: { background: v.canvas, border: `1px solid ${v.hairline}`, borderRadius: `${Math.min(rValue(v.radiusCard), 20)}px` } },
+                h('div', { className: 'dm-demo-row' },
+                  h('span', { style: { background: v.accent, color: v.accentText, borderRadius: `${Math.min(rValue(v.radiusButton), 18)}px`, padding: '6px 12px', fontSize: 11, fontWeight: 600 } }, t('demoBtn')),
+                  h('span', { style: { background: v.ink, color: v.canvas, borderRadius: `${Math.min(rValue(v.radiusButton), 18)}px`, padding: '6px 12px', fontSize: 11, fontWeight: 600 } }, t('demoBtn2')),
+                  h('span', { style: { border: `1px solid ${v.hairline}`, color: v.muted, borderRadius: `${rValue(v.radiusPill) >= 999 ? '9999px' : '8px'}`, padding: '5px 10px', fontSize: 10.5 } }, t('demoBtn3')),
+                ),
+                h('div', { style: { background: v.bg || v.canvas, border: `1px solid ${v.hairline}`, borderRadius: `${Math.min(rValue(v.radiusCard), 20)}px`, overflow: 'hidden' } },
+                  h('div', { style: { height: 42, background: `linear-gradient(135deg, ${v.accent}, ${v.surface})` } }),
+                  h('div', { style: { padding: '9px 11px' } },
+                    h('div', { style: { fontSize: 11, fontWeight: 600, color: v.ink } }, t('demoCard')),
+                    h('div', { style: { marginTop: 3, fontSize: 10, color: v.muted, lineHeight: 1.5 } }, t('demoCardBody')),
+                  ),
+                ),
+                h('div', { style: { border: `1px solid ${v.hairline}`, borderRadius: `${Math.min(rValue(v.radiusButton), 18)}px`, padding: '7px 10px', fontSize: 10.5, color: v.muted } }, t('demoInput')),
+              ),
+            ),
+          ),
+        ),
+
+        design.open ? h('div', {
+          className: 'dm-modal',
+          role: 'dialog',
+          'aria-modal': 'true',
+          'aria-label': `DESIGN.md · ${style.displayName}`,
+          onClick: (event) => { if (event.target === event.currentTarget) setDesign({ open: false, text: '', busy: false }) },
+        },
+        h('div', { className: 'dm-modal-card' },
+          h('div', { className: 'dm-modal-head' },
+            h('span', null, `DESIGN.md · ${style.displayName}`),
+            h('div', { className: 'dm-modal-actions' },
+              h('button', { type: 'button', className: 'dm-ghost', onClick: async () => { await writeClipboard(design.text); onToast({ kind: 'ok', text: t('copied') }) } }, t('copy')),
+              h('button', { type: 'button', className: 'dm-ghost', onClick: () => setDesign({ open: false, text: '', busy: false }) }, t('close')),
+            ),
+          ),
+          h('pre', { className: 'dm-modal-body', tabIndex: 0 }, design.busy ? t('loading') : design.text),
+        )) : null,
+      )
+    }
+
+    const specRow = (label, value) => h('div', { key: `${label}-${value}`, className: 'dm-spec-row' },
+      h('span', { className: 'dm-spec-label' }, label),
+      h('span', { className: 'dm-spec-value' }, String(value)),
+    )
+
+    const STRING_SURFACES = { page: true, slides: true, poster: true }
+    const HOST_SURFACE = { page: 'web', slides: 'slides', poster: 'poster' }
+    /** page + dark theme maps to the host's dedicated dark-page deliverable. */
+    const hostKey = (chosen, mode) => (chosen === 'page' ? (mode === 'dark' ? 'webDark' : 'web') : HOST_SURFACE[chosen] || 'web')
+
+    /* ------------------------------------------------------------ panel UI */
+
+    function Panel() {
+      useLocale()
+      const [catalog, setCatalog] = useState(catalogCache.data)
+      const [error, setError] = useState('')
+      const [query, setQuery] = useState(memory.query)
+      const [category, setCategory] = useState(memory.category)
+      const [surface, setSurface] = useState(memory.surface)
+      const [mode, setMode] = useState(memory.theme)
+      const [slug, setSlug] = useState(memory.slug)
+      const [toast, setToast] = useState(null)
+      const toastTimer = useRef(0)
+      const alive = useRef(true)
+
+      const notify = (next) => {
+        setToast(next)
+        window.clearTimeout(toastTimer.current)
+        toastTimer.current = window.setTimeout(() => setToast(null), 4200)
+      }
+
+      useEffect(() => () => window.clearTimeout(toastTimer.current), [])
+
+      const load = (force) => {
+        setError('')
+        fetchCatalog(force)
+          .then((data) => { if (alive.current) setCatalog(data) })
+          .catch((err) => { if (alive.current) setError(String(err.message || err)) })
+      }
+
+      useEffect(() => {
+        alive.current = true
+        load(false)
+        return () => { alive.current = false }
+      }, [])
+
+      useEffect(() => { memory.query = query }, [query])
+      useEffect(() => { memory.category = category }, [category])
+      useEffect(() => { memory.surface = surface }, [surface])
+      useEffect(() => { memory.theme = mode }, [mode])
+      useEffect(() => { memory.slug = slug }, [slug])
+
+      const styles = catalog ? catalog.styles : []
+      const categories = useMemo(() => {
+        const seen = []
+        for (const style of styles) if (style.category && !seen.includes(style.category)) seen.push(style.category)
+        return [null, ...seen]
+      }, [styles])
+
+      const filtered = useMemo(() => {
+        const q = query.trim().toLowerCase()
+        return styles.filter((style) => {
+          if (category && style.category !== category) return false
+          if (!q) return true
+          const haystack = [
+            style.slug, style.displayName, style.nameZh, style.category,
+            ...(style.tagsZh || []), ...(style.styleKeywords || []), ...(style.useCases || []),
+            ...(style.bestFor || []), style.summaryZh, style.positioningZh,
+          ].join(' ').toLowerCase()
+          return haystack.includes(q)
+        })
+      }, [styles, query, category])
+
+      const current = slug ? styles.find((style) => style.slug === slug) : null
+
+      const toastEl = toast
+        ? h('div', { className: `dm-toast is-${toast.kind}`, role: 'status', 'aria-live': 'polite' }, toast.text)
+        : null
+
+      if (current) {
+        return h('div', { className: 'dm-panel' },
+          h('style', null, CSS),
+          h(Detail, {
+            style: current,
+            surface,
+            setSurface,
+            mode: current.visual.darkFirst ? 'dark' : mode,
+            setMode,
+            onBack: () => setSlug(null),
+            onToast: notify,
+          }),
+          toastEl,
+        )
+      }
+
+      return h('div', { className: 'dm-panel' },
+        h('style', null, CSS),
+        h('header', { className: 'dm-head' },
+          h('div', { className: 'dm-head-top' },
+            h('div', null,
+              h('h1', { className: 'dm-h1' }, t('title')),
+              h('p', { className: 'dm-sub' }, catalog ? t('subtitle') : t('loading')),
+            ),
+            h('div', { className: 'dm-head-right' },
+              catalog ? h('span', { className: 'dm-count' }, filtered.length === catalog.count ? String(catalog.count) : `${filtered.length} / ${catalog.count}`) : null,
+              h('button', { type: 'button', className: 'dm-ghost', onClick: backToChat }, t('backChat')),
+            ),
+          ),
+          h('div', { className: 'dm-toolbar' },
+            h('div', { className: 'dm-seg' },
+              ...Object.keys(STRING_SURFACES).map((key) => h('button', {
+                key,
+                type: 'button',
+                className: `dm-seg-btn${surface === key ? ' is-on' : ''}`,
+                'aria-pressed': surface === key,
+                onClick: () => setSurface(key),
+              }, t(`surfaces.${key}`))),
+            ),
+            h('input', {
+              className: 'dm-search',
+              value: query,
+              placeholder: t('search'),
+              'aria-label': t('search'),
+              onChange: (event) => setQuery(event.target.value),
+            }),
+          ),
+          h('div', { className: 'dm-chips' },
+            ...categories.map((name) => h('button', {
+              key: name || '__all__',
+              type: 'button',
+              className: `dm-chip${category === name ? ' is-on' : ''}`,
+              'aria-pressed': category === name,
+              onClick: () => setCategory(name),
+            }, name || t('all'))),
+          ),
+        ),
+        h('div', { className: 'dm-body' },
+          error
+            ? h('div', { className: 'dm-empty' },
+              h('p', null, `${t('errorCatalog')}：${error}`),
+              h('button', { type: 'button', className: 'dm-ghost', onClick: () => load(true) }, t('retry')),
+            )
+            : !catalog
+              ? h('div', { className: 'dm-empty' }, h('p', null, t('loading')))
+              : filtered.length === 0
+                ? h('div', { className: 'dm-empty' },
+                  h('p', null, t('empty')),
+                  h('p', { className: 'dm-note' }, t('emptyHint')),
+                  (query || category) ? h('button', {
+                    type: 'button',
+                    className: 'dm-ghost',
+                    onClick: () => { setQuery(''); setCategory(null) },
+                  }, t('clearFilters')) : null,
+                )
+                : h('div', { className: 'dm-grid' },
+                  ...filtered.map((style) => h(StyleCard, {
+                    key: style.slug,
+                    style,
+                    surface,
+                    mode: style.visual.darkFirst ? 'dark' : mode,
+                    onOpen: setSlug,
+                  })),
+                ),
+        ),
+        toastEl,
+      )
     }
 
     function PanelIcon({ size }) {
@@ -1110,7 +1159,7 @@ window.__ModuleLoader__.load({
         fill: 'none',
         'aria-hidden': 'true',
       },
-      h('rect', { x: 3.2, y: 3.2, width: 17.6, height: 17.6, rx: 4.6, stroke: 'currentColor', strokeWidth: 1.5 }),
+      h('rect', { x: 3.2, y: 3.2, width: 17.6, height: 17.6, rx: 5.2, stroke: 'currentColor', strokeWidth: 1.5 }),
       h('path', { d: 'M7.6 15.4 10.9 8l3.3 7.4', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round' }),
       h('path', { d: 'M8.6 13h4.6', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' }),
       h('circle', { cx: 16.4, cy: 16.2, r: 1.55, fill: 'currentColor' }),
@@ -1120,156 +1169,131 @@ window.__ModuleLoader__.load({
     /* ---------------------------------------------------------------- css */
 
     const CSS = `
-.dm-panel{position:relative;display:flex;flex-direction:column;height:100%;min-height:0;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary)}
-.dm-head{flex:none;display:flex;flex-direction:column;gap:10px;padding:18px 22px 12px;border-bottom:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base)}
-.dm-head-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.dm-h1{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em}
-.dm-sub{margin:3px 0 0;font-size:12px;line-height:1.5;color:var(--dsw-alias-label-secondary)}
-.dm-head-right{display:flex;align-items:center;gap:10px}
-.dm-head-back{white-space:nowrap}
-.dm-count{font-size:12px;font-variant-numeric:tabular-nums;color:var(--dsw-alias-label-secondary);border:1px solid var(--dsw-alias-border-l1);border-radius:999px;padding:2px 9px}
-.dm-search{width:100%;box-sizing:border-box;padding:8px 12px;font-size:13px;border-radius:9px;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-primary);outline:none}
-.dm-search:focus{border-color:var(--dsw-alias-brand-primary)}
-.dm-seg{display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:var(--dsw-alias-bg-layer-2);align-self:flex-start;flex-wrap:wrap}
-.dm-seg-btn{appearance:none;border:0;background:transparent;color:var(--dsw-alias-label-secondary);font:inherit;font-size:12px;padding:5px 11px;border-radius:7px;cursor:pointer;white-space:nowrap}
-.dm-seg-btn:hover{color:var(--dsw-alias-label-primary)}
-.dm-seg-btn.is-on{background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);box-shadow:0 1px 2px rgba(0,0,0,.14)}
-.dm-seg-preview{align-self:flex-start}
-.dm-seg-form{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-self:stretch}
-.dm-seg-form .dm-seg-btn{text-align:center;padding:6px 4px}
-.dm-chips{display:flex;gap:6px;flex-wrap:wrap}
-.dm-chips-scroll{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.dm-tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.dm-tag{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:6px 10px;border:1px solid var(--dsw-alias-border-l1);border-radius:8px;background:var(--dsw-alias-bg-layer-1);font-size:12px}
-.dm-tag-label{color:var(--dsw-alias-label-secondary)}
-.dm-tag-value{color:var(--dsw-alias-label-primary);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dm-modal-body{overscroll-behavior:contain}
-@media (max-width:620px){.dm-chips-scroll{flex-wrap:wrap;overflow:visible;padding-bottom:0}}
-.dm-chips-scroll::-webkit-scrollbar{display:none}
-.dm-chip{appearance:none;border:1px solid var(--dsw-alias-border-l1);background:transparent;color:var(--dsw-alias-label-secondary);font:inherit;font-size:12px;padding:4px 10px;border-radius:999px;cursor:pointer;white-space:nowrap}
-.dm-chip:hover{color:var(--dsw-alias-label-primary);border-color:var(--dsw-alias-border-l2)}
-.dm-chip.is-on{background:var(--dsw-alias-label-primary);color:var(--dsw-alias-bg-base);border-color:transparent}
-.dm-body{flex:1;min-height:0;overflow-y:auto;padding:18px 22px 28px}
-.dm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
-.dm-card{position:relative;display:flex;flex-direction:column;gap:9px;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit;color:inherit;border-radius:12px}
-.dm-card:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:4px}
-.dm-card:focus-visible .dm-card-art{transform:translateY(-2px);box-shadow:0 12px 28px -14px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.1)}
-.dm-card:focus-visible .dm-card-hover{opacity:1;transform:none}
-.dm-chip:focus-visible,.dm-seg-btn:focus-visible,.dm-ghost:focus-visible,.dm-primary:focus-visible,.dm-swatch:focus-visible,.dm-back:focus-visible,.dm-link:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:2px}
-.dm-search:focus{box-shadow:0 0 0 3px color-mix(in srgb, var(--dsw-alias-brand-primary) 26%, transparent)}
-.dm-card-art{display:block;border-radius:11px;overflow:hidden;border:1px solid var(--dsw-alias-border-l1);transition:transform .18s ease,box-shadow .18s ease}
-.dm-card:hover .dm-card-art{transform:translateY(-2px);box-shadow:0 10px 26px -12px rgba(0,0,0,.45)}
-.dm-card-art .dm-art{width:100%;height:auto}
-.dm-card-hover{position:absolute;left:9px;top:9px;padding:4px 9px;border-radius:999px;font-size:11px;background:rgba(12,12,14,.82);color:#fff;opacity:0;transform:translateY(-3px);transition:opacity .18s ease,transform .18s ease;pointer-events:none}
-.dm-card:hover .dm-card-hover{opacity:1;transform:none}
-.dm-card-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:0 2px}
-.dm-card-names{display:flex;flex-direction:column;gap:2px;min-width:0}
-.dm-card-zh{font-size:13px;font-weight:600;color:var(--dsw-alias-label-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dm-card-en{font-size:11.5px;color:var(--dsw-alias-label-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dm-dots{display:flex;gap:3px;flex:none;padding-top:3px}
-.dm-dots i{width:9px;height:9px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
-.dm-art{position:relative;container-type:inline-size;overflow:hidden;isolation:isolate}
-.dm-art-inner{position:absolute;inset:0;display:flex;flex-direction:column;font-family:var(--dm-body);color:var(--dm-ink)}
-.dm-page{justify-content:flex-start}
-.dm-nav{display:flex;align-items:center;justify-content:space-between;gap:2cqw;padding:1.55cqw 3.4cqw;border-bottom:1px solid var(--dm-line)}
-.dm-nav-brand{display:flex;align-items:center;gap:.85cqw;min-width:0}
-.dm-logo{display:inline-flex;align-items:center;justify-content:center;width:2.35cqw;height:2.35cqw;font-size:1.05cqw;line-height:1}
-.dm-nav-links{display:flex;gap:1.85cqw;align-items:center}
-.dm-nav-cta{white-space:nowrap}
-.dm-hero{display:flex;flex-direction:column;gap:1.5cqw;padding:2.8cqw 3.4cqw 2.2cqw;flex:1;justify-content:center}
-.dm-foot{display:flex;align-items:center;justify-content:space-between;gap:2cqw;padding:1.5cqw 3.4cqw}
-.dm-foot-links{display:flex;gap:1.8cqw;align-items:center}
-.dm-eyebrow{text-transform:uppercase;font-weight:600;letter-spacing:.1em}
-.dm-ctas{display:flex;gap:1.1cqw;align-items:center;margin-top:.5cqw}
-.dm-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5cqw;padding:0 3.4cqw 2.4cqw}
-.dm-mini-card{display:flex;flex-direction:column;gap:.7cqw}
-.dm-mini-media{display:block;width:100%;aspect-ratio:3/2;margin-bottom:.9cqw}
-.dm-card-art .dm-foot-links,.dm-card-art .dm-nav-links,.dm-card-art .dm-mini-card>span:nth-child(n+4){display:none}
-.dm-mini-icon{width:2.4cqw;height:2.4cqw;display:block;border-radius:.7cqw}
-.dm-slide{padding:3.2cqw 4.2cqw;justify-content:space-between}
-.dm-slide-head{display:flex;align-items:center;justify-content:space-between}
-.dm-kicker{text-transform:uppercase;letter-spacing:.16em;font-weight:600}
-.dm-slide-body{display:flex;flex-direction:column;gap:1.4cqw;flex:1;justify-content:center}
-.dm-slide-bar{width:6.5cqw;height:.32cqw;border-radius:99px;display:block}
-.dm-slide-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.1cqw}
-.dm-slide-list li{display:flex;align-items:center;gap:1.1cqw}
-.dm-bullet{width:.75cqw;height:.75cqw;border-radius:50%;display:block;flex:none}
-.dm-slide-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--dm-line);padding-top:1.2cqw}
-.dm-poster{padding:5cqw 5.2cqw;justify-content:space-between}
-.dm-poster-top{display:flex;align-items:center;justify-content:space-between}
-.dm-poster-dot{width:1.1cqw;height:1.1cqw;border-radius:50%;display:block}
-.dm-poster-mid{display:flex;flex-direction:column;gap:2.6cqw}
-.dm-poster-foot{display:flex;flex-direction:column;gap:1.8cqw}
-.dm-poster-meta{display:flex;justify-content:space-between;text-transform:uppercase;letter-spacing:.08em}
-.dm-empty{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:40px 4px;color:var(--dsw-alias-label-secondary);font-size:13px}
-.dm-note{margin:8px 0 0;font-size:11.5px;line-height:1.55;color:var(--dsw-alias-label-secondary)}
-.dm-detail{display:flex;flex-direction:column;gap:16px;padding:16px 22px 40px;overflow-y:auto;height:100%;min-height:0;box-sizing:border-box}
-.dm-detail.is-locked{overflow:hidden}
-.dm-detail-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.dm-back{appearance:none;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);font:inherit;font-size:12px;padding:5px 10px;border-radius:8px;cursor:pointer}
-.dm-back:hover{color:var(--dsw-alias-label-primary)}
-.dm-detail-title{display:flex;align-items:baseline;gap:9px;min-width:0}
-.dm-detail-title h2{margin:0;font-size:17px;font-weight:600}
-.dm-detail-title span{font-size:12px;color:var(--dsw-alias-label-secondary)}
-.dm-source{margin-left:auto;font-size:11.5px;color:var(--dsw-alias-label-secondary);text-decoration:none}
-.dm-source:hover{color:var(--dsw-alias-brand-primary)}
-.dm-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:26px;align-items:start}
-.dm-detail-main{display:flex;flex-direction:column;gap:14px;min-width:0}
-.dm-preview-wrap{display:flex;justify-content:flex-start}
-.dm-preview{width:100%;border-radius:13px;overflow:hidden;border:1px solid var(--dsw-alias-border-l1);box-shadow:0 18px 40px -30px rgba(0,0,0,.6)}
-.dm-block{border-top:1px solid var(--dsw-alias-border-l1);padding-top:14px}
-.dm-block h3{margin:0 0 9px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--dsw-alias-label-secondary)}
-.dm-block-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.dm-block-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px}
-.dm-brief-lead{margin:10px 0 4px;font-size:12.5px;line-height:1.75;color:var(--dsw-alias-label-primary)}
-.dm-brief-lead.is-dim{color:var(--dsw-alias-label-secondary)}
-.dm-brief{display:flex;flex-direction:column;gap:7px;max-width:68ch;font-size:12.5px;line-height:1.68;color:var(--dsw-alias-label-primary)}
-.dm-brief-h{margin:6px 0 0;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--dsw-alias-label-secondary)}
-.dm-brief-p{margin:0;color:var(--dsw-alias-label-primary)}
-.dm-brief-li{display:flex;gap:7px;align-items:flex-start;color:var(--dsw-alias-label-secondary)}
-.dm-brief-dot{width:4px;height:4px;border-radius:50%;background:var(--dsw-alias-border-l2);margin-top:7px;flex:none}
-.dm-brief-more{margin-top:4px}
-.dm-link{appearance:none;border:0;background:transparent;color:var(--dsw-alias-brand-primary);font:inherit;font-size:11.5px;cursor:pointer;padding:0}
-.dm-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
-.dm-swatch{display:flex;flex-direction:column;gap:3px;align-items:flex-start;border:0;background:transparent;padding:0;cursor:pointer;font:inherit;text-align:left;min-width:0}
-.dm-swatch-chip{width:100%;height:30px;border-radius:7px;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
-.dm-swatch-name{font-size:11px;color:var(--dsw-alias-label-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.dm-swatch-hex{font-size:10.5px;font-variant-numeric:tabular-nums;color:var(--dsw-alias-label-primary);opacity:.75}
-.dm-type{display:flex;flex-direction:column;gap:2px}
-.dm-type-row{display:grid;grid-template-columns:34px 1fr auto;align-items:baseline;gap:10px;padding:5px 0;border-bottom:1px dashed var(--dsw-alias-border-l1)}
-.dm-type-sample{color:var(--dsw-alias-label-primary);line-height:1}
-.dm-type-name{font-size:12px;color:var(--dsw-alias-label-primary);font-variant-numeric:tabular-nums}
-.dm-type-meta{font-size:11px;color:var(--dsw-alias-label-secondary);font-variant-numeric:tabular-nums;text-align:right}
-.dm-tag{font-size:11px;padding:2px 8px;border-radius:6px;background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-secondary);white-space:nowrap}
-.dm-tag-ok{background:color-mix(in srgb,var(--dsw-alias-state-success-primary) 16%,transparent);color:var(--dsw-alias-state-success-primary)}
-.dm-tag-no{background:color-mix(in srgb,var(--dsw-alias-state-error-primary) 14%,transparent);color:var(--dsw-alias-state-error-primary)}
-.dm-checklist{margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:var(--dsw-alias-label-secondary)}
-.dm-recipe{margin:0;font-size:12.5px;line-height:1.7;color:var(--dsw-alias-label-secondary);background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l1);border-radius:9px;padding:11px 13px}
-.dm-form{position:sticky;top:0;display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:13px;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-1)}
-.dm-form h3{margin:0;font-size:14px;font-weight:600}
-.dm-form-hint{margin:0;font-size:11.5px;line-height:1.6;color:var(--dsw-alias-label-secondary)}
-.dm-field-label{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--dsw-alias-label-secondary);margin-top:4px}
-.dm-textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:96px;padding:9px 11px;font:inherit;font-size:12.5px;line-height:1.6;border-radius:9px;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);outline:none}
-.dm-textarea:focus{border-color:var(--dsw-alias-brand-primary)}
-.dm-check{display:flex;gap:7px;align-items:flex-start;font-size:11.5px;line-height:1.55;color:var(--dsw-alias-label-secondary);cursor:pointer}
-.dm-check input{margin-top:2px;accent-color:var(--dsw-alias-brand-primary)}
-.dm-primary{appearance:none;border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:12.5px;font-weight:600;background:var(--dsw-alias-brand-primary);color:#fff;cursor:pointer}
-.dm-primary:hover{filter:brightness(1.06)}
-.dm-primary:disabled{opacity:.6;cursor:default}
-.dm-form-row{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.dm-ghost{appearance:none;border:1px solid var(--dsw-alias-border-l1);background:transparent;color:var(--dsw-alias-label-secondary);font:inherit;font-size:11.5px;padding:7px 9px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dm-ghost:hover{color:var(--dsw-alias-label-primary);border-color:var(--dsw-alias-border-l2)}
-.dm-back-chat{grid-column:1 / -1}
-.dm-modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px}
-.dm-modal-card{width:min(880px,100%);max-height:86vh;display:flex;flex-direction:column;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l1);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px -40px rgba(0,0,0,.8)}
-.dm-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--dsw-alias-border-l1);font-size:12.5px;color:var(--dsw-alias-label-primary)}
+.dm-panel{position:relative;display:flex;flex-direction:column;height:100%;min-height:0;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);--dm-line:var(--dsw-alias-border-l1);--dm-soft:var(--dsw-alias-bg-layer-1);--dm-soft2:var(--dsw-alias-bg-layer-2);--dm-ink:var(--dsw-alias-label-primary);--dm-dim:var(--dsw-alias-label-secondary);--dm-accent:var(--dsw-alias-label-primary);--dm-on-accent:var(--dsw-alias-bg-base)}
+.dm-head{flex:none;display:flex;flex-direction:column;gap:12px;padding:20px 26px 12px;border-bottom:1px solid var(--dm-line)}
+.dm-head-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.dm-h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.028em}
+.dm-sub{margin:4px 0 0;font-size:12.5px;line-height:1.5;color:var(--dm-dim)}
+.dm-head-right{display:flex;align-items:center;gap:10px;flex:none}
+.dm-count{font-size:12px;font-variant-numeric:tabular-nums;color:var(--dm-dim);border:1px solid var(--dm-line);border-radius:7px;padding:3px 9px}
+.dm-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dm-seg{display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:var(--dm-soft2);flex:none}
+.dm-seg-btn{appearance:none;border:0;background:transparent;color:var(--dm-dim);font:inherit;font-size:12px;padding:5px 12px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.dm-seg-btn:hover:not(:disabled){color:var(--dm-ink)}
+.dm-seg-btn.is-on{background:var(--dsw-alias-bg-base);color:var(--dm-ink);box-shadow:0 1px 2px rgba(0,0,0,.14)}
+.dm-seg-btn:disabled{opacity:.45;cursor:default}
+.dm-seg-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-self:stretch;background:var(--dm-soft2)}
+.dm-seg-form .dm-seg-btn{text-align:center}
+.dm-search{flex:1;min-width:180px;box-sizing:border-box;padding:8px 12px;font-size:12.5px;border-radius:8px;border:1px solid transparent;background:var(--dm-soft);color:var(--dm-ink);outline:none}
+.dm-search::placeholder{color:var(--dm-dim)}
+.dm-search:focus{background:var(--dsw-alias-bg-base);border-color:var(--dm-ink);box-shadow:0 0 0 3px rgba(127,127,127,.16)}
+.dm-chips{display:flex;gap:6px;flex-wrap:wrap;padding:2px 26px 12px}
+.dm-chip{appearance:none;border:1px solid var(--dm-line);background:transparent;color:var(--dm-dim);font:inherit;font-size:12px;padding:4px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.dm-chip:hover{color:var(--dm-ink);border-color:var(--dm-dim)}
+.dm-chip.is-on{background:var(--dm-accent);color:var(--dm-on-accent);border-color:var(--dm-accent)}
+.dm-body{flex:1;min-height:0;overflow:auto;padding:16px 26px 40px}
+.dm-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 22px}
+@media (min-width:1500px){.dm-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:1900px){.dm-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (max-width:900px){.dm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.dm-grid{grid-template-columns:1fr}}
+.dm-card{display:flex;flex-direction:column;border:1px solid var(--dm-line);border-radius:10px;background:var(--dsw-alias-bg-base);overflow:hidden;cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
+.dm-card:hover{border-color:var(--dm-dim);box-shadow:0 6px 24px rgba(0,0,0,.10)}
+.dm-card:focus-visible{outline:2px solid var(--dm-ink);outline-offset:3px}
+.dm-card-art{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--dm-soft2);border-bottom:1px solid var(--dm-line)}
+.dm-card-body{display:flex;flex-direction:column;gap:4px;padding:12px 13px 11px}
+.dm-card-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.dm-card-meta{font-size:11.5px;color:var(--dm-dim)}
+.dm-card-kw{font-size:11px;color:var(--dm-dim);opacity:.9}
+.dm-card-desc{margin:3px 0 0;font-size:11.5px;line-height:1.62;color:var(--dm-dim);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(1.62em * 3)}
+.dm-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.dm-dots{display:flex;gap:5px}
+.dm-dot{width:9px;height:9px;border-radius:9999px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.10)}
+.dm-card-go{font-size:11px;color:var(--dm-dim);opacity:0;transition:opacity .15s ease}
+.dm-card:hover .dm-card-go,.dm-card:focus-visible .dm-card-go{opacity:1;color:var(--dm-ink)}
+.dm-art{container-type:inline-size;width:100%;height:100%;overflow:hidden}
+.dm-art.is-clip{position:absolute;inset:0}
+.dm-art.is-page{padding-top:0}
+.dm-empty{padding:46px 4px;color:var(--dm-dim);font-size:12.5px;line-height:1.7}
+.dm-note{color:var(--dm-dim);opacity:.8}
+.dm-ghost{appearance:none;border:1px solid var(--dm-line);background:transparent;color:var(--dm-dim);font:inherit;font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.dm-ghost:hover{color:var(--dm-ink);border-color:var(--dm-dim)}
+.dm-ghost:focus-visible,.dm-seg-btn:focus-visible,.dm-chip:focus-visible,.dm-primary:focus-visible,.dm-swatch:focus-visible{outline:2px solid var(--dm-ink);outline-offset:2px}
+.dm-primary{appearance:none;border:0;border-radius:8px;padding:9px 12px;font:inherit;font-size:12.5px;font-weight:600;background:var(--dm-accent);color:var(--dm-on-accent);cursor:pointer}
+.dm-primary:hover{filter:brightness(1.12)}
+.dm-primary:disabled{opacity:.55;cursor:default}
+.dm-toast{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);max-width:min(420px,80%);padding:9px 14px;border-radius:8px;background:var(--dm-accent);color:var(--dm-on-accent);font-size:12px;line-height:1.5;box-shadow:0 8px 28px rgba(0,0,0,.22);z-index:20}
+.dm-detail{display:flex;flex-direction:column;height:100%;min-height:0}
+.dm-detail-head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px 26px 12px;border-bottom:1px solid var(--dm-line)}
+.dm-detail-head-l{display:flex;align-items:center;gap:12px;min-width:0}
+.dm-detail-title-wrap{display:flex;align-items:baseline;gap:8px;min-width:0;flex-wrap:wrap}
+.dm-detail-title{margin:0;font-size:21px;font-weight:700;letter-spacing:-.028em}
+.dm-detail-name{font-size:13px;color:var(--dm-dim)}
+.dm-detail-cat{font-size:11.5px;color:var(--dm-dim);border:1px solid var(--dm-line);border-radius:6px;padding:2px 7px}
+.dm-detail-head-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dm-seg-themed{margin-left:2px}
+.dm-note-inline{font-size:11.5px;color:var(--dm-dim);max-width:220px;line-height:1.4}
+.dm-source{font-size:11.5px;color:var(--dm-dim);text-decoration:none;border-bottom:1px solid var(--dm-line);padding-bottom:1px}
+.dm-source:hover{color:var(--dm-ink)}
+.dm-detail-grid{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:minmax(0,1fr) clamp(320px,24vw,420px);gap:clamp(20px,2vw,34px);padding:18px 26px 46px;align-items:start}
+.dm-left{min-width:0;display:flex;flex-direction:column;gap:8px}
+.dm-preview{border:1px solid var(--dm-line);border-radius:10px;overflow:hidden;background:var(--dm-soft2)}
+.dm-preview.is-page .dm-art{height:auto}
+.dm-preview.is-slides .dm-art{aspect-ratio:16/9;padding:0}
+.dm-preview.is-slides,.dm-preview.is-poster{background:transparent}
+.dm-preview.is-poster{border:0;background:transparent}
+.dm-preview.is-poster .dm-art{aspect-ratio:4/5;max-width:440px;margin:0 auto;border:1px solid var(--dm-line);border-radius:8px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.dm-preview-cap{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:var(--dm-dim)}
+.dm-right{display:flex;flex-direction:column;gap:14px;min-width:0}
+.dm-card2{border:1px solid var(--dm-line);border-radius:10px;padding:14px 14px 13px;background:var(--dsw-alias-bg-base)}
+.dm-card2 h3{margin:0 0 10px;font-size:12.5px;font-weight:600;letter-spacing:-.01em}
+.dm-form h3{font-size:13px}
+.dm-form-hint{margin:0 0 10px;font-size:11.5px;line-height:1.6;color:var(--dm-dim)}
+.dm-label{margin:10px 0 6px;font-size:11.5px;color:var(--dm-dim)}
+.dm-textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:74px;padding:8px 10px;font:inherit;font-size:12px;line-height:1.6;border-radius:8px;border:1px solid var(--dm-line);background:var(--dm-soft);color:var(--dm-ink);outline:none}
+.dm-textarea:focus{border-color:var(--dm-ink);background:var(--dsw-alias-bg-base)}
+.dm-check{display:flex;align-items:flex-start;gap:7px;margin:10px 0 12px;font-size:11.5px;line-height:1.5;color:var(--dm-dim);cursor:pointer}
+.dm-check input{margin:1px 0 0;flex:none}
+.dm-form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.dm-chars{margin-top:8px;font-size:11px;color:var(--dm-dim)}
+.dm-back-chat{margin-top:8px;grid-column:1/-1;width:100%}
+.dm-lead{margin:0 0 8px;font-size:12px;line-height:1.7;color:var(--dm-ink)}
+.dm-lead.is-dim{color:var(--dm-dim)}
+.dm-kv{display:flex;flex-wrap:wrap;gap:6px}
+.dm-kv-cap{margin-top:8px;font-size:11px;color:var(--dm-dim)}
+.dm-tag{display:inline-flex;align-items:center;padding:4px 9px;border-radius:6px;border:1px solid var(--dm-line);font-size:11px;color:var(--dm-dim);background:var(--dm-soft)}
+.dm-tag-ok{border-color:transparent;background:var(--dm-soft2);color:var(--dm-ink)}
+.dm-tag-flat{border-color:transparent;background:transparent;padding:0;color:var(--dm-dim)}
+.dm-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.dm-swatch{display:flex;flex-direction:column;gap:3px;padding:0;border:0;background:transparent;text-align:left;cursor:pointer}
+.dm-swatch-chip{height:32px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.dm-swatch-name{font-size:10px;color:var(--dm-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dm-swatch-hex{font-size:9.5px;color:var(--dm-dim);font-variant-numeric:tabular-nums}
+.dm-spec{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.dm-spec-row{display:flex;justify-content:space-between;gap:12px;font-size:11.5px}
+.dm-spec-label{color:var(--dm-dim)}
+.dm-spec-value{color:var(--dm-ink);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dm-types{display:flex;flex-direction:column;border-top:1px solid var(--dm-line)}
+.dm-type-row{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--dm-line)}
+.dm-type-sample{color:var(--dm-ink);line-height:1.1}
+.dm-type-token{font-size:11px;color:var(--dm-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dm-type-spec{font-size:10px;color:var(--dm-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dm-scale{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.dm-scale-row{display:grid;grid-template-columns:52px 1fr 40px;align-items:center;gap:8px;font-size:10.5px;color:var(--dm-dim)}
+.dm-scale-bar{height:5px;border-radius:3px;opacity:.85}
+.dm-scale-val{text-align:right;font-variant-numeric:tabular-nums;color:var(--dm-ink)}
+.dm-shapes{display:flex;gap:14px}
+.dm-shape{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10px;color:var(--dm-dim)}
+.dm-shape-box{width:34px;height:34px;display:inline-block}
+.dm-demo{display:flex;flex-direction:column;gap:9px;padding:12px}
+.dm-demo-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.dm-modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:28px;background:rgba(0,0,0,.45)}
+.dm-modal-card{width:min(860px,100%);max-height:84vh;display:flex;flex-direction:column;border-radius:12px;background:var(--dsw-alias-bg-base);border:1px solid var(--dm-line);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.32)}
+.dm-modal-head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;border-bottom:1px solid var(--dm-line);font-size:12px;color:var(--dm-dim)}
 .dm-modal-actions{display:flex;gap:8px}
-.dm-modal-body{margin:0;padding:14px 16px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.7;color:var(--dsw-alias-label-secondary);white-space:pre-wrap;word-break:break-word}
-.dm-toast{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);max-width:min(520px,80%);padding:9px 15px;border-radius:9px;font-size:12px;line-height:1.5;color:#fff;background:rgba(24,24,27,.94);box-shadow:0 12px 30px -14px rgba(0,0,0,.6);z-index:40}
-.dm-toast.is-error{background:var(--dsw-alias-state-error-primary);color:#fff}
-.dm-toast.is-ok{background:rgba(24,24,27,.94)}
-@media (max-width:980px){.dm-detail-grid{grid-template-columns:minmax(0,1fr);gap:14px}.dm-detail-main{display:contents}.dm-form{position:static;order:3}.dm-block{order:4}.dm-form-hint{display:none}.dm-textarea{min-height:70px}}
-@media (max-width:620px){.dm-block-split{grid-template-columns:minmax(0,1fr)}.dm-grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
+.dm-modal-body{flex:1;min-height:0;overflow:auto;margin:0;padding:14px 16px 20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.65;color:var(--dm-ink);white-space:pre-wrap;word-break:break-word;overscroll-behavior:contain}
+@media (max-width:1080px){.dm-detail-grid{grid-template-columns:minmax(0,1fr)}.dm-form{order:-1}}
+@media (max-width:720px){.dm-head,.dm-detail-head{padding-left:16px;padding-right:16px}.dm-chips{padding-left:16px;padding-right:16px}.dm-body,.dm-detail-grid{padding-left:16px;padding-right:16px}.dm-seg-form{grid-template-columns:1fr 1fr}}
 `
 
     /* -------------------------------------------------------------- apply */
@@ -1289,13 +1313,13 @@ window.__ModuleLoader__.load({
         id: PANEL_ID,
         order: 25,
         label: () => t('title'),
-        locale: PANEL_ID,
+        locale: 'design-md',
       }, (props) => h(PanelIcon, { size: props?.size })))
 
       ctx.slots.inject('main', () => ctx.slots.register({
         name: 'main',
         key: PANEL_ID,
-        locale: PANEL_ID,
+        locale: 'design-md',
       }, () => h(Panel)))
     }
 
