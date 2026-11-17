@@ -349,9 +349,9 @@ window.__ModuleLoader__.load({
         </section>`
 
       const colorCells = colors.map((c) => `
-        <div style="border:1px solid ${th.line};border-radius:${U(12)};overflow:hidden;background:${th.bg}">
+        <div style="border:1px solid ${th.line};border-radius:${U(16)};overflow:hidden;background:${th.bg}">
           <div style="height:${U(46)};background:${c.hex}"></div>
-          <div style="padding:${U(9)} ${U(11)}">
+          <div style="padding:${U(10)} ${U(12)}">
             <div style="font-size:${U(9.5)};line-height:${1.3};font-family:${mono};color:${th.ink}">${esc(c.name || 'token')}</div>
             <div style="font-size:${U(8.5)};line-height:${1.3};font-family:${mono};color:${th.muted}">${esc(c.hex)}</div>
           </div>
@@ -426,7 +426,7 @@ window.__ModuleLoader__.load({
         </div>`).join('')
 
       return `
-        <div style="background:${th.bg};color:${th.ink};font-family:${body};padding:0 ${U(40)} ${U(28)}">
+        <div style="background:${th.bg};color:${th.ink};font-family:${body};padding:0 ${U(56)} ${U(32)}">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:${U(16)};padding:${U(16)} 0;border-bottom:1px solid ${th.line}">
             <div style="display:flex;align-items:center;gap:${U(9)}">
               <span style="width:${U(16)};height:${U(16)};border-radius:${U(4)};background:${th.accent}"></span>
@@ -1179,14 +1179,14 @@ window.__ModuleLoader__.load({
   background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
   -webkit-font-smoothing:antialiased}
-.dm-head{flex:none;padding:clamp(28px,3.4vw,64px) clamp(20px,3.2vw,64px) 0}
+.dm-head{flex:none;padding:clamp(16px,2vw,28px) clamp(20px,3.2vw,64px) 0}
 .dm-head-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
-.dm-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
-.dm-h1{margin:14px 0 14px;font-size:clamp(34px,3.6vw,58px);line-height:1.06;letter-spacing:-.032em;font-weight:700}
-.dm-sub{margin:0;font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:72ch}
+.dm-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:8px}
+.dm-h1{margin:0 0 8px;font-size:clamp(26px,2.4vw,36px);line-height:1.1;letter-spacing:-.03em;font-weight:700}
+.dm-sub{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2);max-width:88ch;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .dm-head-right{display:flex;align-items:center;gap:10px;flex:none;padding-top:6px}
 .dm-count{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.dm-toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:22px 0 14px;border-bottom:1px solid var(--line);margin-top:8px}
+.dm-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 12px;border-bottom:1px solid var(--line);margin-top:4px}
 .dm-seg{display:inline-flex;background:#f0f0f0;border-radius:8px;padding:3px;gap:2px}
 .dm-seg-btn{appearance:none;border:0;background:transparent;font:inherit;font-size:12.5px;color:var(--ink-2);padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap}
 .dm-seg-btn.is-on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -1194,13 +1194,13 @@ window.__ModuleLoader__.load({
 .dm-search{flex:1;min-width:220px;box-sizing:border-box;background:var(--bg-2);border-radius:8px;padding:10px 14px;border:1px solid transparent;font:inherit;font-size:13px;color:var(--ink);outline:none}
 .dm-search::placeholder{color:var(--ink-3)}
 .dm-search:focus{border-color:#000;background:#fff;box-shadow:0 0 0 3px rgba(0,0,0,.10)}
-.dm-chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none}
+.dm-chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
 .dm-chips::-webkit-scrollbar{display:none}
 .dm-chip{white-space:nowrap;font:inherit;font-size:12.5px;padding:6px 12px;border-radius:7px;border:1px solid var(--line);color:var(--ink-2);background:#fff;cursor:pointer}
 .dm-chip:hover{color:var(--ink)}
 .dm-chip.is-on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:600}
 .dm-body{flex:1;min-height:0;overflow:auto}
-.dm-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(26px,2vw,44px) clamp(20px,1.8vw,36px);padding:34px clamp(20px,3.2vw,64px) 90px}
+.dm-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,2vw,40px) clamp(20px,1.8vw,36px);padding:26px clamp(20px,3.2vw,64px) 80px}
 @media (max-width:1180px){.dm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:720px){.dm-grid{grid-template-columns:1fr}}
 @media (min-width:1440px){.dm-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
@@ -1233,13 +1233,13 @@ window.__ModuleLoader__.load({
 .dm-note{color:var(--ink-3);opacity:.85}
 .dm-toast{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);max-width:min(460px,82%);padding:10px 16px;border-radius:8px;background:#1e1e1e;color:#fff;font-size:12.5px;line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.28);z-index:30}
 .dm-detail{display:flex;flex-direction:column;height:100%;min-height:0}
-.dm-detail-top{flex:none;padding:22px clamp(20px,3.2vw,64px) 0}
-.dm-detail-head{flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px clamp(20px,3.2vw,64px) 20px;border-bottom:1px solid var(--line)}
+.dm-detail-top{flex:none;padding:16px clamp(20px,3.2vw,64px) 0}
+.dm-detail-head{flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px clamp(20px,3.2vw,64px) 14px;border-bottom:1px solid var(--line)}
 .dm-detail-head-l{display:flex;align-items:flex-end;gap:14px;min-width:0;flex-wrap:wrap}
 .dm-detail-title-wrap{display:flex;align-items:baseline;flex-wrap:wrap}
 .dm-seg-themed{background:#f0f0f0}
 .dm-back{padding:6px 13px;border-radius:8px;font-size:12.5px}
-.dm-detail-title{margin:0;font-size:clamp(28px,2.4vw,38px);letter-spacing:-.03em;font-weight:700}
+.dm-detail-title{margin:0;font-size:clamp(24px,2.1vw,32px);letter-spacing:-.03em;font-weight:700}
 
 .dm-detail-cat{margin:8px 0 0;font-size:13px;color:var(--ink-3)}
 .dm-detail-head-r{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
