@@ -2018,7 +2018,6 @@ window.__ModuleLoader__.load({
                   onClick: () => setSpecTab(key),
                 }, label)),
               ),
-            ),
 
             h('div', { className: 'dm-specs-body' },
             h('section', { className: 'dm-card2', style: { display: specTab === 'palette' ? undefined : 'none' } },
@@ -2169,6 +2168,7 @@ window.__ModuleLoader__.load({
                   },
                 }, t('exportTailwind')),
               ),
+            ),
             ),
             ),
 
@@ -2620,7 +2620,7 @@ window.__ModuleLoader__.load({
 .dm-specs-tab{font:inherit;font-size:12px;line-height:1;padding:7px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink-2);cursor:pointer;white-space:nowrap;text-align:center;overflow:hidden;text-overflow:ellipsis}
 .dm-specs-tab:hover{border-color:var(--line-strong)}
 .dm-specs-tab.is-on{background:var(--ink);border-color:var(--ink);color:#fff}
-.dm-specs-body{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.dm-specs-body{display:flex;flex-direction:column;gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .dm-specs-body > .dm-card2{border:0;padding:0;background:transparent}
 .dm-specs-body > .dm-card2 > h3{display:none}
 .dm-ghost{font:inherit;font-size:12.5px;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-2);cursor:pointer}
