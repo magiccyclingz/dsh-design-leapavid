@@ -1,3 +1,8 @@
+## 1.36.1
+
+- 修复「★ 收藏」筛选不刷新：`filtered` 的 `useMemo` 依赖补上 `favTick`，点亮/取消星标以及宿主侧收藏恢复后列表与计数都会立刻更新。
+
+
 ## 1.36.0
 
 - **收藏 / 最近使用 / 上次生成改为宿主侧持久化**：桌面版每次启动都会换端口，`localStorage` 按 origin 隔离，重启后收藏必然清空。现在真实数据存在 `$DSH_HOME/dsh-design-leapavid/store.json`（默认 `~/.dsh/...`），`localStorage` 仅作即时缓存与首次迁移来源。
