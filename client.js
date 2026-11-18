@@ -693,9 +693,9 @@ window.__ModuleLoader__.load({
             ${caps('设计语言样本 2026', `color:${alpha(coverInk, 0.6)}`)}
           </div>
           <div style="flex:1"></div>
-          <div style="margin-bottom:${US(6)}">
-            <div style="font-size:${US(11)};line-height:1.5;color:${coverInk}">${esc(coverKicker)}</div>
-            <div style="font-size:${US(11)};line-height:1.5;color:${th.accent}">2026</div>
+          <div style="margin-bottom:${US(10)}">
+            <div style="font-size:${US(21)};line-height:1.4;font-weight:500;color:${coverInk}">${esc(coverKicker)}</div>
+            <div style="font-size:${US(21)};line-height:1.4;font-weight:600;color:${th.accent}">2026</div>
           </div>
           <div style="font-family:${display};font-weight:${v.displayWeight || 600};
             font-size:${US(wmSize)};line-height:1;margin-bottom:${US(-wmSize * 0.12)};letter-spacing:${US(-wmSize * 0.045)};
@@ -1960,7 +1960,8 @@ window.__ModuleLoader__.load({
 .dm-card-art{position:relative;aspect-ratio:16/10}
 .dm-card-art.is-poster{aspect-ratio:4/5}
 .dm-card-art.is-poster .dm-art{aspect-ratio:auto;height:100%}
-.dm-card-art.is-slides .dm-art{aspect-ratio:16/9;height:100%}
+.dm-card-art.is-slides{aspect-ratio:16/9}
+.dm-card-art.is-slides .dm-art{aspect-ratio:16/9;width:100%;height:100%}
 .dm-card-body{padding:15px 2px 0}
 .dm-card-title{font-size:16.5px;font-weight:600;letter-spacing:-.01em;margin:0}
 .dm-card-meta{font-size:12px;color:var(--ink-3);margin-left:8px;font-weight:400}
