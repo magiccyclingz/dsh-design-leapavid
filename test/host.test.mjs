@@ -92,6 +92,19 @@ test('POST /prompt composes a prompt for each surface', async () => {
   }
 })
 
+test('structure presets follow the surface family', async () => {
+  const prompt = async (surface, structure) => {
+    const res = await call(route, 'POST', '/api/design-md/prompt', JSON.stringify({ slug: 'stripe', surface, structure }))
+    assert.equal(res.status, 200)
+    return JSON.parse(res.body).prompt
+  }
+  assert.ok((await prompt('slides', 'pitch')).includes('## 页面结构'), 'slides + deck preset keeps its outline')
+  assert.ok((await prompt('web', 'pricing')).includes('## 页面结构'), 'web + page preset keeps its outline')
+  assert.equal((await prompt('slides', 'pricing')).includes('## 页面结构'), false, 'web preset is dropped on slides')
+  assert.equal((await prompt('web', 'deck')).includes('## 页面结构'), false, 'deck preset is dropped on web')
+  assert.equal((await prompt('slides', 'auto')).includes('## 页面结构'), false, 'auto has no outline')
+})
+
 test('POST /prompt rejects bad input without leaking internals', async () => {
   const badJson = await call(route, 'POST', '/api/design-md/prompt', '{"oops}')
   assert.equal(badJson.status, 400)

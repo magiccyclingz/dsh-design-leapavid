@@ -132,6 +132,12 @@ window.__ModuleLoader__.load({
         structurePricing: '定价页',
         structureDashboard: '控制台',
         structureBlog: '博客',
+        structureDeck: '标准 deck',
+        structurePitch: '提案 deck',
+        structureReport: '汇报 deck',
+        formNoteWeb: '将生成单文件 index.html：CSS/JS 内联、无外链资源，内置亮/暗两套 token，可直接双击打开。',
+        formNoteSlides: '将生成单文件 deck.html：16:9 满屏分页、5 页一套（封面 / 主张 / 目录 / 数据 / 速览），← → 或 PageUp/PageDown 翻页，右下页码。',
+        requirementPlaceholderSlides: '例如：给一款 AI 笔记产品做 5 页发布 deck，面向开发者，强调速度与离线可用。',
         similar: '相近的风格',
         lastDelivered: '上次生成过 · {when}',
         iterateAgain: '再改一版',
@@ -224,6 +230,12 @@ window.__ModuleLoader__.load({
         structurePricing: 'Pricing',
         structureDashboard: 'Dashboard',
         structureBlog: 'Blog',
+        structureDeck: 'Standard deck',
+        structurePitch: 'Pitch deck',
+        structureReport: 'Review deck',
+        formNoteWeb: 'Produces a single index.html: inline CSS/JS, no external assets, light and dark token sets, opens by double-click.',
+        formNoteSlides: 'Produces a single deck.html: 16:9 full-bleed slides, five per deck (cover / thesis / contents / numbers / in brief), ← → to page, page number bottom-right.',
+        requirementPlaceholderSlides: 'e.g. a five-slide launch deck for an AI notes app, aimed at developers, emphasising speed and offline use.',
         similar: 'Similar styles',
         lastDelivered: 'Generated before · {when}',
         iterateAgain: 'Refine this',
@@ -1240,7 +1252,9 @@ window.__ModuleLoader__.load({
               ),
               h('div', { className: 'dm-label' }, t('structure')),
               h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
-                ...STRUCTURE_UI.map((key) => h('button', {
+                ...((form.output || surface) === 'slides'
+                  ? ['auto', 'deck', 'pitch', 'report']
+                  : ['auto', 'landing', 'pricing', 'dashboard', 'blog']).map((key) => h('button', {
                   key,
                   type: 'button',
                   className: `dm-seg-btn${form.structure === key ? ' is-on' : ''}`,
@@ -1253,7 +1267,7 @@ window.__ModuleLoader__.load({
                 className: 'dm-textarea',
                 rows: 4,
                 value: form.requirement,
-                placeholder: t('requirementPlaceholder'),
+                placeholder: t((form.output || surface) === 'slides' ? 'requirementPlaceholderSlides' : 'requirementPlaceholder'),
                 onChange: (event) => setForm((prev) => ({ ...prev, requirement: event.target.value })),
               }),
               h('label', { className: 'dm-check' },
@@ -1269,6 +1283,8 @@ window.__ModuleLoader__.load({
                 h('button', { type: 'button', className: 'dm-ghost', onClick: copy }, t('copyPrompt')),
                 h('button', { type: 'button', className: 'dm-ghost', onClick: openDesign }, t('viewDesign')),
               ),
+              h('p', { className: 'dm-form-note' },
+                t((form.output || surface) === 'slides' ? 'formNoteSlides' : 'formNoteWeb')),
               chars ? h('div', { className: 'dm-chars' }, t('chars', { n: chars })) : null,
               sent ? h('div', { className: 'dm-iterate' },
                 h('button', {
@@ -1941,11 +1957,12 @@ window.__ModuleLoader__.load({
 .dm-tag{font:inherit;font-size:11.5px;padding:4px 10px;border:0;border-radius:6px;background:#f5f5f5;color:var(--ink-2)}
 .dm-tag-ok{background:#f0f0f0;color:#1e1e1e}
 .dm-tag-flat{background:transparent;padding:0;color:var(--ink-3)}
-.dm-swatches{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dm-swatch{display:grid;grid-template-columns:20px 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:0;border:0;background:transparent;text-align:left;cursor:pointer}
-.dm-swatch-chip{width:20px;height:20px;border-radius:6px;grid-row:1 / span 2;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
-.dm-swatch-name{font-size:11.5px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dm-swatch-hex{font-size:10.5px;color:var(--ink-3);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.dm-swatches{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.dm-swatch{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:2px 0;border:0;background:transparent;text-align:left;cursor:pointer}
+.dm-swatch-chip{width:44px;height:44px;border-radius:10px;grid-row:1 / span 2;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.dm-swatch-name{font-size:12.5px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dm-swatch-hex{font-size:11px;color:var(--ink-3);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.dm-form-note{margin:10px 0 0;font-size:12px;line-height:1.7;color:var(--ink-3)}
 .dm-spec{display:flex;flex-direction:column;margin-bottom:6px}
 .dm-spec-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line-2);font-size:12.5px}
 .dm-spec-label{color:var(--ink-3)}

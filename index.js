@@ -166,25 +166,64 @@ const STRUCTURES = {
   auto: { label: '不限', outline: [] },
   landing: {
     label: '落地页',
+    surface: 'web',
     outline: ['首屏：标题 + 一句副标题 + 主次两个 CTA + 一张主视觉', '三条产品价值（图标/编号 + 标题 + 两句说明）', '一段能建立信任的内容（客户 logo 墙、数据、或引用）', '一个收尾 CTA 区块 + 页脚'],
   },
   pricing: {
     label: '定价页',
+    surface: 'web',
     outline: ['首屏：一句定位 + 计费周期切换（月付/年付）', '三档价格卡（中档为推荐，强调色描边或实底）', '功能对比表或清单', 'FAQ 折叠列表（4–6 条）', '底部 CTA + 页脚'],
   },
   dashboard: {
     label: '控制台',
+    surface: 'web',
     outline: ['左侧固定导航 + 顶部工具栏（搜索、通知、账户）', '4 个关键指标卡（数字 + 环比）', '一张主图表（折线或柱状）+ 一张分布图', '一张数据表格（斑马纹、状态标签、行操作）'],
   },
   blog: {
     label: '博客',
+    surface: 'web',
     outline: ['文章列表：封面 + 标题 + 摘要 + 日期/作者', '置顶或精选一文', '标签筛选行', '分页或「加载更多」'],
+  },
+  deck: {
+    label: '标准 deck',
+    surface: 'slides',
+    outline: [
+      '第 1 页 封面：品牌名 + 一句话定位 + 年份',
+      '第 2 页 主张：一句结论 + 三条支撑要点',
+      '第 3 页 目录：三个章节 + 页码',
+      '第 4 页 数据：四个关键指标（数字 + 标签）',
+      '第 5 页 速览：六格要点拼贴 + 页脚',
+    ],
+  },
+  pitch: {
+    label: '提案 deck',
+    surface: 'slides',
+    outline: [
+      '第 1 页 封面：项目名 + 客户 + 日期',
+      '第 2 页 问题：现状与痛点（三条）',
+      '第 3 页 方案：主张 + 三个能力',
+      '第 4 页 证据：数据或案例（四个指标）',
+      '第 5 页 下一步：里程碑与联系人',
+    ],
+  },
+  report: {
+    label: '汇报 deck',
+    surface: 'slides',
+    outline: [
+      '第 1 页 封面：报告名 + 周期 + 汇报人',
+      '第 2 页 结论先行：一句话结论',
+      '第 3 页 过程：关键动作与时间线',
+      '第 4 页 数据：四个指标 + 同比',
+      '第 5 页 计划：下阶段三件事',
+    ],
   },
 }
 
 function buildPrompt(style, brief, options) {
   const surface = SURFACES[options.surface] || SURFACES.web
-  const structure = STRUCTURES[options.structure] || STRUCTURES.auto
+  const surfaceFamily = options.surface === 'slides' || options.surface === 'poster' ? 'slides' : 'web'
+  const picked = STRUCTURES[options.structure] || STRUCTURES.auto
+  const structure = picked.surface && picked.surface !== surfaceFamily ? STRUCTURES.auto : picked
   const requirement = String(options.requirement || '').trim()
   const parts = [
     `请用「${style.nameZh} · ${style.displayName}」这套设计语言，完成下面这件设计工作。`,
