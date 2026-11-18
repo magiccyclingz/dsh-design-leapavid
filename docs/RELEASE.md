@@ -74,15 +74,31 @@ git push -u origin main --tags
 - 先确认 `.gitignore` 生效：`build/shots`、`build/demo`、`node_modules`、`*.tgz`、`.DS_Store` 不入库。
 - tag 名须与 `package.json` 的 `version` 对齐（`v1.0.0`）。
 
-## 5. npm 发布（MANUAL：npm 账号 + Token/2FA）
+## 5. npm 发布（MANUAL：只差 `npm login`）
+
+**2026-11-18 已就绪的部分**（1.36.2）：
 
 ```bash
-npm view dsh-design-leapavid version      # 2026-11-18 实测仍 404 = 包名未被占用，尚未发布
-npm whoami                          # 2026-11-18 实测 need auth = 本机未登录 npm
-npm publish --access public         # MANUAL
+node --check index.js && node --check client.js   # 语法
+npm test                                          # 27 pass
+npm pack --dry-run --json                         # 182 文件 / tarball 856KB / 解包 3.75MB
 ```
 
-- 发布后用 `npm view dsh-design-leapavid@1.0.0 dist.tarball dist.integrity` 与本地 `npm pack` 的 shasum 对应。
+- `package.json` 已加 `publishConfig: { access: "public", registry: "https://registry.npmjs.org/" }`，`npm publish` 不需要再带 `--access public`。
+- `scripts.prepublishOnly = "npm test"`：发布前自动跑 27 项测试，失败即中止。
+- `npm pack` 清单已核对：`build/`、`docs/`、`test/` 都不入包（0 命中），`LICENSE` / `README.md` / `CHANGELOG.md` / `THIRD-PARTY-NOTICES.md` / `icon.svg` / `cordis.patch.yml` 齐全，`data/` 169 个文件、`locale/` 4 个文件。
+- 包名可用性：`npm view dsh-design-leapavid version` = 404（未被占用）。
+
+**仍需人工的两步**：
+
+```bash
+npm login                            # MANUAL：本机当前 need auth，需账号 + 2FA
+npm publish                          # MANUAL：prepublishOnly 会自动跑测试
+npm view dsh-design-leapavid version # 验证：出现 1.36.2 即成功
+```
+
+- 凭据只走 `npm login` 或环境变量 `NPM_TOKEN`，不要写进仓库任何文件（见第 4 节）。
+- 发布后用 `npm view dsh-design-leapavid@1.36.2 dist.tarball dist.integrity` 与本地 `npm pack` 的 shasum 对应。
 - 包名一旦发布即长期占用；`unpublish` 仅 72 小时内可靠。
 
 ## 6. DSH 插件市场路径
@@ -121,7 +137,7 @@ npm publish --access public         # MANUAL
 
 2026-11-18 按上游 [registry-copy-guide](https://github.com/iasiv5/dsh-m/blob/main/docs/registry-copy-guide.md) 校正后的关键决定：
 
-- **来源改 `github`**：精选清单里已有 `source: "github"` 的条目（如 `qiaomu-rss-dsh`），dsh-m 会锁定 release / tag 的 commit SHA 安装——**不必先发 npm**。代价是仓库必须公开（当前 `magiccyclingz/dsh-design-leapavid` 仍是 **private**，这是上架唯一硬阻塞）。
+- **来源改 `github`**：精选清单里已有 `source: "github"` 的条目（如 `qiaomu-rss-dsh`），dsh-m 会锁定 release / tag 的 commit SHA 安装——**不必先发 npm**。代价是仓库必须公开；`magiccyclingz/dsh-design-leapavid` 已于 2026-11-18 转为 **public**，该阻塞已解除。
 - **description 40 全角当量**（上限 60，卡片只显示两行）：`品牌设计语言库：84 套 token 现场渲染，选一套写清需求即生成网页、幻灯片与信息图。`
 - **tags 4 个**，只放功能词、不带「需/推荐」前缀：品牌 / 提示词 / 幻灯片 / 信息图。
 - **`verified` 留空**：三方条目默认不填（带来逐宿主版本复测义务）；实测记录写进 PR 描述即可。
@@ -131,16 +147,16 @@ npm publish --access public         # MANUAL
 
 上架路径（按成本排序）：
 
-1. **仓库转 public + 精选 PR（推荐，零 npm 依赖）**：
+1. **精选 PR（推荐，零 npm 依赖；仓库已 public）**：
    ```bash
-   gh repo edit magiccyclingz/dsh-design-leapavid --visibility public --accept-visibility-change-consequences   # MANUAL
-   # 打一个 release（dsh-m 跟踪 tag/release，而不是 main 的最新提交）
-   gh release create v1.33.5 --title "v1.33.5" --notes "见 CHANGELOG"                                    # MANUAL
-   # 到 iasiv5/dsh-m 提 PR：把 docs/market-entry.json 追加进 registry.json 的 plugins 数组                # MANUAL
+   gh repo view magiccyclingz/dsh-design-leapavid --json visibility     # 已确认 PUBLIC
+   # release 已随每次发版创建（dsh-m 跟踪 tag/release，而不是 main 的最新提交）
+   gh release list --repo magiccyclingz/dsh-design-leapavid | head -3
+   # 到 iasiv5/dsh-m 提 PR：把 docs/market-entry.json 追加进 registry.json 的 plugins 数组   # MANUAL
    ```
-2. **npm 发布后再走 npm 源**（需要 `npm login`，本机当前 `need auth`）：
+2. **npm 发布后再走 npm 源**（只需 `npm login`，`publishConfig` 已配好）：
    ```bash
-   npm login && npm publish --access public      # MANUAL
+   npm login && npm publish                      # MANUAL
    ```
    然后把条目换成 `docs/market-entry.npm.json` 的内容。
 3. **社区目录**：自动抓 npm，只有第 2 步完成后才会出现，抓取频率未知。

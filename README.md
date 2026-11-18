@@ -53,10 +53,17 @@
 
 ## 安装
 
-插件是标准 DSH bundle，用 Host 的插件管理器安装目录即可：
+插件是标准 DSH bundle，三种装法（第 1 种现在就能用，第 2、3 种随发布推进）：
 
 ```text
+# 1) 本地目录（开发 / 自用）
 plugin_manager action=install_bundle target=<本目录绝对路径>
+
+# 2) GitHub 源（仓库已公开，锁定 release tag）
+plugin_manager action=install_bundle target=github:magiccyclingz/dsh-design-leapavid#v1.36.2
+
+# 3) npm（包发布后）
+plugin_manager action=install_bundle target=dsh-design-leapavid
 ```
 
 安装后左侧栏出现「设计风格库」。改动 `client.js` 只需刷新页面；改动 `index.js` 需要重新加载插件条目：
@@ -121,4 +128,4 @@ node --check index.js && node --check client.js
 
 ## 发布与上架
 
-见 [docs/RELEASE.md](./docs/RELEASE.md)；市场条目字段见 [docs/market-entry.json](./docs/market-entry.json)。
+仓库已于 2026-11-18 转为 **public**：<https://github.com/magiccyclingz/dsh-design-leapavid>，发布流程、npm 发布前检查与市场条目字段见 [docs/RELEASE.md](./docs/RELEASE.md)；市场条目见 [docs/market-entry.json](./docs/market-entry.json)（npm 源变体：`docs/market-entry.npm.json`）。

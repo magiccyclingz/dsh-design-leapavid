@@ -1,3 +1,9 @@
+## 1.36.2
+
+- **发布就绪**：`package.json` 增加 `publishConfig`（`access: public` + 官方 registry）与 `prepublishOnly: npm test`，`npm pack` 清单核对为 182 文件 / tarball 856KB / 解包 3.75MB，`build/` `docs/` `test/` 均不入包。
+- **仓库转为 public**：<https://github.com/magiccyclingz/dsh-design-leapavid>，选型清单（dsh-m）原先「仓库必须公开」的硬阻塞解除；GitHub 简介与 topics 同步为三载体口径。
+- 文档更新：README「安装」补三种装法（本地目录 / GitHub tag / npm），`docs/RELEASE.md` 第 5 节改成「只差 `npm login`」的两步清单，第 8 节按已公开现状重写。
+
 ## 1.36.1
 
 - 修复「★ 收藏」筛选不刷新：`filtered` 的 `useMemo` 依赖补上 `favTick`，点亮/取消星标以及宿主侧收藏恢复后列表与计数都会立刻更新。
