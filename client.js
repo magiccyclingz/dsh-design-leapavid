@@ -101,6 +101,12 @@ window.__ModuleLoader__.load({
         chartNoteDonut: '占比构成：3–4 段，中心放一个关键数字。',
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
+        layout: '版式',
+        layoutClassic: '经典长图', layoutGrid: '网格看板', layoutRings: '同心环', layoutSpread: '双栏数据板',
+        layoutNoteClassic: '自上而下：标题 → KPI → 主图 → 环形与结论，最稳的一版。',
+        layoutNoteGrid: '信息块拼贴：数字、环形、图例分区摆放，像杂志跨页。',
+        layoutNoteRings: '同心环做主视觉，每层一段占比，右侧配图例与结论。',
+        layoutNoteSpread: '左右分栏：左栏标题与 KPI，右栏图表与结论，适合数据密集。',
         themes: { light: '浅色', dark: '深色' },
         brandDark: '该品牌本身为深色，无浅色版本',
         source: '来源',
@@ -223,6 +229,12 @@ window.__ModuleLoader__.load({
         chartNoteDonut: '占比构成：3–4 段，中心放一个关键数字。',
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
+        layout: 'Layout',
+        layoutClassic: 'Classic', layoutGrid: 'Grid board', layoutRings: 'Rings', layoutSpread: 'Two column',
+        layoutNoteClassic: 'Top to bottom: title → KPIs → main chart → ring and insights.',
+        layoutNoteGrid: 'Tiled board: numbers, ring and legend in separate blocks.',
+        layoutNoteRings: 'Concentric rings carry the story, legend and insights beside.',
+        layoutNoteSpread: 'Two columns: title and KPIs left, charts and insights right.',
         themes: { light: 'Light', dark: 'Dark' },
         brandDark: 'This brand is dark by nature — no light variant',
         source: 'Source',
@@ -869,7 +881,7 @@ window.__ModuleLoader__.load({
 
     /* ---------------------------------------------------- infographic page */
 
-    function infographicHtml(style, mode, clip, chartChoice) {
+    function infographicHtml(style, mode, clip, chartChoice, layout) {
       const th = themeOf(style, mode)
       const v = style.visual
       const d = deckOf(style)
@@ -1012,57 +1024,141 @@ window.__ModuleLoader__.load({
           <div style="font-size:${U(11)};letter-spacing:.08em;text-transform:uppercase;color:${th.muted}">${esc(label)}</div>
         </div>`
 
-      return `
+      const headerBar = `
+        <div style="display:flex;align-items:baseline;justify-content:space-between">
+          <span style="font-family:${display};font-size:${U(20)};font-weight:${v.displayWeight || 600}">${esc(d.brand)}</span>
+          <span style="font-size:${U(11)};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">info graphic · 示例数据 2026</span>
+        </div>`
+
+      const titleBlock = `
+        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+          <span style="font-size:${U(12)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">${esc(style.category || '')}</span>
+          <div style="font-family:${display};font-size:${U(60)};line-height:1.1;letter-spacing:${U(-1.6)}">${esc(d.positioning || d.brand)}</div>
+          <div style="font-size:${U(16)};line-height:1.6;color:${th.muted};max-width:${U(820)}">${esc(d.tagline || '')}</div>
+        </div>`
+
+      const kpiRow = `
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid ${grid};border-bottom:1px solid ${grid}">
+          ${kpi('2,480', '万', '月活')}${kpi('38', '%', '同比')}${kpi('4.9', '分', '满意度')}
+        </div>`
+
+      const chartBlock = (title) => `
+        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:${U(15)};font-weight:600">${esc(title || chartTitle)}</span>
+            <span style="font-size:${U(11)};color:${th.muted};font-family:${mono}">unit: k / %</span>
+          </div>
+          ${mainChart()}
+        </div>`
+
+      const legendCol = `
+        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+          <span style="font-size:${U(13)};font-weight:600">渠道构成</span>
+          ${[[c1, '自然流量', '46%'], [c2, '投放', '27%'], [c3, '合作', '17%'], [alpha(th.ink, 0.18), '其他', '10%']].map(([color, label, pct]) => `
+            <div style="display:flex;align-items:center;gap:${U(10)};font-size:${U(12)}">
+              <span style="width:${U(10)};height:${U(10)};border-radius:${U(3)};background:${color};display:inline-block"></span>
+              <span style="flex:1">${esc(label)}</span>
+              <span style="font-family:${mono};color:${th.muted}">${pct}</span>
+            </div>`).join('')}
+        </div>`
+
+      const insightCol = `
+        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+          <span style="font-size:${U(13)};font-weight:600">关键结论</span>
+          ${['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关'].map((text) => `
+            <div style="font-size:${U(12)};line-height:1.55;color:${th.ink};padding-left:${U(12)};border-left:2px solid ${c1}">${esc(text)}</div>`).join('')}
+        </div>`
+
+      const footerBar = `
+        <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;font-size:${U(10)};
+          letter-spacing:.08em;text-transform:uppercase;color:${alpha(th.ink, 0.5)};font-family:${mono}">
+          <span>示例数据 · 仅用于版式演示</span>
+          <span>${esc(d.brand)} · design system 2026</span>
+        </div>`
+
+      const shell = (inner, fill) => `
         <div style="position:relative;aspect-ratio:1/1.35;container-type:inline-size;overflow:hidden;
           background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
-          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(26)}">
-          <div style="display:flex;align-items:baseline;justify-content:space-between">
-            <span style="font-family:${display};font-size:${U(20)};font-weight:${v.displayWeight || 600}">${esc(d.brand)}</span>
-            <span style="font-size:${U(11)};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">info graphic · 示例数据 2026</span>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:${U(10)}">
-            <span style="font-size:${U(12)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">${esc(style.category || '')}</span>
-            <div style="font-family:${display};font-size:${U(60)};line-height:1.1;letter-spacing:${U(-1.6)}">${esc(d.positioning || d.brand)}</div>
-            <div style="font-size:${U(16)};line-height:1.6;color:${th.muted};max-width:${U(820)}">${esc(d.tagline || '')}</div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid ${alpha(th.ink, 0.12)};border-bottom:1px solid ${alpha(th.ink, 0.12)}">
-            ${kpi('2,480', '万', '月活')}${kpi('38', '%', '同比')}${kpi('4.9', '分', '满意度')}
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:${U(10)}">
-            <div style="display:flex;align-items:baseline;justify-content:space-between">
-              <span style="font-size:${U(15)};font-weight:600">${esc(chartTitle)}</span>
-              <span style="font-size:${U(11)};color:${th.muted};font-family:${mono}">unit: k / %</span>
-            </div>
-            ${mainChart()}
-          </div>
-
-          <div style="display:grid;grid-template-columns:${U(230)} 1fr 1fr;gap:${U(26)};align-items:start">
-            ${donutBadge()}
-            <div style="display:flex;flex-direction:column;gap:${U(10)}">
-              <span style="font-size:${U(13)};font-weight:600">渠道构成</span>
-              ${[[c1, '自然流量', '46%'], [c2, '投放', '27%'], [c3, '合作', '17%'], [alpha(th.ink, 0.18), '其他', '10%']].map(([color, label, pct]) => `
-                <div style="display:flex;align-items:center;gap:${U(10)};font-size:${U(12)}">
-                  <span style="width:${U(10)};height:${U(10)};border-radius:${U(3)};background:${color};display:inline-block"></span>
-                  <span style="flex:1">${esc(label)}</span>
-                  <span style="font-family:${mono};color:${th.muted}">${pct}</span>
-                </div>`).join('')}
-            </div>
-            <div style="display:flex;flex-direction:column;gap:${U(10)}">
-              <span style="font-size:${U(13)};font-weight:600">关键结论</span>
-              ${['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关'].map((text) => `
-                <div style="font-size:${U(12)};line-height:1.55;color:${th.ink};padding-left:${U(12)};border-left:2px solid ${c1}">${esc(text)}</div>`).join('')}
-            </div>
-          </div>
-
-          <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;font-size:${U(10)};
-            letter-spacing:.08em;text-transform:uppercase;color:${alpha(th.ink, 0.5)};font-family:${mono}">
-            <span>示例数据 · 仅用于版式演示</span>
-            <span>${esc(d.brand)} · design system 2026</span>
-          </div>
+          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(24)}">
+          ${fill
+            ? `<div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:${U(22)}">${inner}</div>`
+            : inner}
+          ${footerBar}
         </div>`
+
+      const card = (inner, extra = '') => `<div style="border:1px solid ${grid};border-radius:${U(10)};
+        padding:${U(22)} ${U(24)};display:flex;flex-direction:column;gap:${U(12)};${extra}">${inner}</div>`
+
+      /* 同心环：三层环形，每层一段占比 */
+      const ringsSvg = () => {
+        const cx = 170, cy = 150
+        const rings = [[112, 46, c1, 26], [82, 27, c2, 22], [54, 17, c3, 18]]
+        const arcs = rings.map(([r, pct, color, w]) => {
+          const c = 2 * Math.PI * r
+          const len = (pct / 100) * c - 6
+          return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${alpha(th.ink, 0.07)}" stroke-width="${w}"></circle>
+            <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${w}"
+              stroke-dasharray="${len.toFixed(1)} ${(c - len).toFixed(1)}" transform="rotate(-90 ${cx} ${cy})"
+              stroke-linecap="round"></circle>`
+        }).join('')
+        return `<svg viewBox="0 0 340 300" width="100%" role="img" style="display:block;max-width:${U(330)};margin:0 auto">
+          ${arcs}
+          <text x="${cx}" y="${cy - 4}" text-anchor="middle" font-family="${display}" font-size="34" font-weight="600" fill="${th.ink}">46%</text>
+          <text x="${cx}" y="${cy + 16}" text-anchor="middle" font-family="${mono}" font-size="10" fill="${th.muted}">自然流量占比</text>
+        </svg>`
+      }
+
+      switch (layout) {
+        case 'grid':
+          return shell(`
+            ${headerBar}
+            ${titleBlock}
+            ${kpiRow}
+            <div style="display:grid;grid-template-columns:${U(250)} 1fr;gap:${U(20)}">
+              ${card(`${donutBadge()}`, 'align-items:center;justify-content:center')}
+              ${card(legendCol)}
+            </div>
+            ${chartBlock()}
+            ${card(insightCol)}
+          `)
+        case 'rings':
+          return shell(`
+            ${headerBar}
+            ${titleBlock}
+            <div style="display:grid;grid-template-columns:${U(330)} 1fr;gap:${U(30)};align-items:start">
+              ${ringsSvg()}
+              ${card(`${legendCol}${insightCol}`, 'gap:' + U(18))}
+            </div>
+            ${chartBlock()}
+            ${kpiRow}
+          `)
+        case 'spread':
+          return shell(`
+            ${headerBar}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:${U(34)};align-items:start">
+              <div style="display:flex;flex-direction:column;gap:${U(22)}">
+                ${titleBlock}
+                ${kpiRow}
+                ${legendCol}
+              </div>
+              <div style="display:flex;flex-direction:column;gap:${U(22)}">
+                ${chartBlock()}
+                ${card(insightCol)}
+              </div>
+            </div>
+          `)
+        default:
+          return shell(`
+            ${headerBar}
+            ${titleBlock}
+            ${kpiRow}
+            ${chartBlock()}
+            <div style="display:grid;grid-template-columns:${U(230)} 1fr 1fr;gap:${U(26)};align-items:start">
+              ${donutBadge()}${legendCol}${insightCol}
+            </div>
+          `)
+      }
+
     }
 
     function posterHtml(style, mode, clip) {
@@ -1173,9 +1269,9 @@ window.__ModuleLoader__.load({
       poster: { build: posterHtml, cls: 'is-poster', base: POSTER_BASE },
     }
 
-    function Art({ style, mode, surface, clip, onAction, chart }) {
+    function Art({ style, mode, surface, clip, onAction, chart, layout }) {
       const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
-      const html = useMemo(() => spec.build(style, mode, clip, chart), [spec, style, mode, clip, chart])
+      const html = useMemo(() => spec.build(style, mode, clip, chart, layout), [spec, style, mode, clip, chart, layout])
       const onClick = (event) => {
         if (!onAction) return
         const hit = event.target && event.target.closest ? event.target.closest('[data-dm-action]') : null
@@ -1339,7 +1435,7 @@ window.__ModuleLoader__.load({
     function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto' })
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic' })
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
@@ -1374,6 +1470,7 @@ window.__ModuleLoader__.load({
             surface: hostKey(form.output || surface, mode),
             structure: form.structure,
             chart: form.chart,
+            layout: form.layout,
             density: form.density,
             requirement: form.requirement,
             includeDesign: form.includeDesign,
@@ -1500,6 +1597,7 @@ window.__ModuleLoader__.load({
                 mode: style.visual.darkFirst ? 'dark' : mode,
                 surface,
                 chart: form.chart,
+                layout: form.layout,
                 onAction: (action) => {
                   if (action === 'design') openDesign()
                   else if (action === 'theme') setMode(mode === 'dark' ? 'light' : 'dark')
@@ -1579,6 +1677,22 @@ window.__ModuleLoader__.load({
               ),
               h('p', { className: 'dm-form-note', key: 'chart-note' },
                 t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
+              (form.output || surface) === 'info'
+                ? h('div', { key: 'layout-wrap' },
+                  h('div', { className: 'dm-label' }, t('layout')),
+                  h('div', { className: 'dm-seg dm-seg-form dm-seg-layout' },
+                    ...['classic', 'grid', 'rings', 'spread'].map((key) => h('button', {
+                      key,
+                      type: 'button',
+                      className: `dm-seg-btn${(form.layout || 'classic') === key ? ' is-on' : ''}`,
+                      'aria-pressed': (form.layout || 'classic') === key,
+                      onClick: () => setForm((prev) => ({ ...prev, layout: key })),
+                    }, t(`layout${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+                  ),
+                  h('p', { className: 'dm-form-note' },
+                    t(`layoutNote${(form.layout || 'classic').charAt(0).toUpperCase()}${(form.layout || 'classic').slice(1)}`)),
+                )
+                : null,
               h('div', { className: 'dm-label' }, t('requirement')),
               h('textarea', {
                 className: 'dm-textarea',

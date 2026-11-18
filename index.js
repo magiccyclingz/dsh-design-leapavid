@@ -190,6 +190,13 @@ const DENSITIES = {
   },
 }
 
+const INFO_LAYOUTS = {
+  classic: { label: '经典长图', lines: ['标题与定位', '三格 KPI 横条', '主图（按所选图表）', '环形占比 + 图例 + 关键结论'] },
+  grid: { label: '网格看板', lines: ['标题与定位', '三格 KPI 横条', '左环形占比 / 右渠道图例', '通栏主图（按所选图表）'] },
+  rings: { label: '同心环', lines: ['标题与定位', '三层同心环做主视觉（每层一段占比）', '右侧图例与关键结论', '底部三格 KPI 横条'] },
+  spread: { label: '双栏数据板', lines: ['页眉 + 双栏布局', '左栏：标题、KPI、渠道图例', '右栏：主图（按所选图表）与关键结论'] },
+}
+
 const CHARTS = {
   auto: {
     label: '自动选择',
@@ -319,6 +326,7 @@ function buildPrompt(style, brief, options) {
     ? 'info'
     : (options.surface === 'slides' || options.surface === 'poster' ? 'slides' : 'web')
   const chart = CHARTS[options.chart] || CHARTS.auto
+  const layout = INFO_LAYOUTS[options.layout] || INFO_LAYOUTS.classic
   const picked = STRUCTURES[options.structure] || STRUCTURES.auto
   const structure = picked.surface && picked.surface !== surfaceFamily ? STRUCTURES.auto : picked
   const density = DENSITIES[options.density] || DENSITIES.standard
@@ -350,6 +358,10 @@ function buildPrompt(style, brief, options) {
       ].join('\n')
       : '',
     surfaceFamily === 'slides' ? '' : null,
+    surfaceFamily === 'info'
+      ? [`## 信息图版式（${layout.label}）`, ...layout.lines.map((line, i) => `${i + 1}. ${line}`)].join('\n')
+      : '',
+    surfaceFamily === 'info' ? '' : null,
     surfaceFamily === 'info' || surfaceFamily === 'web' || surfaceFamily === 'slides'
       ? [
         `## 图表规范（${chart.label}）`,
@@ -626,6 +638,7 @@ export function apply(ctx) {
           const structureKey = typeof body.structure === 'string' && Object.hasOwn(STRUCTURES, body.structure) ? body.structure : 'auto'
           const densityKey = typeof body.density === 'string' && Object.hasOwn(DENSITIES, body.density) ? body.density : 'standard'
           const chartKey = typeof body.chart === 'string' && Object.hasOwn(CHARTS, body.chart) ? body.chart : 'auto'
+          const layoutKey = typeof body.layout === 'string' && Object.hasOwn(INFO_LAYOUTS, body.layout) ? body.layout : 'classic'
           const previous = typeof body.previous === 'string' ? body.previous.slice(0, 400) : ''
           const withDesign = body.includeDesign === true
           const brief = await loadStyle(style.slug, 'brief')
@@ -636,6 +649,7 @@ export function apply(ctx) {
             structure: structureKey,
             density: densityKey,
             chart: chartKey,
+            layout: layoutKey,
             previous,
             requirement,
             includeDesign: withDesign,
@@ -647,6 +661,7 @@ export function apply(ctx) {
             structure: structureKey,
             density: densityKey,
             chart: chartKey,
+            layout: layoutKey,
             style: { slug: style.slug, displayName: style.displayName, nameZh: style.nameZh },
           })
         }
