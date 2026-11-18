@@ -1814,9 +1814,6 @@ window.__ModuleLoader__.load({
                   : surface === 'info'
                     ? ' is-info'
                     : ' is-slides is-deck'),
-              style: surface === 'info'
-                ? { '--dm-info-w': ({ square: '700px', wide: '800px', tall: '580px', hd: '880px', vertical: '430px' }[form.ratio] || '640px') }
-                : undefined,
             },
               h(Art, {
                 style,
@@ -2616,7 +2613,7 @@ window.__ModuleLoader__.load({
 .dm-card-art.is-slides .dm-art{aspect-ratio:16/9;width:100%;height:100%}
 .dm-card-art.is-info{aspect-ratio:16/9}
 .dm-card-art.is-info .dm-art{width:100%;height:auto;transform-origin:top left}
-.dm-preview.is-info{width:100%;max-width:var(--dm-info-w,760px);margin:0 auto;align-self:start}
+.dm-preview.is-info{width:100%;max-width:none;margin:0 auto;align-self:start}
 .dm-preview.is-info .dm-art{width:100%;height:auto;max-height:none}
 .dm-seg-chart{flex-wrap:wrap;max-width:100%}
 .dm-form-note-sub{margin-top:-4px;opacity:.72}
