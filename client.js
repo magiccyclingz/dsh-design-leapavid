@@ -108,6 +108,10 @@ window.__ModuleLoader__.load({
         layoutNoteRings: '同心环做主视觉，每层一段占比，右侧配图例与结论。',
         layoutNoteSpread: '左右分栏：左栏标题与 KPI，右栏图表与结论，适合数据密集。',
         layoutNoteColumns: '顶部满幅色条大标题 + 四栏正文，每栏若干图表 cell，像一张可印刷的模板页。',
+        ratio: '比例', cellDensity: '信息块密度',
+        cellCompact: '紧凑', cellStandard: '标准',
+        cellNoteCompact: 'cell 内边距与行距收紧，一屏放更多信息块。',
+        cellNoteStandard: '默认留白，块与块之间更好读。',
         paletteBrand: '品牌色',
         paletteTeal: '模板蓝 · 珊瑚红',
         paletteMint: '扁平绿 · 青蓝',
@@ -243,6 +247,10 @@ window.__ModuleLoader__.load({
         layoutNoteRings: 'Concentric rings carry the story, legend and insights beside.',
         layoutNoteSpread: 'Two columns: title and KPIs left, charts and insights right.',
         layoutNoteColumns: 'Full-bleed colour banner plus four columns of chart cells — a printable template page.',
+        ratio: 'Aspect', cellDensity: 'Cell density',
+        cellCompact: 'Compact', cellStandard: 'Standard',
+        cellNoteCompact: 'Tighter cell padding and line spacing, more blocks per screen.',
+        cellNoteStandard: 'Default breathing room between cells.',
         paletteBrand: 'Brand',
         paletteTeal: 'Teal · Coral',
         paletteMint: 'Green · Cyan',
@@ -488,6 +496,17 @@ window.__ModuleLoader__.load({
     const SLIDE_BASE = 1280
     const POSTER_BASE = 900
     /* 两组参考配色：A 来自「模板蓝 · 珊瑚红」，B 来自「扁平绿 · 青蓝」 */
+    const INFO_RATIOS = {
+      square: { label: '1:1', w: 1, h: 1 },
+      wide: { label: '4:3', w: 4, h: 3 },
+      tall: { label: '3:4', w: 3, h: 4 },
+      hd: { label: '16:9', w: 16, h: 9 },
+      vertical: { label: '9:16', w: 9, h: 16 },
+    }
+    const INFO_CELL_DENSITY = {
+      compact: { label: '紧凑', pad: 8, gap: 6, cellGap: 8 },
+      standard: { label: '标准', pad: 12, gap: 8, cellGap: 9 },
+    }
     const INFO_PALETTES = {
       brand: { label: '品牌色', hexes: [] },
       teal: {
@@ -912,7 +931,7 @@ window.__ModuleLoader__.load({
 
     /* ---------------------------------------------------- infographic page */
 
-    function infographicHtml(style, mode, clip, chartChoice, layout, paletteKey) {
+    function infographicHtml(style, mode, clip, chartChoice, layout, paletteKey, ratioKey, cellKey) {
       const base = themeOf(style, mode)
       const pal = INFO_PALETTES[paletteKey]
       const th = pal && pal.bg
@@ -1112,7 +1131,7 @@ window.__ModuleLoader__.load({
         </div>`
 
       /* —— 四栏模板用的小组件 —— */
-      const cell = (inner, extra = '') => `<div style="border-top:1px solid ${grid};padding:${U(12)} 0;display:flex;flex-direction:column;justify-content:center;gap:${U(8)};${extra}">${inner}</div>`
+      const cell = (inner, extra = '') => `<div style="border-top:1px solid ${grid};padding:${U(dens.pad)} 0;display:flex;flex-direction:column;justify-content:center;gap:${U(dens.gap)};${extra}">${inner}</div>`
       const cellTitle = (text) => `<div style="font-size:${U(12)};line-height:1.5;color:${th.muted}">${esc(text)}</div>`
       const bigNum = (value, unit, label) => `<div style="display:flex;align-items:baseline;gap:${U(6)}">
           <span style="font-family:${display};font-size:${U(46)};line-height:1;letter-spacing:${U(-1.2)}">${esc(value)}</span>
@@ -1149,8 +1168,10 @@ window.__ModuleLoader__.load({
             <span style="flex:1;height:${U(10)};border-radius:${U(3)};background:${color};opacity:.9"></span>`).join('')}
         </div>`
 
+      const ratio = INFO_RATIOS[ratioKey] || INFO_RATIOS.tall
+      const dens = INFO_CELL_DENSITY[cellKey] || INFO_CELL_DENSITY.standard
       const shell = (inner, fill) => `
-        <div style="position:relative;aspect-ratio:1/1.35;container-type:inline-size;overflow:hidden;
+        <div style="position:relative;aspect-ratio:${ratio.w}/${ratio.h};container-type:inline-size;overflow:hidden;
           background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
           padding:${U(44)} ${U(52)} ${U(40)};gap:${U(24)}">
           ${fill
@@ -1213,7 +1234,7 @@ window.__ModuleLoader__.load({
                 ${esc(d.brand)} · infographic</div>
               <div style="font-family:${mono};font-size:${U(10)};letter-spacing:.14em;text-transform:uppercase;opacity:.85">100% customizable · 2026</div>
             </div>
-            <div style="flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch">
+            <div style="flex:1;display:grid;grid-template-columns:repeat(${ratio.h / ratio.w > 1.4 ? 2 : 4},minmax(0,1fr));align-items:stretch">
               <div style="display:flex;flex-direction:column;padding-right:${U(14)};min-width:0">
                 ${cell(`${bigNum('18,268', '人', '月活')}<div style="height:${U(52)};display:flex;align-items:center;justify-content:center;border:1px dashed ${grid};border-radius:${U(6)};font-family:${mono};font-size:${U(10)};color:${th.muted}">map / hero</div>`, 'flex:1.2')}
                 ${cell(`${bigNum('32', '%', '转化')}${cellTitle('试用第 3 天是主要转化窗口。')}${miniBars()}`, 'flex:1')}
@@ -1375,9 +1396,9 @@ window.__ModuleLoader__.load({
       poster: { build: posterHtml, cls: 'is-poster', base: POSTER_BASE },
     }
 
-    function Art({ style, mode, surface, clip, onAction, chart, layout, palette }) {
+    function Art({ style, mode, surface, clip, onAction, chart, layout, palette, ratio, cell }) {
       const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
-      const html = useMemo(() => spec.build(style, mode, clip, chart, layout, palette), [spec, style, mode, clip, chart, layout, palette])
+      const html = useMemo(() => spec.build(style, mode, clip, chart, layout, palette, ratio, cell), [spec, style, mode, clip, chart, layout, palette, ratio, cell])
       const onClick = (event) => {
         if (!onAction) return
         const hit = event.target && event.target.closest ? event.target.closest('[data-dm-action]') : null
@@ -1541,7 +1562,7 @@ window.__ModuleLoader__.load({
     function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic', palette: 'brand' })
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic', palette: 'brand', ratio: 'tall', cell: 'standard' })
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
@@ -1578,6 +1599,8 @@ window.__ModuleLoader__.load({
             chart: form.chart,
             layout: form.layout,
             palette: form.palette,
+            ratio: form.ratio,
+            cell: form.cell,
             density: form.density,
             requirement: form.requirement,
             includeDesign: form.includeDesign,
@@ -1706,6 +1729,8 @@ window.__ModuleLoader__.load({
                 chart: form.chart,
                 layout: form.layout,
                 palette: form.palette,
+                ratio: form.ratio,
+                cell: form.cell,
                 onAction: (action) => {
                   if (action === 'design') openDesign()
                   else if (action === 'theme') setMode(mode === 'dark' ? 'light' : 'dark')
@@ -1799,6 +1824,36 @@ window.__ModuleLoader__.load({
                   ),
                   h('p', { className: 'dm-form-note' },
                     t(`layoutNote${(form.layout || 'classic').charAt(0).toUpperCase()}${(form.layout || 'classic').slice(1)}`)),
+                )
+                : null,
+              (form.output || surface) === 'info'
+                ? h('div', { key: 'ratio-wrap' },
+                  h('div', { className: 'dm-label' }, t('ratio')),
+                  h('div', { className: 'dm-seg dm-seg-form dm-seg-ratio' },
+                    ...['square', 'wide', 'tall', 'hd', 'vertical'].map((key) => h('button', {
+                      key,
+                      type: 'button',
+                      className: `dm-seg-btn${(form.ratio || 'tall') === key ? ' is-on' : ''}`,
+                      'aria-pressed': (form.ratio || 'tall') === key,
+                      onClick: () => setForm((prev) => ({ ...prev, ratio: key })),
+                    }, INFO_RATIOS[key].label)),
+                  ),
+                )
+                : null,
+              (form.output || surface) === 'info'
+                ? h('div', { key: 'cell-wrap' },
+                  h('div', { className: 'dm-label' }, t('cellDensity')),
+                  h('div', { className: 'dm-seg dm-seg-form dm-seg-cell' },
+                    ...['compact', 'standard'].map((key) => h('button', {
+                      key,
+                      type: 'button',
+                      className: `dm-seg-btn${(form.cell || 'standard') === key ? ' is-on' : ''}`,
+                      'aria-pressed': (form.cell || 'standard') === key,
+                      onClick: () => setForm((prev) => ({ ...prev, cell: key })),
+                    }, t(`cell${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+                  ),
+                  h('p', { className: 'dm-form-note' },
+                    t(`cellNote${(form.cell || 'standard').charAt(0).toUpperCase()}${(form.cell || 'standard').slice(1)}`)),
                 )
                 : null,
               (form.output || surface) === 'info'
@@ -2442,9 +2497,9 @@ window.__ModuleLoader__.load({
 .dm-card-art.is-slides{aspect-ratio:16/9}
 .dm-card-art.is-slides .dm-art{aspect-ratio:16/9;width:100%;height:100%}
 .dm-card-art.is-info{aspect-ratio:4/5}
-.dm-card-art.is-info .dm-art{aspect-ratio:1/1.35;width:100%;height:auto}
+.dm-card-art.is-info .dm-art{width:100%;height:auto}
 .dm-preview.is-info{width:100%;max-width:520px;margin:0 auto;align-self:center}
-.dm-preview.is-info .dm-art{width:100%;height:auto;aspect-ratio:1/1.35}
+.dm-preview.is-info .dm-art{width:100%;height:auto}
 .dm-seg-chart{flex-wrap:wrap;max-width:100%}
 .dm-card-body{padding:15px 2px 0}
 .dm-card-title{font-size:16.5px;font-weight:600;letter-spacing:-.01em;margin:0}

@@ -190,6 +190,19 @@ const DENSITIES = {
   },
 }
 
+const INFO_RATIOS = {
+  square: { label: '1:1', w: 1, h: 1, hint: '方形，适合社交平台单图' },
+  wide: { label: '4:3', w: 4, h: 3, hint: '横向，适合演示与打印' },
+  tall: { label: '3:4', w: 3, h: 4, hint: '竖版长图，信息图的默认比例' },
+  hd: { label: '16:9', w: 16, h: 9, hint: '宽屏，适合投屏与视频封面' },
+  vertical: { label: '9:16', w: 9, h: 16, hint: '手机竖屏，适合公众号封面与短视频' },
+}
+
+const INFO_CELL_DENSITY = {
+  compact: { label: '紧凑', cells: '4–6', note: '每栏可排 4–6 个信息块，行距压缩、字号略小' },
+  standard: { label: '标准', cells: '3–4', note: '每栏 3–4 个信息块，留白充足' },
+}
+
 const INFO_LAYOUTS = {
   classic: { label: '经典长图', lines: ['标题与定位', '三格 KPI 横条', '主图（按所选图表）', '环形占比 + 图例 + 关键结论'] },
   grid: { label: '网格看板', lines: ['标题与定位', '三格 KPI 横条', '左环形占比 / 右渠道图例', '通栏主图（按所选图表）'] },
@@ -343,6 +356,8 @@ function buildPrompt(style, brief, options) {
   const chart = CHARTS[options.chart] || CHARTS.auto
   const layout = INFO_LAYOUTS[options.layout] || INFO_LAYOUTS.classic
   const palette = INFO_PALETTES[options.palette] || INFO_PALETTES.brand
+  const ratio = INFO_RATIOS[options.ratio] || INFO_RATIOS.tall
+  const cellDensity = INFO_CELL_DENSITY[options.cell] || INFO_CELL_DENSITY.standard
   const picked = STRUCTURES[options.structure] || STRUCTURES.auto
   const structure = picked.surface && picked.surface !== surfaceFamily ? STRUCTURES.auto : picked
   const density = DENSITIES[options.density] || DENSITIES.standard
@@ -376,6 +391,20 @@ function buildPrompt(style, brief, options) {
     surfaceFamily === 'slides' ? '' : null,
     surfaceFamily === 'info'
       ? [`## 信息图版式（${layout.label}）`, ...layout.lines.map((line, i) => `${i + 1}. ${line}`)].join('\n')
+      : '',
+    surfaceFamily === 'info'
+      ? [
+        `## 画布比例（${ratio.label}）`,
+        `- 画布宽高比固定为 ${ratio.w}:${ratio.h}（${ratio.hint}）；所有内容按这个比例重排，不要裁切、不要出现需要横向滚动的内容。`,
+        '- 比例变化时优先重排信息块位置（多栏改单栏、左右改上下），不要简单拉伸留白。',
+      ].join('\n')
+      : '',
+    surfaceFamily === 'info'
+      ? [
+        `## 信息块密度（${cellDensity.label}）`,
+        `- ${cellDensity.note}；全图信息块约 ${cellDensity.cells} 个/栏。`,
+        '- 密度只改信息块数量与间距，不改配色与图表类型。',
+      ].join('\n')
       : '',
     surfaceFamily === 'info' ? '' : null,
     surfaceFamily === 'info' && palette.hexes.length
@@ -666,6 +695,8 @@ export function apply(ctx) {
           const chartKey = typeof body.chart === 'string' && Object.hasOwn(CHARTS, body.chart) ? body.chart : 'auto'
           const layoutKey = typeof body.layout === 'string' && Object.hasOwn(INFO_LAYOUTS, body.layout) ? body.layout : 'classic'
           const paletteKey = typeof body.palette === 'string' && Object.hasOwn(INFO_PALETTES, body.palette) ? body.palette : 'brand'
+          const ratioKey = typeof body.ratio === 'string' && Object.hasOwn(INFO_RATIOS, body.ratio) ? body.ratio : 'tall'
+          const cellKey = typeof body.cell === 'string' && Object.hasOwn(INFO_CELL_DENSITY, body.cell) ? body.cell : 'standard'
           const previous = typeof body.previous === 'string' ? body.previous.slice(0, 400) : ''
           const withDesign = body.includeDesign === true
           const brief = await loadStyle(style.slug, 'brief')
@@ -678,6 +709,8 @@ export function apply(ctx) {
             chart: chartKey,
             layout: layoutKey,
             palette: paletteKey,
+            ratio: ratioKey,
+            cell: cellKey,
             previous,
             requirement,
             includeDesign: withDesign,
@@ -691,6 +724,8 @@ export function apply(ctx) {
             chart: chartKey,
             layout: layoutKey,
             palette: paletteKey,
+            ratio: ratioKey,
+            cell: cellKey,
             style: { slug: style.slug, displayName: style.displayName, nameZh: style.nameZh },
           })
         }
