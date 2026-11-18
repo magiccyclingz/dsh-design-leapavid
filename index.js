@@ -140,7 +140,7 @@ const SURFACES = {
   },
   infographic: {
     label: '信息图（竖版长图）',
-    deliverable: '- 单文件 `infographic.html`（内联 CSS/SVG，无外部资源），竖版长图，画布按 1080×2160 设计、整体等比缩放，写入当前工作目录。\n- 全部图表用内联 `<svg>` 手绘，不引用任何图表库或数据接口；配色只取 token。\n- 数据一律是「示例数据」，在图注里写清楚，不要编造真实统计口径。\n- 结构：标题区 → 关键数字 → 主图 → 2 组辅助图（环形 + 条形/折线）→ 结论/图注 → 页脚。\n- 正文不小于 14px、图表标签不小于 11px；长图可打印，`@page{size:A3 portrait;margin:12mm}`，各区块 `break-inside: avoid`。',
+    deliverable: '- 单文件 `infographic.html`（内联 CSS/SVG，无外部资源），竖版长图，画布按 1080×2160 设计、整体等比缩放，写入当前工作目录。\n- 全部图表用内联 `<svg>` 手绘，不引用任何图表库或数据接口；配色只取 token。\n- 数据一律是「示例数据」，在图注里写清楚，不要编造真实统计口径。\n- 结构：标题区 → 关键数字 → 主图 → 2 组辅助图（环形 + 条形/折线）→ 结论/图注 → 页脚。\n- 圆角、间距节奏、标题字号与字距都按该风格 token 走（`radiusCard` / `spaceBase` / `displaySize`），不要退回通用 8px 网格。\n- 正文不小于 14px、图表标签不小于 11px；长图可打印，`@page{size:A3 portrait;margin:12mm}`，各区块 `break-inside: avoid`。',
   },
   poster: {
     label: '海报（竖版 3:4）',

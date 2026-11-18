@@ -952,6 +952,14 @@ window.__ModuleLoader__.load({
       const c2 = pal && pal.second ? pal.second : mix(th.accent, th.bg, 0.55)
       const c3 = pal && pal.second ? mix(pal.second, '#ffffff', 0.55) : mix(th.accent, th.bg, 0.8)
       const grid = alpha(th.ink, 0.12)
+      const sBase = Math.min(Math.max(Number.parseFloat(v.spaceBase) || 8, 4), 16)
+      const sx = Math.min(Math.max(sBase / 8, 0.85), 1.35)
+      const S = (n) => U(Math.max(2, Math.round(n * sx)))
+      const rCardPx = Math.min(Math.max(Number.parseFloat(v.radiusCard) || 8, 0), 20)
+      const rChipPx = Math.min(Math.max(Number.parseFloat(v.radiusButton) || 6, 0), 12)
+      const titleSize = Math.min(Math.max(Math.round((Number.parseFloat(v.displaySize) || 56) * 1.1), 46), 68)
+      const titleTrack = Number.parseFloat(v.displayTracking) || -1.6
+      const titleLead = Number.parseFloat(v.displayLineHeight) || 1.1
       const kind = ['bar', 'line', 'donut', 'area', 'funnel'].includes(chartChoice) ? chartChoice : 'bar'
 
       const W = 920
@@ -1089,9 +1097,9 @@ window.__ModuleLoader__.load({
         </div>`
 
       const titleBlock = `
-        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+        <div style="display:flex;flex-direction:column;gap:${S(10)}">
           <span style="font-size:${U(12)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">${esc(style.category || '')}</span>
-          <div style="font-family:${display};font-size:${U(60)};line-height:1.1;letter-spacing:${U(-1.6)}">${esc(d.positioning || d.brand)}</div>
+          <div style="font-family:${display};font-size:${U(titleSize)};line-height:${titleLead};letter-spacing:${U(titleTrack)}">${esc(d.positioning || d.brand)}</div>
           <div style="font-size:${U(16)};line-height:1.6;color:${th.muted};max-width:${U(820)}">${esc(d.tagline || '')}</div>
         </div>`
 
@@ -1101,7 +1109,7 @@ window.__ModuleLoader__.load({
         </div>`
 
       const chartBlock = (title) => `
-        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+        <div style="display:flex;flex-direction:column;gap:${S(10)}">
           <div style="display:flex;align-items:baseline;justify-content:space-between">
             <span style="font-size:${U(15)};font-weight:600">${esc(title || chartTitle)}</span>
             <span style="font-size:${U(11)};color:${th.muted};font-family:${mono}">unit: k / %</span>
@@ -1119,18 +1127,18 @@ window.__ModuleLoader__.load({
         ? ['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关', '站内推荐位贡献环比 +12%', '自然流量获客成本低于投放 38%']
         : ['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关']
       const legendCol = `
-        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+        <div style="display:flex;flex-direction:column;gap:${S(10)}">
           <span style="font-size:${U(13)};font-weight:600">渠道构成</span>
           ${legendRows.map(([color, label, pct]) => `
-            <div style="display:flex;align-items:center;gap:${U(10)};font-size:${U(12)}">
-              <span style="width:${U(10)};height:${U(10)};border-radius:${U(3)};background:${color};display:inline-block"></span>
+            <div style="display:flex;align-items:center;gap:${S(10)};font-size:${U(12)}">
+              <span style="width:${U(10)};height:${U(10)};border-radius:${U(Math.min(rChipPx, 4))};background:${color};display:inline-block"></span>
               <span style="flex:1">${esc(label)}</span>
               <span style="font-family:${mono};color:${th.muted}">${pct}</span>
             </div>`).join('')}
         </div>`
 
       const insightCol = `
-        <div style="display:flex;flex-direction:column;gap:${U(10)}">
+        <div style="display:flex;flex-direction:column;gap:${S(10)}">
           <span style="font-size:${U(13)};font-weight:600">关键结论</span>
           ${insightRows.map((text) => `
             <div style="font-size:${U(12)};line-height:1.55;color:${th.ink};padding-left:${U(12)};border-left:2px solid ${c1}">${esc(text)}</div>`).join('')}
@@ -1151,16 +1159,16 @@ window.__ModuleLoader__.load({
           <span style="font-size:${U(14)};color:${th.muted}">${esc(unit)}</span>
           <span style="margin-left:auto;font-size:${U(10)};letter-spacing:.1em;text-transform:uppercase;color:${th.muted}">${esc(label)}</span>
         </div>`
-      const stepsCell = () => `<div style="display:flex;gap:${U(8)}">
+      const stepsCell = () => `<div style="display:flex;gap:${S(8)}">
           ${['认知', '试用', '续费'].map((label, i) => `
-            <div style="flex:1;text-align:center;padding:${U(8)} ${U(4)};border:1px solid ${i === 1 ? th.ink : grid};border-radius:${U(6)};font-size:${U(12)};${i === 1 ? 'font-weight:600;' : `color:${th.muted};`}">${label}</div>`).join('')}
+            <div style="flex:1;text-align:center;padding:${U(8)} ${U(4)};border:1px solid ${i === 1 ? th.ink : grid};border-radius:${U(rChipPx)};font-size:${U(12)};${i === 1 ? 'font-weight:600;' : `color:${th.muted};`}">${label}</div>`).join('')}
         </div>
         <div style="height:${U(8)};background:${alpha(th.ink, 0.1)};border-radius:${U(4)};overflow:hidden;display:flex">
           <span style="width:62%;background:${th.ink}"></span><span style="width:22%;background:${c2}"></span><span style="width:16%;background:${c1}"></span>
         </div>`
       const optionList = () => ['A：激活流程简化', 'B：定价页改版', 'C：客服响应提速', 'D：新客礼包'].map((text, i) => `
-        <div style="display:flex;align-items:center;gap:${U(8)};font-size:${U(11)};color:${th.muted}">
-          <span style="width:${U(14)};height:${U(14)};flex:none;border-radius:${U(3)};display:inline-flex;align-items:center;justify-content:center;
+        <div style="display:flex;align-items:center;gap:${S(8)};font-size:${U(11)};color:${th.muted}">
+          <span style="width:${U(14)};height:${U(14)};flex:none;border-radius:${U(Math.min(rChipPx, 4))};display:inline-flex;align-items:center;justify-content:center;
             font-size:${U(9)};color:${accentInk};background:${i === 1 ? c1 : alpha(th.ink, 0.25)}">${String.fromCharCode(65 + i)}</span>
           <span style="flex:1">${esc(text)}</span>
         </div>`).join('')
@@ -1177,23 +1185,23 @@ window.__ModuleLoader__.load({
           <line x1="0" x2="${vw - 4}" y1="${base}" y2="${base}" stroke="${alpha(th.ink, 0.25)}" stroke-width="1"></line>${bars}</svg>`
       }
 
-      const chipStrip = () => `<div style="display:flex;gap:${U(10)};justify-content:space-between;margin-top:auto;padding-top:${U(14)};border-top:1px solid ${grid}">
+      const chipStrip = () => `<div style="display:flex;gap:${S(10)};justify-content:space-between;margin-top:auto;padding-top:${U(14)};border-top:1px solid ${grid}">
           ${[c1, c2, c3, th.ink, th.muted].map((color) => `
-            <span style="flex:1;height:${U(10)};border-radius:${U(3)};background:${color};opacity:.9"></span>`).join('')}
+            <span style="flex:1;height:${U(10)};border-radius:${U(Math.min(rChipPx, 4))};background:${color};opacity:.9"></span>`).join('')}
         </div>`
 
       const shell = (inner, fill) => `
         <div style="position:relative;aspect-ratio:${ratio.w}/${ratio.h};container-type:inline-size;overflow:hidden;
           background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
-          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(dens.canvasGap)}">
+          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(Math.round(dens.canvasGap * sx))}">
           ${fill
             ? `<div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:${U(22)}">${inner}</div>`
             : inner}
           ${footerBar}
         </div>`
 
-      const card = (inner, extra = '') => `<div style="border:1px solid ${grid};border-radius:${U(10)};
-        padding:${U(dens.cardPad)} ${U(24)};display:flex;flex-direction:column;gap:${U(dens.gap + 4)};${extra}">${inner}</div>`
+      const card = (inner, extra = '') => `<div style="border:1px solid ${grid};border-radius:${U(rCardPx)};
+        padding:${U(Math.round(dens.cardPad * sx))} ${U(Math.round(24 * sx))};display:flex;flex-direction:column;gap:${U(dens.gap + 4)};${extra}">${inner}</div>`
 
       /* 同心环：三层环形，每层一段占比 */
       const ringsSvg = () => {
@@ -1276,7 +1284,7 @@ window.__ModuleLoader__.load({
             ${headerBar}
             <div style="flex:1;display:grid;grid-template-columns:repeat(${ratio.h / ratio.w > 1.4 ? 2 : 4},minmax(0,1fr));align-items:stretch">
               <div style="display:flex;flex-direction:column;padding-right:${U(14)};min-width:0">
-                ${cell(`${bigNum('18,268', '人', '月活')}<div style="height:${U(52)};display:flex;align-items:center;justify-content:center;border:1px dashed ${grid};border-radius:${U(6)};font-family:${mono};font-size:${U(10)};color:${th.muted}">map / hero</div>`, 'flex:1.2')}
+                ${cell(`${bigNum('18,268', '人', '月活')}<div style="height:${U(52)};display:flex;align-items:center;justify-content:center;border:1px dashed ${grid};border-radius:${U(rChipPx)};font-family:${mono};font-size:${U(10)};color:${th.muted}">map / hero</div>`, 'flex:1.2')}
                 ${cell(`${bigNum('32', '%', '转化')}${cellTitle('试用第 3 天是主要转化窗口。')}${miniBars()}`, 'flex:1')}
                 ${cell(`${stepsCell()}`, 'flex:1')}
                 ${cell(`<div style="font-family:${mono};font-size:${U(9)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">source · 示例数据 2026</div>`, 'flex:.55;border-top:0')}
