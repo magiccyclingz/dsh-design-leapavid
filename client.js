@@ -126,6 +126,10 @@ window.__ModuleLoader__.load({
         tokensCount: '{c} 个色值 · {t} 级字号',
         notes: '设计要点',
         palette: '配色',
+        specTitle: '规范明细',
+        specsShow: '展开 · 配色 {n} 色',
+        specsHide: '收起明细',
+        specsHint: '配色、字号阶梯、圆角与间距、组件样例、导出 token 都在这里，需要时展开。',
         typography: '排版要求',
         shapes: '形状与间距',
         components: '组件样例',
@@ -267,6 +271,10 @@ window.__ModuleLoader__.load({
         tokensCount: '{c} colors · {t} type steps',
         notes: 'Design notes',
         palette: 'Palette',
+        specTitle: 'Spec sheet',
+        specsShow: 'Expand · {n} colors',
+        specsHide: 'Collapse',
+        specsHint: 'Palette, type scale, radii and spacing, components and token export live here — expand when needed.',
         typography: 'Typography',
         shapes: 'Shape & spacing',
         components: 'Components',
@@ -1623,6 +1631,7 @@ window.__ModuleLoader__.load({
       const loc = useLocale()
       const v = style.visual
       const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic', palette: 'brand', ratio: 'tall', cell: 'standard' })
+      const [specOpen, setSpecOpen] = useState(false)
       const chartMuted = (form.output || surface) === 'info' && (form.layout || 'classic') === 'columns'
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
@@ -1989,6 +1998,19 @@ window.__ModuleLoader__.load({
             ),
 
             h('section', { className: 'dm-card2' },
+              h('div', { className: 'dm-specs-head' },
+                h('h3', null, t('specTitle')),
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost dm-specs-toggle',
+                  onClick: () => setSpecOpen((x) => !x),
+                }, specOpen ? t('specsHide') : t('specsShow', { n: colors.length })),
+              ),
+              specOpen ? null : h('p', { className: 'dm-form-note' }, t('specsHint')),
+            ),
+
+            specOpen ? h('div', { className: 'dm-specs-body' },
+            h('section', { className: 'dm-card2' },
               h('h3', null, `${t('palette')} · ${colors.length}`),
               h('div', { className: 'dm-swatches' },
                 ...colors.slice(0, 18).map((c, i) => h('button', {
@@ -2137,6 +2159,7 @@ window.__ModuleLoader__.load({
                 }, t('exportTailwind')),
               ),
             ),
+            ) : null,
 
           ),
         ),
@@ -2579,6 +2602,10 @@ window.__ModuleLoader__.load({
 .dm-art.is-clip{position:absolute;inset:0}
 .dm-art.is-clip a{pointer-events:none}
 .dm-detail-grid{scroll-behavior:smooth}
+.dm-specs-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dm-specs-head h3{margin:0}
+.dm-specs-toggle{padding:4px 10px;font-size:12px;border-radius:999px;white-space:nowrap}
+.dm-specs-body{display:flex;flex-direction:column;gap:14px}
 .dm-ghost{font:inherit;font-size:12.5px;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-2);cursor:pointer}
 .dm-ghost:hover{color:var(--ink);border-color:#d4d4d6}
 .dm-primary{width:100%;margin-top:12px;padding:10px 0;border:0;border-radius:8px;background:var(--accent);color:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
