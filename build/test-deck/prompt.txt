@@ -1,0 +1,49 @@
+请用「Stripe · Stripe」这套设计语言，完成下面这件设计工作。
+风格来源：getdesign.md/stripe（金融科技）
+## 设计 Token（生成时必须严格使用这些值，不要引入未列出的颜色）
+- 底色 canvas `#ffffff`；表面 surface `#f4f5f6`；描边 hairline `#dde0e4`
+- 正文 ink `#0d253d`；次级文字 `#73818e`；强调 accent `#533afd`（其上文字 `#ffffff`，只用于主 CTA 与关键强调）
+- 展示字体 `sohne-var`（sans）字重 300 / 字距 -1.4px / 行高 1.03；正文字体 `sohne-var` 14px
+- 圆角：卡片 8px / 按钮 9999px / 胶囊 9999px；间距基准 4px
+- 深色模式：画布 `#0d253d`，文字 `#ffffff`
+- 完整色板（前 8 个）：`#533afd` primary、`#4434d4` primary-deep、`#2e2b8c` primary-press、`#665efd` primary-soft、`#b9b9f9` primary-bg-subdued-hover、`#1c1e54` brand-dark-900、`#0d253d` ink、`#273951` ink-secondary
+## 风格要点（摘自该风格的 DESIGN.md）
+Stripi's design language opens with the gradient mesh. A wide horizontal band of pastel cream, sherbet orange, lavender, electric indigo, and ruby pink occupies the upper third of nearly every marketing page — the brand's instantly-recognizable atmospheric backdrop. Type and product UI mockups float above it on (white), with the gradient acting as both decoration and visual anchor. The lower…
+
+## 版式与间距
+- Base unit: 8px (with 2 / 4 / 12 sub-tokens for fine work).
+- Tokens: spacing.xxs 2px · spacing.xs 4px · spacing.sm 8px · spacing.md 12px · spacing.lg 16px · spacing.xl 24px ·…
+- Section padding: 64–96px on marketing surfaces; 32–48px on dashboard / product surfaces.
+- Card internal padding: 32px on feature cards; 24px on dashboard mockups.
+- Marketing pages center in a ~1200px container with the gradient mesh extending edge-to-edge above.
+
+## 该做
+- Reserve colors.primary for filled CTAs and inline link emphasis — it should appear sparingly, one filled button per band.
+- Apply the gradient mesh to every marketing hero; bare-canvas heroes feel off-brand.
+- Render display tiers at weight 300 with negative letter-spacing — the thin tracking is the typographic signature.
+- Use `font-feature-settings: "tnum"` on every money / numeric cell.
+
+## 避免
+- Apply `font-feature-settings: "ss01"` globally on the body element.
+- Pair every feature explanation with a composited product UI mockup; the brand's argument is "look at the actual product."
+- Don't bump display weight above 300 — at 400 the brand's editorial air collapses.
+- Don't add new accent colors outside the documented gradient stops (cream / orange / lavender / indigo / ruby / magenta).
+## 本单需求
+给一款 AI 财务对账平台 Arclight 做 A 轮融资 deck：产品今年 ARR 到 180 万美元、服务 120 家客户，本轮融 1200 万美元
+## 页面结构（按此顺序排布）
+1. 第 1 页 封面：项目名 + 一句话定位 + 轮次
+2. 第 2 页 市场：机会规模与切入角度（三个数字）
+3. 第 3 页 产品与增长：核心能力 + 验证指标
+4. 第 4 页 团队：三位关键成员 + 各自战绩
+5. 第 5 页 融资：金额 / 用途拆解 / 里程碑
+## 交付要求（演示幻灯片）
+- 单文件 `deck.html`（内联 CSS/JS，无外部资源），16:9 满屏分页，写入当前工作目录。
+- 键盘 ←/→ 或 PageUp/PageDown 翻页，右下角显示页码，每页一整屏、不出现滚动条。
+- 严格按上面的页面结构逐页生成，共 5 页；封面就是第 1 页，最后一项是收束页，不额外插入目录或封底。
+- 标题层级、正文、要点列表都使用 token 中的字号与字重。
+## 自检
+- 颜色全部来自上面的 token；强调色只用于 CTA 与关键强调，不做大面积铺色。
+- 标题/正文字号字重按层级递减，字距与行高与 token 一致。
+- 圆角、间距、描边保持同一套尺度，页面之间不漂移。
+- 需要更多细节时，可调用 `design_md` 工具取 `slug=stripe` 的完整 DESIGN.md。
+完成后请给出产物文件路径，并说明如何在浏览器里打开。

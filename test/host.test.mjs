@@ -101,6 +101,7 @@ test('structure presets follow the surface family', async () => {
   assert.ok((await prompt('slides', 'pitch')).includes('## 页面结构'), 'slides + deck preset keeps its outline')
   assert.ok((await prompt('slides', 'product')).includes('行动号召'), 'product deck carries its own outline')
   assert.ok((await prompt('slides', 'venture')).includes('里程碑'), 'fundraising deck carries its own outline')
+  assert.ok((await prompt('slides', 'venture')).includes('1600×900'), 'deck prompt carries layout constraints')
   assert.ok((await prompt('slides', 'training')).includes('延伸资料'), 'training deck carries its own outline')
   assert.ok((await prompt('web', 'pricing')).includes('## 页面结构'), 'web + page preset keeps its outline')
   assert.equal((await prompt('slides', 'pricing')).includes('## 页面结构'), false, 'web preset is dropped on slides')

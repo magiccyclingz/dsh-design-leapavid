@@ -136,7 +136,7 @@ const SURFACES = {
   },
   slides: {
     label: '演示幻灯片',
-    deliverable: '- 单文件 `deck.html`（内联 CSS/JS，无外部资源），16:9 满屏分页，写入当前工作目录。\n- 键盘 ←/→ 或 PageUp/PageDown 翻页，右下角显示页码，每页一整屏、不出现滚动条。\n- 恰含 1 页封面、1 页目录、正文若干页、1 页封底；标题层级、正文、要点列表都使用 token 中的字号与字重。',
+    deliverable: '- 单文件 `deck.html`（内联 CSS/JS，无外部资源），16:9 满屏分页，写入当前工作目录。\n- 画布按 1600×900 设计、整体等比缩放适配窗口；正文不小于 16px、注释不小于 12px，保证投影可读。\n- 键盘 ←/→ 或 PageUp/PageDown 翻页，右下角显示页码，每页一整屏、不出现滚动条。\n- 每页至多 3 个信息块，内容在页内垂直居中，避免内容堆在顶部、下半页整块留白。\n- 恰含 1 页封面、1 页目录、正文若干页、1 页封底；标题层级、正文、要点列表都使用 token 中的字号与字重。',
   },
   poster: {
     label: '海报（竖版 3:4）',
@@ -277,7 +277,12 @@ function buildPrompt(style, brief, options) {
       : '',
     structure.outline.length ? '' : null,
     `## 交付要求（${surface.label}）`,
-    surface.deliverable,
+    structure.outline.length && surfaceFamily === 'slides'
+      ? surface.deliverable.replace(
+        '- 恰含 1 页封面、1 页目录、正文若干页、1 页封底；标题层级、正文、要点列表都使用 token 中的字号与字重。',
+        `- 严格按上面的页面结构逐页生成，共 ${structure.outline.length} 页；封面就是第 1 页，最后一项是收束页，不额外插入目录或封底。\n- 标题层级、正文、要点列表都使用 token 中的字号与字重。`,
+      )
+      : surface.deliverable,
     '',
     '## 自检',
     '- 颜色全部来自上面的 token；强调色只用于 CTA 与关键强调，不做大面积铺色。',
