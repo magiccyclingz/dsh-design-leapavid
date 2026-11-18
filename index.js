@@ -380,7 +380,7 @@ function buildPrompt(style, brief, options) {
       ? ['## 页面结构（按此顺序排布）', ...structure.outline.map((line, i) => `${i + 1}. ${line}`)].join('\n')
       : '',
     structure.outline.length ? '' : null,
-    surfaceFamily === 'slides'
+    options.surface === 'slides'
       ? [
         `## 版式密度（${density.label}）`,
         `- 字号：${density.scale}`,
@@ -417,7 +417,7 @@ function buildPrompt(style, brief, options) {
       ].join('\n')
       : '',
     surfaceFamily === 'info' ? '' : null,
-    surfaceFamily === 'info' || surfaceFamily === 'web' || surfaceFamily === 'slides'
+    (surfaceFamily === 'info' || surfaceFamily === 'web' || surfaceFamily === 'slides') && options.surface !== 'poster'
       ? [
         `## 图表规范（${chart.label}）`,
         `- ${chart.main}`,
@@ -689,6 +689,9 @@ export function apply(ctx) {
           const catalog = await loadCatalog()
           const style = catalog.styles.find((s) => s.slug === slug)
           if (!style) return sendJson(res, 404, { error: 'unknown style' })
+          if (body.surface != null && !Object.hasOwn(SURFACES, body.surface)) {
+            return sendJson(res, 400, { error: 'unknown surface' })
+          }
           const surfaceKey = typeof body.surface === 'string' && Object.hasOwn(SURFACES, body.surface) ? body.surface : 'web'
           const structureKey = typeof body.structure === 'string' && Object.hasOwn(STRUCTURES, body.structure) ? body.structure : 'auto'
           const densityKey = typeof body.density === 'string' && Object.hasOwn(DENSITIES, body.density) ? body.density : 'standard'

@@ -134,8 +134,16 @@ test('POST /prompt rejects bad input without leaking internals', async () => {
 
   const protoSurface = await call(route, 'POST', '/api/design-md/prompt',
     JSON.stringify({ slug: 'stripe', surface: 'constructor' }))
-  assert.equal(protoSurface.status, 200)
-  assert.equal(JSON.parse(protoSurface.body).prompt.includes('undefined'), false)
+  assert.equal(protoSurface.status, 400)
+  assert.equal(protoSurface.body.includes('/Users/'), false)
+  assert.equal(protoSurface.body.includes('undefined'), false)
+
+  const poster = await call(route, 'POST', '/api/design-md/prompt',
+    JSON.stringify({ slug: 'stripe', surface: 'poster' }))
+  assert.equal(poster.status, 200)
+  const posterPrompt = JSON.parse(poster.body).prompt
+  assert.equal(posterPrompt.includes('## 图表规范'), false)
+  assert.equal(posterPrompt.includes('## 交付要求'), true)
 })
 
 test('unknown routes answer 404', async () => {

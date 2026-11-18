@@ -157,6 +157,9 @@ window.__ModuleLoader__.load({
         exportJson: '下载 tokens.json',
         exportTailwind: '复制 Tailwind 配置',
         exported: '已复制 {label}',
+        exportCssShort: 'CSS 变量',
+        exportJsonShort: 'tokens.json',
+        exportTailwindShort: 'Tailwind 配置',
         structure: '用途',
         density: '密度',
         densityAiry: '宽松',
@@ -184,6 +187,7 @@ window.__ModuleLoader__.load({
         deckNoteTraining: '培训 deck：封面 / 目标 / 知识点 / 示例与练习 / 回顾 —— 内训、工作坊、课程讲解用它。',
         formNoteWeb: '将生成单文件 index.html：CSS/JS 内联、无外链资源，内置亮/暗两套 token，可直接双击打开。',
         formNoteSlides: '将生成单文件 deck.html：16:9 满屏分页，按上方所选结构逐页生成（每套 5 页），← → 或 PageUp/PageDown 翻页，右下角页码。',
+        formNotePoster: '将生成单文件 poster.html：竖版 3:4 单页，内联 CSS、无外链资源，另附一份 poster.svg 方便继续排版。',
         requirementPlaceholderSlides: '例如：给一款 AI 笔记产品做 5 页发布 deck，面向开发者，强调速度与离线可用。',
         similar: '相近的风格',
         lastDelivered: '上次生成过 · {when}',
@@ -302,6 +306,9 @@ window.__ModuleLoader__.load({
         exportJson: 'Download tokens.json',
         exportTailwind: 'Copy Tailwind config',
         exported: 'Copied {label}',
+        exportCssShort: 'CSS variables',
+        exportJsonShort: 'tokens.json',
+        exportTailwindShort: 'Tailwind config',
         structure: 'Purpose',
         density: 'Density',
         densityAiry: 'Airy',
@@ -329,6 +336,7 @@ window.__ModuleLoader__.load({
         deckNoteTraining: 'Training deck: cover / objectives / key ideas / worked example / recap — for internal training, workshops and courses.',
         formNoteWeb: 'Produces a single index.html: inline CSS/JS, no external assets, light and dark token sets, opens by double-click.',
         formNoteSlides: 'Produces a single deck.html: 16:9 full-bleed slides, one page per line of the selected structure (five per deck), ← → to page, page number bottom-right.',
+        formNotePoster: 'Produces a single poster.html: one portrait 3:4 page, inline CSS, no external assets, plus a poster.svg for further layout work.',
         requirementPlaceholderSlides: 'e.g. a five-slide launch deck for an AI notes app, aimed at developers, emphasising speed and offline use.',
         similar: 'Similar styles',
         lastDelivered: 'Generated before · {when}',
@@ -1444,7 +1452,7 @@ window.__ModuleLoader__.load({
           ${word(88)}${caps(esc(d.tagline), `max-width:${UP(80)};text-align:right`)}
         </div>`
 
-      const cols = clip ? '1fr' : `repeat(auto-fit,minmax(${UP(250)},1fr))`
+      const cols = clip ? '1fr' : `repeat(auto-fit,minmax(${UP(320)},1fr))`
       return `<div style="display:grid;grid-template-columns:${cols};gap:${UP(14)}">
         ${shell(1, 'top-bottom', topBottom)}
         ${shell(2, 'left-right', leftRight)}
@@ -1830,8 +1838,8 @@ window.__ModuleLoader__.load({
                   onClick: () => setForm((prev) => (prev.output === key ? prev : { ...prev, output: key, structure: 'auto' })),
                 }, t(`surfaces.${key}`))),
               ),
-              (form.output || surface) === 'info' ? null : h('div', { className: 'dm-label' }, t('structure')),
-              (form.output || surface) === 'info' ? null : h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
+              ['info', 'poster'].includes(form.output || surface) ? null : h('div', { className: 'dm-label' }, t('structure')),
+              ['info', 'poster'].includes(form.output || surface) ? null : h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
                 ...((form.output || surface) === 'slides'
                   ? ['auto', 'deck', 'pitch', 'report', 'product', 'venture', 'training']
                   : ['auto', 'landing', 'pricing', 'dashboard', 'blog']).map((key) => {
@@ -1957,7 +1965,13 @@ window.__ModuleLoader__.load({
                 h('button', { type: 'button', className: 'dm-ghost', onClick: openDesign }, t('viewDesign')),
               ),
               h('p', { className: 'dm-form-note' },
-                t((form.output || surface) === 'slides' ? 'formNoteSlides' : 'formNoteWeb')),
+                t(
+                  (form.output || surface) === 'slides'
+                    ? 'formNoteSlides'
+                    : (form.output || surface) === 'poster'
+                      ? 'formNotePoster'
+                      : 'formNoteWeb',
+                )),
               chars ? h('div', { className: 'dm-chars' }, t('chars', { n: chars })) : null,
               sent ? h('div', { className: 'dm-iterate' },
                 h('button', {
@@ -2135,7 +2149,7 @@ window.__ModuleLoader__.load({
                   className: 'dm-ghost',
                   onClick: async () => {
                     await writeClipboard(cssExport(style))
-                    onToast({ kind: 'ok', text: t('exported', { label: t('exportCss') }) })
+                    onToast({ kind: 'ok', text: t('exported', { label: t('exportCssShort') }) })
                   },
                 }, t('exportCss')),
                 h('button', {
@@ -2150,7 +2164,7 @@ window.__ModuleLoader__.load({
                       a.download = `${style.slug}-tokens.json`
                       a.click()
                       URL.revokeObjectURL(url)
-                      onToast({ kind: 'ok', text: t('exported', { label: t('exportJson') }) })
+                      onToast({ kind: 'ok', text: t('exported', { label: t('exportJsonShort') }) })
                     } catch (err) {
                       onToast({ kind: 'err', text: String(err.message || err) })
                     }
@@ -2161,7 +2175,7 @@ window.__ModuleLoader__.load({
                   className: 'dm-ghost',
                   onClick: async () => {
                     await writeClipboard(tailwindExport(style))
-                    onToast({ kind: 'ok', text: t('exported', { label: t('exportTailwind') }) })
+                    onToast({ kind: 'ok', text: t('exported', { label: t('exportTailwindShort') }) })
                   },
                 }, t('exportTailwind')),
               ),
@@ -2215,7 +2229,7 @@ window.__ModuleLoader__.load({
     )
 
     /* Poster templates are kept in code but not exposed in this release. */
-    const STRING_SURFACES = { page: true, slides: true, info: true }
+    const STRING_SURFACES = { page: true, slides: true, info: true, poster: true }
     const HOST_SURFACE = { page: 'web', slides: 'slides', info: 'infographic', poster: 'poster' }
     /** page + dark theme maps to the host's dedicated dark-page deliverable. */
     const hostKey = (chosen, mode) => (chosen === 'page' ? (mode === 'dark' ? 'webDark' : 'web') : HOST_SURFACE[chosen] || 'web')
