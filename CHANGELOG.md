@@ -1,3 +1,10 @@
+## 1.36.6
+
+- 市场条目切到 **npm 源**：`docs/market-entry.json` 改为 `source: npm` + `npm: dsh-design-leapavid`，GitHub 源变体移到 `docs/market-entry.github.json`（不支持 npm 源的清单可用），`docs/hub-registry.json` 按 npm 条目重建。
+- 按 dsh-m [registry-copy-guide](https://github.com/iasiv5/dsh-m/blob/main/docs/registry-copy-guide.md) 校正字段：描述压到 45.5 全角当量并去掉需要保鲜的「84 套」；`tags` 4 个功能词；新增 `verified: ["0.2.2-rc.3"]` 与「已适配 …，详见仓库」句式；`icon` 用 jsDelivr 浮动大版本 `@1`；去掉 registry 里不存在的 `version` 字段。
+- 新增 `docs/market-entry.line.txt`：`registry.json` 用的紧凑单行片段，上游 PR 直接追加即可（不触发整库重排）。
+- 新增 `test/market-entry.test.mjs`（7 项守卫：宽度预算、禁精确数字、tags 规则、schema 键、source 自洽、verified 与描述尾巴、icon 形态、两个变体一致、hub 预演同步），`npm test` 35 pass。
+
 ## 1.36.5
 
 - 内容与 1.36.4 完全一致，差异只有版本号与本节说明（纯发布操作）。
