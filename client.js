@@ -686,7 +686,7 @@ window.__ModuleLoader__.load({
       const coverKicker = d.kicker && d.kicker.length <= 24 ? d.kicker : '品牌设计语言'
       const cover = `
         <div style="position:absolute;inset:0;background:${coverBg};color:${coverInk};display:flex;flex-direction:column;
-          padding:${US(22)} ${US(26)} ${US(8)}">
+          padding:${US(22)} ${US(26)} ${US(34)}">
           <div style="display:flex;align-items:baseline;gap:${US(16)}">
             <span style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(12)};
               letter-spacing:${US(-0.2)}">${esc(coverTitle)}</span>
@@ -698,7 +698,7 @@ window.__ModuleLoader__.load({
             <div style="font-size:${US(21)};line-height:1.4;font-weight:600;color:${th.accent}">2026</div>
           </div>
           <div style="font-family:${display};font-weight:${v.displayWeight || 600};
-            font-size:${US(wmSize)};line-height:1;margin-bottom:${US(-wmSize * 0.12)};letter-spacing:${US(-wmSize * 0.045)};
+            font-size:${US(wmSize)};line-height:1;letter-spacing:${US(-wmSize * 0.045)};
             white-space:nowrap;margin-left:${US(-3)};color:${coverInk}">${esc(coverTitle)}</div>
         </div>`
 
