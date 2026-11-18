@@ -128,11 +128,11 @@ function projectStyle(style) {
 const SURFACES = {
   web: {
     label: '网页（亮色 + 暗色双主题）',
-    deliverable: '- 单文件 `index.html`（内联 CSS/JS，不引用外部字体、CDN、图片外链），写入当前工作目录。\n- 同一份文件内置亮色与暗色两套主题变量，跟随系统 `prefers-color-scheme`，并提供一个手动切换按钮。\n- 结构按需求组织（导航、首屏、内容区、页脚等），信息密度与留白节奏按该风格原文处理；不要只留占位文本。',
+    deliverable: '- 单文件 `index.html`（内联 CSS/JS，不引用外部字体、CDN、图片外链），写入当前工作目录。\n- 同一份文件内置亮色与暗色两套主题变量，跟随系统 `prefers-color-scheme`，并提供一个手动切换按钮。\n- 右上角或页脚提供「打印 / 导出 PDF」按钮（调用 `window.print()`）；`@media print` 下隐藏导航吸顶与悬浮控件、按钮本身，保留品牌色块（`-webkit-print-color-adjust: exact`），`@page{size:A4 portrait;margin:12mm}`，卡片与代码块 `break-inside: avoid`，避免半截元素跨页。\n- 结构按需求组织（导航、首屏、内容区、页脚等），信息密度与留白节奏按该风格原文处理；不要只留占位文本。',
   },
   webDark: {
     label: '网页（以深色为默认主题）',
-    deliverable: '- 单文件 `index.html`（内联 CSS/JS，不引用外部字体、CDN、图片外链），写入当前工作目录。\n- 默认渲染深色主题（该风格的原生深色画布），同时保留一套可切换的亮色变量。\n- 结构按需求组织，深色下注意描边、次级文字与强调色的对比度。',
+    deliverable: '- 单文件 `index.html`（内联 CSS/JS，不引用外部字体、CDN、图片外链），写入当前工作目录。\n- 默认渲染深色主题（该风格的原生深色画布），同时保留一套可切换的亮色变量。\n- 右上角或页脚提供「打印 / 导出 PDF」按钮（调用 `window.print()`）；`@media print` 下隐藏导航吸顶与悬浮控件、按钮本身，保留品牌色块（`-webkit-print-color-adjust: exact`），`@page{size:A4 portrait;margin:12mm}`，卡片与代码块 `break-inside: avoid`，避免半截元素跨页。\n- 结构按需求组织，深色下注意描边、次级文字与强调色的对比度。',
   },
   slides: {
     label: '演示幻灯片',

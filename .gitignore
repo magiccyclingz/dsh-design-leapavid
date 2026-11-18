@@ -11,3 +11,4 @@ build/demo
 
 # 试跑产物（本机演示用，不入库）
 build/test-deck
+build/test-web
