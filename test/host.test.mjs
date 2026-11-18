@@ -99,6 +99,7 @@ test('structure presets follow the surface family', async () => {
     return JSON.parse(res.body).prompt
   }
   assert.ok((await prompt('slides', 'pitch')).includes('## 页面结构'), 'slides + deck preset keeps its outline')
+  assert.ok((await prompt('slides', 'product')).includes('行动号召'), 'product deck carries its own outline')
   assert.ok((await prompt('web', 'pricing')).includes('## 页面结构'), 'web + page preset keeps its outline')
   assert.equal((await prompt('slides', 'pricing')).includes('## 页面结构'), false, 'web preset is dropped on slides')
   assert.equal((await prompt('web', 'deck')).includes('## 页面结构'), false, 'deck preset is dropped on web')

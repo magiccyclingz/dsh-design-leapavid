@@ -135,8 +135,13 @@ window.__ModuleLoader__.load({
         structureDeck: '标准 deck',
         structurePitch: '提案 deck',
         structureReport: '汇报 deck',
+        structureProduct: '产品 deck',
+        deckNoteDeck: '标准 deck：封面 / 主张 / 目录 / 数据 / 速览 —— 最通用的一套，适合对外做品牌与方案介绍。',
+        deckNotePitch: '提案 deck：封面 / 问题 / 方案 / 证据 / 下一步 —— 给客户或投资人讲清「为什么是你」。',
+        deckNoteReport: '汇报 deck：封面 / 结论先行 / 过程 / 数据 / 计划 —— 周报、月报、项目复盘用它。',
+        deckNoteProduct: '产品 deck：封面 / 现状 / 产品能力 / 实测与口碑 / 价格与行动 —— 发布会、上线宣讲用它。',
         formNoteWeb: '将生成单文件 index.html：CSS/JS 内联、无外链资源，内置亮/暗两套 token，可直接双击打开。',
-        formNoteSlides: '将生成单文件 deck.html：16:9 满屏分页、5 页一套（封面 / 主张 / 目录 / 数据 / 速览），← → 或 PageUp/PageDown 翻页，右下页码。',
+        formNoteSlides: '将生成单文件 deck.html：16:9 满屏分页，按上方所选结构逐页生成（每套 5 页），← → 或 PageUp/PageDown 翻页，右下角页码。',
         requirementPlaceholderSlides: '例如：给一款 AI 笔记产品做 5 页发布 deck，面向开发者，强调速度与离线可用。',
         similar: '相近的风格',
         lastDelivered: '上次生成过 · {when}',
@@ -233,8 +238,13 @@ window.__ModuleLoader__.load({
         structureDeck: 'Standard deck',
         structurePitch: 'Pitch deck',
         structureReport: 'Review deck',
+        structureProduct: 'Product deck',
+        deckNoteDeck: 'Standard deck: cover / thesis / contents / numbers / in brief — the general-purpose set for brand and solution intros.',
+        deckNotePitch: 'Pitch deck: cover / problem / solution / proof / next step — for clients and investors, answering "why you".',
+        deckNoteReport: 'Review deck: cover / conclusion first / process / numbers / plan — for weekly, monthly and post-mortem reviews.',
+        deckNoteProduct: 'Product deck: cover / today / capabilities / proof / price and CTA — for launch events and release walkthroughs.',
         formNoteWeb: 'Produces a single index.html: inline CSS/JS, no external assets, light and dark token sets, opens by double-click.',
-        formNoteSlides: 'Produces a single deck.html: 16:9 full-bleed slides, five per deck (cover / thesis / contents / numbers / in brief), ← → to page, page number bottom-right.',
+        formNoteSlides: 'Produces a single deck.html: 16:9 full-bleed slides, one page per line of the selected structure (five per deck), ← → to page, page number bottom-right.',
         requirementPlaceholderSlides: 'e.g. a five-slide launch deck for an AI notes app, aimed at developers, emphasising speed and offline use.',
         similar: 'Similar styles',
         lastDelivered: 'Generated before · {when}',
@@ -1256,15 +1266,24 @@ window.__ModuleLoader__.load({
               h('div', { className: 'dm-label' }, t('structure')),
               h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
                 ...((form.output || surface) === 'slides'
-                  ? ['auto', 'deck', 'pitch', 'report']
-                  : ['auto', 'landing', 'pricing', 'dashboard', 'blog']).map((key) => h('button', {
-                  key,
-                  type: 'button',
-                  className: `dm-seg-btn${form.structure === key ? ' is-on' : ''}`,
-                  'aria-pressed': form.structure === key,
-                  onClick: () => setForm((prev) => ({ ...prev, structure: key })),
-                }, t(`structure${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+                  ? ['auto', 'deck', 'pitch', 'report', 'product']
+                  : ['auto', 'landing', 'pricing', 'dashboard', 'blog']).map((key) => {
+                  const label = t(`structure${key.charAt(0).toUpperCase()}${key.slice(1)}`)
+                  return h('button', {
+                    key,
+                    type: 'button',
+                    className: `dm-seg-btn${form.structure === key ? ' is-on' : ''}`,
+                    'aria-pressed': form.structure === key,
+                    title: (form.output || surface) === 'slides' && key !== 'auto'
+                      ? t(`deckNote${key.charAt(0).toUpperCase()}${key.slice(1)}`)
+                      : label,
+                    onClick: () => setForm((prev) => ({ ...prev, structure: key })),
+                  }, label)
+                }),
               ),
+              (form.output || surface) === 'slides' && form.structure !== 'auto'
+                ? h('p', { className: 'dm-structure-note' }, t(`deckNote${form.structure.charAt(0).toUpperCase()}${form.structure.slice(1)}`))
+                : null,
               h('div', { className: 'dm-label' }, t('requirement')),
               h('textarea', {
                 className: 'dm-textarea',
@@ -1966,6 +1985,7 @@ window.__ModuleLoader__.load({
 .dm-swatch-name{font-size:12.5px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dm-swatch-hex{font-size:11px;color:var(--ink-3);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .dm-form-note{margin:10px 0 0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+.dm-structure-note{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:#f6f6f6;font-size:12px;line-height:1.7;color:var(--ink-2)}
 .dm-spec{display:flex;flex-direction:column;margin-bottom:6px}
 .dm-spec-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line-2);font-size:12.5px}
 .dm-spec-label{color:var(--ink-3)}

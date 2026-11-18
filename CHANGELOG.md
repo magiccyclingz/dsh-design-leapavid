@@ -2,6 +2,15 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.11.0] - 2026-11-18
+
+### 新增（deck 预设说明 + 产品 deck）
+
+- 新增「产品 deck」预设：封面 / 现状 / 产品能力 / 实测与口碑 / 价格与行动，面向发布会与上线宣讲（`STRUCTURES.product`，`surface:'slides'`）。
+- 四个 deck 预设都能看到自己的说明：选中后 chips 下方出现一条说明条，写明五页结构与该套适合什么场合；鼠标悬停 chip 也有同一段说明的 tooltip。
+- 幻灯片结构 chips 变为 不限 / 标准 deck / 提案 deck / 汇报 deck / 产品 deck；网页侧仍是 不限 / 落地页 / 定价页 / 控制台 / 博客。
+- host 测试矩阵补 product 用例（提示词须含「行动号召」），共 23 例。
+
 ## [1.10.1] - 2026-11-18
 
 ### 修复
