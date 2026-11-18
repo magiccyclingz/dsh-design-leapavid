@@ -1,4 +1,11 @@
 
+## 1.33.5
+
+- 上架条目按 dsh-m 的 registry 文案规范重写：来源改 `github`（精选清单已有 github 源条目，dsh-m 锁 tag 的 commit 安装，因此**不必先发 npm**）；description 压到 40 全角当量（上限 60）；tags 收敛为 4 个功能词；三方条目不留 `verified`；去掉依赖 npm 的 jsDelivr 图标；`alsoCategories` 里非法的 `claude-picks` 换掉。
+- 新增 `docs/market-entry.npm.json`（npm 发布后的备用变体）与 `docs/hub-registry.json`（可直接 `file://` 挂进 dsh-m 设置做本地预演）。
+- `docs/RELEASE.md` 第 8 节重写：写明唯一硬阻塞是仓库仍为 private，给出「仓库转 public + 打 release + 提 PR」三步命令，并把 npm 路线降为备选。
+
+
 ## 1.33.4
 
 - 文档整体重写：`README.md` 补齐信息图（4 版式 × 5 比例 × 2 密度、6 种图表、几何全部由品牌 token 驱动）、三种载体产物表、右栏五个规范切换按钮、缩略图懒加载、分类计数与「上次生成过」徽标、海报暂时下线的说明，并新增信息图列表页与内容页两张截图。

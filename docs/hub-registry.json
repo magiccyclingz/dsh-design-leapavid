@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "id": "dsh-design-md",
+      "name": "设计风格库 (Design MD)",
+      "description": "品牌设计语言库：84 套 token 现场渲染，选一套写清需求即生成网页、幻灯片与信息图。",
+      "category": "self-dev",
+      "tags": [
+        "品牌",
+        "提示词",
+        "幻灯片",
+        "信息图"
+      ],
+      "source": "github",
+      "github": "magiccyclingz/dsh-design-md",
+      "homepage": "https://github.com/magiccyclingz/dsh-design-md",
+      "screenshots": [
+        "docs/screenshots/info-list.jpg",
+        "docs/screenshots/detail.jpg",
+        "docs/screenshots/deck-1.jpg"
+      ]
+    }
+  ]
+}

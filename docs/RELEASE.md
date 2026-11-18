@@ -115,28 +115,34 @@ npm publish --access public         # MANUAL
 - 需要账号或凭据（MANUAL）：npm 发布、git 推送与 tag、精选清单 PR、任何 Token/2FA。
 - 未知：社区目录的抓取频率与收录延迟、精选审核时限；这些只能由维护者账号在发布后观察。
 
-## 8. 上架条目（已按 1.33.3 更新）
+## 8. 上架条目（按 dsh-m 文案规范重写）
 
-`docs/market-entry.json` 是按 dsh-m `registry.json` 条目结构写的上架草稿，字段与现有精选条目一致（`id` / `name` / `description` / `category` / `alsoCategories` / `tags` / `verified` / `source` / `npm` / `github` / `icon` / `homepage`）。2026-11-18 状态：
+`docs/market-entry.json` 是提交给精选清单 `iasiv5/dsh-m` 的 `registry.json` 用的条目；`docs/market-entry.npm.json` 是同一份内容的 npm 变体（等 npm 发布后换用）；`docs/hub-registry.json` 是按清单格式包好的本地预演文件（`{ "version": 1, "plugins": [ … ] }`）。
 
-- `github` / `homepage` 已替换为真实仓库 `magiccyclingz/dsh-design-md`；
-- `description` 已补信息图与三种载体、懒加载与导出口径；
-- `tags` 增加「信息图」；
-- `verified` 仍为 `["0.2.2-rc.3"]`（当前 DSH 桌面版基线，追加新版本前需在该版本实测）。
+2026-11-18 按上游 [registry-copy-guide](https://github.com/iasiv5/dsh-m/blob/main/docs/registry-copy-guide.md) 校正后的关键决定：
 
-合法的 `category` 取值（取自现存清单）：`essentials` / `cui-picks` / `baoyu` / `guizang` / `self-dev` / `tencent-lighthouse` / `watchlist`。
+- **来源改 `github`**：精选清单里已有 `source: "github"` 的条目（如 `qiaomu-rss-dsh`），dsh-m 会锁定 release / tag 的 commit SHA 安装——**不必先发 npm**。代价是仓库必须公开（当前 `magiccyclingz/dsh-design-md` 仍是 **private**，这是上架唯一硬阻塞）。
+- **description 40 全角当量**（上限 60，卡片只显示两行）：`品牌设计语言库：84 套 token 现场渲染，选一套写清需求即生成网页、幻灯片与信息图。`
+- **tags 4 个**，只放功能词、不带「需/推荐」前缀：品牌 / 提示词 / 幻灯片 / 信息图。
+- **`verified` 留空**：三方条目默认不填（带来逐宿主版本复测义务）；实测记录写进 PR 描述即可。
+- **去掉 `icon`**：jsDelivr 图标地址依赖 npm 已发布，未发布时是死链；缺省时 dsh-m 回退 GitHub 头像。
+- **`alsoCategories` 去掉**：原先写的 `claude-picks` 不是合法桶名（合法值为 `essentials` / `cui-picks` / `baoyu` / `guizang` / `self-dev` / `tencent-lighthouse` / `watchlist`），主桶 `self-dev` 已够。
+- **`screenshots` 用仓库相对路径**（github 源条目支持）：`docs/screenshots/info-list.jpg`、`detail.jpg`、`deck-1.jpg`。
 
-两个去向与当前卡点：
+上架路径（按成本排序）：
 
-1. **精选区** `iasiv5/dsh-m` 的 `registry.json`（PR，MANUAL）——2026-11-18 核对：该清单里**尚无** `dsh-design-md`，需要提交 PR 把 `docs/market-entry.json` 的内容追加进 `plugins` 数组。因为精选条目按 `npm` 包名安装，**必须先完成第 5 步 npm 发布**，否则装上会 404。
-2. **社区目录**（自动抓取 npm，无需 PR）——同样依赖第 5 步；抓取频率未知，无法在本地验证。
+1. **仓库转 public + 精选 PR（推荐，零 npm 依赖）**：
+   ```bash
+   gh repo edit magiccyclingz/dsh-design-md --visibility public --accept-visibility-change-consequences   # MANUAL
+   # 打一个 release（dsh-m 跟踪 tag/release，而不是 main 的最新提交）
+   gh release create v1.33.5 --title "v1.33.5" --notes "见 CHANGELOG"                                    # MANUAL
+   # 到 iasiv5/dsh-m 提 PR：把 docs/market-entry.json 追加进 registry.json 的 plugins 数组                # MANUAL
+   ```
+2. **npm 发布后再走 npm 源**（需要 `npm login`，本机当前 `need auth`）：
+   ```bash
+   npm login && npm publish --access public      # MANUAL
+   ```
+   然后把条目换成 `docs/market-entry.npm.json` 的内容。
+3. **社区目录**：自动抓 npm，只有第 2 步完成后才会出现，抓取频率未知。
 
-一步到位的命令（需要 npm 凭据）：
-
-```bash
-npm login                                   # MANUAL：账号 + 2FA
-npm publish --access public                 # 之后精选区 PR 才有意义
-git remote -v                               # 应指向 magiccyclingz/dsh-design-md
-```
-
-本地预演（无需账号）：在 dsh-m 设置里把清单换成自建的 `registry.json`（`file://` 或本机绝对路径），内容即 `docs/market-entry.json` 包一层 `{ "version": 1, "plugins": [ ... ] }`。注意这种预演仍会按 `npm` 包名去装，未发布时只能验证「卡片出现」这一步。
+本地预演（无需账号，验证清单能解析、卡片能渲染）：把 dsh-m 设置里的精选清单地址改成 `file:///Users/openclaw/Projects/dsh-design-md/docs/hub-registry.json`（或本机绝对路径）。注意预演只验证清单与卡片；安装仍要等仓库公开或 npm 发布。
