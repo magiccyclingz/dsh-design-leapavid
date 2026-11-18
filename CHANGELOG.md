@@ -1,4 +1,11 @@
 
+## 1.35.0
+
+- **安装标识整体迁移**：npm 包名、cordis 插件 id、profile 条目（`include:dsh-design-leapavid`）、GitHub 仓库与文档链接全部从 `dsh-design-md` 改为 `dsh-design-leapavid`，与展示名 `DSH-Design-LeapAvid` 对齐。
+- 本地数据向后兼容：收藏 / 最近使用 / 上次生成仍写在 `localStorage`，新键为 `dsh-design-leapavid:v1`，读不到时自动回落到旧键 `dsh-design-md:v1`，升级后收藏不会丢。
+- 已装实例需要一次重装（`plugin_manager remove_bundle` → `install_bundle target=<本仓库路径>`），此后重载目标为 `include:dsh-design-leapavid`。
+
+
 ## 1.34.1
 
 - 信息图内容页的预览改为**自适应宽度**：取消原先按画布比例（1:1 700px / 4:3 800px / 3:4 580px / 16:9 880px / 9:16 430px）的限宽，与网页、幻灯片一致吃满左栏宽度（实测四栏 16:9：895×524，容器 `max-width: none`）。

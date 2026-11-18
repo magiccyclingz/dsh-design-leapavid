@@ -1,5 +1,5 @@
 /**
- * dsh-design-md — Host half.
+ * dsh-design-leapavid — Host half.
  *
  * Serves the 84-style catalog collected from getdesign.md (built by
  * build/build-data.mjs) to the Client panel, composes the "style brief" prompt
@@ -17,7 +17,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url))
 const DATA = path.join(HERE, 'data')
 const ROUTE = '/api/design-md'
 
-export const name = 'dsh-design-md'
+export const name = 'dsh-design-leapavid'
 export const inject = ['webServer', 'tools']
 
 /** UTF-8 text response. */
@@ -738,7 +738,7 @@ export function apply(ctx) {
         const detail = error instanceof Error ? error.message : String(error)
         const missing = Boolean(error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT')
         const status = error instanceof HttpError ? error.status : missing ? 404 : 500
-        ctx.logger?.warn?.(`[dsh-design-md] route failed (${status}): ${detail}`)
+        ctx.logger?.warn?.(`[dsh-design-leapavid] route failed (${status}): ${detail}`)
         if (res.headersSent) {
           if (!res.writableEnded) res.end()
           return
@@ -747,7 +747,7 @@ export function apply(ctx) {
         sendJson(res, status, { error: missing ? 'style data not found' : detail })
       }
     },
-  }), 'dsh-design-md: /api/design-md')
+  }), 'dsh-design-leapavid: /api/design-md')
 
-  ctx.effect(() => ctx.tools.register(makeTool(ctx, loadStyle)), 'dsh-design-md: design_md tool')
+  ctx.effect(() => ctx.tools.register(makeTool(ctx, loadStyle)), 'dsh-design-leapavid: design_md tool')
 }

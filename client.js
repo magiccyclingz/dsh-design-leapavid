@@ -1,12 +1,12 @@
 /**
- * dsh-design-md — Client half.
+ * dsh-design-leapavid — Client half.
  *
  * One sidebar row (the panel icon) + one main panel: the style library.
  * Every preview is rendered live from that style's own DESIGN.md tokens —
  * no iframes, no screenshots — so all 84 styles stay comparable at any width.
  */
 window.__ModuleLoader__.load({
-  id: 'dsh-design-md',
+  id: 'dsh-design-leapavid',
   factory: (require) => {
     const React = require('react')
     const h = React.createElement
@@ -22,10 +22,13 @@ window.__ModuleLoader__.load({
 
     /* -------------------------------------------------- local persistence */
 
-    const STORE_KEY = 'dsh-design-md:v1'
+    const STORE_KEY = 'dsh-design-leapavid:v1'
+    // 旧包名时期的本地数据（收藏 / 最近使用 / 上次生成）
+    const LEGACY_STORE_KEY = 'dsh-design-md:v1'
     function readStore() {
       try {
-        const raw = typeof localStorage !== 'undefined' && localStorage.getItem(STORE_KEY)
+        const raw = typeof localStorage !== 'undefined'
+          && (localStorage.getItem(STORE_KEY) || localStorage.getItem(LEGACY_STORE_KEY))
         const parsed = raw ? JSON.parse(raw) : null
         return parsed && typeof parsed === 'object' ? parsed : {}
       } catch {
@@ -2802,6 +2805,6 @@ window.__ModuleLoader__.load({
       }, () => h(Panel)))
     }
 
-    return { name: 'dsh-design-md', inject: ['slots', 'locale', 'layout'], apply }
+    return { name: 'dsh-design-leapavid', inject: ['slots', 'locale', 'layout'], apply }
   },
 })

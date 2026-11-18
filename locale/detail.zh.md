@@ -15,7 +15,7 @@
 
 ## 收藏与最近
 
-卡片右上角与详情标题旁都能收藏（☆/★），收藏与最近使用存在浏览器本地（`localStorage`，键 `dsh-design-md:v1`），列表 chips 会多出「★ 收藏 N」「最近 N」两个视图。
+卡片右上角与详情标题旁都能收藏（☆/★），收藏与最近使用存在浏览器本地（`localStorage`，键 `dsh-design-leapavid:v1`（旧键 `dsh-design-md:v1` 会自动兼容读取）），列表 chips 会多出「★ 收藏 N」「最近 N」两个视图。
 
 ## 数据来源
 

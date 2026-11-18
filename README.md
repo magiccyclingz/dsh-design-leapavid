@@ -1,6 +1,6 @@
 # DSH-Design-LeapAvid · LeapAvid 设计风格库
 
-> 插件名 `DSH-Design-LeapAvid`，中文名「LeapAvid 设计风格库」；安装标识（npm 包名与 cordis 条目 id）仍为 `dsh-design-md`，以保持已装实例、收藏与最近使用记录不变。
+> 插件名 `DSH-Design-LeapAvid`，中文名「LeapAvid 设计风格库」；安装标识为 npm 包名 / cordis 条目 id `dsh-design-leapavid`（1.35.0 起从旧标识 `dsh-design-md` 整体迁移，浏览器里旧的收藏与最近使用记录会自动兼容读取）。
 
 84 套品牌设计语言，在 DSH 左侧栏以「设计风格库」面板浏览。挑一套最接近的，写清楚要做什么，就把这套风格的完整 token 与交付规范送进当前会话，由 DSH 生成**网页、幻灯片或信息图**。
 
@@ -62,8 +62,8 @@ plugin_manager action=install_bundle target=<本目录绝对路径>
 安装后左侧栏出现「设计风格库」。改动 `client.js` 只需刷新页面；改动 `index.js` 需要重新加载插件条目：
 
 ```text
-plugin_manager action=set_plugin target=include:dsh-design-md enabled=false
-plugin_manager action=set_plugin target=include:dsh-design-md enabled=true
+plugin_manager action=set_plugin target=include:dsh-design-leapavid enabled=false
+plugin_manager action=set_plugin target=include:dsh-design-leapavid enabled=true
 ```
 
 ## 数据管线

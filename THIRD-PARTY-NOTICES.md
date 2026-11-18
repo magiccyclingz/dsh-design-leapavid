@@ -1,6 +1,6 @@
 # 第三方声明与许可
 
-本仓库（`dsh-design-md`）自身以 MIT 许可发布，见 [LICENSE](./LICENSE)。
+本仓库（`dsh-design-leapavid`）自身以 MIT 许可发布，见 [LICENSE](./LICENSE)。
 
 ## 1. VoltAgent/awesome-design-md（MIT）
 

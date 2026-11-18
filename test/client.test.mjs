@@ -9,7 +9,7 @@ const src = await readFile(path.join(HERE, 'client.js'), 'utf8')
 
 test('client module keeps the loader contract', () => {
   assert.ok(src.includes("window.__ModuleLoader__.load("))
-  assert.ok(src.includes("id: 'dsh-design-md'"))
+  assert.ok(src.includes("id: 'dsh-design-leapavid'"))
   assert.match(src, /inject:\s*\[[^\]]*'slots'/)
   assert.match(src, /inject:\s*\[[^\]]*'locale'/)
   assert.match(src, /inject:\s*\[[^\]]*'layout'/)
