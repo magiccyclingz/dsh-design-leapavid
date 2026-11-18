@@ -8,3 +8,6 @@ node_modules/
 # 构建期截图与演示产物（仅本机开发用，不随包分发）
 build/shots
 build/demo
+
+# 试跑产物（本机演示用，不入库）
+build/test-deck
