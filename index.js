@@ -136,7 +136,7 @@ const SURFACES = {
   },
   slides: {
     label: '演示幻灯片',
-    deliverable: '- 单文件 `deck.html`（内联 CSS/JS，无外部资源），16:9 满屏分页，写入当前工作目录。\n- 画布按 1600×900 设计、整体等比缩放适配窗口；正文不小于 16px、注释不小于 12px，保证投影可读。\n- 键盘 ←/→ 或 PageUp/PageDown 翻页，右下角显示页码，每页一整屏、不出现滚动条。\n- 每页至多 3 个信息块，内容在页内垂直居中，避免内容堆在顶部、下半页整块留白。\n- 恰含 1 页封面、1 页目录、正文若干页、1 页封底；标题层级、正文、要点列表都使用 token 中的字号与字重。',
+    deliverable: '- 单文件 `deck.html`（内联 CSS/JS，无外部资源），16:9 满屏分页，写入当前工作目录。\n- 画布按 1600×900 设计、整体等比缩放适配窗口；正文不小于 16px、注释不小于 12px，保证投影可读。\n- 同一份文件内置亮色与深色两套主题变量（`:root` 与 `:root[data-theme="dark"]`），默认跟随 `prefers-color-scheme`，右上角提供手动切换按钮。\n- 键盘 ←/→ 或 PageUp/PageDown 翻页，右下角显示页码，每页一整屏、不出现滚动条。\n- 每页至多 3 个信息块，内容在页内垂直居中，避免内容堆在顶部、下半页整块留白。\n- 恰含 1 页封面、1 页目录、正文若干页、1 页封底；标题层级、正文、要点列表都使用 token 中的字号与字重。',
   },
   poster: {
     label: '海报（竖版 3:4）',
@@ -160,6 +160,30 @@ function tokenBlock(style) {
   const mainColors = style.colors.filter((c) => c.hex).slice(0, 8).map((c) => `\`${c.hex}\` ${c.name}`).join('、')
   if (mainColors) lines.push(`- 完整色板（前 8 个）：${mainColors}`)
   return lines.join('\n')
+}
+
+const DENSITIES = {
+  airy: {
+    label: '宽松',
+    blocks: 2,
+    scale: '展示标题 88–96px / 小标题 40–44px / 正文 18–19px / 注释 13px',
+    rhythm: '段落间距 40–56px，页边距 96–112px；一页只讲一件事，留白占三成以上',
+    hint: '发布会、路演大屏：一页一个主张，字大、留白多',
+  },
+  standard: {
+    label: '标准',
+    blocks: 3,
+    scale: '展示标题 72–80px / 小标题 34–38px / 正文 16–17px / 注释 12px',
+    rhythm: '段落间距 28–40px，页边距 80–96px；一页最多三个信息块，内容垂直居中',
+    hint: '通用对外 deck：信息量与留白平衡',
+  },
+  dense: {
+    label: '信息密集',
+    blocks: 4,
+    scale: '展示标题 56–64px / 小标题 28–32px / 正文 15–16px / 注释 12px',
+    rhythm: '段落间距 18–24px，页边距 64–72px；允许四个信息块，但每块仍需一句话标题',
+    hint: '内部汇报、评审会：信息密度优先，字号仍保证投影可读',
+  },
 }
 
 const STRUCTURES = {
@@ -257,6 +281,7 @@ function buildPrompt(style, brief, options) {
   const surfaceFamily = options.surface === 'slides' || options.surface === 'poster' ? 'slides' : 'web'
   const picked = STRUCTURES[options.structure] || STRUCTURES.auto
   const structure = picked.surface && picked.surface !== surfaceFamily ? STRUCTURES.auto : picked
+  const density = DENSITIES[options.density] || DENSITIES.standard
   const requirement = String(options.requirement || '').trim()
   const parts = [
     `请用「${style.nameZh} · ${style.displayName}」这套设计语言，完成下面这件设计工作。`,
@@ -276,6 +301,15 @@ function buildPrompt(style, brief, options) {
       ? ['## 页面结构（按此顺序排布）', ...structure.outline.map((line, i) => `${i + 1}. ${line}`)].join('\n')
       : '',
     structure.outline.length ? '' : null,
+    surfaceFamily === 'slides'
+      ? [
+        `## 版式密度（${density.label}）`,
+        `- 字号：${density.scale}`,
+        `- 节奏：${density.rhythm}`,
+        `- 每页信息块上限：${density.blocks} 个`,
+      ].join('\n')
+      : '',
+    surfaceFamily === 'slides' ? '' : null,
     `## 交付要求（${surface.label}）`,
     structure.outline.length && surfaceFamily === 'slides'
       ? surface.deliverable.replace(
@@ -539,6 +573,7 @@ export function apply(ctx) {
           if (!style) return sendJson(res, 404, { error: 'unknown style' })
           const surfaceKey = typeof body.surface === 'string' && Object.hasOwn(SURFACES, body.surface) ? body.surface : 'web'
           const structureKey = typeof body.structure === 'string' && Object.hasOwn(STRUCTURES, body.structure) ? body.structure : 'auto'
+          const densityKey = typeof body.density === 'string' && Object.hasOwn(DENSITIES, body.density) ? body.density : 'standard'
           const previous = typeof body.previous === 'string' ? body.previous.slice(0, 400) : ''
           const withDesign = body.includeDesign === true
           const brief = await loadStyle(style.slug, 'brief')
@@ -547,6 +582,7 @@ export function apply(ctx) {
           const prompt = buildPrompt(style, brief, {
             surface: surfaceKey,
             structure: structureKey,
+            density: densityKey,
             previous,
             requirement,
             includeDesign: withDesign,
@@ -556,6 +592,7 @@ export function apply(ctx) {
             prompt,
             chars: [...prompt].length,
             structure: structureKey,
+            density: densityKey,
             style: { slug: style.slug, displayName: style.displayName, nameZh: style.nameZh },
           })
         }

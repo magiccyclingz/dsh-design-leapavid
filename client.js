@@ -127,6 +127,13 @@ window.__ModuleLoader__.load({
         exportTailwind: '复制 Tailwind 配置',
         exported: '已复制 {label}',
         structure: '用途',
+        density: '密度',
+        densityAiry: '宽松',
+        densityStandard: '标准',
+        densityDense: '信息密集',
+        densityHintAiry: '一页一个主张，标题 88–96px、正文 18px，留白三成以上：发布会、路演大屏。',
+        densityHintStandard: '标题 72–80px、正文 16px，每页最多三个信息块：通用对外 deck。',
+        densityHintDense: '标题 56–64px、正文 15px，允许四个信息块：内部汇报、评审会。',
         structureAuto: '不限',
         structureLanding: '落地页',
         structurePricing: '定价页',
@@ -234,6 +241,13 @@ window.__ModuleLoader__.load({
         exportTailwind: 'Copy Tailwind config',
         exported: 'Copied {label}',
         structure: 'Purpose',
+        density: 'Density',
+        densityAiry: 'Airy',
+        densityStandard: 'Standard',
+        densityDense: 'Dense',
+        densityHintAiry: 'One idea per slide, 88–96px display and 18px body, 30%+ white space: launches and big rooms.',
+        densityHintStandard: '72–80px display, 16px body, up to three blocks per slide: general external decks.',
+        densityHintDense: '56–64px display, 15px body, up to four blocks: internal reviews and steering meetings.',
         structureAuto: 'Any',
         structureLanding: 'Landing',
         structurePricing: 'Pricing',
@@ -1095,7 +1109,7 @@ window.__ModuleLoader__.load({
     function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto' })
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard' })
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
@@ -1129,6 +1143,7 @@ window.__ModuleLoader__.load({
             slug: style.slug,
             surface: hostKey(form.output || surface, mode),
             structure: form.structure,
+            density: form.density,
             requirement: form.requirement,
             includeDesign: form.includeDesign,
           }),
@@ -1291,6 +1306,26 @@ window.__ModuleLoader__.load({
               ),
               (form.output || surface) === 'slides' && form.structure !== 'auto'
                 ? h('p', { className: 'dm-structure-note' }, t(`deckNote${form.structure.charAt(0).toUpperCase()}${form.structure.slice(1)}`))
+                : null,
+              (form.output || surface) === 'slides'
+                ? [
+                  h('div', { className: 'dm-label', key: 'density-label' }, t('density')),
+                  h('div', { className: 'dm-seg dm-seg-form dm-seg-density', key: 'density-seg' },
+                    ...['airy', 'standard', 'dense'].map((key) => {
+                      const name = t(`density${key.charAt(0).toUpperCase()}${key.slice(1)}`)
+                      return h('button', {
+                        key,
+                        type: 'button',
+                        className: `dm-seg-btn${form.density === key ? ' is-on' : ''}`,
+                        'aria-pressed': form.density === key,
+                        title: t(`densityHint${key.charAt(0).toUpperCase()}${key.slice(1)}`),
+                        onClick: () => setForm((prev) => ({ ...prev, density: key })),
+                      }, name)
+                    }),
+                  ),
+                  h('p', { className: 'dm-form-note', key: 'density-note' },
+                    t(`densityHint${form.density.charAt(0).toUpperCase()}${form.density.slice(1)}`)),
+                ]
                 : null,
               h('div', { className: 'dm-label' }, t('requirement')),
               h('textarea', {
