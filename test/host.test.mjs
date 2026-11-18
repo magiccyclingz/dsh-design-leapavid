@@ -109,7 +109,7 @@ test('structure presets follow the surface family', async () => {
   assert.ok(denseBody.prompt.includes('版式密度（信息密集）'), 'density block is emitted')
   assert.ok(denseBody.prompt.includes('每页信息块上限：4 个'), 'dense budget')
   assert.ok(denseBody.prompt.includes('data-theme'), 'deck asks for a theme switch')
-  assert.ok((await prompt('slides', 'deck')).includes('满幅强调色横带'), 'cover uses the full-bleed accent band')
+  assert.ok((await prompt('slides', 'deck')).includes('底部超大品牌名贴左'), 'cover uses the flush-left oversized wordmark')
   assert.ok(denseBody.prompt.includes('打印 / 导出 PDF'), 'deck asks for a print / export PDF button')
   assert.ok(denseBody.prompt.includes('@page{size:1600px 900px'), 'deck asks for 16:9 print pages')
   const badDensity = await call(route, 'POST', '/api/design-md/prompt', JSON.stringify({ slug: 'stripe', surface: 'slides', density: 'huge' }))

@@ -620,7 +620,7 @@ window.__ModuleLoader__.load({
 
     /* -------------------------------------------------- art: slide + poster */
 
-    function slidesHtml(style, mode) {
+    function slidesHtml(style, mode, clip) {
       const th = themeOf(style, mode)
       const v = style.visual
       const d = deckOf(style)
@@ -669,44 +669,37 @@ window.__ModuleLoader__.load({
           background:${opts.bg || th.bg};color:${opts.ink || th.ink};font-family:${body};
           border:1px solid ${alpha(opts.ink || th.ink, 0.14)};border-radius:${US(10)}">
           ${inner}
-          <div style="position:absolute;left:${US(18)};bottom:${US(10)};right:${US(18)};display:flex;
+          ${opts.foot === false ? '' : `<div style="position:absolute;left:${US(18)};bottom:${US(10)};right:${US(18)};display:flex;
             justify-content:space-between;font-size:${US(7.5)};line-height:1.4;font-family:${mono};
             letter-spacing:.1em;text-transform:uppercase;color:${alpha(opts.ink || th.ink, 0.5)}">
             <span>${esc(d.brand)} · design system</span>
             <span>${String(index).padStart(2, '0')} / 05 · ${esc(name)}</span>
-          </div>
+          </div>`}
         </div>`
 
-      /* 01 — cover: brand canvas, one full-bleed accent band carrying the title */
+      /* 01 — cover: brand canvas, flush-left oversized wordmark at the bottom */
       const coverBg = th.bg
       const coverInk = th.ink
       const coverTitle = String(d.brand || '')
-      const coverUses = (d.useCases || []).slice(0, 3).join(' / ')
-      const coverBody = [[d.positioning, d.tagline].filter(Boolean).join('；') || d.kicker, coverUses && `适用：${coverUses}`]
-        .filter(Boolean).join('\n')
+      const wmLen = Math.max(coverTitle.length, 5)
+      const wmSize = clamp(Math.round(1280 / (wmLen * 0.6)), 96, 300)
+      const coverKicker = d.kicker && d.kicker.length <= 24 ? d.kicker : '品牌设计语言'
       const cover = `
-        <div style="position:absolute;inset:0;background:${coverBg};color:${coverInk};display:flex;flex-direction:column">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;padding:${US(20)} ${US(26)} 0;gap:${US(20)}">
+        <div style="position:absolute;inset:0;background:${coverBg};color:${coverInk};display:flex;flex-direction:column;
+          padding:${US(22)} ${US(26)} ${US(8)}">
+          <div style="display:flex;align-items:baseline;gap:${US(16)}">
             <span style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(12)};
-              letter-spacing:${US(-0.2)};text-transform:uppercase">${esc(d.brand)}</span>
-            <span style="display:flex;align-items:baseline;gap:${US(38)}">
-              ${caps(style.category || 'design system', `color:${alpha(coverInk, 0.62)}`)}
-              ${caps('presentation', `color:${alpha(coverInk, 0.62)}`)}
-              ${caps('2026', `color:${alpha(coverInk, 0.8)}`)}
-            </span>
+              letter-spacing:${US(-0.2)}">${esc(coverTitle)}</span>
+            ${caps('设计语言样本 2026', `color:${alpha(coverInk, 0.6)}`)}
           </div>
           <div style="flex:1"></div>
-          <div style="background:${th.accent};color:${accentInk};padding:${US(34)} ${US(26)} ${US(30)}">
-            <div style="font-family:${display};font-weight:${v.displayWeight || 600};
-              font-size:${US(clamp((v.displaySize || 56) * 1.95, 104, 170))};line-height:.92;
-              letter-spacing:${US(-1.1)}">${esc(coverTitle)}</div>
-            <div style="margin-top:${US(10)};font-family:${display};font-weight:${v.displayWeight || 600};
-              font-size:${US(16)};letter-spacing:.02em;color:${alpha(accentInk, 0.92)}">
-              ${esc(d.brand)} Presentation</div>
-            <div style="margin-top:${US(9)};font-size:${US(11)};line-height:1.8;white-space:pre-line;max-width:${US(620)};
-              color:${alpha(accentInk, 0.82)}">${esc(coverBody)}</div>
+          <div style="margin-bottom:${US(6)}">
+            <div style="font-size:${US(11)};line-height:1.5;color:${coverInk}">${esc(coverKicker)}</div>
+            <div style="font-size:${US(11)};line-height:1.5;color:${th.accent}">2026</div>
           </div>
-          <div style="flex:.62"></div>
+          <div style="font-family:${display};font-weight:${v.displayWeight || 600};
+            font-size:${US(wmSize)};line-height:1;margin-bottom:${US(-wmSize * 0.12)};letter-spacing:${US(-wmSize * 0.045)};
+            white-space:nowrap;margin-left:${US(-3)};color:${coverInk}">${esc(coverTitle)}</div>
         </div>`
 
       /* 02 — statement + stacked panels (vision / values) */
@@ -843,13 +836,17 @@ window.__ModuleLoader__.load({
           </div>
         </div>`
 
+      const deckPages = [
+        pageShell(1, 'cover', cover, { foot: false }),
+        pageShell(2, 'statement', statement),
+        pageShell(3, 'contents', contents),
+        pageShell(4, 'numbers', kpiPage, { bg: th.ink, ink: th.bg }),
+        pageShell(5, 'in brief', brief),
+      ]
+      if (clip) return deckPages[0]
       return `
         <div style="display:flex;flex-direction:column;gap:${US(16)}">
-          ${pageShell(1, 'cover', cover)}
-          ${pageShell(2, 'statement', statement)}
-          ${pageShell(3, 'contents', contents)}
-          ${pageShell(4, 'numbers', kpiPage, { bg: th.ink, ink: th.bg })}
-          ${pageShell(5, 'in brief', brief)}
+          ${deckPages.join('')}
         </div>`
     }
 
