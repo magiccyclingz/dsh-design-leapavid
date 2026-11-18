@@ -76,7 +76,7 @@ window.__ModuleLoader__.load({
     const STRINGS = {
       zh: {
         title: '设计风格库',
-        subtitle: '84 套品牌设计风格，挑一套最接近的，写清楚你要做什么，就能快速做出自己的设计作品。',
+        subtitle: '84 套真实品牌的设计语言，选一套当起点，说清需求，直接出你的网页、幻灯片与信息图。',
         search: '搜索品牌、风格关键词、适用场景…',
         all: '全部',
         empty: '没有匹配的风格',
@@ -226,7 +226,7 @@ window.__ModuleLoader__.load({
       },
       en: {
         title: 'Design library',
-        subtitle: '84 brand design languages. Pick the closest one, say what you need, and get your own design built fast.',
+        subtitle: '84 real brand design languages. Pick one as a starting point, say what you need, and get your page, deck or infographic straight out.',
         search: 'Search brands, keywords, use cases…',
         all: 'All',
         empty: 'No style matches',
