@@ -102,12 +102,12 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         layout: '版式',
-        layoutClassic: '经典长图', layoutGrid: '网格看板', layoutRings: '同心环', layoutSpread: '双栏数据板', layoutColumns: '四栏模板',
-        layoutNoteClassic: '自上而下：标题 → KPI → 主图 → 环形与结论，最稳的一版。',
-        layoutNoteGrid: '信息块拼贴：数字、环形、图例分区摆放，像杂志跨页。',
+        layoutClassic: '一栏模板', layoutGrid: '三栏模板', layoutRings: '同心环', layoutSpread: '两栏模板', layoutColumns: '四栏模板',
+        layoutNoteClassic: '单栏纵向：标题 → KPI → 主图 → 环形与结论，自上而下一条线读到底。',
+        layoutNoteGrid: '三栏并排：环形、图例、结论各占一栏，下方接通栏主图。',
         layoutNoteRings: '同心环做主视觉，每层一段占比，右侧配图例与结论。',
-        layoutNoteSpread: '左右分栏：左栏标题与 KPI，右栏图表与结论，适合数据密集。',
-        layoutNoteColumns: '顶部满幅色条大标题 + 四栏正文，每栏若干图表 cell，像一张可印刷的模板页。',
+        layoutNoteSpread: '两栏对分：左栏标题与 KPI，右栏图表与结论，适合数据密集。',
+        layoutNoteColumns: '四栏并排：顶部满幅色条大标题，四栏正文各含若干图表 cell，像一张可印刷的模板页。',
         ratio: '比例', cellDensity: '信息块密度',
         cellCompact: '紧凑', cellStandard: '标准',
         cellNoteCompact: 'cell 内边距与行距收紧，一屏放更多信息块。',
@@ -241,12 +241,12 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         layout: 'Layout',
-        layoutClassic: 'Classic', layoutGrid: 'Grid board', layoutRings: 'Rings', layoutSpread: 'Two column', layoutColumns: 'Four columns',
-        layoutNoteClassic: 'Top to bottom: title → KPIs → main chart → ring and insights.',
-        layoutNoteGrid: 'Tiled board: numbers, ring and legend in separate blocks.',
+        layoutClassic: 'One column', layoutGrid: 'Three columns', layoutRings: 'Rings', layoutSpread: 'Two columns', layoutColumns: 'Four columns',
+        layoutNoteClassic: 'One column, top to bottom: title → KPIs → main chart → ring and insights.',
+        layoutNoteGrid: 'Three columns: ring, legend and insights side by side above a full-width chart.',
         layoutNoteRings: 'Concentric rings carry the story, legend and insights beside.',
-        layoutNoteSpread: 'Two columns: title and KPIs left, charts and insights right.',
-        layoutNoteColumns: 'Full-bleed colour banner plus four columns of chart cells — a printable template page.',
+        layoutNoteSpread: 'Two columns: title and KPIs on the left, charts and insights on the right.',
+        layoutNoteColumns: 'Four columns under a full-bleed colour banner, each holding a few chart cells.',
         ratio: 'Aspect', cellDensity: 'Cell density',
         cellCompact: 'Compact', cellStandard: 'Standard',
         cellNoteCompact: 'Tighter cell padding and line spacing, more blocks per screen.',
@@ -1208,12 +1208,12 @@ window.__ModuleLoader__.load({
             ${headerBar}
             ${titleBlock}
             ${kpiRow}
-            <div style="display:grid;grid-template-columns:${U(250)} 1fr;gap:${U(20)}">
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${U(16)};align-items:start">
               ${card(`${donutBadge()}`, 'align-items:center;justify-content:center')}
               ${card(legendCol)}
+              ${card(insightCol)}
             </div>
             ${chartBlock()}
-            ${card(insightCol)}
           `)
         case 'rings':
           return shell(`
@@ -1817,7 +1817,7 @@ window.__ModuleLoader__.load({
                 ? h('div', { key: 'layout-wrap' },
                   h('div', { className: 'dm-label' }, t('layout')),
                   h('div', { className: 'dm-seg dm-seg-form dm-seg-layout' },
-                    ...['classic', 'grid', 'rings', 'spread', 'columns'].map((key) => h('button', {
+                    ...['classic', 'spread', 'grid', 'columns'].map((key) => h('button', {
                       key,
                       type: 'button',
                       className: `dm-seg-btn${(form.layout || 'classic') === key ? ' is-on' : ''}`,
