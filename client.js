@@ -92,7 +92,15 @@ window.__ModuleLoader__.load({
         copied: '已复制',
         copyFailed: '复制失败，请手动选择文本',
         useThis: '用这套风格 →',
-        surfaces: { page: '网页', slides: '幻灯片', poster: '海报' },
+        surfaces: { page: '网页', slides: '幻灯片', info: '信息图', poster: '海报' },
+        chart: '图表',
+        chartAuto: '自动', chartBar: '柱状', chartLine: '折线', chartDonut: '环形', chartArea: '面积', chartFunnel: '漏斗',
+        chartNoteAuto: '按数据形态自动挑一种，避免为凑图而堆图表。',
+        chartNoteBar: '类别比较：6–8 根柱，数值标在柱顶。',
+        chartNoteLine: '时间趋势：8–12 个点，2–3 条线，拐点 3px。',
+        chartNoteDonut: '占比构成：3–4 段，中心放一个关键数字。',
+        chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
+        chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         themes: { light: '浅色', dark: '深色' },
         brandDark: '该品牌本身为深色，无浅色版本',
         source: '来源',
@@ -206,7 +214,15 @@ window.__ModuleLoader__.load({
         copied: 'Copied',
         copyFailed: 'Copy failed — select the text manually',
         useThis: 'Use this style →',
-        surfaces: { page: 'Web', slides: 'Slides', poster: 'Poster' },
+        surfaces: { page: 'Web', slides: 'Slides', info: 'Infographic', poster: 'Poster' },
+        chart: '图表',
+        chartAuto: '自动', chartBar: '柱状', chartLine: '折线', chartDonut: '环形', chartArea: '面积', chartFunnel: '漏斗',
+        chartNoteAuto: '按数据形态自动挑一种，避免堆图。',
+        chartNoteBar: '类别比较：6–8 根柱，数值标在柱顶。',
+        chartNoteLine: '时间趋势：8–12 个点，2–3 条线，拐点 3px。',
+        chartNoteDonut: '占比构成：3–4 段，中心放一个关键数字。',
+        chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
+        chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         themes: { light: 'Light', dark: 'Dark' },
         brandDark: 'This brand is dark by nature — no light variant',
         source: 'Source',
@@ -445,6 +461,7 @@ window.__ModuleLoader__.load({
     const PAGE_BASE = 1180
     const SLIDE_BASE = 1280
     const POSTER_BASE = 900
+    const INFO_BASE = 1080
 
     const unit = (base) => (px) => `${((Number(px) || 0) / base * 100).toFixed(3)}cqw`
     const U = unit(PAGE_BASE)
@@ -850,6 +867,204 @@ window.__ModuleLoader__.load({
         </div>`
     }
 
+    /* ---------------------------------------------------- infographic page */
+
+    function infographicHtml(style, mode, clip, chartChoice) {
+      const th = themeOf(style, mode)
+      const v = style.visual
+      const d = deckOf(style)
+      const U = unit(INFO_BASE)
+      const display = fam(v.displayStack || 'system-ui, sans-serif')
+      const body = fam(v.bodyStack || display)
+      const mono = fam(v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace')
+      const accentInk = v.accentText || (luminance(th.accent) > 0.55 ? '#111111' : '#ffffff')
+      const c1 = th.accent
+      const c2 = mix(th.accent, th.bg, 0.55)
+      const c3 = mix(th.accent, th.bg, 0.8)
+      const grid = alpha(th.ink, 0.12)
+      const kind = ['bar', 'line', 'donut', 'area', 'funnel'].includes(chartChoice) ? chartChoice : 'bar'
+
+      const W = 920
+      const H = 300
+      const svg = (inner) => `<svg viewBox="0 0 ${W} ${H}" width="100%" height="auto" role="img" style="display:block">${inner}</svg>`
+      const axisLabel = (x, y, text, anchor = 'middle') => `
+        <text x="${x}" y="${y}" font-family="${mono}" font-size="11" fill="${th.muted}" text-anchor="${anchor}">${esc(text)}</text>`
+
+      const barChart = () => {
+        const values = [42, 68, 55, 84, 61, 73]
+        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+        const bw = 96
+        const gap = (W - bw * values.length) / (values.length + 1)
+        const base = H - 34
+        const max = 100
+        const bars = values.map((val, i) => {
+          const h = (val / max) * (base - 24)
+          const x = gap + i * (bw + gap)
+          const y = base - h
+          const color = i === 3 ? c1 : c3
+          return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="4" fill="${color}"></rect>
+            <text x="${x + bw / 2}" y="${y - 8}" font-family="${mono}" font-size="12" fill="${th.ink}" text-anchor="middle">${val}</text>
+            ${axisLabel(x + bw / 2, base + 18, labels[i])}`
+        }).join('')
+        const gridLines = [0.25, 0.5, 0.75, 1].map((t) => {
+          const y = base - t * (base - 24)
+          return `<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="${grid}" stroke-width="1"></line>`
+        }).join('')
+        return svg(`${gridLines}<line x1="0" x2="${W}" y1="${base}" y2="${base}" stroke="${alpha(th.ink, 0.3)}" stroke-width="1"></line>${bars}`)
+      }
+
+      const lineChart = () => {
+        const a = [28, 36, 31, 44, 52, 49, 61, 72, 69, 82]
+        const b = [18, 22, 26, 24, 33, 38, 41, 45, 52, 58]
+        const toPts = (data) => data.map((val, i) => {
+          const x = 16 + (i * (W - 32)) / (data.length - 1)
+          const y = H - 34 - (val / 100) * (H - 70)
+          return [x, y]
+        })
+        const poly = (pts, color, width) => `<polyline points="${pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ')}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linejoin="round" stroke-linecap="round"></polyline>`
+        const dots = (pts, color) => pts.map(([x, y]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${th.bg}" stroke="${color}" stroke-width="2"></circle>`).join('')
+        const pa = toPts(a)
+        const pb = toPts(b)
+        const gridLines = [0.25, 0.5, 0.75, 1].map((t) => {
+          const y = H - 34 - t * (H - 70)
+          return `<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="${grid}" stroke-width="1"></line>`
+        }).join('')
+        const labels = ['Q1', 'Q2', 'Q3', 'Q4'].map((text, i) => axisLabel(16 + (i * (W - 32)) / 3, H - 12, text)).join('')
+        return svg(`${gridLines}${poly(pb, c2, 2)}${poly(pa, c1, 2)}${dots(pa, c1)}${labels}`)
+      }
+
+      const areaChart = () => {
+        const data = [22, 30, 34, 41, 38, 48, 55, 60, 66, 72]
+        const pts = data.map((val, i) => [16 + (i * (W - 32)) / (data.length - 1), H - 34 - (val / 100) * (H - 70)])
+        const line = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ')
+        const area = `M16,${H - 34} L${line.split(' ').join(' L')} L${(W - 16).toFixed(1)},${H - 34} Z`
+        return svg(`<path d="${area}" fill="${alpha(th.accent, 0.18)}"></path>
+          <polyline points="${line}" fill="none" stroke="${c1}" stroke-width="2"></polyline>
+          ${axisLabel(16, H - 12, '示例数据')}${axisLabel(W - 16, H - 12, '同比 +38%', 'end')}`)
+      }
+
+      const donutChart = () => {
+        const parts = [46, 27, 17, 10]
+        const colors = [c1, c2, c3, alpha(th.ink, 0.18)]
+        const r = 92
+        const cx = W / 2
+        const cy = H / 2
+        const C = 2 * Math.PI * r
+        let offset = 0
+        const segs = parts.map((pct, i) => {
+          const len = (pct / 100) * C
+          const seg = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colors[i]}" stroke-width="34"
+            stroke-dasharray="${(len - 4).toFixed(1)} ${(C - len + 4).toFixed(1)}" stroke-dashoffset="${(-offset).toFixed(1)}"
+            transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt"></circle>`
+          offset += len
+          return seg
+        }).join('')
+        return svg(`${segs}
+          <text x="${cx}" y="${cy - 4}" font-family="${display}" font-size="46" font-weight="600" fill="${th.ink}" text-anchor="middle">46%</text>
+          ${axisLabel(cx, cy + 22, '最大占比')}`)
+      }
+
+      const funnelChart = () => {
+        const rows = [['访问', 100], ['试用', 62], ['激活', 41], ['付费', 23], ['续费', 18]]
+        const rowH = 44
+        const top = 16
+        return svg(rows.map(([label, pct], i) => {
+          const y = top + i * rowH
+          const w = (pct / 100) * (W - 160)
+          return `<rect x="120" y="${y}" width="${w}" height="26" rx="4" fill="${i === 0 ? c1 : i < 3 ? c2 : c3}"></rect>
+            <text x="108" y="${y + 18}" font-family="${mono}" font-size="12" fill="${th.muted}" text-anchor="end">${esc(label)}</text>
+            <text x="${120 + w + 12}" y="${y + 18}" font-family="${mono}" font-size="12" fill="${th.ink}">${pct}%</text>`
+        }).join(''))
+      }
+
+      const mainChart = { bar: barChart, line: lineChart, area: areaChart, donut: donutChart, funnel: funnelChart }[kind]
+      const chartTitle = {
+        bar: '月度新增（示例数据）',
+        line: '季度活跃与付费（示例数据）',
+        area: '累计收入（示例数据）',
+        donut: '构成占比（示例数据）',
+        funnel: '转化漏斗（示例数据）',
+      }[kind]
+
+      const donutBadge = () => {
+        const segs = [[46, c1], [27, c2], [17, c3], [10, alpha(th.ink, 0.18)]]
+        const r = 52
+        const c = 2 * Math.PI * r
+        let offset = 0
+        const arcs = segs.map(([pct, color]) => {
+          const len = (pct / 100) * c - 3
+          const seg = `<circle cx="80" cy="80" r="${r}" fill="none" stroke="${color}" stroke-width="20"
+            stroke-dasharray="${len.toFixed(1)} ${(c - len).toFixed(1)}" stroke-dashoffset="${(-offset).toFixed(1)}"
+            transform="rotate(-90 80 80)" stroke-linecap="butt"></circle>`
+          offset += (pct / 100) * c
+          return seg
+        }).join('')
+        return `<svg viewBox="0 0 160 160" width="100%" role="img" style="display:block;max-width:${U(220)}">
+          ${arcs}
+          <text x="80" y="76" text-anchor="middle" font-family="${display}" font-size="26" font-weight="600" fill="${th.ink}">46%</text>
+          <text x="80" y="94" text-anchor="middle" font-family="${mono}" font-size="9" fill="${th.muted}">自然流量占比</text>
+        </svg>`
+      }
+
+      const kpi = (value, unit, label) => `
+        <div style="display:flex;flex-direction:column;gap:${U(6)};padding:${U(18)} ${U(20)};border-left:1px solid ${alpha(th.ink, 0.12)}">
+          <div style="font-family:${display};font-size:${U(50)};line-height:1;letter-spacing:${U(-1.2)}">${esc(value)}<span style="font-size:${U(16)};color:${th.muted};margin-left:${U(4)}">${esc(unit)}</span></div>
+          <div style="font-size:${U(11)};letter-spacing:.08em;text-transform:uppercase;color:${th.muted}">${esc(label)}</div>
+        </div>`
+
+      return `
+        <div style="position:relative;aspect-ratio:1/1.35;container-type:inline-size;overflow:hidden;
+          background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
+          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(26)}">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-family:${display};font-size:${U(20)};font-weight:${v.displayWeight || 600}">${esc(d.brand)}</span>
+            <span style="font-size:${U(11)};letter-spacing:.14em;text-transform:uppercase;color:${th.muted}">info graphic · 示例数据 2026</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:${U(10)}">
+            <span style="font-size:${U(12)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">${esc(style.category || '')}</span>
+            <div style="font-family:${display};font-size:${U(60)};line-height:1.1;letter-spacing:${U(-1.6)}">${esc(d.positioning || d.brand)}</div>
+            <div style="font-size:${U(16)};line-height:1.6;color:${th.muted};max-width:${U(820)}">${esc(d.tagline || '')}</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid ${alpha(th.ink, 0.12)};border-bottom:1px solid ${alpha(th.ink, 0.12)}">
+            ${kpi('2,480', '万', '月活')}${kpi('38', '%', '同比')}${kpi('4.9', '分', '满意度')}
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:${U(10)}">
+            <div style="display:flex;align-items:baseline;justify-content:space-between">
+              <span style="font-size:${U(15)};font-weight:600">${esc(chartTitle)}</span>
+              <span style="font-size:${U(11)};color:${th.muted};font-family:${mono}">unit: k / %</span>
+            </div>
+            ${mainChart()}
+          </div>
+
+          <div style="display:grid;grid-template-columns:${U(230)} 1fr 1fr;gap:${U(26)};align-items:start">
+            ${donutBadge()}
+            <div style="display:flex;flex-direction:column;gap:${U(10)}">
+              <span style="font-size:${U(13)};font-weight:600">渠道构成</span>
+              ${[[c1, '自然流量', '46%'], [c2, '投放', '27%'], [c3, '合作', '17%'], [alpha(th.ink, 0.18), '其他', '10%']].map(([color, label, pct]) => `
+                <div style="display:flex;align-items:center;gap:${U(10)};font-size:${U(12)}">
+                  <span style="width:${U(10)};height:${U(10)};border-radius:${U(3)};background:${color};display:inline-block"></span>
+                  <span style="flex:1">${esc(label)}</span>
+                  <span style="font-family:${mono};color:${th.muted}">${pct}</span>
+                </div>`).join('')}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:${U(10)}">
+              <span style="font-size:${U(13)};font-weight:600">关键结论</span>
+              ${['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关'].map((text) => `
+                <div style="font-size:${U(12)};line-height:1.55;color:${th.ink};padding-left:${U(12)};border-left:2px solid ${c1}">${esc(text)}</div>`).join('')}
+            </div>
+          </div>
+
+          <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;font-size:${U(10)};
+            letter-spacing:.08em;text-transform:uppercase;color:${alpha(th.ink, 0.5)};font-family:${mono}">
+            <span>示例数据 · 仅用于版式演示</span>
+            <span>${esc(d.brand)} · design system 2026</span>
+          </div>
+        </div>`
+    }
+
     function posterHtml(style, mode, clip) {
       const v = style.visual
       const th = themeOf(style, mode)
@@ -954,12 +1169,13 @@ window.__ModuleLoader__.load({
     const ART_BUILDERS = {
       page: { build: webHtml, cls: 'is-page', base: PAGE_BASE },
       slides: { build: slidesHtml, cls: 'is-slides', base: SLIDE_BASE },
+      info: { build: infographicHtml, cls: 'is-info', base: INFO_BASE },
       poster: { build: posterHtml, cls: 'is-poster', base: POSTER_BASE },
     }
 
-    function Art({ style, mode, surface, clip, onAction }) {
+    function Art({ style, mode, surface, clip, onAction, chart }) {
       const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
-      const html = useMemo(() => spec.build(style, mode, clip), [spec, style, mode, clip])
+      const html = useMemo(() => spec.build(style, mode, clip, chart), [spec, style, mode, clip, chart])
       const onClick = (event) => {
         if (!onAction) return
         const hit = event.target && event.target.closest ? event.target.closest('[data-dm-action]') : null
@@ -1064,7 +1280,7 @@ window.__ModuleLoader__.load({
       }, [visible])
       return h('div', { className: `dm-card-art is-${surface}`, ref: holder },
         visible
-          ? h(Art, { style, mode, surface, clip: true })
+          ? h(Art, { style, mode, surface, clip: true, chart: 'auto' })
           : h('div', { className: 'dm-card-ph', 'aria-hidden': true },
             h('span', { style: { background: style.visual.canvas } }),
             h('span', { style: { background: style.visual.accent } })))
@@ -1123,7 +1339,7 @@ window.__ModuleLoader__.load({
     function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard' })
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto' })
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
@@ -1157,6 +1373,7 @@ window.__ModuleLoader__.load({
             slug: style.slug,
             surface: hostKey(form.output || surface, mode),
             structure: form.structure,
+            chart: form.chart,
             density: form.density,
             requirement: form.requirement,
             includeDesign: form.includeDesign,
@@ -1269,11 +1486,20 @@ window.__ModuleLoader__.load({
 
         h('div', { className: 'dm-detail-grid', ref: gridRef },
           h('div', { className: 'dm-left' },
-            h('div', { className: 'dm-preview' + (surface === 'page' ? ' is-page' : surface === 'poster' ? ' is-poster is-deck' : ' is-slides is-deck') },
+            h('div', {
+              className: 'dm-preview' + (surface === 'page'
+                ? ' is-page'
+                : surface === 'poster'
+                  ? ' is-poster is-deck'
+                  : surface === 'info'
+                    ? ' is-info'
+                    : ' is-slides is-deck'),
+            },
               h(Art, {
                 style,
                 mode: style.visual.darkFirst ? 'dark' : mode,
                 surface,
+                chart: form.chart,
                 onAction: (action) => {
                   if (action === 'design') openDesign()
                   else if (action === 'theme') setMode(mode === 'dark' ? 'light' : 'dark')
@@ -1300,8 +1526,8 @@ window.__ModuleLoader__.load({
                   onClick: () => setForm((prev) => (prev.output === key ? prev : { ...prev, output: key, structure: 'auto' })),
                 }, t(`surfaces.${key}`))),
               ),
-              h('div', { className: 'dm-label' }, t('structure')),
-              h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
+              (form.output || surface) === 'info' ? null : h('div', { className: 'dm-label' }, t('structure')),
+              (form.output || surface) === 'info' ? null : h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
                 ...((form.output || surface) === 'slides'
                   ? ['auto', 'deck', 'pitch', 'report', 'product', 'venture', 'training']
                   : ['auto', 'landing', 'pricing', 'dashboard', 'blog']).map((key) => {
@@ -1338,9 +1564,21 @@ window.__ModuleLoader__.load({
                     }),
                   ),
                   h('p', { className: 'dm-form-note', key: 'density-note' },
-                    t(`densityHint${form.density.charAt(0).toUpperCase()}${form.density.slice(1)}`)),
+                    t(`densityHint${(form.density || 'standard').charAt(0).toUpperCase()}${(form.density || 'standard').slice(1)}`)),
                 ]
                 : null,
+              h('div', { className: 'dm-label', key: 'chart-label' }, t('chart')),
+              h('div', { className: 'dm-seg dm-seg-form dm-seg-chart', key: 'chart-seg' },
+                ...['auto', 'bar', 'line', 'donut', 'area', 'funnel'].map((key) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-seg-btn${(form.chart || 'auto') === key ? ' is-on' : ''}`,
+                  'aria-pressed': form.chart === key,
+                  onClick: () => setForm((prev) => ({ ...prev, chart: key })),
+                }, t(`chart${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+              ),
+              h('p', { className: 'dm-form-note', key: 'chart-note' },
+                t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
               h('div', { className: 'dm-label' }, t('requirement')),
               h('textarea', {
                 className: 'dm-textarea',
@@ -1598,8 +1836,8 @@ window.__ModuleLoader__.load({
     )
 
     /* Poster templates are kept in code but not exposed in this release. */
-    const STRING_SURFACES = { page: true, slides: true }
-    const HOST_SURFACE = { page: 'web', slides: 'slides', poster: 'poster' }
+    const STRING_SURFACES = { page: true, slides: true, info: true }
+    const HOST_SURFACE = { page: 'web', slides: 'slides', info: 'infographic', poster: 'poster' }
     /** page + dark theme maps to the host's dedicated dark-page deliverable. */
     const hostKey = (chosen, mode) => (chosen === 'page' ? (mode === 'dark' ? 'webDark' : 'web') : HOST_SURFACE[chosen] || 'web')
 
@@ -1965,6 +2203,11 @@ window.__ModuleLoader__.load({
 .dm-card-art.is-poster .dm-art{aspect-ratio:auto;height:100%}
 .dm-card-art.is-slides{aspect-ratio:16/9}
 .dm-card-art.is-slides .dm-art{aspect-ratio:16/9;width:100%;height:100%}
+.dm-card-art.is-info{aspect-ratio:4/5}
+.dm-card-art.is-info .dm-art{aspect-ratio:1/1.35;width:100%;height:auto}
+.dm-preview.is-info{width:100%;max-width:520px;margin:0 auto;align-self:center}
+.dm-preview.is-info .dm-art{width:100%;height:auto;aspect-ratio:1/1.35}
+.dm-seg-chart{flex-wrap:wrap;max-width:100%}
 .dm-card-body{padding:15px 2px 0}
 .dm-card-title{font-size:16.5px;font-weight:600;letter-spacing:-.01em;margin:0}
 .dm-card-meta{font-size:12px;color:var(--ink-3);margin-left:8px;font-weight:400}

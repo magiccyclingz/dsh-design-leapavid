@@ -138,6 +138,10 @@ const SURFACES = {
     label: '演示幻灯片',
     deliverable: '- 单文件 `deck.html`（内联 CSS/JS，无外部资源），16:9 满屏分页，写入当前工作目录。\n- 画布按 1600×900 设计、整体等比缩放适配窗口；正文不小于 16px、注释不小于 12px，保证投影可读。\n- 封面沿用「画布色底 + 底部超大品牌名贴左」版式（底色跟随当前主题：浅色主题用品牌浅底，不要强行做深底；深色主题用品牌深底）：左上角一行小字（品牌 + 样本/年份），底部左侧一小段说明与年份，品牌名以超大字号贴左、几乎占满整行宽度、下沿贴齐页面底边；不要用满幅色带，标题保持品牌原名大小写。\n- 同一份文件内置亮色与深色两套主题变量（`:root` 与 `:root[data-theme="dark"]`），默认跟随 `prefers-color-scheme`，右上角提供手动切换按钮。\n- 键盘 ←/→ 或 PageUp/PageDown 翻页，右下角显示页码，每页一整屏、不出现滚动条。\n- 右上角提供「打印 / 导出 PDF」按钮（调用 `window.print()`）；`@media print` 下隐藏翻页 UI、主题按钮与提示文案，每页 `break-after: page`（最后一页除外），`@page{size:1600px 900px;margin:0}`，导出结果即 16:9 横向、一页一张。\n- 每页至多 3 个信息块，内容在页内垂直居中，避免内容堆在顶部、下半页整块留白。\n- 恰含 1 页封面、1 页目录、正文若干页、1 页封底；标题层级、正文、要点列表都使用 token 中的字号与字重。',
   },
+  infographic: {
+    label: '信息图（竖版长图）',
+    deliverable: '- 单文件 `infographic.html`（内联 CSS/SVG，无外部资源），竖版长图，画布按 1080×2160 设计、整体等比缩放，写入当前工作目录。\n- 全部图表用内联 `<svg>` 手绘，不引用任何图表库或数据接口；配色只取 token。\n- 数据一律是「示例数据」，在图注里写清楚，不要编造真实统计口径。\n- 结构：标题区 → 关键数字 → 主图 → 2 组辅助图（环形 + 条形/折线）→ 结论/图注 → 页脚。\n- 正文不小于 14px、图表标签不小于 11px；长图可打印，`@page{size:A3 portrait;margin:12mm}`，各区块 `break-inside: avoid`。',
+  },
   poster: {
     label: '海报（竖版 3:4）',
     deliverable: '- 单文件 `poster.html`（内联 CSS，无外部资源），竖版 3:4，写入当前工作目录。\n- 以展示字体排版为核心：主标题、副标题、信息块、落款；边距与出血按海报比例处理。\n- 额外输出一份 `poster.svg`（同版式的矢量版本，便于印刷缩放）。',
@@ -183,6 +187,39 @@ const DENSITIES = {
     scale: '展示标题 56–64px / 小标题 28–32px / 正文 15–16px / 注释 12px',
     rhythm: '段落间距 18–24px，页边距 64–72px；允许四个信息块，但每块仍需一句话标题',
     hint: '内部汇报、评审会：信息密度优先，字号仍保证投影可读',
+  },
+}
+
+const CHARTS = {
+  auto: {
+    label: '自动选择',
+    tip: '按内容挑一种最合适的图形，不要为了凑图而堆图表',
+    main: '主图：由你按数据形态选择（比较用柱状、趋势用折线、占比用环形）',
+  },
+  bar: {
+    label: '柱状图',
+    tip: '适合类别之间的比较',
+    main: '主图：柱状图（6–8 根柱，柱宽一致，数值标在柱顶，零线用 hairline）',
+  },
+  line: {
+    label: '折线图',
+    tip: '适合时间序列与趋势',
+    main: '主图：折线图（8–12 个点，2–3 条线，线宽 2px，拐点用 3px 圆点，末端可加数值标签）',
+  },
+  donut: {
+    label: '环形图',
+    tip: '适合占比与构成',
+    main: '主图：环形图（3–4 段，中心放一个关键数字，段与段之间留 2px 白色间隙）',
+  },
+  area: {
+    label: '面积图',
+    tip: '适合强调累计量与堆叠关系',
+    main: '主图：面积图（2 条堆叠区域，填充用 accent 的 18% 与 8% 透明度，描边用实色）',
+  },
+  funnel: {
+    label: '漏斗 / 条形对比',
+    tip: '适合流程转化与排名',
+    main: '主图：横向条形图或漏斗（5–6 级，左侧标签、右侧数值，条形端头做 4px 圆角）',
   },
 }
 
@@ -278,7 +315,10 @@ const STRUCTURES = {
 
 function buildPrompt(style, brief, options) {
   const surface = SURFACES[options.surface] || SURFACES.web
-  const surfaceFamily = options.surface === 'slides' || options.surface === 'poster' ? 'slides' : 'web'
+  const surfaceFamily = options.surface === 'infographic'
+    ? 'info'
+    : (options.surface === 'slides' || options.surface === 'poster' ? 'slides' : 'web')
+  const chart = CHARTS[options.chart] || CHARTS.auto
   const picked = STRUCTURES[options.structure] || STRUCTURES.auto
   const structure = picked.surface && picked.surface !== surfaceFamily ? STRUCTURES.auto : picked
   const density = DENSITIES[options.density] || DENSITIES.standard
@@ -310,6 +350,17 @@ function buildPrompt(style, brief, options) {
       ].join('\n')
       : '',
     surfaceFamily === 'slides' ? '' : null,
+    surfaceFamily === 'info' || surfaceFamily === 'web' || surfaceFamily === 'slides'
+      ? [
+        `## 图表规范（${chart.label}）`,
+        `- ${chart.main}`,
+        '- 只用内联 SVG 手写，不要引入 ECharts / Chart.js / D3 等任何图表库或外部资源。',
+        '- 系列颜色只能取 token 中的 accent / ink / muted 及其浅深派生，最多 4 个系列，禁止彩虹配色。',
+        '- 坐标轴与网格用 hairline 或 8% 透明度的 ink；数据标签 11–12px，贴在图形上而不是图例里。',
+        `- 选型原则：${chart.tip}；数据用「示例数据」标注，不要编造真实统计口径。`,
+      ].join('\n')
+      : '',
+    surfaceFamily === 'info' || surfaceFamily === 'web' || surfaceFamily === 'slides' ? '' : null,
     `## 交付要求（${surface.label}）`,
     structure.outline.length && surfaceFamily === 'slides'
       ? surface.deliverable.replace(
@@ -574,6 +625,7 @@ export function apply(ctx) {
           const surfaceKey = typeof body.surface === 'string' && Object.hasOwn(SURFACES, body.surface) ? body.surface : 'web'
           const structureKey = typeof body.structure === 'string' && Object.hasOwn(STRUCTURES, body.structure) ? body.structure : 'auto'
           const densityKey = typeof body.density === 'string' && Object.hasOwn(DENSITIES, body.density) ? body.density : 'standard'
+          const chartKey = typeof body.chart === 'string' && Object.hasOwn(CHARTS, body.chart) ? body.chart : 'auto'
           const previous = typeof body.previous === 'string' ? body.previous.slice(0, 400) : ''
           const withDesign = body.includeDesign === true
           const brief = await loadStyle(style.slug, 'brief')
@@ -583,6 +635,7 @@ export function apply(ctx) {
             surface: surfaceKey,
             structure: structureKey,
             density: densityKey,
+            chart: chartKey,
             previous,
             requirement,
             includeDesign: withDesign,
@@ -593,6 +646,7 @@ export function apply(ctx) {
             chars: [...prompt].length,
             structure: structureKey,
             density: densityKey,
+            chart: chartKey,
             style: { slug: style.slug, displayName: style.displayName, nameZh: style.nameZh },
           })
         }
