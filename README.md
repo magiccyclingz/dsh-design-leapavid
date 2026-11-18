@@ -43,16 +43,16 @@
 
 ## 安装
 
-插件是标准 DSH bundle，三种装法都可用（1.36.4 已发布到 npm）：
+插件是标准 DSH bundle，三种装法都可用（1.36.5 已发布到 npm）：
 
 ```text
 # 1) 本地目录（开发 / 自用）
 plugin_manager action=install_bundle target=<本目录绝对路径>
 
 # 2) GitHub 源（仓库已公开，锁定 release tag）
-plugin_manager action=install_bundle target=github:magiccyclingz/dsh-design-leapavid#v1.36.4
+plugin_manager action=install_bundle target=github:magiccyclingz/dsh-design-leapavid#v1.36.5
 
-# 3) npm（已发布，latest = 1.36.4）
+# 3) npm（已发布，latest = 1.36.5）
 plugin_manager action=install_bundle target=dsh-design-leapavid
 ```
 

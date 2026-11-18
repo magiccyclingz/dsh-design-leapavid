@@ -87,7 +87,7 @@ npm pack --dry-run --json                         # 182 文件 / tarball 856KB /
 - `package.json` 已加 `publishConfig: { access: "public", registry: "https://registry.npmjs.org/" }`，`npm publish` 不需要再带 `--access public`。
 - `scripts.prepublishOnly = "npm test"`：发布前自动跑 27 项测试，失败即中止。
 - `npm pack` 清单已核对：`build/`、`docs/`、`test/` 都不入包（0 命中），`LICENSE` / `README.md` / `CHANGELOG.md` / `THIRD-PARTY-NOTICES.md` / `icon.svg` / `cordis.patch.yml` 齐全，`data/` 169 个文件、`locale/` 4 个文件。
-- 包名状态：**已发布**，`npm view dsh-design-leapavid version` = `1.36.4`（shasum `607577d9e03d3247c3522d6cf6f853d2f8c010fd`，182 文件 / 3.75 MB 解包）；`0.0.0-stage` 占位版本已 `npm deprecate` 标为占位。
+- 包名状态：**已发布**，`npm view dsh-design-leapavid version` = `1.36.5`（shasum `82accd3b8ead432b238382ceda1f63019600c894`，182 文件 / 3.75 MB 解包）；`0.0.0-stage` 占位版本已 `npm deprecate` 标为占位。
 
 **仍需人工的两步**：
 
@@ -141,7 +141,7 @@ npm view dsh-design-leapavid version # 验证：出现 1.36.2 即成功
 - **description 40 全角当量**（上限 60，卡片只显示两行）：`品牌设计语言库：84 套 token 现场渲染，选一套写清需求即生成网页、幻灯片与信息图。`
 - **tags 4 个**，只放功能词、不带「需/推荐」前缀：品牌 / 提示词 / 幻灯片 / 信息图。
 - **`verified` 留空**：三方条目默认不填（带来逐宿主版本复测义务）；实测记录写进 PR 描述即可。
-- **`icon` 现可用**：`https://cdn.jsdelivr.net/npm/dsh-design-leapavid@1/icon.svg`（npm 已发布 1.36.4，jsDelivr 首次拉取可能有缓存延迟；若担心首屏死链可先留空，dsh-m 会回退 GitHub 头像）。
+- **`icon` 现可用**：`https://cdn.jsdelivr.net/npm/dsh-design-leapavid@1/icon.svg`（npm 已发布 1.36.5，jsDelivr 首次拉取可能有缓存延迟；若担心首屏死链可先留空，dsh-m 会回退 GitHub 头像）。
 - **`alsoCategories` 去掉**：原先写的 `claude-picks` 不是合法桶名（合法值为 `essentials` / `cui-picks` / `baoyu` / `guizang` / `self-dev` / `tencent-lighthouse` / `watchlist`），主桶 `self-dev` 已够。
 - **`screenshots` 用仓库相对路径**（github 源条目支持）：`docs/screenshots/info-list.jpg`、`detail.jpg`、`deck-1.jpg`。
 
