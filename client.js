@@ -128,6 +128,7 @@ window.__ModuleLoader__.load({
         palette: '配色',
         specTitle: '规范明细',
         specsShow: '展开 · 配色 {n} 色',
+        specsCount: '{n} 色',
         specsHide: '收起明细',
         specsHint: '配色、字号阶梯、圆角与间距、组件样例、导出 token 都在这里，需要时展开。',
         typography: '排版要求',
@@ -273,6 +274,7 @@ window.__ModuleLoader__.load({
         palette: 'Palette',
         specTitle: 'Spec sheet',
         specsShow: 'Expand · {n} colors',
+        specsCount: '{n} colors',
         specsHide: 'Collapse',
         specsHint: 'Palette, type scale, radii and spacing, components and token export live here — expand when needed.',
         typography: 'Typography',
@@ -1630,8 +1632,8 @@ window.__ModuleLoader__.load({
     function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic', palette: 'brand', ratio: 'tall', cell: 'standard' })
-      const [specOpen, setSpecOpen] = useState(false)
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'columns', palette: 'brand', ratio: 'hd', cell: 'standard' })
+      const [specTab, setSpecTab] = useState('palette')
       const chartMuted = (form.output || surface) === 'info' && (form.layout || 'classic') === 'columns'
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
@@ -2000,17 +2002,26 @@ window.__ModuleLoader__.load({
             h('section', { className: 'dm-card2' },
               h('div', { className: 'dm-specs-head' },
                 h('h3', null, t('specTitle')),
-                h('button', {
-                  type: 'button',
-                  className: 'dm-ghost dm-specs-toggle',
-                  onClick: () => setSpecOpen((x) => !x),
-                }, specOpen ? t('specsHide') : t('specsShow', { n: colors.length })),
+                h('span', { className: 'dm-specs-count' }, t('specsCount', { n: colors.length })),
               ),
-              specOpen ? null : h('p', { className: 'dm-form-note' }, t('specsHint')),
+              h('div', { className: 'dm-specs-tabs' },
+                ...[
+                  ['palette', t('palette')],
+                  ['type', t('typography')],
+                  ['shape', t('shapes')],
+                  ['components', t('components')],
+                  ['export', t('exportTitle')],
+                ].map(([key, label]) => h('button', {
+                  key,
+                  type: 'button',
+                  className: `dm-specs-tab${specTab === key ? ' is-on' : ''}`,
+                  onClick: () => setSpecTab(key),
+                }, label)),
+              ),
             ),
 
-            specOpen ? h('div', { className: 'dm-specs-body' },
-            h('section', { className: 'dm-card2' },
+            h('div', { className: 'dm-specs-body' },
+            h('section', { className: 'dm-card2', style: { display: specTab === 'palette' ? undefined : 'none' } },
               h('h3', null, `${t('palette')} · ${colors.length}`),
               h('div', { className: 'dm-swatches' },
                 ...colors.slice(0, 18).map((c, i) => h('button', {
@@ -2029,7 +2040,7 @@ window.__ModuleLoader__.load({
               ),
             ),
 
-            h('section', { className: 'dm-card2' },
+            h('section', { className: 'dm-card2', style: { display: specTab === 'type' ? undefined : 'none' } },
               h('h3', null, t('typography')),
               h('div', { className: 'dm-spec' },
                 ...(v.displayFamily ? [specRow(t('fontDisplay'), `${v.displayFamily} · ${v.fontClass || 'sans'}`)] : []),
@@ -2064,7 +2075,7 @@ window.__ModuleLoader__.load({
               ),
             ),
 
-            h('section', { className: 'dm-card2' },
+            h('section', { className: 'dm-card2', style: { display: specTab === 'shape' ? undefined : 'none' } },
               h('h3', null, t('shapes')),
               h('div', { className: 'dm-spec' },
                 specRow(t('radiusCard'), prettyRadius(v.radiusCard)),
@@ -2101,7 +2112,7 @@ window.__ModuleLoader__.load({
               ),
             ),
 
-            h('section', { className: 'dm-card2' },
+            h('section', { className: 'dm-card2', style: { display: specTab === 'components' ? undefined : 'none' } },
               h('h3', null, t('components')),
               h('div', { className: 'dm-demo', style: { background: v.canvas, border: `1px solid ${v.hairline}`, borderRadius: `${Math.min(rValue(v.radiusCard), 20)}px` } },
                 h('div', { className: 'dm-demo-row' },
@@ -2120,7 +2131,7 @@ window.__ModuleLoader__.load({
               ),
             ),
 
-            h('section', { className: 'dm-card2' },
+            h('section', { className: 'dm-card2', style: { display: specTab === 'export' ? undefined : 'none' } },
               h('h3', null, t('exportTitle')),
               h('div', { className: 'dm-export' },
                 h('button', {
@@ -2159,7 +2170,7 @@ window.__ModuleLoader__.load({
                 }, t('exportTailwind')),
               ),
             ),
-            ) : null,
+            ),
 
           ),
         ),
@@ -2604,8 +2615,14 @@ window.__ModuleLoader__.load({
 .dm-detail-grid{scroll-behavior:smooth}
 .dm-specs-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .dm-specs-head h3{margin:0}
-.dm-specs-toggle{padding:4px 10px;font-size:12px;border-radius:999px;white-space:nowrap}
-.dm-specs-body{display:flex;flex-direction:column;gap:14px}
+.dm-specs-count{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.dm-specs-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}
+.dm-specs-tab{font:inherit;font-size:12px;line-height:1;padding:7px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink-2);cursor:pointer;white-space:nowrap;text-align:center;overflow:hidden;text-overflow:ellipsis}
+.dm-specs-tab:hover{border-color:var(--line-strong)}
+.dm-specs-tab.is-on{background:var(--ink);border-color:var(--ink);color:#fff}
+.dm-specs-body{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.dm-specs-body > .dm-card2{border:0;padding:0;background:transparent}
+.dm-specs-body > .dm-card2 > h3{display:none}
 .dm-ghost{font:inherit;font-size:12.5px;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-2);cursor:pointer}
 .dm-ghost:hover{color:var(--ink);border-color:#d4d4d6}
 .dm-primary{width:100%;margin-top:12px;padding:10px 0;border:0;border-radius:8px;background:var(--accent);color:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
