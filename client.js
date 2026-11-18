@@ -1561,7 +1561,9 @@ window.__ModuleLoader__.load({
       }, [visible])
       return h('div', { className: `dm-card-art is-${surface}`, ref: holder },
         visible
-          ? h(Art, { style, mode, surface, clip: true, chart: 'auto' })
+          ? h(Art, surface === 'info'
+            ? { style, mode, surface, clip: true, chart: 'auto', layout: 'columns', ratio: 'hd' }
+            : { style, mode, surface, clip: true, chart: 'auto' })
           : h('div', { className: 'dm-card-ph', 'aria-hidden': true },
             h('span', { style: { background: style.visual.canvas } }),
             h('span', { style: { background: style.visual.accent } })))
@@ -2550,7 +2552,7 @@ window.__ModuleLoader__.load({
 .dm-card-art.is-poster .dm-art{aspect-ratio:auto;height:100%}
 .dm-card-art.is-slides{aspect-ratio:16/9}
 .dm-card-art.is-slides .dm-art{aspect-ratio:16/9;width:100%;height:100%}
-.dm-card-art.is-info{aspect-ratio:4/3}
+.dm-card-art.is-info{aspect-ratio:16/9}
 .dm-card-art.is-info .dm-art{width:100%;height:auto;transform-origin:top left}
 .dm-preview.is-info{width:100%;max-width:var(--dm-info-w,760px);margin:0 auto;align-self:start}
 .dm-preview.is-info .dm-art{width:100%;height:auto;max-height:none}
