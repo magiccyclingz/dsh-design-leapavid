@@ -101,6 +101,7 @@ window.__ModuleLoader__.load({
         chartNoteDonut: '占比构成：3–4 段，中心放一个关键数字。',
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
+        chartMutedHint: '四栏模板自带迷你图，主图不适用；换成一栏 / 两栏 / 三栏模板后可选图表。',
         layout: '版式',
         layoutClassic: '一栏模板', layoutGrid: '三栏模板', layoutRings: '同心环', layoutSpread: '两栏模板', layoutColumns: '四栏模板',
         layoutNoteClassic: '单栏纵向：标题 → KPI → 主图 → 环形与结论，自上而下一条线读到底。',
@@ -240,6 +241,7 @@ window.__ModuleLoader__.load({
         chartNoteDonut: '占比构成：3–4 段，中心放一个关键数字。',
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
+        chartMutedHint: 'The four-column template has its own mini charts; the main chart does not apply.',
         layout: 'Layout',
         layoutClassic: 'One column', layoutGrid: 'Three columns', layoutRings: 'Rings', layoutSpread: 'Two columns', layoutColumns: 'Four columns',
         layoutNoteClassic: 'One column, top to bottom: title → KPIs → main chart → ring and insights.',
@@ -1105,10 +1107,19 @@ window.__ModuleLoader__.load({
           ${mainChart()}
         </div>`
 
+      const ratio = INFO_RATIOS[ratioKey] || INFO_RATIOS.tall
+      const dens = INFO_CELL_DENSITY[cellKey] || INFO_CELL_DENSITY.standard
+      const tall = ratio.h / ratio.w >= 1.2
+      const legendRows = tall
+        ? [[c1, '自然流量', '46%'], [c2, '投放', '27%'], [c3, '合作', '17%'], [alpha(th.ink, 0.28), '站内推荐', '6%'], [alpha(th.ink, 0.18), '其他', '4%']]
+        : [[c1, '自然流量', '46%'], [c2, '投放', '27%'], [c3, '合作', '17%'], [alpha(th.ink, 0.18), '其他', '10%']]
+      const insightRows = tall
+        ? ['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关', '站内推荐位贡献环比 +12%', '自然流量获客成本低于投放 38%']
+        : ['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关']
       const legendCol = `
         <div style="display:flex;flex-direction:column;gap:${U(10)}">
           <span style="font-size:${U(13)};font-weight:600">渠道构成</span>
-          ${[[c1, '自然流量', '46%'], [c2, '投放', '27%'], [c3, '合作', '17%'], [alpha(th.ink, 0.18), '其他', '10%']].map(([color, label, pct]) => `
+          ${legendRows.map(([color, label, pct]) => `
             <div style="display:flex;align-items:center;gap:${U(10)};font-size:${U(12)}">
               <span style="width:${U(10)};height:${U(10)};border-radius:${U(3)};background:${color};display:inline-block"></span>
               <span style="flex:1">${esc(label)}</span>
@@ -1119,7 +1130,7 @@ window.__ModuleLoader__.load({
       const insightCol = `
         <div style="display:flex;flex-direction:column;gap:${U(10)}">
           <span style="font-size:${U(13)};font-weight:600">关键结论</span>
-          ${['留存提升来自激活流程简化', '付费转化集中在试用第 3 天', '续费与客服响应时长负相关'].map((text) => `
+          ${insightRows.map((text) => `
             <div style="font-size:${U(12)};line-height:1.55;color:${th.ink};padding-left:${U(12)};border-left:2px solid ${c1}">${esc(text)}</div>`).join('')}
         </div>`
 
@@ -1169,8 +1180,6 @@ window.__ModuleLoader__.load({
             <span style="flex:1;height:${U(10)};border-radius:${U(3)};background:${color};opacity:.9"></span>`).join('')}
         </div>`
 
-      const ratio = INFO_RATIOS[ratioKey] || INFO_RATIOS.tall
-      const dens = INFO_CELL_DENSITY[cellKey] || INFO_CELL_DENSITY.standard
       const shell = (inner, fill) => `
         <div style="position:relative;aspect-ratio:${ratio.w}/${ratio.h};container-type:inline-size;overflow:hidden;
           background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
@@ -1212,6 +1221,19 @@ window.__ModuleLoader__.load({
 
       switch (layout) {
         case 'grid':
+          if (ratio.w / ratio.h < 0.75) {
+            return shell(`
+              ${headerBar}
+              ${titleBlockCompact}
+              ${kpiRow}
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:${U(14)};align-items:start">
+                ${card(`${donutBadge()}`, 'gap:' + U(8))}
+                ${card(legendCol, 'gap:' + U(10))}
+                <div style="grid-column:1 / -1">${card(insightCol, 'gap:' + U(8))}</div>
+              </div>
+              ${chartBlock()}
+            `, true)
+          }
           if (wide) {
             return shell(`
               ${titleBlockCompact}
@@ -1594,6 +1616,7 @@ window.__ModuleLoader__.load({
       const loc = useLocale()
       const v = style.visual
       const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic', palette: 'brand', ratio: 'tall', cell: 'standard' })
+      const chartMuted = (form.output || surface) === 'info' && (form.layout || 'classic') === 'columns'
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
@@ -1833,17 +1856,21 @@ window.__ModuleLoader__.load({
                 ]
                 : null,
               h('div', { className: 'dm-label', key: 'chart-label' }, t('chart')),
-              h('div', { className: 'dm-seg dm-seg-form dm-seg-chart', key: 'chart-seg' },
+              h('div', { className: `dm-seg dm-seg-form dm-seg-chart${chartMuted ? ' is-muted' : ''}`, key: 'chart-seg' },
                 ...['auto', 'bar', 'line', 'donut', 'area', 'funnel'].map((key) => h('button', {
                   key,
                   type: 'button',
+                  disabled: chartMuted,
+                  title: chartMuted ? t('chartMutedHint') : '',
                   className: `dm-seg-btn${(form.chart || 'auto') === key ? ' is-on' : ''}`,
                   'aria-pressed': form.chart === key,
                   onClick: () => setForm((prev) => ({ ...prev, chart: key })),
                 }, t(`chart${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
               ),
               h('p', { className: 'dm-form-note', key: 'chart-note' },
-                t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
+                chartMuted
+                  ? t('chartMutedHint')
+                  : t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
               (form.output || surface) === 'info'
                 ? h('div', { key: 'layout-wrap' },
                   h('div', { className: 'dm-label' }, t('layout')),
@@ -2489,6 +2516,7 @@ window.__ModuleLoader__.load({
 .dm-seg-form{flex-wrap:wrap;max-width:100%}
 .dm-seg-btn{appearance:none;border:0;background:transparent;font:inherit;font-size:12.5px;color:var(--ink-2);padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap}
 .dm-seg-btn:hover:not(.is-on){color:var(--ink)}
+.dm-seg.is-muted{opacity:.45;pointer-events:none}
 .dm-seg-btn.is-on{background:var(--ink);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.18)}
 .dm-seg-btn:disabled{opacity:.5;cursor:default}
 .dm-search{flex:1;min-width:220px;box-sizing:border-box;background:var(--bg-2);border-radius:8px;padding:10px 14px;border:1px solid transparent;font:inherit;font-size:13px;color:var(--ink);outline:none}
