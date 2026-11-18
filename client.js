@@ -677,9 +677,9 @@ window.__ModuleLoader__.load({
           </div>
         </div>`
 
-      /* 01 — cover: black page, one full-bleed accent band carrying the title */
-      const coverBg = luminance(th.ink) < 0.45 ? th.ink : th.bg
-      const coverInk = coverBg === th.ink ? th.bg : th.ink
+      /* 01 — cover: brand canvas, one full-bleed accent band carrying the title */
+      const coverBg = th.bg
+      const coverInk = th.ink
       const coverTitle = String(d.brand || '').toUpperCase()
       const coverUses = (d.useCases || []).slice(0, 3).join(' / ')
       const coverBody = [[d.positioning, d.tagline].filter(Boolean).join('；') || d.kicker, coverUses && `适用：${coverUses}`]
