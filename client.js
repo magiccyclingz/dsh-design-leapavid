@@ -1200,7 +1200,10 @@ window.__ModuleLoader__.load({
                 type: 'button',
                 className: `dm-seg-btn${surface === key ? ' is-on' : ''}`,
                 'aria-pressed': surface === key,
-                onClick: () => setSurface(key),
+                onClick: () => {
+                  setSurface(key)
+                  setForm((prev) => ({ ...prev, output: '', structure: 'auto' }))
+                },
               }, t(`surfaces.${key}`))),
             ),
             style.darkFirst
@@ -1247,7 +1250,7 @@ window.__ModuleLoader__.load({
                   type: 'button',
                   className: `dm-seg-btn${(form.output || surface) === key ? ' is-on' : ''}`,
                   'aria-pressed': (form.output || surface) === key,
-                  onClick: () => setForm((prev) => ({ ...prev, output: key })),
+                  onClick: () => setForm((prev) => (prev.output === key ? prev : { ...prev, output: key, structure: 'auto' })),
                 }, t(`surfaces.${key}`))),
               ),
               h('div', { className: 'dm-label' }, t('structure')),
