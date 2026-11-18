@@ -1,7 +1,7 @@
 {
   "id": "dsh-design-md",
   "name": "设计风格库 (Design MD)",
-  "description": "左侧栏 84 套品牌设计语言库：每种风格用自身 DESIGN.md token 现场渲染网页与幻灯片预览，可收藏、可导出 token；挑一套、写需求（可选页面结构），即把带完整 token 与交付规范的提示词送进当前会话生成产物。",
+  "description": "左侧栏 84 套品牌设计语言库：每种风格都用自身 DESIGN.md 的 token 现场渲染网页、幻灯片与信息图预览（无截图、无外链），可收藏、可按需懒加载、可导出 CSS/Tailwind/tokens.json；挑一套、写需求与用途，即把带完整 token、版式与交付规范的提示词送进当前会话，直接产出可打开的 index.html / deck.html / 信息图。",
   "category": "self-dev",
   "alsoCategories": [
     "claude-picks"
@@ -11,14 +11,15 @@
     "设计系统",
     "品牌",
     "提示词",
-    "幻灯片"
+    "幻灯片",
+    "信息图"
   ],
   "verified": [
     "0.2.2-rc.3"
   ],
   "source": "npm",
   "npm": "dsh-design-md",
-  "github": "<owner>/dsh-design-md",
+  "github": "magiccyclingz/dsh-design-md",
   "icon": "https://cdn.jsdelivr.net/npm/dsh-design-md@1/icon.svg",
-  "homepage": "https://github.com/<owner>/dsh-design-md"
+  "homepage": "https://github.com/magiccyclingz/dsh-design-md"
 }

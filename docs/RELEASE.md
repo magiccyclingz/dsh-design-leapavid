@@ -1,8 +1,8 @@
 # dsh-design-md 发布清单
 
-面向首次发布 `1.0.0`（2026-11-17）。标 **MANUAL** 的步骤需要维护者账号、凭据或在 GUI 里手工操作；本文件不记录、也不要求写入任何密钥或 Token。
+当前版本 `1.33.3`（2026-11-18）。标 **MANUAL** 的步骤需要维护者账号、凭据或在 GUI 里手工操作；本文件不记录、也不要求写入任何密钥或 Token。
 
-仓库：`/Users/openclaw/Projects/dsh-design-md`（2026-11-17 已 `git init` 并提交 `b834fa0`、打标 `v1.0.0`，尚未配置远程）。
+仓库：`/Users/openclaw/Projects/dsh-design-md`，远程 `https://github.com/magiccyclingz/dsh-design-md`（2026-11-18 已推到 `main`，tag 到 `v1.33.3`）。
 本机基线：Node `v24.16.0`、npm `12.0.1`、DSH 桌面版 `0.2.2-rc.3`；包声明 `type: module`，Node 要求 ≥ 22.19.0。
 
 ## 1. 本地校验（无需凭据）
@@ -26,7 +26,7 @@ for (const d of ['design','brief']) {
 }"
 ```
 
-2026-11-17 实测：两条 `node --check` 通过；catalog 84 条；`design` / `brief` 各 84 个文件且 slug 集合与 catalog 一致。
+2026-11-18 实测：两条 `node --check` 通过、`npm test` 23 pass / 0 fail；catalog 84 条；`design` / `brief` 各 84 个文件且 slug 集合与 catalog 一致。
 
 ## 2. 打包自检（无需凭据）
 
@@ -43,7 +43,7 @@ console.log('bad', f.filter(x=>/^(build\/|node_modules\/)|\.DS_Store$|\.tgz$|sho
 
 预期与判据：
 
-- 文件数 **181**（12 个根文件 + 169 个 `data/` 文件）；tarball **797,942 B ≈ 780 KB**；解包 **3.58 MB**（2026-11-17 实测）。`CHANGELOG.md` 在 `files` 白名单内，`docs/` 不在、默认不打包。
+- 文件数 **182**（13 个根文件 + 169 个 `data/` 文件）；tarball **850,996 B ≈ 831 KB**；解包 **3.74 MB**（2026-11-18 实测，1.33.3）。`CHANGELOG.md` 在 `files` 白名单内，`docs/` 不在、默认不打包。
 - 必须包含：`index.js`、`client.js`、`package.json`、`cordis.patch.yml`、`icon.svg`、`README.md`、`locale/*.json`、`locale/*.md`、`data/catalog.json`、`data/design/×84`、`data/brief/×84`。
 - 必须不包含：`build/`（含 `shots/`、`demo/`、`report.txt`）、`node_modules`、`.DS_Store`、`*.tgz`。npm 默认忽略 `.DS_Store`，实测 tarball 内无该项。
 - 内容提示：`data/catalog.json` 已**不含**构建机绝对路径（`grep -c '/Users/' data/catalog.json` = 0）；`designPath` 不再写盘，`source.main/cn` 改为相对标识，`sourceUrl` 为 `https://getdesign.md/<slug>/design-md`。
@@ -51,7 +51,7 @@ console.log('bad', f.filter(x=>/^(build\/|node_modules\/)|\.DS_Store$|\.tgz$|sho
 ## 3. `package.json` 定稿（已完成）
 
 - `private` 已删除；已补 `license: MIT` / `author: LeapAvid` / `keywords`（含 `dsh-plugin`）/ `engines.node >= 22.19.0`；`CHANGELOG.md` 已在 `files` 内。
-- 尚未补 `repository` / `homepage`：等远程仓库地址确定后补两行即可。
+- `repository` / `homepage` 已补为 `https://github.com/magiccyclingz/dsh-design-md`。
 - 凭据只走 `npm login` 或环境变量 `NPM_TOKEN`，不要写进仓库任何文件。
 
 ## 4. Git 提交与打标（MANUAL：需要远程仓库与推送凭据）
@@ -77,7 +77,8 @@ git push -u origin main --tags
 ## 5. npm 发布（MANUAL：npm 账号 + Token/2FA）
 
 ```bash
-npm view dsh-design-md version      # 2026-11-17 实测 404 = 包名在公共 registry 上未占用
+npm view dsh-design-md version      # 2026-11-18 实测仍 404 = 包名未被占用，尚未发布
+npm whoami                          # 2026-11-18 实测 need auth = 本机未登录 npm
 npm publish --access public         # MANUAL
 ```
 
@@ -103,7 +104,7 @@ npm publish --access public         # MANUAL
 
 ## 7. 发布后回归（本机，无需凭据）
 
-- 安装后左栏出现「设计风格库」，84 张卡片、搜索、两种预览形态（网页 / 幻灯片）+ 浅色/深色切换可用；卡片可收藏、预览懒渲染，内容页有页面结构预设与 token 导出。
+- 安装后左栏出现「设计风格库」，84 张卡片、搜索、三种预览形态（网页 / 幻灯片 / 信息图）+ 浅色/深色切换可用；卡片可收藏、缩略图懒渲染、分类筛选带数量，内容页有用途预设、信息图的版式/比例/密度与 token 导出。
 - `design_md` 工具：`list` 有结果、`get` 能返回 token 与 brief。
 - `GET /api/design-md/catalog` 返回 `count: 84`；`GET /api/design-md/health` 返回 `ok: true`。
 - 回滚：`npm deprecate dsh-design-md@1.0.0 "broken"`（72h 内可 `unpublish`）；DSH 侧卸载插件即可回到未安装状态。
@@ -114,16 +115,28 @@ npm publish --access public         # MANUAL
 - 需要账号或凭据（MANUAL）：npm 发布、git 推送与 tag、精选清单 PR、任何 Token/2FA。
 - 未知：社区目录的抓取频率与收录延迟、精选审核时限；这些只能由维护者账号在发布后观察。
 
-## 8. 上架条目（草稿已备好）
+## 8. 上架条目（已按 1.33.3 更新）
 
-`docs/market-entry.json` 是按 dsh-m `registry.json` 条目结构写的上架草稿，字段与现有 36 条精选一致（`id` / `name` / `description` / `category` / `alsoCategories` / `tags` / `verified` / `source` / `npm` / `github` / `icon` / `homepage`）。提交前需要替换两处：
+`docs/market-entry.json` 是按 dsh-m `registry.json` 条目结构写的上架草稿，字段与现有精选条目一致（`id` / `name` / `description` / `category` / `alsoCategories` / `tags` / `verified` / `source` / `npm` / `github` / `icon` / `homepage`）。2026-11-18 状态：
 
-- `github` 与 `homepage` 里的 `<owner>` → 实际 GitHub 账号；
-- `verified` 只在用对应 DSH 版本实测过之后追加（当前仅记录本机基线 `0.2.2-rc.3`）。
+- `github` / `homepage` 已替换为真实仓库 `magiccyclingz/dsh-design-md`；
+- `description` 已补信息图与三种载体、懒加载与导出口径；
+- `tags` 增加「信息图」；
+- `verified` 仍为 `["0.2.2-rc.3"]`（当前 DSH 桌面版基线，追加新版本前需在该版本实测）。
 
 合法的 `category` 取值（取自现存清单）：`essentials` / `cui-picks` / `baoyu` / `guizang` / `self-dev` / `tencent-lighthouse` / `watchlist`。
 
-两个去向：
+两个去向与当前卡点：
 
-1. **精选区** `iasiv5/dsh-m` 的 `registry.json`（PR，MANUAL）——把 `docs/market-entry.json` 的内容追加进 `plugins` 数组即可。
-2. **社区目录**（自动抓取 npm，无需 PR）——先完成第 5 步 `npm publish`，剩下的等上游抓取；抓取频率未知，无法在本地验证。
+1. **精选区** `iasiv5/dsh-m` 的 `registry.json`（PR，MANUAL）——2026-11-18 核对：该清单里**尚无** `dsh-design-md`，需要提交 PR 把 `docs/market-entry.json` 的内容追加进 `plugins` 数组。因为精选条目按 `npm` 包名安装，**必须先完成第 5 步 npm 发布**，否则装上会 404。
+2. **社区目录**（自动抓取 npm，无需 PR）——同样依赖第 5 步；抓取频率未知，无法在本地验证。
+
+一步到位的命令（需要 npm 凭据）：
+
+```bash
+npm login                                   # MANUAL：账号 + 2FA
+npm publish --access public                 # 之后精选区 PR 才有意义
+git remote -v                               # 应指向 magiccyclingz/dsh-design-md
+```
+
+本地预演（无需账号）：在 dsh-m 设置里把清单换成自建的 `registry.json`（`file://` 或本机绝对路径），内容即 `docs/market-entry.json` 包一层 `{ "version": 1, "plugins": [ ... ] }`。注意这种预演仍会按 `npm` 包名去装，未发布时只能验证「卡片出现」这一步。
