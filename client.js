@@ -2433,7 +2433,7 @@ window.__ModuleLoader__.load({
       const [mode, setMode] = useState(memory.theme)
       const [slug, setSlug] = useState(memory.slug)
       const [toast, setToast] = useState(null)
-      const [, setFavTick] = useState(0)
+      const [favTick, setFavTick] = useState(0)
       const toastTimer = useRef(0)
       const alive = useRef(true)
 
@@ -2493,7 +2493,7 @@ window.__ModuleLoader__.load({
           ].join(' ').toLowerCase()
           return haystack.includes(q)
         })
-      }, [styles, query, category])
+      }, [styles, query, category, favTick])
 
       const current = slug ? styles.find((style) => style.slug === slug) : null
 
