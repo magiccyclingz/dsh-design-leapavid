@@ -504,8 +504,8 @@ window.__ModuleLoader__.load({
       vertical: { label: '9:16', w: 9, h: 16 },
     }
     const INFO_CELL_DENSITY = {
-      compact: { label: '紧凑', pad: 8, gap: 6, cellGap: 8 },
-      standard: { label: '标准', pad: 12, gap: 8, cellGap: 9 },
+      compact: { label: '紧凑', pad: 8, gap: 6, cellGap: 8, canvasGap: 16, cardPad: 16 },
+      standard: { label: '标准', pad: 12, gap: 8, cellGap: 9, canvasGap: 24, cardPad: 22 },
     }
     const INFO_PALETTES = {
       brand: { label: '品牌色', hexes: [] },
@@ -1159,8 +1159,9 @@ window.__ModuleLoader__.load({
           const x = i * (bw + gap) + 2
           return `<rect x="${x}" y="${base - h}" width="${bw}" height="${h}" rx="3" fill="${i === 3 ? c1 : c3}"></rect>`
         }).join('')
-        return `<svg viewBox="0 0 ${values.length * (bw + gap) + 4} 128" style="display:block;width:100%" role="img">
-          <line x1="0" x2="${values.length * (bw + gap)}" y1="${base}" y2="${base}" stroke="${alpha(th.ink, 0.25)}" stroke-width="1"></line>${bars}</svg>`
+        const vw = values.length * (bw + gap) + 4
+        return `<svg viewBox="0 0 ${vw} 128" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;max-width:${U(430)};height:${U(118)}" role="img">
+          <line x1="0" x2="${vw - 4}" y1="${base}" y2="${base}" stroke="${alpha(th.ink, 0.25)}" stroke-width="1"></line>${bars}</svg>`
       }
 
       const chipStrip = () => `<div style="display:flex;gap:${U(10)};justify-content:space-between;margin-top:auto;padding-top:${U(14)};border-top:1px solid ${grid}">
@@ -1173,7 +1174,7 @@ window.__ModuleLoader__.load({
       const shell = (inner, fill) => `
         <div style="position:relative;aspect-ratio:${ratio.w}/${ratio.h};container-type:inline-size;overflow:hidden;
           background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
-          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(24)}">
+          padding:${U(44)} ${U(52)} ${U(40)};gap:${U(dens.canvasGap)}">
           ${fill
             ? `<div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:${U(22)}">${inner}</div>`
             : inner}
@@ -1181,7 +1182,7 @@ window.__ModuleLoader__.load({
         </div>`
 
       const card = (inner, extra = '') => `<div style="border:1px solid ${grid};border-radius:${U(10)};
-        padding:${U(22)} ${U(24)};display:flex;flex-direction:column;gap:${U(12)};${extra}">${inner}</div>`
+        padding:${U(dens.cardPad)} ${U(24)};display:flex;flex-direction:column;gap:${U(dens.gap + 4)};${extra}">${inner}</div>`
 
       /* 同心环：三层环形，每层一段占比 */
       const ringsSvg = () => {
@@ -1202,8 +1203,28 @@ window.__ModuleLoader__.load({
         </svg>`
       }
 
+      const wide = ratio.w / ratio.h >= 1.3
+      const titleBlockCompact = `
+        <div style="display:flex;flex-direction:column;gap:${U(6)}">
+          <span style="font-size:${U(11)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">${esc(style.category || '')}</span>
+          <div style="font-family:${display};font-size:${U(42)};line-height:1.08;letter-spacing:${U(-1.1)}">${esc(d.positioning || d.brand)}</div>
+        </div>`
+
       switch (layout) {
         case 'grid':
+          if (wide) {
+            return shell(`
+              ${titleBlockCompact}
+              <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:${U(14)};align-items:start">
+                ${card(`${cellTitle(chartTitle)}${mainChart()}`, 'gap:' + U(8))}
+                ${card(legendCol, 'gap:' + U(10))}
+              </div>
+              <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:${U(14)};align-items:start">
+                ${card(`${insightCol}`, 'gap:' + U(8))}
+                ${card(`${kpiRow}`, 'gap:' + U(10))}
+              </div>
+            `, true)
+          }
           return shell(`
             ${headerBar}
             ${titleBlock}
@@ -1262,19 +1283,29 @@ window.__ModuleLoader__.load({
         case 'spread':
           return shell(`
             ${headerBar}
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:${U(34)};align-items:start">
-              <div style="display:flex;flex-direction:column;gap:${U(22)}">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:${U(34)};align-items:stretch;flex:1;min-height:0">
+              <div style="display:flex;flex-direction:column;gap:${U(22)};min-height:0">
                 ${titleBlock}
                 ${kpiRow}
-                ${legendCol}
+                ${card(legendCol, 'flex:1;min-height:0;gap:' + U(10))}
               </div>
-              <div style="display:flex;flex-direction:column;gap:${U(22)}">
+              <div style="display:flex;flex-direction:column;gap:${U(22)};min-height:0">
                 ${chartBlock()}
-                ${card(insightCol)}
+                ${card(insightCol, 'flex:1;min-height:0;gap:' + U(10))}
               </div>
             </div>
           `)
         default:
+          if (wide) {
+            return shell(`
+              ${titleBlockCompact}
+              ${kpiRow}
+              <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:${U(18)};align-items:start">
+                ${card(`${cellTitle(chartTitle)}${mainChart()}`, 'gap:' + U(8))}
+                ${card(legendCol, 'gap:' + U(10))}
+              </div>
+            `, true)
+          }
           return shell(`
             ${headerBar}
             ${titleBlock}
@@ -1283,7 +1314,7 @@ window.__ModuleLoader__.load({
             <div style="display:grid;grid-template-columns:${U(230)} 1fr 1fr;gap:${U(26)};align-items:start">
               ${donutBadge()}${legendCol}${insightCol}
             </div>
-          `)
+          `, true)
       }
 
     }
