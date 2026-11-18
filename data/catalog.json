@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:09:00.116Z",
+  "generatedAt": "2026-11-18T04:21:05.922Z",
   "source": {
     "main": "awesome-design-md-main/design-md",
     "license": "MIT © 2026 VoltAgent — see THIRD-PARTY-NOTICES.md",
@@ -2117,7 +2117,7 @@
     },
     {
       "slug": "bmw",
-      "displayName": "Bmw",
+      "displayName": "BMW",
       "nameZh": "宝马",
       "category": "品牌官网",
       "group": "reference",
@@ -19500,7 +19500,7 @@
     },
     {
       "slug": "playstation",
-      "displayName": "Playstation",
+      "displayName": "PlayStation",
       "nameZh": "PlayStation",
       "category": "内容平台",
       "group": "reference",
@@ -24770,7 +24770,7 @@
     },
     {
       "slug": "spacex",
-      "displayName": "Spacex",
+      "displayName": "SpaceX",
       "nameZh": "SpaceX",
       "category": "品牌官网",
       "group": "reference",
@@ -29292,7 +29292,7 @@
     },
     {
       "slug": "voltagent",
-      "displayName": "Voltagent",
+      "displayName": "VoltAgent",
       "nameZh": "VoltAgent",
       "category": "AI 产品",
       "group": "reference",

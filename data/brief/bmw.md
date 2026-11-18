@@ -1,4 +1,4 @@
-# Bmw · 宝马
+# BMW · 宝马
 
 BMW's corporate site carries a far more measured, corporate-automotive interface than its motorsport-bombastic cousin BMW M. The atmosphere is light: `#ffffff` (#ffffff) is the base surface, `#fafafa` (#fafafa) carries the soft-grey card plates, and dark navy `#1a2129` (#1a2129) appears only inside hero bands — one per page, framing the lead model render.
 

@@ -680,7 +680,7 @@ window.__ModuleLoader__.load({
       /* 01 — cover: brand canvas, one full-bleed accent band carrying the title */
       const coverBg = th.bg
       const coverInk = th.ink
-      const coverTitle = String(d.brand || '').toUpperCase()
+      const coverTitle = String(d.brand || '')
       const coverUses = (d.useCases || []).slice(0, 3).join(' / ')
       const coverBody = [[d.positioning, d.tagline].filter(Boolean).join('；') || d.kicker, coverUses && `适用：${coverUses}`]
         .filter(Boolean).join('\n')
@@ -698,11 +698,11 @@ window.__ModuleLoader__.load({
           <div style="flex:1"></div>
           <div style="background:${th.accent};color:${accentInk};padding:${US(34)} ${US(26)} ${US(30)}">
             <div style="font-family:${display};font-weight:${v.displayWeight || 600};
-              font-size:${US(clamp((v.displaySize || 56) * 2.15, 116, 188))};line-height:.84;
-              letter-spacing:${US(-2.4)};text-transform:uppercase">${esc(coverTitle)}</div>
+              font-size:${US(clamp((v.displaySize || 56) * 1.95, 104, 170))};line-height:.92;
+              letter-spacing:${US(-1.1)}">${esc(coverTitle)}</div>
             <div style="margin-top:${US(10)};font-family:${display};font-weight:${v.displayWeight || 600};
-              font-size:${US(17)};letter-spacing:.04em;text-transform:uppercase;color:${alpha(accentInk, 0.9)}">
-              ${esc(d.brand)} presentation</div>
+              font-size:${US(16)};letter-spacing:.02em;color:${alpha(accentInk, 0.92)}">
+              ${esc(d.brand)} Presentation</div>
             <div style="margin-top:${US(9)};font-size:${US(11)};line-height:1.8;white-space:pre-line;max-width:${US(620)};
               color:${alpha(accentInk, 0.82)}">${esc(coverBody)}</div>
           </div>

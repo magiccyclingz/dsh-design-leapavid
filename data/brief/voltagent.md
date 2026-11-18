@@ -1,4 +1,4 @@
-# Voltagent · VoltAgent
+# VoltAgent · VoltAgent
 
 Voltagent is an AI agent engineering platform built for developers, and the brand wears that audience proudly: a near-black (`#101010`) page background that runs edge-to-edge with no light-mode counterpart, a single electric-green accent (`#00d992` `#00d992`) reserved for CTAs, status pills, and the brand lightning glyph, and a typography system that pairs sentence-case Inter with SF Mono…
 

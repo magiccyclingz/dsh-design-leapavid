@@ -739,6 +739,8 @@ const DISPLAY_EX = {
   'aljazeera': 'Al Jazeera', 'elevenlabs': 'ElevenLabs', 'minimax': 'MiniMax', 'hashicorp': 'HashiCorp',
   'posthog': 'PostHog', 'clickhouse': 'ClickHouse', 'ibm': 'IBM', 'hp': 'HP', 'sap': 'SAP', 'dji': 'DJI',
   'nvidia': 'NVIDIA', 'runwayml': 'Runway', '1win': '1win',
+  'bmw': 'BMW', 'spacex': 'SpaceX', 'playstation': 'PlayStation', 'voltagent': 'VoltAgent',
+  'mydealz': 'mydealz', 'jobright': 'Jobright',
 };
 
 const displayOf = (slug) => DISPLAY_EX[slug] ||
