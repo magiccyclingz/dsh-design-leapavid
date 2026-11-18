@@ -152,6 +152,7 @@ window.__ModuleLoader__.load({
         favRemove: '取消收藏',
         favOnly: '收藏',
         recentHint: '最近使用',
+        charsShort: '{n} 字',
         exportTitle: '导出 token',
         exportCss: '复制 CSS 变量',
         exportJson: '下载 tokens.json',
@@ -301,6 +302,7 @@ window.__ModuleLoader__.load({
         favRemove: 'Unsave',
         favOnly: 'Saved',
         recentHint: 'Recent',
+        charsShort: '{n} chars',
         exportTitle: 'Export tokens',
         exportCss: 'Copy CSS variables',
         exportJson: 'Download tokens.json',
@@ -1656,7 +1658,17 @@ window.__ModuleLoader__.load({
       const colors = (style.colors || []).filter((c) => c && c.hex)
       const types = (style.typography || []).filter((s) => Number.parseFloat(s.fontSize) > 0)
       const typeTop = types.reduce((max, s) => Math.max(max, Number.parseFloat(s.fontSize) || 0), 16)
-      const last = memory.last[lastKey(style.slug, surface)]
+      /** Prefer this surface's last run; fall back to the newest run of any surface for the style. */
+      const last = useMemo(() => {
+        const head = `${style.slug}:`
+        const own = memory.last[lastKey(style.slug, surface)]
+        if (own) return { ...own, surface }
+        const newest = Object.entries(memory.last)
+          .filter(([key]) => key.startsWith(head))
+          .map(([key, value]) => ({ surface: key.slice(head.length), ...value }))
+          .sort((a, b) => (b.at || 0) - (a.at || 0))[0]
+        return newest || null
+      }, [style.slug, surface])
       const whenText = (at) => {
         const mins = Math.max(1, Math.round((Date.now() - Number(at || 0)) / 60000))
         if (mins < 60) return `${mins} 分钟前`
@@ -1760,7 +1772,10 @@ window.__ModuleLoader__.load({
               },
             }, fav ? '★' : '☆'),
             h('p', { className: 'dm-detail-cat' }, style.category || ''),
-            last ? h('span', { className: 'dm-last-badge' }, t('lastDelivered', { when: whenText(last.at) })) : null,
+            last
+              ? h('span', { className: 'dm-last-badge' },
+                `${t('lastDelivered', { when: whenText(last.at) })}${last.surface && last.surface !== surface ? ` · ${t(`surfaces.${last.surface}`)}` : ''} · ${t('charsShort', { n: last.chars || 0 })}`)
+              : null,
           ),
           h('div', { className: 'dm-detail-head-r' },
             h('div', { className: 'dm-seg' },
@@ -2229,7 +2244,8 @@ window.__ModuleLoader__.load({
     )
 
     /* Poster templates are kept in code but not exposed in this release. */
-    const STRING_SURFACES = { page: true, slides: true, info: true, poster: true }
+    /** Poster stays built but hidden: its feature set is not final yet, so it is not offered in the UI. */
+    const STRING_SURFACES = { page: true, slides: true, info: true }
     const HOST_SURFACE = { page: 'web', slides: 'slides', info: 'infographic', poster: 'poster' }
     /** page + dark theme maps to the host's dedicated dark-page deliverable. */
     const hostKey = (chosen, mode) => (chosen === 'page' ? (mode === 'dark' ? 'webDark' : 'web') : HOST_SURFACE[chosen] || 'web')
@@ -2388,6 +2404,7 @@ window.__ModuleLoader__.load({
         for (const style of styles) if (style.category && !seen.includes(style.category)) seen.push(style.category)
         return [null, ...seen]
       }, [styles])
+      const categoryCount = (name) => styles.filter((item) => item.category === name).length
 
       const filtered = useMemo(() => {
         const q = query.trim().toLowerCase()
@@ -2489,7 +2506,7 @@ window.__ModuleLoader__.load({
               className: `dm-chip${category === name ? ' is-on' : ''}`,
               'aria-pressed': category === name,
               onClick: () => setCategory(name),
-            }, name || t('all'))),
+            }, name ? `${name} · ${categoryCount(name)}` : `${t('all')} ${styles.length}`)),
           ),
         ),
         h('div', { className: 'dm-body' },
