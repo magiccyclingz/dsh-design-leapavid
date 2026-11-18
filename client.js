@@ -102,7 +102,7 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         chartMutedHint: '四栏模板自带迷你图，主图不适用；换成一栏 / 两栏 / 三栏模板后可选图表。',
-        chartScopeHint: '网页 / 幻灯片的预览是排版示意，图表选择会在生成物里生效。',
+        chartScopeHint: '幻灯片的预览是排版示意，图表选择会在生成物里生效。',
         layout: '版式',
         layoutClassic: '一栏模板', layoutGrid: '三栏模板', layoutRings: '同心环', layoutSpread: '两栏模板', layoutColumns: '四栏模板',
         layoutNoteClassic: '单栏纵向：标题 → KPI → 主图 → 环形与结论，自上而下一条线读到底。',
@@ -248,7 +248,7 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         chartMutedHint: 'The four-column template has its own mini charts; the main chart does not apply.',
-        chartScopeHint: 'Web and slide previews are layout sketches; the chart choice applies in the generated file.',
+        chartScopeHint: 'Slide previews are layout sketches; the chart choice applies in the generated file.',
         layout: 'Layout',
         layoutClassic: 'One column', layoutGrid: 'Three columns', layoutRings: 'Rings', layoutSpread: 'Two columns', layoutColumns: 'Four columns',
         layoutNoteClassic: 'One column, top to bottom: title → KPIs → main chart → ring and insights.',
@@ -1873,25 +1873,27 @@ window.__ModuleLoader__.load({
                     t(`densityHint${(form.density || 'standard').charAt(0).toUpperCase()}${(form.density || 'standard').slice(1)}`)),
                 ]
                 : null,
-              h('div', { className: 'dm-label', key: 'chart-label' }, t('chart')),
-              h('div', { className: `dm-seg dm-seg-form dm-seg-chart${chartMuted ? ' is-muted' : ''}`, key: 'chart-seg' },
-                ...['auto', 'bar', 'line', 'donut', 'area', 'funnel'].map((key) => h('button', {
-                  key,
-                  type: 'button',
-                  disabled: chartMuted,
-                  title: chartMuted ? t('chartMutedHint') : '',
-                  className: `dm-seg-btn${(form.chart || 'auto') === key ? ' is-on' : ''}`,
-                  'aria-pressed': form.chart === key,
-                  onClick: () => setForm((prev) => ({ ...prev, chart: key })),
-                }, t(`chart${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
-              ),
-              h('p', { className: 'dm-form-note', key: 'chart-note' },
-                chartMuted
-                  ? t('chartMutedHint')
-                  : t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
-              (form.output || surface) === 'info'
-                ? null
-                : h('p', { className: 'dm-form-note dm-form-note-sub', key: 'chart-scope' }, t('chartScopeHint')),
+              ...((form.output || surface) === 'page' ? [] : [
+                h('div', { className: 'dm-label', key: 'chart-label' }, t('chart')),
+                h('div', { className: `dm-seg dm-seg-form dm-seg-chart${chartMuted ? ' is-muted' : ''}`, key: 'chart-seg' },
+                  ...['auto', 'bar', 'line', 'donut', 'area', 'funnel'].map((key) => h('button', {
+                    key,
+                    type: 'button',
+                    disabled: chartMuted,
+                    title: chartMuted ? t('chartMutedHint') : '',
+                    className: `dm-seg-btn${(form.chart || 'auto') === key ? ' is-on' : ''}`,
+                    'aria-pressed': form.chart === key,
+                    onClick: () => setForm((prev) => ({ ...prev, chart: key })),
+                  }, t(`chart${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+                ),
+                h('p', { className: 'dm-form-note', key: 'chart-note' },
+                  chartMuted
+                    ? t('chartMutedHint')
+                    : t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
+                (form.output || surface) === 'info'
+                  ? null
+                  : h('p', { className: 'dm-form-note dm-form-note-sub', key: 'chart-scope' }, t('chartScopeHint')),
+              ]),
               (form.output || surface) === 'info'
                 ? h('div', { key: 'layout-wrap' },
                   h('div', { className: 'dm-label' }, t('layout')),
