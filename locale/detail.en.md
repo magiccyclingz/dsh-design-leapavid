@@ -1,4 +1,4 @@
-# Design library (dsh-design-md)
+# DSH-Design-LeapAvid
 
 Eighty-four brand design languages taken from the open awesome-design-md corpus (MIT), rendered as a sidebar panel; the Chinese copy for each style is written in-repo from its tokens.
 

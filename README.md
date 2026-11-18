@@ -1,4 +1,6 @@
-# dsh-design-md
+# DSH-Design-LeapAvid · LeapAvid 设计风格库
+
+> 插件名 `DSH-Design-LeapAvid`，中文名「LeapAvid 设计风格库」；安装标识（npm 包名与 cordis 条目 id）仍为 `dsh-design-md`，以保持已装实例、收藏与最近使用记录不变。
 
 84 套品牌设计语言，在 DSH 左侧栏以「设计风格库」面板浏览。挑一套最接近的，写清楚要做什么，就把这套风格的完整 token 与交付规范送进当前会话，由 DSH 生成**网页、幻灯片或信息图**。
 

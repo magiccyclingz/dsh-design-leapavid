@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "设计风格库",
-    "description": "84 套品牌设计语言库：在左侧栏浏览每个风格的网页与幻灯片案例，卡片可收藏、可导出 token；选中后一键把风格 token 与页面结构送进当前会话，由 DSH 生成网页或幻灯片。",
+    "title": "LeapAvid 设计风格库",
+    "description": "LeapAvid 设计风格库（DSH-Design-LeapAvid）：84 套品牌设计语言，在左侧栏浏览每个风格的网页、幻灯片与信息图案例，卡片可收藏、可导出 token；选中后一键把风格 token、版式与交付规范送进当前会话，由 DSH 生成网页、幻灯片或信息图。",
     "detail": "locale/detail.zh.md"
   }
 }

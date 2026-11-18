@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Design library",
-    "description": "84 brand design languages: browse each style's web page and slide deck in the sidebar, star favourites, export tokens, then send the chosen style into the current conversation so DSH can build a page or deck with it.",
+    "title": "DSH-Design-LeapAvid",
+    "description": "DSH-Design-LeapAvid (LeapAvid design library): 84 brand design languages — browse each style's page, deck and infographic in the sidebar, star favourites, export tokens, then send the chosen style into the current conversation so DSH can build a page, a deck or an infographic with it.",
     "detail": "locale/detail.en.md"
   }
 }

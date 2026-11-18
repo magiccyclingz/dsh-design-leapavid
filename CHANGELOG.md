@@ -1,4 +1,11 @@
 
+## 1.34.0
+
+- 插件改名：英文名 **DSH-Design-LeapAvid**，中文名 **LeapAvid 设计风格库**。侧栏入口与面板标题、locale 元数据、cordis 条目展示名、上架条目 `name`、README 标题全部同步。
+- 安装标识保持不变（npm 包名 `dsh-design-md`、ModuleLoader id、cordis `id`、`localStorage` 键 `dsh-design-md:v1`），因此已装实例、收藏与最近使用记录、`plugin_manager` 目标名都不受影响；`test/client.test.mjs` 对 `id: 'dsh-design-md'` 的断言继续通过。
+- `package.json` 描述与 `locale` 描述改写为三载体（网页 / 幻灯片 / 信息图）口径，并点明新名。
+
+
 ## 1.33.5
 
 - 上架条目按 dsh-m 的 registry 文案规范重写：来源改 `github`（精选清单已有 github 源条目，dsh-m 锁 tag 的 commit 安装，因此**不必先发 npm**）；description 压到 40 全角当量（上限 60）；tags 收敛为 4 个功能词；三方条目不留 `verified`；去掉依赖 npm 的 jsDelivr 图标；`alsoCategories` 里非法的 `claude-picks` 换掉。

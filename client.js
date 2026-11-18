@@ -75,7 +75,7 @@ window.__ModuleLoader__.load({
 
     const STRINGS = {
       zh: {
-        title: '设计风格库',
+        title: 'LeapAvid 设计风格库',
         subtitle: '84 套真实品牌的设计语言，选一套当起点，说清需求，直接出你的网页、幻灯片与信息图。',
         search: '搜索品牌、风格关键词、适用场景…',
         all: '全部',
@@ -225,7 +225,7 @@ window.__ModuleLoader__.load({
         demoCheck: '记住我',
       },
       en: {
-        title: 'Design library',
+        title: 'DSH-Design-LeapAvid',
         subtitle: '84 real brand design languages. Pick one as a starting point, say what you need, and get your page, deck or infographic straight out.',
         search: 'Search brands, keywords, use cases…',
         all: 'All',

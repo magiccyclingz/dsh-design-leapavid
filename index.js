@@ -465,7 +465,7 @@ function makeTool(ctx, loadStyle) {
     name: 'design_md',
     description:
       'Browse and read the 84 brand design languages collected from getdesign.md (the same library the '
-      + '「设计风格库」sidebar panel shows). action "list" searches by keyword or category and returns slug / '
+      + '「LeapAvid 设计风格库 / DSH-Design-LeapAvid」sidebar panel shows). action "list" searches by keyword or category and returns slug / '
       + 'name / category / keywords (40 per page, pass offset for more); action "get" returns one style\'s design tokens (colors, type, radii, spacing) '
       + 'and its style brief. Use it whenever the user asks to build a page, deck or poster in the style of a '
       + 'named brand, or asks what a style contains.',

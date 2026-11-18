@@ -1,8 +1,8 @@
 {
   "name": "dsh-design-md",
-  "version": "1.33.5",
+  "version": "1.34.0",
   "type": "module",
-  "description": "84 套来自 getdesign.md 的品牌设计语言：在左侧栏浏览网页亮/暗、幻灯片与海报案例，一键把选中的风格连同 token 送进当前会话，由 DSH 生成网页 / 幻灯片 / 海报。",
+  "description": "DSH-Design-LeapAvid · LeapAvid 设计风格库：84 套来自 getdesign.md 的品牌设计语言，在左侧栏浏览网页、幻灯片与信息图案例，一键把选中风格的 token 与交付规范送进当前会话，由 DSH 生成网页 / 幻灯片 / 信息图。",
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",

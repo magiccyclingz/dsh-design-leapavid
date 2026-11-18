@@ -1,4 +1,4 @@
-# 设计风格库（dsh-design-md）
+# LeapAvid 设计风格库（DSH-Design-LeapAvid）
 
 84 套品牌设计语言，取自开源语料库 awesome-design-md（MIT），在 DSH 左侧栏以「设计风格库」面板呈现；每个风格的中文文案由本项目依据其 token 撰写。
 
