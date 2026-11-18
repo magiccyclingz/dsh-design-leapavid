@@ -1598,7 +1598,7 @@ window.__ModuleLoader__.load({
         },
       },
       h('div', { className: 'dm-card-visual' },
-        h(LazyArt, { style, mode: mode || baseMode(style), surface }),
+        h(LazyArt, { key: surface, style, mode: mode || baseMode(style), surface }),
         h('button', {
           type: 'button',
           className: `dm-star${fav ? ' is-on' : ''}`,
