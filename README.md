@@ -43,16 +43,16 @@
 
 ## 安装
 
-插件是标准 DSH bundle，三种装法（第 1 种现在就能用，第 2、3 种随发布推进）：
+插件是标准 DSH bundle，三种装法都可用（1.36.4 已发布到 npm）：
 
 ```text
 # 1) 本地目录（开发 / 自用）
 plugin_manager action=install_bundle target=<本目录绝对路径>
 
 # 2) GitHub 源（仓库已公开，锁定 release tag）
-plugin_manager action=install_bundle target=github:magiccyclingz/dsh-design-leapavid#v1.36.2
+plugin_manager action=install_bundle target=github:magiccyclingz/dsh-design-leapavid#v1.36.4
 
-# 3) npm（包发布后）
+# 3) npm（已发布，latest = 1.36.4）
 plugin_manager action=install_bundle target=dsh-design-leapavid
 ```
 
@@ -102,7 +102,7 @@ build/                  数据构建脚本与覆盖表（开发用，不进 npm 
 ## 测试
 
 ```bash
-npm test          # 23 项：宿主路由、catalog 完整性、提示词组装与边界
+npm test          # 27 项：宿主路由与 store 接口、catalog 完整性、提示词组装与边界
 node --check index.js && node --check client.js
 ```
 
@@ -118,4 +118,4 @@ node --check index.js && node --check client.js
 
 ## 发布与上架
 
-仓库已于 2026-11-18 转为 **public**：<https://github.com/magiccyclingz/dsh-design-leapavid>，发布流程、npm 发布前检查与市场条目字段见 [docs/RELEASE.md](./docs/RELEASE.md)；市场条目见 [docs/market-entry.json](./docs/market-entry.json)（npm 源变体：`docs/market-entry.npm.json`）。
+npm 包 **`dsh-design-leapavid@1.36.4`** 已发布（`npm i -D dsh-design-leapavid`）；仓库已于 2026-11-18 转为 **public**：<https://github.com/magiccyclingz/dsh-design-leapavid>，发布流程、npm 发布前检查与市场条目字段见 [docs/RELEASE.md](./docs/RELEASE.md)；市场条目见 [docs/market-entry.json](./docs/market-entry.json)（npm 源变体：`docs/market-entry.npm.json`）。
