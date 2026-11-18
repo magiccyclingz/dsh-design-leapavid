@@ -126,7 +126,7 @@ window.__ModuleLoader__.load({
         exportJson: '下载 tokens.json',
         exportTailwind: '复制 Tailwind 配置',
         exported: '已复制 {label}',
-        structure: '页面结构',
+        structure: '用途',
         structureAuto: '不限',
         structureLanding: '落地页',
         structurePricing: '定价页',
@@ -136,10 +136,14 @@ window.__ModuleLoader__.load({
         structurePitch: '提案 deck',
         structureReport: '汇报 deck',
         structureProduct: '产品 deck',
+        structureVenture: '融资 deck',
+        structureTraining: '培训 deck',
         deckNoteDeck: '标准 deck：封面 / 主张 / 目录 / 数据 / 速览 —— 最通用的一套，适合对外做品牌与方案介绍。',
         deckNotePitch: '提案 deck：封面 / 问题 / 方案 / 证据 / 下一步 —— 给客户或投资人讲清「为什么是你」。',
         deckNoteReport: '汇报 deck：封面 / 结论先行 / 过程 / 数据 / 计划 —— 周报、月报、项目复盘用它。',
         deckNoteProduct: '产品 deck：封面 / 现状 / 产品能力 / 实测与口碑 / 价格与行动 —— 发布会、上线宣讲用它。',
+        deckNoteVenture: '融资 deck：封面 / 市场 / 产品与增长 / 团队 / 融资用途 —— 见投资人、递 BP 用它。',
+        deckNoteTraining: '培训 deck：封面 / 目标 / 知识点 / 示例与练习 / 回顾 —— 内训、工作坊、课程讲解用它。',
         formNoteWeb: '将生成单文件 index.html：CSS/JS 内联、无外链资源，内置亮/暗两套 token，可直接双击打开。',
         formNoteSlides: '将生成单文件 deck.html：16:9 满屏分页，按上方所选结构逐页生成（每套 5 页），← → 或 PageUp/PageDown 翻页，右下角页码。',
         requirementPlaceholderSlides: '例如：给一款 AI 笔记产品做 5 页发布 deck，面向开发者，强调速度与离线可用。',
@@ -229,7 +233,7 @@ window.__ModuleLoader__.load({
         exportJson: 'Download tokens.json',
         exportTailwind: 'Copy Tailwind config',
         exported: 'Copied {label}',
-        structure: 'Layout',
+        structure: 'Purpose',
         structureAuto: 'Any',
         structureLanding: 'Landing',
         structurePricing: 'Pricing',
@@ -239,10 +243,14 @@ window.__ModuleLoader__.load({
         structurePitch: 'Pitch deck',
         structureReport: 'Review deck',
         structureProduct: 'Product deck',
+        structureVenture: 'Fundraising deck',
+        structureTraining: 'Training deck',
         deckNoteDeck: 'Standard deck: cover / thesis / contents / numbers / in brief — the general-purpose set for brand and solution intros.',
         deckNotePitch: 'Pitch deck: cover / problem / solution / proof / next step — for clients and investors, answering "why you".',
         deckNoteReport: 'Review deck: cover / conclusion first / process / numbers / plan — for weekly, monthly and post-mortem reviews.',
         deckNoteProduct: 'Product deck: cover / today / capabilities / proof / price and CTA — for launch events and release walkthroughs.',
+        deckNoteVenture: 'Fundraising deck: cover / market / product and traction / team / use of funds — for investor meetings and your BP.',
+        deckNoteTraining: 'Training deck: cover / objectives / key ideas / worked example / recap — for internal training, workshops and courses.',
         formNoteWeb: 'Produces a single index.html: inline CSS/JS, no external assets, light and dark token sets, opens by double-click.',
         formNoteSlides: 'Produces a single deck.html: 16:9 full-bleed slides, one page per line of the selected structure (five per deck), ← → to page, page number bottom-right.',
         requirementPlaceholderSlides: 'e.g. a five-slide launch deck for an AI notes app, aimed at developers, emphasising speed and offline use.',
@@ -1266,7 +1274,7 @@ window.__ModuleLoader__.load({
               h('div', { className: 'dm-label' }, t('structure')),
               h('div', { className: 'dm-seg dm-seg-form dm-seg-structure' },
                 ...((form.output || surface) === 'slides'
-                  ? ['auto', 'deck', 'pitch', 'report', 'product']
+                  ? ['auto', 'deck', 'pitch', 'report', 'product', 'venture', 'training']
                   : ['auto', 'landing', 'pricing', 'dashboard', 'blog']).map((key) => {
                   const label = t(`structure${key.charAt(0).toUpperCase()}${key.slice(1)}`)
                   return h('button', {
@@ -1335,45 +1343,6 @@ window.__ModuleLoader__.load({
               ),
             ),
 
-            h('section', { className: 'dm-card2' },
-              h('h3', null, t('exportTitle')),
-              h('div', { className: 'dm-export' },
-                h('button', {
-                  type: 'button',
-                  className: 'dm-ghost',
-                  onClick: async () => {
-                    await writeClipboard(cssExport(style))
-                    onToast({ kind: 'ok', text: t('exported', { label: t('exportCss') }) })
-                  },
-                }, t('exportCss')),
-                h('button', {
-                  type: 'button',
-                  className: 'dm-ghost',
-                  onClick: () => {
-                    try {
-                      const blob = new Blob([jsonExport(style)], { type: 'application/json' })
-                      const url = URL.createObjectURL(blob)
-                      const a = document.createElement('a')
-                      a.href = url
-                      a.download = `${style.slug}-tokens.json`
-                      a.click()
-                      URL.revokeObjectURL(url)
-                      onToast({ kind: 'ok', text: t('exported', { label: t('exportJson') }) })
-                    } catch (err) {
-                      onToast({ kind: 'err', text: String(err.message || err) })
-                    }
-                  },
-                }, t('exportJson')),
-                h('button', {
-                  type: 'button',
-                  className: 'dm-ghost',
-                  onClick: async () => {
-                    await writeClipboard(tailwindExport(style))
-                    onToast({ kind: 'ok', text: t('exported', { label: t('exportTailwind') }) })
-                  },
-                }, t('exportTailwind')),
-              ),
-            ),
 
             h('section', { className: 'dm-card2' },
               h('h3', null, t('notes')),
@@ -1493,6 +1462,47 @@ window.__ModuleLoader__.load({
                 h('div', { style: { border: `1px solid ${v.hairline}`, borderRadius: `${Math.min(rValue(v.radiusButton), 18)}px`, padding: '7px 10px', fontSize: 10.5, color: v.muted } }, t('demoInput')),
               ),
             ),
+
+            h('section', { className: 'dm-card2' },
+              h('h3', null, t('exportTitle')),
+              h('div', { className: 'dm-export' },
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: async () => {
+                    await writeClipboard(cssExport(style))
+                    onToast({ kind: 'ok', text: t('exported', { label: t('exportCss') }) })
+                  },
+                }, t('exportCss')),
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: () => {
+                    try {
+                      const blob = new Blob([jsonExport(style)], { type: 'application/json' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = `${style.slug}-tokens.json`
+                      a.click()
+                      URL.revokeObjectURL(url)
+                      onToast({ kind: 'ok', text: t('exported', { label: t('exportJson') }) })
+                    } catch (err) {
+                      onToast({ kind: 'err', text: String(err.message || err) })
+                    }
+                  },
+                }, t('exportJson')),
+                h('button', {
+                  type: 'button',
+                  className: 'dm-ghost',
+                  onClick: async () => {
+                    await writeClipboard(tailwindExport(style))
+                    onToast({ kind: 'ok', text: t('exported', { label: t('exportTailwind') }) })
+                  },
+                }, t('exportTailwind')),
+              ),
+            ),
+
           ),
         ),
 
@@ -1878,6 +1888,7 @@ window.__ModuleLoader__.load({
 .dm-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 12px;border-bottom:1px solid var(--line);margin-top:4px}
 .dm-toolbar .dm-count{margin-left:auto}
 .dm-seg{display:inline-flex;background:#f0f0f0;border-radius:8px;padding:3px;gap:2px}
+.dm-seg-form{flex-wrap:wrap;max-width:100%}
 .dm-seg-btn{appearance:none;border:0;background:transparent;font:inherit;font-size:12.5px;color:var(--ink-2);padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap}
 .dm-seg-btn:hover:not(.is-on){color:var(--ink)}
 .dm-seg-btn.is-on{background:var(--ink);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.18)}
