@@ -1109,7 +1109,7 @@ window.__ModuleLoader__.load({
         keywords ? h('div', { className: 'dm-card-kw' }, keywords) : null,
         h('p', { className: 'dm-card-desc' }, style.summaryZh || style.positioningZh || style.descriptionEn || ''),
         h('div', { className: 'dm-card-foot' },
-          h('div', { className: 'dm-dots' }, ...dots.map((hex, i) => h('span', { key: i, className: 'dm-dot', style: { background: hex } }))),
+          h('div', { className: 'dm-dots' }, ...dots.map((hex, i) => h('span', { key: i, className: 'dm-dot', title: hex, style: { background: hex } }))),
           h('span', { className: 'dm-card-go' }, t('useThis')),
         ),
       ))
@@ -1971,8 +1971,9 @@ window.__ModuleLoader__.load({
 @container (min-width:340px){.dm-card-desc{-webkit-line-clamp:3;line-clamp:3}}
 @container (min-width:460px){.dm-card-desc{-webkit-line-clamp:2;line-clamp:2}}
 .dm-card-foot{display:flex;align-items:center;justify-content:space-between}
-.dm-dots{display:flex;gap:5px;margin-top:12px}
-.dm-dot{width:13px;height:13px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.10)}
+.dm-dots{display:flex;gap:8px;margin-top:14px;align-items:center}
+.dm-dot{width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.06);transition:transform .16s ease,box-shadow .16s ease}
+.dm-card:hover .dm-dot{transform:translateY(-1px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.10),0 2px 6px rgba(0,0,0,.12)}
 .dm-card-go{font-size:12px;color:var(--ink-3);opacity:0;transition:opacity .15s}
 .dm-card:hover .dm-card-go,.dm-card:focus-visible .dm-card-go{opacity:1;color:var(--ink)}
 .dm-art{container-type:inline-size;width:100%;height:100%}
