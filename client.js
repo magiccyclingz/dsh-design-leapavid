@@ -102,6 +102,7 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         chartMutedHint: '四栏模板自带迷你图，主图不适用；换成一栏 / 两栏 / 三栏模板后可选图表。',
+        chartScopeHint: '网页 / 幻灯片的预览是排版示意，图表选择会在生成物里生效。',
         layout: '版式',
         layoutClassic: '一栏模板', layoutGrid: '三栏模板', layoutRings: '同心环', layoutSpread: '两栏模板', layoutColumns: '四栏模板',
         layoutNoteClassic: '单栏纵向：标题 → KPI → 主图 → 环形与结论，自上而下一条线读到底。',
@@ -242,6 +243,7 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         chartMutedHint: 'The four-column template has its own mini charts; the main chart does not apply.',
+        chartScopeHint: 'Web and slide previews are layout sketches; the chart choice applies in the generated file.',
         layout: 'Layout',
         layoutClassic: 'One column', layoutGrid: 'Three columns', layoutRings: 'Rings', layoutSpread: 'Two columns', layoutColumns: 'Four columns',
         layoutNoteClassic: 'One column, top to bottom: title → KPIs → main chart → ring and insights.',
@@ -1872,6 +1874,9 @@ window.__ModuleLoader__.load({
                   ? t('chartMutedHint')
                   : t(`chartNote${(form.chart || 'auto').charAt(0).toUpperCase()}${(form.chart || 'auto').slice(1)}`)),
               (form.output || surface) === 'info'
+                ? null
+                : h('p', { className: 'dm-form-note dm-form-note-sub', key: 'chart-scope' }, t('chartScopeHint')),
+              (form.output || surface) === 'info'
                 ? h('div', { key: 'layout-wrap' },
                   h('div', { className: 'dm-label' }, t('layout')),
                   h('div', { className: 'dm-seg dm-seg-form dm-seg-layout' },
@@ -2547,6 +2552,7 @@ window.__ModuleLoader__.load({
 .dm-preview.is-info{width:100%;max-width:var(--dm-info-w,760px);margin:0 auto;align-self:start}
 .dm-preview.is-info .dm-art{width:100%;height:auto;max-height:none}
 .dm-seg-chart{flex-wrap:wrap;max-width:100%}
+.dm-form-note-sub{margin-top:-4px;opacity:.72}
 .dm-card-body{padding:15px 2px 0}
 .dm-card-title{font-size:16.5px;font-weight:600;letter-spacing:-.01em;margin:0}
 .dm-card-meta{font-size:12px;color:var(--ink-3);margin-left:8px;font-weight:400}
