@@ -1112,7 +1112,7 @@ window.__ModuleLoader__.load({
         </div>`
 
       /* —— 四栏模板用的小组件 —— */
-      const cell = (inner, extra = '') => `<div style="border-top:1px solid ${grid};padding:${U(13)} 0;display:flex;flex-direction:column;gap:${U(9)};${extra}">${inner}</div>`
+      const cell = (inner, extra = '') => `<div style="border-top:1px solid ${grid};padding:${U(12)} 0;display:flex;flex-direction:column;justify-content:center;gap:${U(8)};${extra}">${inner}</div>`
       const cellTitle = (text) => `<div style="font-size:${U(12)};line-height:1.5;color:${th.muted}">${esc(text)}</div>`
       const bigNum = (value, unit, label) => `<div style="display:flex;align-items:baseline;gap:${U(6)}">
           <span style="font-family:${display};font-size:${U(46)};line-height:1;letter-spacing:${U(-1.2)}">${esc(value)}</span>
@@ -1218,14 +1218,18 @@ window.__ModuleLoader__.load({
                 ${cell(`${bigNum('18,268', '人', '月活')}<div style="height:${U(52)};display:flex;align-items:center;justify-content:center;border:1px dashed ${grid};border-radius:${U(6)};font-family:${mono};font-size:${U(10)};color:${th.muted}">map / hero</div>`, 'flex:1.2')}
                 ${cell(`${bigNum('32', '%', '转化')}${cellTitle('试用第 3 天是主要转化窗口。')}${miniBars()}`, 'flex:1')}
                 ${cell(`${stepsCell()}`, 'flex:1')}
+                ${cell(`<div style="font-family:${mono};font-size:${U(9)};letter-spacing:.12em;text-transform:uppercase;color:${th.muted}">source · 示例数据 2026</div>`, 'flex:.55;border-top:0')}
               </div>
               <div style="display:flex;flex-direction:column;padding:0 ${U(14)};border-left:1px solid ${grid};min-width:0">
                 ${cell(`${bigNum('52', '%', '复购')}<div style="margin:0 auto;width:${U(120)}">${donutBadge()}</div>`, 'flex:1.1')}
                 ${cell(legendCol, 'flex:1')}
+                ${cell(`<div style="display:flex;justify-content:space-between;font-size:${U(10)};color:${th.muted}">
+                  <span>自然流量 46%</span><span>投放 27%</span></div>`, 'flex:.55')}
               </div>
               <div style="display:flex;flex-direction:column;padding:0 ${U(14)};border-left:1px solid ${grid};min-width:0">
                 ${cell(`${cellTitle('月度新增（示例数据）')}${miniBars()}${cellTitle('轴：个月 / 单位：千')}`, 'flex:1.1')}
                 ${cell(insightCol, 'flex:1')}
+                ${cell(`${cellTitle('环比 +12%，连续 4 个月正增长。')}`, 'flex:.55')}
               </div>
               <div style="display:flex;flex-direction:column;padding-left:${U(14)};border-left:1px solid ${grid};min-width:0">
                 ${cell(optionList(), 'flex:1')}
