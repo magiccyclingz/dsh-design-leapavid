@@ -2,6 +2,16 @@
 
 本文件遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.9.3] - 2026-11-18
+
+### 变更（幻灯片去渐变）
+
+- 幻灯片预览里的色块全部改为规定的纯色 token，不再使用任何渐变：
+  - 第 2 页三块面板：`our mission` = 强调色实底，`our vision` = `ink` 实底，`our values` = `surface` 实底（文字分别取强调色反色 / `bg` / `ink`）；
+  - 第 3 页目录右侧满幅面板：强调色实底；
+  - 第 5 页拼贴图块：按 `accent` / `surface` / `ink` 三种实底轮换，文字颜色随底色切换。
+- 实测 `.dm-art` 内所有元素 `background-image` 中不再含 `gradient`（计数 0）。
+
 ## [1.9.2] - 2026-11-18
 
 ### 文档

@@ -672,18 +672,18 @@ window.__ModuleLoader__.load({
             </div>
           </div>
           <div style="display:grid;grid-template-rows:1.15fr .9fr .9fr;border-left:1px solid ${alpha(th.ink, 0.12)}">
-            <div style="position:relative;background:linear-gradient(140deg, ${th.accent}, ${mix(th.accent, th.ink, 0.55)})">
+            <div style="position:relative;background:${th.accent}">
               <div style="position:absolute;left:${US(14)};right:${US(14)};bottom:${US(12)};color:${accentInk};
                 font-size:${US(9)};line-height:1.5;text-transform:uppercase;letter-spacing:.14em">our mission</div>
               <div style="position:absolute;left:${US(14)};top:${US(12)};color:${alpha(accentInk, 0.8)};
                 font-size:${US(9)};font-family:${mono}">01</div>
             </div>
-            <div style="background:${th.accent};color:${accentInk};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
-              <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.8">our vision</div>
+            <div style="background:${th.ink};color:${th.bg};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.7">our vision</div>
               <div style="font-family:${display};font-size:${US(15)};line-height:1.45;letter-spacing:${US(-0.2)}">${esc(d.lede || d.tagline)}</div>
             </div>
-            <div style="background:${th.ink};color:${th.bg};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
-              <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.65">our values</div>
+            <div style="background:${th.surface};color:${th.ink};padding:${US(16)};display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-size:${US(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.6;color:${th.muted}">our values</div>
               <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(17)};line-height:1.25">
                 ${vision.map((x) => `<div>${esc(x)}</div>`).join('')}
               </div>
@@ -709,7 +709,7 @@ window.__ModuleLoader__.load({
               ${chapterCol('Our impact · 影响', chapters.slice(8, 12), 56)}
             </div>
           </div>
-          <div style="position:relative;background:linear-gradient(160deg, ${mix(th.accent, th.ink, 0.2)}, ${mix(th.accent, th.ink, 0.72)})">
+          <div style="position:relative;background:${th.accent}">
             <div style="position:absolute;left:${US(16)};right:${US(16)};bottom:${US(16)};color:${accentInk};
               font-size:${US(8.5)};line-height:1.65;opacity:.92">${esc(d.lede || d.tagline)}</div>
           </div>
@@ -751,11 +751,16 @@ window.__ModuleLoader__.load({
             <div style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(30)};line-height:1">
               ${esc(text)}<span style="font-size:${US(14)};opacity:.7">${'+'}</span></div>
           </div>`
-        const tint = [0.16, 0.3, 0.46][index % 3]
+        const cellVariants = [
+          { bg: th.accent, fg: accentInk },
+          { bg: th.surface, fg: th.ink },
+          { bg: th.ink, fg: th.bg },
+        ]
+        const cell = cellVariants[index % 3]
         return `
-          <div style="position:relative;background:linear-gradient(150deg, ${mix(th.accent, th.bg, tint)}, ${mix(th.accent, th.ink, 0.35)});padding:${US(12)};
+          <div style="position:relative;background:${cell.bg};padding:${US(12)};
             display:flex;flex-direction:column;justify-content:flex-end">
-            <div style="color:${accentInk};text-shadow:0 1px 2px rgba(0,0,0,.25)">
+            <div style="color:${cell.fg}">
               <div style="font-size:${US(9)};line-height:1.45;opacity:.95">${esc(title)}</div>
               <div style="font-size:${US(8.5)};line-height:1.5;opacity:.72;margin-top:${US(3)}">${esc(text)}</div>
             </div>
