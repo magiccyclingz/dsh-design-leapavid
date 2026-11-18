@@ -133,32 +133,21 @@ npm view dsh-design-leapavid version # 验证：出现 1.36.2 即成功
 
 ## 8. 上架条目（按 dsh-m 文案规范重写）
 
-`docs/market-entry.json` 是提交给精选清单 `iasiv5/dsh-m` 的 `registry.json` 用的条目；`docs/market-entry.npm.json` 是同一份内容的 npm 变体（等 npm 发布后换用）；`docs/hub-registry.json` 是按清单格式包好的本地预演文件（`{ "version": 1, "plugins": [ … ] }`）。
+`docs/market-entry.json` 是提交给精选清单 `iasiv5/dsh-m` 的 `registry.json` 用的条目，现在**已切到 npm 源**（`source: npm` + `npm: dsh-design-leapavid` + jsDelivr `icon`；registry schema 没有 `version` 字段，版本由 `verified` 与 npm 自身表达）；同一份内容的 GitHub 源变体保留在 `docs/market-entry.github.json`（清单或聚合方不支持 npm 源时用它）；`docs/hub-registry.json` 是按清单格式包好的本地预演文件（`{ "version": 1, "plugins": [ … ] }`），同样已是 npm 源。
+
+上游对文案有硬约束（[registry-copy-guide.md](https://github.com/iasiv5/dsh-m/blob/main/docs/registry-copy-guide.md)）：描述 ≤60 全角当量、不放无保鲜机制的精确数字（所以没写「84 套」）、`tags` ≤4 且不带「需 / 推荐」、`icon` 用 jsDelivr 浮动大版本（`@1`，禁止钉全版本）、`verified` 只写实测过的 DSH 代际并在描述末尾挂「已适配 …，详见仓库」句式。这些由 `test/market-entry.test.mjs` 机械校验（7 项）。
+
+提 PR 时 `registry.json` 是**紧凑单行风格**，可直接把 `docs/market-entry.line.txt` 里的这一行追加进 `plugins` 数组（不要 `JSON.parse` 后整体重排），同时按 guide §11 三连同步计数与 trail：
+
+```json
+{"id": "dsh-design-leapavid", "name": "LeapAvid 设计风格库", "description": "品牌设计语言库：选一套风格写清需求，即生成网页、幻灯片与信息图。已适配 0.2.2-rc.3，详见仓库", "category": "self-dev", "tags": ["品牌", "提示词", "幻灯片", "信息图"], "verified": ["0.2.2-rc.3"], "source": "npm", "npm": "dsh-design-leapavid", "github": "magiccyclingz/dsh-design-leapavid", "screenshots": ["docs/screenshots/info-list.jpg", "docs/screenshots/detail.jpg", "docs/screenshots/deck-1.jpg"], "icon": "https://cdn.jsdelivr.net/npm/dsh-design-leapavid@1/icon.svg", "homepage": "https://github.com/magiccyclingz/dsh-design-leapavid"}
+```
 
 2026-11-18 按上游 [registry-copy-guide](https://github.com/iasiv5/dsh-m/blob/main/docs/registry-copy-guide.md) 校正后的关键决定：
 
-- **来源改 `github`**：精选清单里已有 `source: "github"` 的条目（如 `qiaomu-rss-dsh`），dsh-m 会锁定 release / tag 的 commit SHA 安装——**不必先发 npm**。代价是仓库必须公开；`magiccyclingz/dsh-design-leapavid` 已于 2026-11-18 转为 **public**，该阻塞已解除。
-- **description 40 全角当量**（上限 60，卡片只显示两行）：`品牌设计语言库：84 套 token 现场渲染，选一套写清需求即生成网页、幻灯片与信息图。`
-- **tags 4 个**，只放功能词、不带「需/推荐」前缀：品牌 / 提示词 / 幻灯片 / 信息图。
-- **`verified` 留空**：三方条目默认不填（带来逐宿主版本复测义务）；实测记录写进 PR 描述即可。
-- **`icon` 现可用**：`https://cdn.jsdelivr.net/npm/dsh-design-leapavid@1/icon.svg`（npm 已发布 1.36.5，jsDelivr 首次拉取可能有缓存延迟；若担心首屏死链可先留空，dsh-m 会回退 GitHub 头像）。
-- **`alsoCategories` 去掉**：原先写的 `claude-picks` 不是合法桶名（合法值为 `essentials` / `cui-picks` / `baoyu` / `guizang` / `self-dev` / `tencent-lighthouse` / `watchlist`），主桶 `self-dev` 已够。
-- **`screenshots` 用仓库相对路径**（github 源条目支持）：`docs/screenshots/info-list.jpg`、`detail.jpg`、`deck-1.jpg`。
-
-上架路径（按成本排序）：
-
-1. **精选 PR（推荐，零 npm 依赖；仓库已 public）**：
-   ```bash
-   gh repo view magiccyclingz/dsh-design-leapavid --json visibility     # 已确认 PUBLIC
-   # release 已随每次发版创建（dsh-m 跟踪 tag/release，而不是 main 的最新提交）
-   gh release list --repo magiccyclingz/dsh-design-leapavid | head -3
-   # 到 iasiv5/dsh-m 提 PR：把 docs/market-entry.json 追加进 registry.json 的 plugins 数组   # MANUAL
-   ```
-2. **npm 发布后再走 npm 源**（只需 `npm login`，`publishConfig` 已配好）：
-   ```bash
-   npm login && npm publish                      # MANUAL
-   ```
-   然后把条目换成 `docs/market-entry.npm.json` 的内容。
-3. **社区目录**：自动抓 npm，只有第 2 步完成后才会出现，抓取频率未知。
-
-本地预演（无需账号，验证清单能解析、卡片能渲染）：把 dsh-m 设置里的精选清单地址改成 `file:///Users/openclaw/Projects/dsh-design-leapavid/docs/hub-registry.json`（或本机绝对路径）。注意预演只验证清单与卡片；安装仍要等仓库公开或 npm 发布。
+- **来源用 `npm`**：包已发布（`latest = 1.36.5`），dsh-m 对 npm 源按包名安装并跟随 latest，不必再锁 tag；仓库 public 仅作为源码与 README 的着陆页。GitHub 源变体留在 `docs/market-entry.github.json`，供不支持 npm 源的清单使用。
+- **description 45.5 全角当量**（上限 60，卡片只显示两行）：`品牌设计语言库：选一套风格写清需求，即生成网页、幻灯片与信息图。已适配 0.2.2-rc.3，详见仓库` —— 按 §2 去掉了「84 套」这类需要保鲜机制的数字。
+- **tags 4 个**，只放功能词、不带「需 / 推荐」前缀：品牌 / 提示词 / 幻灯片 / 信息图。
+- **`verified: ["0.2.2-rc.3"]`**：本条属 coupled（依赖 DSH 的 slot 与 webServer API，DSH 升级需复测），描述末尾按 §4 挂「已适配 …，详见仓库」句式。
+- **`icon`**：`https://cdn.jsdelivr.net/npm/dsh-design-leapavid@1/icon.svg` —— §10 要求钉浮动大版本 `@1`，禁止钉全版本。实测 `curl` 返回 `200 image/svg+xml` / 626 B。
+- **守卫**：`test/market-entry.test.mjs` 校验上述全部约束（宽度、禁数字、tags、schema 键、source 自洽、verified 与描述尾巴、icon 形态、两个变体一致性、hub 预演同步）；改条目先跑 `npm test`。

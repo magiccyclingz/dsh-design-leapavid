@@ -118,4 +118,4 @@ node --check index.js && node --check client.js
 
 ## 发布与上架
 
-npm 包 **`dsh-design-leapavid@1.36.4`** 已发布（`npm i -D dsh-design-leapavid`）；仓库已于 2026-11-18 转为 **public**：<https://github.com/magiccyclingz/dsh-design-leapavid>，发布流程、npm 发布前检查与市场条目字段见 [docs/RELEASE.md](./docs/RELEASE.md)；市场条目见 [docs/market-entry.json](./docs/market-entry.json)（npm 源变体：`docs/market-entry.npm.json`）。
+npm 包 **`dsh-design-leapavid@1.36.5`** 已发布（`npm i -D dsh-design-leapavid`，`latest = 1.36.5`）；仓库已于 2026-11-18 转为 **public**：<https://github.com/magiccyclingz/dsh-design-leapavid>，发布流程、npm 发布前检查与市场条目字段见 [docs/RELEASE.md](./docs/RELEASE.md)；市场条目见 [docs/market-entry.json](./docs/market-entry.json)（**npm 源**，GitHub 源变体保留在 `docs/market-entry.github.json`）。
