@@ -107,6 +107,12 @@ window.__ModuleLoader__.load({
         layoutNoteGrid: '信息块拼贴：数字、环形、图例分区摆放，像杂志跨页。',
         layoutNoteRings: '同心环做主视觉，每层一段占比，右侧配图例与结论。',
         layoutNoteSpread: '左右分栏：左栏标题与 KPI，右栏图表与结论，适合数据密集。',
+        paletteBrand: '品牌色',
+        paletteTeal: '模板蓝 · 珊瑚红',
+        paletteMint: '扁平绿 · 青蓝',
+        paletteNoteBrand: '沿用这套风格自己的 token，最贴合品牌。',
+        paletteNoteTeal: '参考图一：深蓝页眉 + 珊瑚红强调 + 浅蓝辅色，商务感强。',
+        paletteNoteMint: '参考图二：白底 + 草绿 + 青蓝 + 深蓝，扁平清爽。',
         themes: { light: '浅色', dark: '深色' },
         brandDark: '该品牌本身为深色，无浅色版本',
         source: '来源',
@@ -235,6 +241,12 @@ window.__ModuleLoader__.load({
         layoutNoteGrid: 'Tiled board: numbers, ring and legend in separate blocks.',
         layoutNoteRings: 'Concentric rings carry the story, legend and insights beside.',
         layoutNoteSpread: 'Two columns: title and KPIs left, charts and insights right.',
+        paletteBrand: 'Brand',
+        paletteTeal: 'Teal · Coral',
+        paletteMint: 'Green · Cyan',
+        paletteNoteBrand: 'Keeps this style’s own tokens — the most on-brand option.',
+        paletteNoteTeal: 'Reference A: deep teal header, coral accents, pale blue support.',
+        paletteNoteMint: 'Reference B: white base with grass green, cyan and deep navy.',
         themes: { light: 'Light', dark: 'Dark' },
         brandDark: 'This brand is dark by nature — no light variant',
         source: 'Source',
@@ -473,6 +485,23 @@ window.__ModuleLoader__.load({
     const PAGE_BASE = 1180
     const SLIDE_BASE = 1280
     const POSTER_BASE = 900
+    /* 两组参考配色：A 来自「模板蓝 · 珊瑚红」，B 来自「扁平绿 · 青蓝」 */
+    const INFO_PALETTES = {
+      brand: { label: '品牌色', hexes: [] },
+      teal: {
+        label: '模板蓝 · 珊瑚红',
+        hexes: ['#0B3B52', '#2E7FA8', '#E8402F', '#5BB8E8', '#F4F7F9'],
+        bg: '#FFFFFF', ink: '#0B3B52', accent: '#E8402F', second: '#2E7FA8',
+        muted: '#6C7A85', hair: '#D8E2E8', wash: '#EAF3F8',
+      },
+      mint: {
+        label: '扁平绿 · 青蓝',
+        hexes: ['#1B3A5C', '#7CC242', '#22A9DC', '#8ED1F0', '#F7F9FB'],
+        bg: '#FFFFFF', ink: '#1B3A5C', accent: '#7CC242', second: '#22A9DC',
+        muted: '#7A8894', hair: '#E1E8EE', wash: '#EEF6FB',
+      },
+    }
+
     const INFO_BASE = 1080
 
     const unit = (base) => (px) => `${((Number(px) || 0) / base * 100).toFixed(3)}cqw`
@@ -881,8 +910,12 @@ window.__ModuleLoader__.load({
 
     /* ---------------------------------------------------- infographic page */
 
-    function infographicHtml(style, mode, clip, chartChoice, layout) {
-      const th = themeOf(style, mode)
+    function infographicHtml(style, mode, clip, chartChoice, layout, paletteKey) {
+      const base = themeOf(style, mode)
+      const pal = INFO_PALETTES[paletteKey]
+      const th = pal && pal.bg
+        ? { ...base, bg: pal.bg, ink: pal.ink, accent: pal.accent, muted: pal.muted, hairline: pal.hair }
+        : base
       const v = style.visual
       const d = deckOf(style)
       const U = unit(INFO_BASE)
@@ -891,8 +924,8 @@ window.__ModuleLoader__.load({
       const mono = fam(v.monoFamily && v.monoFamily !== '—' ? v.monoFamily : 'ui-monospace, SFMono-Regular, Menlo, monospace')
       const accentInk = v.accentText || (luminance(th.accent) > 0.55 ? '#111111' : '#ffffff')
       const c1 = th.accent
-      const c2 = mix(th.accent, th.bg, 0.55)
-      const c3 = mix(th.accent, th.bg, 0.8)
+      const c2 = pal && pal.second ? pal.second : mix(th.accent, th.bg, 0.55)
+      const c3 = pal && pal.second ? mix(pal.second, '#ffffff', 0.55) : mix(th.accent, th.bg, 0.8)
       const grid = alpha(th.ink, 0.12)
       const kind = ['bar', 'line', 'donut', 'area', 'funnel'].includes(chartChoice) ? chartChoice : 'bar'
 
@@ -1269,9 +1302,9 @@ window.__ModuleLoader__.load({
       poster: { build: posterHtml, cls: 'is-poster', base: POSTER_BASE },
     }
 
-    function Art({ style, mode, surface, clip, onAction, chart, layout }) {
+    function Art({ style, mode, surface, clip, onAction, chart, layout, palette }) {
       const spec = ART_BUILDERS[surface] || ART_BUILDERS.page
-      const html = useMemo(() => spec.build(style, mode, clip, chart, layout), [spec, style, mode, clip, chart, layout])
+      const html = useMemo(() => spec.build(style, mode, clip, chart, layout, palette), [spec, style, mode, clip, chart, layout, palette])
       const onClick = (event) => {
         if (!onAction) return
         const hit = event.target && event.target.closest ? event.target.closest('[data-dm-action]') : null
@@ -1435,7 +1468,7 @@ window.__ModuleLoader__.load({
     function Detail({ style, all, onOpen, surface, setSurface, mode, setMode, onBack, onToast }) {
       const loc = useLocale()
       const v = style.visual
-      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic' })
+      const [form, setForm] = useState({ requirement: '', includeDesign: false, structure: 'auto', density: 'standard', chart: 'auto', layout: 'classic', palette: 'brand' })
       const [busy, setBusy] = useState(false)
       const [sent, setSent] = useState(false)
       const [design, setDesign] = useState({ open: false, text: '', busy: false })
@@ -1471,6 +1504,7 @@ window.__ModuleLoader__.load({
             structure: form.structure,
             chart: form.chart,
             layout: form.layout,
+            palette: form.palette,
             density: form.density,
             requirement: form.requirement,
             includeDesign: form.includeDesign,
@@ -1598,6 +1632,7 @@ window.__ModuleLoader__.load({
                 surface,
                 chart: form.chart,
                 layout: form.layout,
+                palette: form.palette,
                 onAction: (action) => {
                   if (action === 'design') openDesign()
                   else if (action === 'theme') setMode(mode === 'dark' ? 'light' : 'dark')
@@ -1691,6 +1726,22 @@ window.__ModuleLoader__.load({
                   ),
                   h('p', { className: 'dm-form-note' },
                     t(`layoutNote${(form.layout || 'classic').charAt(0).toUpperCase()}${(form.layout || 'classic').slice(1)}`)),
+                )
+                : null,
+              (form.output || surface) === 'info'
+                ? h('div', { key: 'palette-wrap' },
+                  h('div', { className: 'dm-label' }, t('palette')),
+                  h('div', { className: 'dm-seg dm-seg-form dm-seg-palette' },
+                    ...['brand', 'teal', 'mint'].map((key) => h('button', {
+                      key,
+                      type: 'button',
+                      className: `dm-seg-btn${(form.palette || 'brand') === key ? ' is-on' : ''}`,
+                      'aria-pressed': (form.palette || 'brand') === key,
+                      onClick: () => setForm((prev) => ({ ...prev, palette: key })),
+                    }, t(`palette${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
+                  ),
+                  h('p', { className: 'dm-form-note' },
+                    t(`paletteNote${(form.palette || 'brand').charAt(0).toUpperCase()}${(form.palette || 'brand').slice(1)}`)),
                 )
                 : null,
               h('div', { className: 'dm-label' }, t('requirement')),

@@ -197,6 +197,20 @@ const INFO_LAYOUTS = {
   spread: { label: '双栏数据板', lines: ['页眉 + 双栏布局', '左栏：标题、KPI、渠道图例', '右栏：主图（按所选图表）与关键结论'] },
 }
 
+const INFO_PALETTES = {
+  brand: { label: '品牌色', hexes: [] },
+  teal: {
+    label: '模板蓝 · 珊瑚红',
+    hexes: ['#0B3B52', '#2E7FA8', '#E8402F', '#5BB8E8', '#F4F7F9'],
+    roles: { background: '#FFFFFF', ink: '#0B3B52', accent: '#E8402F', secondary: '#2E7FA8', muted: '#6C7A85', hairline: '#D8E2E8' },
+  },
+  mint: {
+    label: '扁平绿 · 青蓝',
+    hexes: ['#1B3A5C', '#7CC242', '#22A9DC', '#8ED1F0', '#F7F9FB'],
+    roles: { background: '#FFFFFF', ink: '#1B3A5C', accent: '#7CC242', secondary: '#22A9DC', muted: '#7A8894', hairline: '#E1E8EE' },
+  },
+}
+
 const CHARTS = {
   auto: {
     label: '自动选择',
@@ -327,6 +341,7 @@ function buildPrompt(style, brief, options) {
     : (options.surface === 'slides' || options.surface === 'poster' ? 'slides' : 'web')
   const chart = CHARTS[options.chart] || CHARTS.auto
   const layout = INFO_LAYOUTS[options.layout] || INFO_LAYOUTS.classic
+  const palette = INFO_PALETTES[options.palette] || INFO_PALETTES.brand
   const picked = STRUCTURES[options.structure] || STRUCTURES.auto
   const structure = picked.surface && picked.surface !== surfaceFamily ? STRUCTURES.auto : picked
   const density = DENSITIES[options.density] || DENSITIES.standard
@@ -360,6 +375,16 @@ function buildPrompt(style, brief, options) {
     surfaceFamily === 'slides' ? '' : null,
     surfaceFamily === 'info'
       ? [`## 信息图版式（${layout.label}）`, ...layout.lines.map((line, i) => `${i + 1}. ${line}`)].join('\n')
+      : '',
+    surfaceFamily === 'info' ? '' : null,
+    surfaceFamily === 'info' && palette.hexes.length
+      ? [
+        `## 配色覆写（${palette.label}）`,
+        `- 背景 ${palette.roles.background}、正文 ${palette.roles.ink}、强调 ${palette.roles.accent}、辅色 ${palette.roles.secondary}`,
+        `- 次要文字 ${palette.roles.muted}、分割线 ${palette.roles.hairline}`,
+        `- 色板：${palette.hexes.join(' / ')}；这些颜色优先于品牌 token，图表系列色从这里派生。`,
+        '- 除上述颜色与白色外不要再引入其他色相，图表最多 3 个系列。',
+      ].join('\n')
       : '',
     surfaceFamily === 'info' ? '' : null,
     surfaceFamily === 'info' || surfaceFamily === 'web' || surfaceFamily === 'slides'
@@ -639,6 +664,7 @@ export function apply(ctx) {
           const densityKey = typeof body.density === 'string' && Object.hasOwn(DENSITIES, body.density) ? body.density : 'standard'
           const chartKey = typeof body.chart === 'string' && Object.hasOwn(CHARTS, body.chart) ? body.chart : 'auto'
           const layoutKey = typeof body.layout === 'string' && Object.hasOwn(INFO_LAYOUTS, body.layout) ? body.layout : 'classic'
+          const paletteKey = typeof body.palette === 'string' && Object.hasOwn(INFO_PALETTES, body.palette) ? body.palette : 'brand'
           const previous = typeof body.previous === 'string' ? body.previous.slice(0, 400) : ''
           const withDesign = body.includeDesign === true
           const brief = await loadStyle(style.slug, 'brief')
@@ -650,6 +676,7 @@ export function apply(ctx) {
             density: densityKey,
             chart: chartKey,
             layout: layoutKey,
+            palette: paletteKey,
             previous,
             requirement,
             includeDesign: withDesign,
@@ -662,6 +689,7 @@ export function apply(ctx) {
             density: densityKey,
             chart: chartKey,
             layout: layoutKey,
+            palette: paletteKey,
             style: { slug: style.slug, displayName: style.displayName, nameZh: style.nameZh },
           })
         }
