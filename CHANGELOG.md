@@ -1,3 +1,10 @@
+## 1.36.0
+
+- **收藏 / 最近使用 / 上次生成改为宿主侧持久化**：桌面版每次启动都会换端口，`localStorage` 按 origin 隔离，重启后收藏必然清空。现在真实数据存在 `$DSH_HOME/dsh-design-leapavid/store.json`（默认 `~/.dsh/...`），`localStorage` 仅作即时缓存与首次迁移来源。
+- 新增 `GET /api/design-md/store` 与 `POST /api/design-md/store`：读取与写入都做白名单校验（slug 正则、`at` 必须正数、`fav` ≤200 / `recent` ≤12 / `last` ≤200），写入走「临时文件 + rename」原子替换并按队列串行，避免多标签页互相覆盖。
+- 升级后首次打开面板时，若宿主文件为空而浏览器里已有数据，会自动把旧收藏整体上传，无需手工处理。
+
+
 
 ## 1.35.0
 

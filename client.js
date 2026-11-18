@@ -42,11 +42,83 @@ window.__ModuleLoader__.load({
 
     function writeStore() {
       try {
-        if (typeof localStorage === 'undefined') return
-        localStorage.setItem(STORE_KEY, JSON.stringify({ fav: memory.fav, recent: memory.recent, last: memory.last }))
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem(STORE_KEY, JSON.stringify({ fav: memory.fav, recent: memory.recent, last: memory.last }))
+        }
       } catch {
         /* private mode / quota — the panel still works without persistence */
       }
+      pushStore()
+    }
+
+    /* ------------------------------------------------- host-side persistence */
+    // The desktop app picks a new port on every launch, so the browser origin —
+    // and with it every localStorage entry — is different after each restart.
+    // The host keeps the real copy in $DSH_HOME/dsh-design-leapavid/store.json;
+    // localStorage stays as an instant cache and as the seed for that file.
+
+    const STORE_URL = '/api/design-md/store'
+    let storePushTimer = 0
+    let storeHydrated = false
+
+    function storePayload() {
+      return { fav: memory.fav, recent: memory.recent, last: memory.last }
+    }
+
+    function storeIsEmpty(value) {
+      if (!value || typeof value !== 'object') return true
+      const fav = Array.isArray(value.fav) ? value.fav.length : 0
+      const recent = Array.isArray(value.recent) ? value.recent.length : 0
+      const last = value.last && typeof value.last === 'object' ? Object.keys(value.last).length : 0
+      return !fav && !recent && !last
+    }
+
+    function adoptStore(value) {
+      if (Array.isArray(value.fav)) memory.fav = value.fav.filter((x) => typeof x === 'string')
+      if (Array.isArray(value.recent)) memory.recent = value.recent.filter((x) => typeof x === 'string')
+      if (value.last && typeof value.last === 'object') memory.last = value.last
+    }
+
+    /** Fire-and-forget write behind a short debounce (fav toggle, delivery, recent). */
+    function pushStore() {
+      if (storeHydrated === false) return
+      if (typeof fetch !== 'function' || typeof window === 'undefined') return
+      window.clearTimeout(storePushTimer)
+      storePushTimer = window.setTimeout(() => {
+        fetch(STORE_URL, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(storePayload()),
+        }).catch(() => { /* host route missing / offline — localStorage still holds it */ })
+      }, 320)
+    }
+
+    /**
+     * Resolves true when the host copy replaced what this render started with,
+     * so the caller can re-render. Seeds the host file from localStorage the
+     * first time the two disagree because the file has never been written.
+     */
+    function hydrateStore() {
+      if (typeof fetch !== 'function') {
+        storeHydrated = true
+        return Promise.resolve(false)
+      }
+      return fetch(STORE_URL, { headers: { accept: 'application/json' } })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          storeHydrated = true
+          if (storeIsEmpty(data)) {
+            if (!storeIsEmpty(storePayload())) pushStore()
+            return false
+          }
+          const before = JSON.stringify(storePayload())
+          adoptStore(data)
+          return JSON.stringify(storePayload()) !== before
+        })
+        .catch(() => {
+          storeHydrated = true
+          return false
+        })
     }
     function toggleFav(slug) {
       memory.fav = memory.fav.includes(slug) ? memory.fav.filter((x) => x !== slug) : [slug, ...memory.fav]
@@ -2383,6 +2455,7 @@ window.__ModuleLoader__.load({
       useEffect(() => {
         alive.current = true
         load(false)
+        hydrateStore().then((changed) => { if (changed && alive.current) setFavTick((x) => x + 1) })
         return () => { alive.current = false }
       }, [])
 

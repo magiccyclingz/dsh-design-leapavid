@@ -6,16 +6,27 @@
  * the panel hands to the current conversation, and registers the `design_md`
  * agent tool so the model can pull a style on its own.
  *
- * Read-only with respect to the workspace: it never writes files. Generation
- * happens in the conversation, by the agent, from the prompt this route builds.
+ * Writes exactly one file of its own: the panel's favourites / recently-used
+ * store under `$DSH_HOME/dsh-design-leapavid` (browser localStorage is unusable
+ * for this — the desktop app binds a new port, and origin, on every launch).
+ * Generation still happens in the conversation, from the prompt this route builds.
  */
-import { readFile, stat } from 'node:fs/promises'
+import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises'
+import { homedir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const DATA = path.join(HERE, 'data')
 const ROUTE = '/api/design-md'
+
+/** Resolved per call so tests (and a changed DSH_HOME) take effect without a reload. */
+function storeFile() {
+  const home = process.env.DSH_HOME?.trim() || path.join(homedir(), '.dsh')
+  return path.join(home, 'dsh-design-leapavid', 'store.json')
+}
+
+const SLUG_RE = /^[a-z0-9][a-z0-9.-]*$/i
 
 export const name = 'dsh-design-leapavid'
 export const inject = ['webServer', 'tools']
@@ -66,6 +77,78 @@ async function readJson(req, limit = 256 * 1024) {
   } catch {
     throw new HttpError(400, 'invalid JSON body')
   }
+}
+
+/* ----------------------------------------------------------------- store */
+
+const EMPTY_STORE = { fav: [], recent: [], last: {} }
+const MAX_FAV = 200
+const MAX_RECENT = 12
+const MAX_LAST = 200
+
+function slugList(value, limit) {
+  if (!Array.isArray(value)) return []
+  const out = []
+  for (const item of value) {
+    if (typeof item !== 'string' || !SLUG_RE.test(item) || out.includes(item)) continue
+    out.push(item)
+    if (out.length >= limit) break
+  }
+  return out
+}
+
+/** Keeps only well-formed badge records so a bad client cannot bloat the file. */
+function sanitizeLast(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  const out = {}
+  for (const [key, raw] of Object.entries(value)) {
+    if (!/^[a-z0-9][a-z0-9.-]*:[a-z]+$/i.test(key)) continue
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) continue
+    const at = Number(raw.at)
+    if (!Number.isFinite(at) || at <= 0) continue
+    const entry = { at: Math.floor(at) }
+    const chars = Number(raw.chars)
+    if (Number.isFinite(chars) && chars >= 0) entry.chars = Math.floor(chars)
+    if (typeof raw.surface === 'string' && SLUG_RE.test(raw.surface)) entry.surface = raw.surface
+    if (typeof raw.structure === 'string' && SLUG_RE.test(raw.structure)) entry.structure = raw.structure
+    if (typeof raw.requirement === 'string' && raw.requirement.trim()) entry.requirement = raw.requirement.slice(0, 200)
+    out[key] = entry
+    if (Object.keys(out).length >= MAX_LAST) break
+  }
+  return out
+}
+
+function sanitizeStore(body) {
+  return {
+    fav: slugList(body?.fav, MAX_FAV),
+    recent: slugList(body?.recent, MAX_RECENT),
+    last: sanitizeLast(body?.last),
+  }
+}
+
+async function loadStore() {
+  try {
+    const raw = await readFile(storeFile(), 'utf8')
+    return sanitizeStore(JSON.parse(raw))
+  } catch {
+    return { ...EMPTY_STORE, last: {} }
+  }
+}
+
+let storeWriteChain = Promise.resolve()
+/** Serialised, atomic (tmp + rename) so concurrent tabs cannot interleave writes. */
+function saveStore(next) {
+  const body = JSON.stringify(next, null, 2)
+  storeWriteChain = storeWriteChain
+    .catch(() => {})
+    .then(async () => {
+      const file = storeFile()
+      await mkdir(path.dirname(file), { recursive: true })
+      const tmp = `${file}.${process.pid}.tmp`
+      await writeFile(tmp, body, 'utf8')
+      await rename(tmp, file)
+    })
+  return storeWriteChain
 }
 
 /* --------------------------------------------------------------- catalog */
@@ -658,6 +741,21 @@ export function apply(ctx) {
             styles: catalog.styles.map(projectStyle),
           })
         }
+
+        if (method === 'GET' && rest === 'store') {
+          return sendJson(res, 200, await loadStore())
+        }
+
+        if (method === 'POST' && rest === 'store') {
+          const body = await readJson(req, 64 * 1024)
+          if (!body || typeof body !== 'object' || Array.isArray(body)) {
+            throw new HttpError(400, 'expected a JSON object')
+          }
+          const next = sanitizeStore(body)
+          await saveStore(next)
+          return sendJson(res, 200, { ok: true, ...next })
+        }
+
 
         const match = /^(style|brief|design)\/(.+)$/.exec(rest)
         if (method === 'GET' && match) {

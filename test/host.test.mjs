@@ -1,6 +1,12 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { mkdtempSync } from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { apply } from '../index.js'
+
+// Keep the store tests off the real ~/.dsh file.
+process.env.DSH_HOME = mkdtempSync(path.join(os.tmpdir(), 'dsh-design-store-'))
 
 /** Minimal host stand-in: capture the HTTP route and the agent tool. */
 function boot() {
@@ -144,6 +150,51 @@ test('POST /prompt rejects bad input without leaking internals', async () => {
   const posterPrompt = JSON.parse(poster.body).prompt
   assert.equal(posterPrompt.includes('## 图表规范'), false)
   assert.equal(posterPrompt.includes('## 交付要求'), true)
+})
+
+test('GET /store starts empty and never leaks the host path', async () => {
+  const res = await call(route, 'GET', '/api/design-md/store')
+  assert.equal(res.status, 200)
+  const body = JSON.parse(res.body)
+  assert.deepEqual(body.fav, [])
+  assert.deepEqual(body.recent, [])
+  assert.deepEqual(body.last, {})
+  assert.equal(res.body.includes('/Users/'), false)
+})
+
+test('POST /store round-trips favourites, recent and last badges', async () => {
+  const payload = {
+    fav: ['stripe', 'airbnb', 'stripe'],
+    recent: ['stripe'],
+    last: { 'stripe:info': { at: 1700000000000, chars: 3457, surface: 'info' } },
+  }
+  const write = await call(route, 'POST', '/api/design-md/store', JSON.stringify(payload))
+  assert.equal(write.status, 200)
+  assert.equal(write.body.includes('ok'), true)
+
+  const read = await call(route, 'GET', '/api/design-md/store')
+  const body = JSON.parse(read.body)
+  assert.deepEqual(body.fav, ['stripe', 'airbnb'], 'duplicates are dropped')
+  assert.deepEqual(body.recent, ['stripe'])
+  assert.equal(body.last['stripe:info'].chars, 3457)
+})
+
+test('POST /store drops malformed entries instead of storing them', async () => {
+  const write = await call(route, 'POST', '/api/design-md/store', JSON.stringify({
+    fav: ['../../etc/passwd', 'ok-slug', 42, null],
+    recent: 'not-an-array',
+    last: { 'bad key': { at: 1 }, 'good:info': { at: -5 }, 'fine:info': { at: 1700000000000 } },
+  }))
+  assert.equal(write.status, 200)
+  const body = JSON.parse(write.body)
+  assert.deepEqual(body.fav, ['ok-slug'])
+  assert.deepEqual(body.recent, [])
+  assert.deepEqual(Object.keys(body.last), ['fine:info'])
+})
+
+test('POST /store rejects a non-object body', async () => {
+  const res = await call(route, 'POST', '/api/design-md/store', JSON.stringify(['nope']))
+  assert.equal(res.status, 400)
 })
 
 test('unknown routes answer 404', async () => {
