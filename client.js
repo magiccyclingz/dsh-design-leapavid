@@ -76,7 +76,7 @@ window.__ModuleLoader__.load({
     const STRINGS = {
       zh: {
         title: '设计风格库',
-        subtitle: '每一套都由该品牌 DESIGN.md 的 token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页与幻灯片两种载体上的真实投影。挑一套，写清楚你要做什么。',
+        subtitle: '84 套品牌设计风格，挑一套最接近的，写清楚你要做什么，就能快速做出自己的设计作品。',
         search: '搜索品牌、风格关键词、适用场景…',
         all: '全部',
         empty: '没有匹配的风格',
@@ -205,7 +205,7 @@ window.__ModuleLoader__.load({
         heroLede: '该预览由 DESIGN.md 的 token 实时渲染，用来对照版式、配色与字号层级。',
         pageEyebrow: 'DESIGN LIBRARY',
         pageTitle: '84 套品牌设计语言',
-        pageLede: '每一套都由该品牌的 DESIGN.md token 现场渲染 —— 不是截图，是同一套颜色、字体与间距在网页与幻灯片两种载体上的真实投影。挑一套，写清楚你要做什么。',
+        pageLede: '不用从空白页开始：从 84 套品牌设计语言里挑一套最接近的，写清楚要做什么，就会按它的配色、字体与版式，直接生成你自己的网页、幻灯片或信息图。',
         fontMono: '等宽字体',
         fontDisplay: '展示字体',
         fontBody: '正文字体',
@@ -226,7 +226,7 @@ window.__ModuleLoader__.load({
       },
       en: {
         title: 'Design library',
-        subtitle: 'Every preset is rendered live from that brand’s DESIGN.md tokens — not a screenshot: the same palette, type and rhythm projected onto a web page and a slide. Pick one, then describe what you want built.',
+        subtitle: '84 brand design languages. Pick the closest one, say what you need, and get your own design built fast.',
         search: 'Search brands, keywords, use cases…',
         all: 'All',
         empty: 'No style matches',
@@ -355,7 +355,7 @@ window.__ModuleLoader__.load({
         heroLede: 'This preview renders the DESIGN.md tokens live so you can compare layout, palette and type scale.',
         pageEyebrow: 'DESIGN LIBRARY',
         pageTitle: '84 brand design languages',
-        pageLede: 'Each one is rendered live from its DESIGN.md tokens — not a screenshot. The same colors, type and spacing projected onto a web page and a slide deck.',
+        pageLede: 'Skip the blank page: pick one of the 84 brand design languages, say what you need, and it builds your own web page, deck or infographic in that palette, type and layout.',
         fontMono: 'Mono',
         fontDisplay: 'Display',
         fontBody: 'Body',
