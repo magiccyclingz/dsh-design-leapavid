@@ -1274,10 +1274,25 @@ window.__ModuleLoader__.load({
         case 'columns':
           return shell(`
             <div style="margin:${U(-44)} ${U(-52)} 0;background:${th.accent};color:${accentInk};
-              padding:${U(22)} ${U(52)};display:flex;align-items:baseline;justify-content:space-between">
-              <div style="font-family:${display};font-size:${U(38)};font-weight:700;text-transform:uppercase;letter-spacing:${U(-0.4)};line-height:1.15">
-                ${esc(d.brand)} · infographic</div>
-              <div style="font-family:${mono};font-size:${U(10)};letter-spacing:.14em;text-transform:uppercase;opacity:.85">100% customizable · 2026</div>
+              padding:${U(26)} ${U(52)} ${U(24)};display:flex;align-items:flex-end;justify-content:space-between;gap:${U(18)};
+              box-shadow:inset 0 ${U(-1)} 0 rgba(255,255,255,.22)">
+              <div style="display:flex;flex-direction:column;gap:${U(9)};min-width:0">
+                ${ratio.w / ratio.h < 0.75 ? '' : `<div style="font-family:${mono};font-size:${U(9.5)};letter-spacing:.16em;text-transform:uppercase;opacity:.72">
+                  ${esc(style.category || 'infographic')} · ${esc((style.styleKeywords || ['示例数据'])[0] || '示例数据')}
+                </div>`}
+                <div style="font-family:${display};font-size:${ratio.w / ratio.h < 0.75 ? U(34) : U(46)};font-weight:700;
+                  text-transform:uppercase;letter-spacing:${U(-0.7)};line-height:.94;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                  ${esc(d.brand)}
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:${U(14)};flex:none">
+                <div style="width:1px;height:${U(26)};background:currentColor;opacity:.26"></div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:${U(5)};font-family:${mono};
+                  font-size:${U(9)};letter-spacing:.14em;text-transform:uppercase;opacity:.82">
+                  <span>infographic · 2026</span>
+                  ${ratio.w / ratio.h < 0.75 ? '' : '<span style="opacity:.62">04 栏 · 示例数据</span>'}
+                </div>
+              </div>
             </div>
             <div style="flex:1;display:grid;grid-template-columns:repeat(${ratio.h / ratio.w > 1.4 ? 2 : 4},minmax(0,1fr));align-items:stretch">
               <div style="display:flex;flex-direction:column;padding-right:${U(14)};min-width:0">
