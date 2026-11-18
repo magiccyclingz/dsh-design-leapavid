@@ -1859,22 +1859,6 @@ window.__ModuleLoader__.load({
                     t(`cellNote${(form.cell || 'standard').charAt(0).toUpperCase()}${(form.cell || 'standard').slice(1)}`)),
                 )
                 : null,
-              (form.output || surface) === 'info'
-                ? h('div', { key: 'palette-wrap' },
-                  h('div', { className: 'dm-label' }, t('palette')),
-                  h('div', { className: 'dm-seg dm-seg-form dm-seg-palette' },
-                    ...['brand', 'teal', 'mint'].map((key) => h('button', {
-                      key,
-                      type: 'button',
-                      className: `dm-seg-btn${(form.palette || 'brand') === key ? ' is-on' : ''}`,
-                      'aria-pressed': (form.palette || 'brand') === key,
-                      onClick: () => setForm((prev) => ({ ...prev, palette: key })),
-                    }, t(`palette${key.charAt(0).toUpperCase()}${key.slice(1)}`))),
-                  ),
-                  h('p', { className: 'dm-form-note' },
-                    t(`paletteNote${(form.palette || 'brand').charAt(0).toUpperCase()}${(form.palette || 'brand').slice(1)}`)),
-                )
-                : null,
               h('div', { className: 'dm-label' }, t('requirement')),
               h('textarea', {
                 className: 'dm-textarea',
