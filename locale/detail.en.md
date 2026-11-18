@@ -2,6 +2,8 @@
 
 Eighty-four brand design languages taken from the open awesome-design-md corpus (MIT). Each style is drawn live from that brand's own `DESIGN.md` — colours, type, radii and spacing — inside the panel: no screenshots, no external assets.
 
+![The library's list page: three carriers, counted category chips, and cards drawn live from each brand's own tokens](list.svg)
+
 ## What it does
 
 - **Browse**: 84 cards over three carriers — web page (16:9), slide deck (16:9, five pages per style) and infographic (4:3 cover). Thumbnails render only as they scroll into view, so long lists stay smooth. Search matches brand name, Chinese name, slug, keywords and use cases; category chips carry counts (All 84, Brand sites 21, AI products 16 …); “★ Favourites” and “Recent” are one click away.
