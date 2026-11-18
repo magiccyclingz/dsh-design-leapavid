@@ -1,3 +1,8 @@
+## 1.36.7
+
+- 重写插件详情页文案（`locale/detail.zh.md` / `locale/detail.en.md`）：补齐**三种载体**（网页 16:9、幻灯片 16:9 五页、信息图 4:3）、信息图四组参数（图表 / 版式 / 比例 / 信息块密度）、幻灯片用途与密度、右栏「规范明细」五个切换、缩略图懒渲染、分类 chip 计数、「上次生成过 · 字数」徽标，并说明海报入口暂未开放。
+- 数据存放口径改为现状：收藏 / 最近使用 / 上次生成存在宿主 `$DSH_HOME/dsh-design-leapavid/store.json`（`/api/design-md/store`），`localStorage` 仅作缓存与首迁，旧键 `dsh-design-md:v1` 自动兼容。
+
 ## 1.36.6
 
 - 市场条目切到 **npm 源**：`docs/market-entry.json` 改为 `source: npm` + `npm: dsh-design-leapavid`，GitHub 源变体移到 `docs/market-entry.github.json`（不支持 npm 源的清单可用），`docs/hub-registry.json` 按 npm 条目重建。
