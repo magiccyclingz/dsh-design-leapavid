@@ -102,11 +102,12 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         layout: '版式',
-        layoutClassic: '经典长图', layoutGrid: '网格看板', layoutRings: '同心环', layoutSpread: '双栏数据板',
+        layoutClassic: '经典长图', layoutGrid: '网格看板', layoutRings: '同心环', layoutSpread: '双栏数据板', layoutColumns: '四栏模板',
         layoutNoteClassic: '自上而下：标题 → KPI → 主图 → 环形与结论，最稳的一版。',
         layoutNoteGrid: '信息块拼贴：数字、环形、图例分区摆放，像杂志跨页。',
         layoutNoteRings: '同心环做主视觉，每层一段占比，右侧配图例与结论。',
         layoutNoteSpread: '左右分栏：左栏标题与 KPI，右栏图表与结论，适合数据密集。',
+        layoutNoteColumns: '顶部满幅色条大标题 + 四栏正文，每栏若干图表 cell，像一张可印刷的模板页。',
         paletteBrand: '品牌色',
         paletteTeal: '模板蓝 · 珊瑚红',
         paletteMint: '扁平绿 · 青蓝',
@@ -236,11 +237,12 @@ window.__ModuleLoader__.load({
         chartNoteArea: '累计与堆叠：2 层面积，填充用强调色低透明度。',
         chartNoteFunnel: '流程转化与排名：5–6 级横向条形或漏斗。',
         layout: 'Layout',
-        layoutClassic: 'Classic', layoutGrid: 'Grid board', layoutRings: 'Rings', layoutSpread: 'Two column',
+        layoutClassic: 'Classic', layoutGrid: 'Grid board', layoutRings: 'Rings', layoutSpread: 'Two column', layoutColumns: 'Four columns',
         layoutNoteClassic: 'Top to bottom: title → KPIs → main chart → ring and insights.',
         layoutNoteGrid: 'Tiled board: numbers, ring and legend in separate blocks.',
         layoutNoteRings: 'Concentric rings carry the story, legend and insights beside.',
         layoutNoteSpread: 'Two columns: title and KPIs left, charts and insights right.',
+        layoutNoteColumns: 'Full-bleed colour banner plus four columns of chart cells — a printable template page.',
         paletteBrand: 'Brand',
         paletteTeal: 'Teal · Coral',
         paletteMint: 'Green · Cyan',
@@ -1109,6 +1111,44 @@ window.__ModuleLoader__.load({
           <span>${esc(d.brand)} · design system 2026</span>
         </div>`
 
+      /* —— 四栏模板用的小组件 —— */
+      const cell = (inner, extra = '') => `<div style="border-top:1px solid ${grid};padding:${U(13)} 0;display:flex;flex-direction:column;gap:${U(9)};${extra}">${inner}</div>`
+      const cellTitle = (text) => `<div style="font-size:${U(12)};line-height:1.5;color:${th.muted}">${esc(text)}</div>`
+      const bigNum = (value, unit, label) => `<div style="display:flex;align-items:baseline;gap:${U(6)}">
+          <span style="font-family:${display};font-size:${U(46)};line-height:1;letter-spacing:${U(-1.2)}">${esc(value)}</span>
+          <span style="font-size:${U(14)};color:${th.muted}">${esc(unit)}</span>
+          <span style="margin-left:auto;font-size:${U(10)};letter-spacing:.1em;text-transform:uppercase;color:${th.muted}">${esc(label)}</span>
+        </div>`
+      const stepsCell = () => `<div style="display:flex;gap:${U(8)}">
+          ${['认知', '试用', '续费'].map((label, i) => `
+            <div style="flex:1;text-align:center;padding:${U(8)} ${U(4)};border:1px solid ${i === 1 ? th.ink : grid};border-radius:${U(6)};font-size:${U(12)};${i === 1 ? 'font-weight:600;' : `color:${th.muted};`}">${label}</div>`).join('')}
+        </div>
+        <div style="height:${U(8)};background:${alpha(th.ink, 0.1)};border-radius:${U(4)};overflow:hidden;display:flex">
+          <span style="width:62%;background:${th.ink}"></span><span style="width:22%;background:${c2}"></span><span style="width:16%;background:${c1}"></span>
+        </div>`
+      const optionList = () => ['A：激活流程简化', 'B：定价页改版', 'C：客服响应提速', 'D：新客礼包'].map((text, i) => `
+        <div style="display:flex;align-items:center;gap:${U(8)};font-size:${U(11)};color:${th.muted}">
+          <span style="width:${U(14)};height:${U(14)};flex:none;border-radius:${U(3)};display:inline-flex;align-items:center;justify-content:center;
+            font-size:${U(9)};color:${accentInk};background:${i === 1 ? c1 : alpha(th.ink, 0.25)}">${String.fromCharCode(65 + i)}</span>
+          <span style="flex:1">${esc(text)}</span>
+        </div>`).join('')
+      const miniBars = () => {
+        const values = [42, 68, 55, 84, 61, 73]
+        const bw = 20, gap = 8, base = 112, max = 100
+        const bars = values.map((val, i) => {
+          const h = (val / max) * (base - 12)
+          const x = i * (bw + gap) + 2
+          return `<rect x="${x}" y="${base - h}" width="${bw}" height="${h}" rx="3" fill="${i === 3 ? c1 : c3}"></rect>`
+        }).join('')
+        return `<svg viewBox="0 0 ${values.length * (bw + gap) + 4} 128" style="display:block;width:100%" role="img">
+          <line x1="0" x2="${values.length * (bw + gap)}" y1="${base}" y2="${base}" stroke="${alpha(th.ink, 0.25)}" stroke-width="1"></line>${bars}</svg>`
+      }
+
+      const chipStrip = () => `<div style="display:flex;gap:${U(10)};justify-content:space-between;margin-top:auto;padding-top:${U(14)};border-top:1px solid ${grid}">
+          ${[c1, c2, c3, th.ink, th.muted].map((color) => `
+            <span style="flex:1;height:${U(10)};border-radius:${U(3)};background:${color};opacity:.9"></span>`).join('')}
+        </div>`
+
       const shell = (inner, fill) => `
         <div style="position:relative;aspect-ratio:1/1.35;container-type:inline-size;overflow:hidden;
           background:${th.bg};color:${th.ink};font-family:${body};display:flex;flex-direction:column;
@@ -1164,6 +1204,35 @@ window.__ModuleLoader__.load({
             </div>
             ${chartBlock()}
             ${kpiRow}
+          `)
+        case 'columns':
+          return shell(`
+            <div style="margin:${U(-44)} ${U(-52)} 0;background:${th.accent};color:${accentInk};
+              padding:${U(22)} ${U(52)};display:flex;align-items:baseline;justify-content:space-between">
+              <div style="font-family:${display};font-size:${U(38)};font-weight:700;text-transform:uppercase;letter-spacing:${U(-0.4)};line-height:1.15">
+                ${esc(d.brand)} · infographic</div>
+              <div style="font-family:${mono};font-size:${U(10)};letter-spacing:.14em;text-transform:uppercase;opacity:.85">100% customizable · 2026</div>
+            </div>
+            <div style="flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch">
+              <div style="display:flex;flex-direction:column;padding-right:${U(14)};min-width:0">
+                ${cell(`${bigNum('18,268', '人', '月活')}<div style="height:${U(52)};display:flex;align-items:center;justify-content:center;border:1px dashed ${grid};border-radius:${U(6)};font-family:${mono};font-size:${U(10)};color:${th.muted}">map / hero</div>`, 'flex:1.2')}
+                ${cell(`${bigNum('32', '%', '转化')}${cellTitle('试用第 3 天是主要转化窗口。')}${miniBars()}`, 'flex:1')}
+                ${cell(`${stepsCell()}`, 'flex:1')}
+              </div>
+              <div style="display:flex;flex-direction:column;padding:0 ${U(14)};border-left:1px solid ${grid};min-width:0">
+                ${cell(`${bigNum('52', '%', '复购')}<div style="margin:0 auto;width:${U(120)}">${donutBadge()}</div>`, 'flex:1.1')}
+                ${cell(legendCol, 'flex:1')}
+              </div>
+              <div style="display:flex;flex-direction:column;padding:0 ${U(14)};border-left:1px solid ${grid};min-width:0">
+                ${cell(`${cellTitle('月度新增（示例数据）')}${miniBars()}${cellTitle('轴：个月 / 单位：千')}`, 'flex:1.1')}
+                ${cell(insightCol, 'flex:1')}
+              </div>
+              <div style="display:flex;flex-direction:column;padding-left:${U(14)};border-left:1px solid ${grid};min-width:0">
+                ${cell(optionList(), 'flex:1')}
+                ${cell(`${bigNum('4.9', '分', '满意度')}${miniBars()}`, 'flex:1.1')}
+                ${cell(chipStrip(), 'flex:.6;border-top:0')}
+              </div>
+            </div>
           `)
         case 'spread':
           return shell(`
@@ -1716,7 +1785,7 @@ window.__ModuleLoader__.load({
                 ? h('div', { key: 'layout-wrap' },
                   h('div', { className: 'dm-label' }, t('layout')),
                   h('div', { className: 'dm-seg dm-seg-form dm-seg-layout' },
-                    ...['classic', 'grid', 'rings', 'spread'].map((key) => h('button', {
+                    ...['classic', 'grid', 'rings', 'spread', 'columns'].map((key) => h('button', {
                       key,
                       type: 'button',
                       className: `dm-seg-btn${(form.layout || 'classic') === key ? ' is-on' : ''}`,
