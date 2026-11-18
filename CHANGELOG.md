@@ -1,3 +1,8 @@
+## 1.36.8
+
+- 按 awesome-dsh-plugin `contributing.md` 的 peer 规则修正 `peerDependencies`：`@deepseek-ai/cordis` 由 `>=4.0.0` 改为带显式预发布分支的 `>=4.0.0-rc.1 <4.1.0 || >=4.1.0-rc.1 <4.2.0 || >=4.2.0-rc.1 <5.0.0-0`（原来的裸范围会静默排除一切 `4.x` 预发布版，用户 `npm install` 时会撞 `ERESOLVE`）。
+- 补声明 `@deepseek-ai/dsh-client-ui-conversation` 为 peer（`dsh.client.inject` 里用到了它），范围 `^0.2.2-rc.2`，与同生态插件一致。
+
 ## 1.36.7
 
 - 重写插件详情页文案（`locale/detail.zh.md` / `locale/detail.en.md`）：补齐**三种载体**（网页 16:9、幻灯片 16:9 五页、信息图 4:3）、信息图四组参数（图表 / 版式 / 比例 / 信息块密度）、幻灯片用途与密度、右栏「规范明细」五个切换、缩略图懒渲染、分类 chip 计数、「上次生成过 · 字数」徽标，并说明海报入口暂未开放。
