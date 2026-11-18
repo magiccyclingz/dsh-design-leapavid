@@ -677,22 +677,36 @@ window.__ModuleLoader__.load({
           </div>
         </div>`
 
-      /* 01 — cover: masthead, small label, oversized wordmark flush to the bottom */
+      /* 01 — cover: black page, one full-bleed accent band carrying the title */
+      const coverBg = luminance(th.ink) < 0.45 ? th.ink : th.bg
+      const coverInk = coverBg === th.ink ? th.bg : th.ink
+      const coverTitle = String(d.brand || '').toUpperCase()
+      const coverUses = (d.useCases || []).slice(0, 3).join(' / ')
+      const coverBody = [[d.positioning, d.tagline].filter(Boolean).join('；') || d.kicker, coverUses && `适用：${coverUses}`]
+        .filter(Boolean).join('\n')
       const cover = `
-        <div style="position:absolute;inset:0;padding:${US(26)} ${US(30)} ${US(32)};display:flex;flex-direction:column">
-          <div style="display:flex;align-items:baseline;justify-content:space-between">
-            <div style="display:flex;align-items:baseline;gap:${US(10)}">
-              <span style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(13)};letter-spacing:${US(-0.3)}">${esc(d.brand)}</span>
-              ${caps('design system 2026')}
-            </div>
-            ${caps(esc(style.category || ''))}
+        <div style="position:absolute;inset:0;background:${coverBg};color:${coverInk};display:flex;flex-direction:column">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;padding:${US(20)} ${US(26)} 0;gap:${US(20)}">
+            <span style="font-family:${display};font-weight:${v.displayWeight || 600};font-size:${US(12)};
+              letter-spacing:${US(-0.2)};text-transform:uppercase">${esc(d.brand)}</span>
+            <span style="display:flex;align-items:baseline;gap:${US(38)}">
+              ${caps(style.category || 'design system', `color:${alpha(coverInk, 0.62)}`)}
+              ${caps('presentation', `color:${alpha(coverInk, 0.62)}`)}
+              ${caps('2026', `color:${alpha(coverInk, 0.8)}`)}
+            </span>
           </div>
           <div style="flex:1"></div>
-          <div style="display:flex;align-items:baseline;gap:${US(10)};margin-bottom:${US(6)}">
-            <span style="font-size:${US(11)};color:${th.ink}">${esc(d.kicker)} · 设计语言样本</span>
-            <span style="font-size:${US(11)};color:${th.accent};font-family:${mono}">2026</span>
+          <div style="background:${th.accent};color:${accentInk};padding:${US(34)} ${US(26)} ${US(30)}">
+            <div style="font-family:${display};font-weight:${v.displayWeight || 600};
+              font-size:${US(clamp((v.displaySize || 56) * 2.15, 116, 188))};line-height:.84;
+              letter-spacing:${US(-2.4)};text-transform:uppercase">${esc(coverTitle)}</div>
+            <div style="margin-top:${US(10)};font-family:${display};font-weight:${v.displayWeight || 600};
+              font-size:${US(17)};letter-spacing:.04em;text-transform:uppercase;color:${alpha(accentInk, 0.9)}">
+              ${esc(d.brand)} presentation</div>
+            <div style="margin-top:${US(9)};font-size:${US(11)};line-height:1.8;white-space:pre-line;max-width:${US(620)};
+              color:${alpha(accentInk, 0.82)}">${esc(coverBody)}</div>
           </div>
-          ${wordmark(clamp((v.displaySize || 56) * 2.05, 110, 186))}
+          <div style="flex:.62"></div>
         </div>`
 
       /* 02 — statement + stacked panels (vision / values) */
