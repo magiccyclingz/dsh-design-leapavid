@@ -1,3 +1,7 @@
+## 1.36.9
+
+- 版本号补丁：把 staged 队列里的 1.36.8 一并提升上线（npm 首版发布走 staging 队列时，需要再发一个更高版本才会进入可见列表）。1.36.8 的 peer 修正内容见下一条，本版无功能变更。
+
 ## 1.36.8
 
 - 按 awesome-dsh-plugin `contributing.md` 的 peer 规则修正 `peerDependencies`：`@deepseek-ai/cordis` 由 `>=4.0.0` 改为带显式预发布分支的 `>=4.0.0-rc.1 <4.1.0 || >=4.1.0-rc.1 <4.2.0 || >=4.2.0-rc.1 <5.0.0-0`（原来的裸范围会静默排除一切 `4.x` 预发布版，用户 `npm install` 时会撞 `ERESOLVE`）。
