@@ -1782,7 +1782,7 @@ window.__ModuleLoader__.load({
           setChars(data.chars || 0)
           await deliverToCurrentSession(data.prompt)
           markRecent(style.slug)
-          markDelivered(style.slug, surface, { chars: data.chars || 0, structure: form.structure, requirement: form.requirement.slice(0, 200) })
+          markDelivered(style.slug, surface, { chars: data.chars || 0, structure: form.structure })
           setSent(true)
           onToast({ kind: 'ok', text: `${t('sendOk')} ${t('chars', { n: data.chars })}` })
         } catch (err) {

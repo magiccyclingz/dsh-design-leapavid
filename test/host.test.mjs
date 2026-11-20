@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync } from 'node:fs'
+import { mkdtempSync, readFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { apply } from '../index.js'
@@ -177,6 +177,20 @@ test('POST /store round-trips favourites, recent and last badges', async () => {
   assert.deepEqual(body.fav, ['stripe', 'airbnb'], 'duplicates are dropped')
   assert.deepEqual(body.recent, ['stripe'])
   assert.equal(body.last['stripe:info'].chars, 3457)
+})
+
+test('POST /store never persists what the user typed into 需求', async () => {
+  const write = await call(route, 'POST', '/api/design-md/store', JSON.stringify({
+    fav: [],
+    recent: [],
+    last: { 'stripe:web': { at: 1700000000000, chars: 900, surface: 'web', requirement: '公司内部定价页，含客户名单' } },
+  }))
+  assert.equal(write.status, 200)
+  const raw = readFileSync(path.join(process.env.DSH_HOME, 'dsh-design-leapavid', 'store.json'), 'utf8')
+  assert.equal(raw.includes('客户名单'), false, 'user requirement text must not reach disk')
+  const body = JSON.parse((await call(route, 'GET', '/api/design-md/store')).body)
+  assert.equal(body.last['stripe:web'].chars, 900)
+  assert.equal('requirement' in body.last['stripe:web'], false)
 })
 
 test('POST /store drops malformed entries instead of storing them', async () => {

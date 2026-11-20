@@ -111,7 +111,6 @@ function sanitizeLast(value) {
     if (Number.isFinite(chars) && chars >= 0) entry.chars = Math.floor(chars)
     if (typeof raw.surface === 'string' && SLUG_RE.test(raw.surface)) entry.surface = raw.surface
     if (typeof raw.structure === 'string' && SLUG_RE.test(raw.structure)) entry.structure = raw.structure
-    if (typeof raw.requirement === 'string' && raw.requirement.trim()) entry.requirement = raw.requirement.slice(0, 200)
     out[key] = entry
     if (Object.keys(out).length >= MAX_LAST) break
   }

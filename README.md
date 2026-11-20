@@ -102,7 +102,7 @@ build/                  数据构建脚本与覆盖表（开发用，不进 npm 
 ## 测试
 
 ```bash
-npm test          # 35 项：宿主路由与 store 接口、catalog 完整性、提示词组装与边界、市场条目守卫
+npm test          # 36 项：宿主路由与 store 接口、catalog 完整性、提示词组装与边界、市场条目守卫
 node --check index.js && node --check client.js
 ```
 
